@@ -1,0 +1,140 @@
+backup code of voucher images div 
+
+              <div className='grid grid-cols-6 gap-x-[30px] gap-y-12 bg-pink-200'>
+                {vouchers.map((voucher) => (
+                  <div key={voucher.id} className='flex flex-col items-center gap-4 mb-6'>
+                    <img
+                      src={voucher.voucher_image}
+                      className={`w-[130px] h-[90px] border border-1 border-black/10 rounded-xl cursor-pointer transition-all duration-300 
+                ${selectedVouchers.includes(voucher.name)
+                          ? 'opacity-100'
+                          : 'opacity-40 '
+                        }`}
+                      onClick={() => {
+                        const updatedSelection = selectedVouchers.includes(voucher.name)
+                          ? selectedVouchers.filter(v => v !== voucher.name)
+                          : [...selectedVouchers, voucher.name];
+
+                        setSelectedVouchers(updatedSelection);
+                        console.log(`Voucher Name: ${voucher.name}, Status: ${voucher.status}`);
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+
+ _______________________________________________________________________________
+
+ backup code of food div
+
+               <div className='grid grid-cols-6 gap-x-[30px] gap-y-12'>
+                {food.map((food) => (
+                  <div key={food.id} className='flex flex-col items-center gap-4 mb-6'>
+                    <img
+                      src={food.food_image}
+                      alt={food.name}
+                      className={`w-[130px] h-[90px] border border-1 border-black/10 rounded-xl cursor-pointer transition-all duration-300 
+                ${selectedFoods.includes(food.name)
+                          ? 'opacity-100'
+                          : 'opacity-40 '
+                        }`}
+                      onClick={() => {
+                        const updatedSelection = selectedFoods.includes(food.name)
+                          ? selectedFoods.filter(v => v !== food.name)
+                          : [...selectedFoods, food.name];
+
+                        setSelectedFoods(updatedSelection);
+                        console.log(`Food Name: ${food.name}, Status: ${food.status}`);
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+
+_______________________________________________________________________________________       
+
+
+backup code of exp div 
+
+     <div className='grid grid-cols-6 gap-x-[30px] gap-y-12'>
+                {exp.map((exp) => (
+                  <div key={exp.id} className='flex flex-col items-center gap-4 mb-6'>
+                    <img
+                      src={exp.experience_image}
+                      alt={exp.name}
+                      className={`w-[130px] h-[90px] border border-1 border-black/10 rounded-xl cursor-pointer transition-all duration-300 
+                                                ${selectedExperiences.includes(exp.name)
+                          ? 'opacity-100'
+                          : 'opacity-40 '
+                        }`}
+                      onClick={() => {
+                        const updatedSelection = selectedExperiences.includes(exp.name)
+                          ? selectedExperiences.filter(v => v !== exp.name)
+                          : [...selectedExperiences, exp.name];
+
+                        setSelectedExperiences(updatedSelection);
+                        console.log(`Experience Name: ${exp.name}, Status: ${exp.status}`);
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+
+_______________________________________________________________________________________
+
+
+
+// backup of select agents div of team vs team:
+
+<div className='flex flex-col w-full gap-6 p-8 pb-12 card  ml-[-30px] bg-pink-200'>
+<h1 className='text-3xl font-medium text-gray-700'>Select Agents</h1>
+<div className="flex flex-wrap gap-2">
+    {teams.map((team, index) => (
+      <button
+        key={index}
+        onClick={() => 
+          {setSelectedTeam1(team)                                       
+          } 
+         }
+        className={`px-4 py-2 rounded-lg text-sm ${selectedTeam1 == team ? 'bg-themeGreen font-[500] text-white' : 'bg-[#F8FDFC] text-dGreen font-[400]'}`}
+      >
+        {team}
+      </button>
+    ))}
+  </div>
+  <div className='flex items-center justify-between mb-8 '>
+    <TeamArea
+      agents={leftTeam}
+      teamName={leftTeamName}
+      onDrop={handleDropLeftTeam}
+      oppositeTeam={rightTeam}
+      setTeamName={setLeftTeamName}
+      onAgentRemove={(agent) => removeAgentFromTeam(agent, setLeftTeam, setLeftTeamIds)}
+    />
+    <div className='text-4xl font-bold text-gray-700'>VS</div>
+    <TeamArea
+      agents={rightTeam}
+      teamName={rightTeamName}
+      onDrop={handleDropRightTeam}
+      oppositeTeam={leftTeam}
+      setTeamName={setRightTeamName}
+      onAgentRemove={(agent) => removeAgentFromTeam(agent, setRightTeam, setRightTeamIds)}
+    />
+  </div>
+  {error && <p className="text-red-500">{error}</p>}
+  <div className='p-6 bg-white rounded-lg'>
+    <h2 className='mb-4 text-2xl font-bold text-center text-gray-700'>Drag and Drop to Team</h2>
+    <div className='flex flex-wrap '>
+      {filteredAgents.map((agent, index) => (
+        <Agent key={index} agent={agent} onDoubleClick={() => { }} />
+      ))}
+    </div>
+  </div>
+<button
+className="px-6 py-4 font-bold w-[214px] mr-[30px] rounded-lg bg-themeGreen text-white mt-8"
+onClick={handleSubmit}
+disabled={!isSubmitEnabled()}
+>
+Submit
+</button>
+</div>
