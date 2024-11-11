@@ -103,7 +103,7 @@ const Ops_manager_SignIn = () => {
   
     try {
       // Fetch ops managers data
-      const response = await fetch('http://127.0.0.1:8000/api/manager_details');
+      const response = await fetch('http://crmapi.devcir.co/api/manager_details');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -136,7 +136,7 @@ const Ops_manager_SignIn = () => {
       showToast.success();
   
       try {
-        await fetch('http://127.0.0.1:8000/api/sendloginMessage', {
+        await fetch('http://crmapi.devcir.co/api/sendloginMessage', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

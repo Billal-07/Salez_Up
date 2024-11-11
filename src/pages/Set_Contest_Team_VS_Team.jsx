@@ -187,7 +187,7 @@ export default function Set_Contest_Team_VS_Team() {
 
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/sales_agents')
+    fetch('http://crmapi.devcir.co/api/sales_agents')
       .then(response => response.json())
       .then(data => {
         const id = parseInt(localStorage.getItem('id'))
@@ -239,7 +239,7 @@ export default function Set_Contest_Team_VS_Team() {
     const fetchTeams = async () => {
       const id = parseInt(localStorage.getItem('id'))
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/teams');
+        const response = await axios.get('http://crmapi.devcir.co/api/teams');
         const teams = response.data;
   
         // Filter teams by manager_id
@@ -535,7 +535,7 @@ export default function Set_Contest_Team_VS_Team() {
 
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/kpi_info')
+    fetch('http://crmapi.devcir.co/api/kpi_info')
       .then(response => response.json())
       .then(data => setKpiOptions(data))
       .catch(error => console.error('Error fetching data:', error));
@@ -544,7 +544,7 @@ export default function Set_Contest_Team_VS_Team() {
   useEffect(() => {
     const fetchExp = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/experiences');
+        const response = await fetch('http://crmapi.devcir.co/api/experiences');
         const data = await response.json();
         setExp(data);
       } catch (error) {
@@ -558,7 +558,7 @@ export default function Set_Contest_Team_VS_Team() {
   useEffect(() => {
     const fetchVouchers = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/vouchers');
+        const response = await fetch('http://crmapi.devcir.co/api/vouchers');
         const data = await response.json();
         setVouchers(data);
       } catch (error) {
@@ -572,7 +572,7 @@ export default function Set_Contest_Team_VS_Team() {
   useEffect(() => {
     const fetchFood = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/foods');
+        const response = await fetch('http://crmapi.devcir.co/api/foods');
         const data = await response.json();
         setFood(data);
       } catch (error) {

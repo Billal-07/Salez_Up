@@ -10,7 +10,7 @@ const Current_Agent = () => {
   useEffect(() => {
     const fetchSalesAgents = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/sales_agents');
+        const response = await fetch('http://crmapi.devcir.co/api/sales_agents');
         const data = await response.json();
         setSalesAgents(data);
       } catch (error) {
@@ -24,7 +24,7 @@ const Current_Agent = () => {
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const campaignsResponse = await fetch('http://127.0.0.1:8000/api/team_leaders');
+        const campaignsResponse = await fetch('http://crmapi.devcir.co/api/team_leaders');
         const campaignsData = await campaignsResponse.json();
 
         console.log("Cap", campaignsData)

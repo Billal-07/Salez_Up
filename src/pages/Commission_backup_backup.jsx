@@ -184,8 +184,8 @@ const Commission3 = () => {
    useEffect(() => {
         const fetchData = async () => {
             try {
-                const campaignResponse = await axios.get('http://127.0.0.1:8000/api/campaigns');
-                const teamResponse = await axios.get('http://127.0.0.1:8000/api/teams');
+                const campaignResponse = await axios.get('http://crmapi.devcir.co/api/campaigns');
+                const teamResponse = await axios.get('http://crmapi.devcir.co/api/teams');
                 setCampaigns(campaignResponse.data);
                 setTeams(teamResponse.data);
                 if (campaignResponse.data.length > 0) {
@@ -220,7 +220,7 @@ const Commission3 = () => {
       }, [teamData]);
   
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/kpi_info')
+        axios.get('http://crmapi.devcir.co/api/kpi_info')
             .then(response => {
                 const kpis = response.data;
                 setKpis(kpis);
@@ -257,7 +257,7 @@ const Commission3 = () => {
     useEffect(() => {
         const fetchTeams = async () => {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/teams');
+                const response = await fetch('http://crmapi.devcir.co/api/teams');
                 const data = await response.json();
                 const activeTeams = data.filter(team => team.status == 'active');
                 setTeams(activeTeams);

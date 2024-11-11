@@ -79,7 +79,7 @@ const ForgotPassword = () => {
         // loggingIn();
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/admin_registrations');
+            const response = await fetch('http://crmapi.devcir.co/api/admin_registrations');
             if (!response.ok) {
                 toast.error('Error! Try Again.')
                 throw new Error('Failed to fetch user data');
@@ -96,7 +96,7 @@ const ForgotPassword = () => {
             // If email is unique, proceed with OTP verification
             console.log('Sending OTP to email:', email);
 
-            const otpResponse = await fetch('http://127.0.0.1:8000/api/send-otp', {
+            const otpResponse = await fetch('http://crmapi.devcir.co/api/send-otp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -153,7 +153,7 @@ const ForgotPassword = () => {
         const link = generateUniqueCode()
 
         try {
-            const otpResponse = await fetch('http://127.0.0.1:8000/api/verify-otp', {
+            const otpResponse = await fetch('http://crmapi.devcir.co/api/verify-otp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -173,7 +173,7 @@ const ForgotPassword = () => {
                         password: encryptedPassword
                     };
 
-                    const response = await axios.post("http://127.0.0.1:8000/api/admin_registrations/updates", formData);
+                    const response = await axios.post("http://crmapi.devcir.co/api/admin_registrations/updates", formData);
                     console.log("Registration successful:", response.data);
 
                     const payloadMail = {
@@ -186,7 +186,7 @@ const ForgotPassword = () => {
 
 
                     try {
-                        const response = await fetch('http://127.0.0.1:8000/api/sendPassReset', {
+                        const response = await fetch('http://crmapi.devcir.co/api/sendPassReset', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

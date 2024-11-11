@@ -9,7 +9,7 @@ const Current_Teams = () => {
   useEffect(() => {
     const fetchTeams = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/teams');
+        const response = await fetch('http://crmapi.devcir.co/api/teams');
         const data = await response.json();
         const activeTeams = data.filter(team => team.status == 'active'); 
         const teamNames = activeTeams.map(team => team.team_name); 

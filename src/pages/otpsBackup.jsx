@@ -56,7 +56,7 @@ export default function Registration() {
 
         // Fetch all existing user data
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/admin-info');
+            const response = await fetch('http://crmapi.devcir.co/api/admin-info');
             if (!response.ok) {
                 throw new Error('Failed to fetch user data');
             }
@@ -72,7 +72,7 @@ export default function Registration() {
             // If email is unique, proceed with OTP verification
             console.log('Sending OTP to email:', email);
 
-            const otpResponse = await fetch('http://127.0.0.1:8000/api/send-otp', {
+            const otpResponse = await fetch('http://crmapi.devcir.co/api/send-otp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ export default function Registration() {
 
         try {
             // Verify OTP
-            const otpResponse = await fetch('http://127.0.0.1:8000/api/verify-otp', {
+            const otpResponse = await fetch('http://crmapi.devcir.co/api/verify-otp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ export default function Registration() {
                 };
 
                 // Register user
-                const registrationResponse = await fetch('http://127.0.0.1:8000/api/admin-info', {
+                const registrationResponse = await fetch('http://crmapi.devcir.co/api/admin-info', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -150,7 +150,7 @@ export default function Registration() {
                     console.log('Registration Successful:', registrationResult);
 
                     // Send email with user details
-                    const sendDetailsResponse = await fetch('http://127.0.0.1:8000/api/send-user-details', {
+                    const sendDetailsResponse = await fetch('http://crmapi.devcir.co/api/send-user-details', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

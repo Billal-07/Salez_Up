@@ -35,7 +35,7 @@ const AddNewAgent = ({ set, setter }) => {
     }
     if (managerId) {
       axios
-        .get("http://127.0.0.1:8000/api/teams")
+        .get("http://crmapi.devcir.co/api/teams")
         .then((response) => {
           const filteredTeams = response.data.filter(
             (team) => team.manager_id === parseInt(managerId)
@@ -174,7 +174,7 @@ const AddNewAgent = ({ set, setter }) => {
 
 
   //   try {
-  //     const response = await fetch("http://127.0.0.1:8000/api/sales_agents", {
+  //     const response = await fetch("http://crmapi.devcir.co/api/sales_agents", {
   //       method: "POST",
   //       body: formData
   //     });
@@ -196,7 +196,7 @@ const AddNewAgent = ({ set, setter }) => {
   //     }
 
   //     try {
-  //       const response = await fetch('http://127.0.0.1:8000/api/send-link', {
+  //       const response = await fetch('http://crmapi.devcir.co/api/send-link', {
   //         method: 'POST',
   //         headers: {
   //           'Content-Type': 'application/json',
@@ -283,7 +283,7 @@ const AddNewAgent = ({ set, setter }) => {
     }
   
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/sales_agents", {
+      const response = await fetch("http://crmapi.devcir.co/api/sales_agents", {
         method: "POST",
         body: formData,
       });
@@ -305,7 +305,7 @@ const AddNewAgent = ({ set, setter }) => {
       };
   
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/send-link', {
+        const response = await fetch('http://crmapi.devcir.co/api/send-link', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

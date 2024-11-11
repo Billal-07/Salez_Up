@@ -67,7 +67,7 @@
 //     }
   
 //     try {
-//       const existingTeamsResponse = await axios.get('http://127.0.0.1:8000/api/teams');
+//       const existingTeamsResponse = await axios.get('http://crmapi.devcir.co/api/teams');
 //       const existingTeams = existingTeamsResponse.data;
 //       const existingTeamNames = existingTeams.map(team => team.team_name);
 
@@ -93,7 +93,7 @@
 
 //       const managerId = parseInt(localStorage.getItem('id'));
 
-//       const teamResponse = await axios.post('http://127.0.0.1:8000/api/teams', {
+//       const teamResponse = await axios.post('http://crmapi.devcir.co/api/teams', {
 //         team_name: teamName,
 //         start_date: startDate,
 //         manager_id: managerId
@@ -101,12 +101,12 @@
   
 //       console.log("Team created:", teamResponse.data);
   
-//       const teamsResponse = await axios.get('http://127.0.0.1:8000/api/teams');
+//       const teamsResponse = await axios.get('http://crmapi.devcir.co/api/teams');
 //       const newTeamId = teamsResponse.data[teamsResponse.data.length - 1].id;
   
 //       // console.log("New team ID:", newTeamId);
   
-//       const teamLeaderResponse = await axios.post('http://127.0.0.1:8000/api/team_and_team_leader', {
+//       const teamLeaderResponse = await axios.post('http://crmapi.devcir.co/api/team_and_team_leader', {
 //         team_id: newTeamId,
 //         team_leader_id: selectedTeam || null 
 //       });
@@ -134,7 +134,7 @@
 
 //     const fetchTeamLeaders = async () => {
 //       try {
-//         const response = await fetch("http://127.0.0.1:8000/api/team_leaders");
+//         const response = await fetch("http://crmapi.devcir.co/api/team_leaders");
 //         if (!response.ok) {
 //           throw new Error("Network response was not ok");
 //         }
@@ -305,7 +305,7 @@ const Add_New_Teams = ({ set, setter, onTeamAdded }) => {
 
   const fetchTeamLeaders = async (managerId) => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/team_leaders");
+      const response = await axios.get("http://crmapi.devcir.co/api/team_leaders");
       const filteredLeaders = response.data.filter(
         (leader) => leader.manager_id == parseInt(managerId)
       );
@@ -332,7 +332,7 @@ const Add_New_Teams = ({ set, setter, onTeamAdded }) => {
     }
 
     try {
-      const { data: existingTeams } = await axios.get('http://127.0.0.1:8000/api/teams');
+      const { data: existingTeams } = await axios.get('http://crmapi.devcir.co/api/teams');
       const existingTeamNames = new Set(existingTeams.map(team => team.team_name));
 
       if (existingTeamNames.has(teamName)) {
@@ -350,16 +350,16 @@ const Add_New_Teams = ({ set, setter, onTeamAdded }) => {
 
       const managerId = parseInt(localStorage.getItem('id'));
 
-      await axios.post('http://127.0.0.1:8000/api/teams', {
+      await axios.post('http://crmapi.devcir.co/api/teams', {
         team_name: teamName,
         start_date: startDate,
         manager_id: managerId
       });
 
-      const { data: teams } = await axios.get('http://127.0.0.1:8000/api/teams');
+      const { data: teams } = await axios.get('http://crmapi.devcir.co/api/teams');
       const newTeamId = teams[teams.length - 1].id;
 
-      await axios.post('http://127.0.0.1:8000/api/team_and_team_leader', {
+      await axios.post('http://crmapi.devcir.co/api/team_and_team_leader', {
         team_id: newTeamId,
         team_leader_id: selectedTeam || null 
       });

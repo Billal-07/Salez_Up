@@ -43,7 +43,7 @@ const Senior_Ops_manager_SignUp = () => {
 
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/manager_details"
+          "http://crmapi.devcir.co/api/manager_details"
         );
         const filteredData = response.data.filter(
           (manager) => manager.manager_role === "Head Of Sales" && manager.Admin_Id == id
@@ -151,7 +151,7 @@ const Senior_Ops_manager_SignUp = () => {
 
       console.log("Sending OTP to email:", email);
 
-      const otpResponse = await fetch("http://127.0.0.1:8000/api/send-otp", {
+      const otpResponse = await fetch("http://crmapi.devcir.co/api/send-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -218,7 +218,7 @@ const Senior_Ops_manager_SignUp = () => {
     const link = generateUniqueCode();
 
     try {
-      const otpResponse = await fetch("http://127.0.0.1:8000/api/verify-otp", {
+      const otpResponse = await fetch("http://crmapi.devcir.co/api/verify-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -279,7 +279,7 @@ const Senior_Ops_manager_SignUp = () => {
 
           try {
             const response = await fetch(
-              "http://127.0.0.1:8000/api/send-link",
+              "http://crmapi.devcir.co/api/send-link",
               {
                 method: "POST",
                 headers: {

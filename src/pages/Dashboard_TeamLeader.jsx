@@ -96,7 +96,7 @@ const Dashboard_TeamLeader = () => {
     useEffect(() => {
         const fetchTeamLeader = async () => {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/team_leaders/26');
+                const response = await fetch('http://crmapi.devcir.co/api/team_leaders/26');
                 const data = await response.json();
                 setTeamLeader(data);
             } catch (error) {
@@ -111,13 +111,13 @@ const Dashboard_TeamLeader = () => {
     useEffect(() => {
         const fetchSalesAgents = async () => {
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/sales_agents');
+                const response = await fetch('http://crmapi.devcir.co/api/sales_agents');
                 const salesAgents = await response.json();
                 setSalesAgents(salesAgents);
 
                 const fetchTeamLeader = async () => {
                     try {
-                        const leaderResponse = await fetch('http://127.0.0.1:8000/api/team_leader_by_id/26');
+                        const leaderResponse = await fetch('http://crmapi.devcir.co/api/team_leader_by_id/26');
                         const teamLeader = await leaderResponse.json();
                         const teamLeaderImagePath = teamLeader.image_path;
                         setTeamLeaderImage(teamLeaderImagePath);

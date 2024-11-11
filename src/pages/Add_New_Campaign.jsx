@@ -6,7 +6,7 @@ import { useScrollContext } from "../contexts/scrollContext";
 import Select from "react-select";
 
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api'
+  baseURL: 'http://crmapi.devcir.co/api'
 });
 
 api.interceptors.response.use(undefined, async (error) => {

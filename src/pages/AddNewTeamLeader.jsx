@@ -50,7 +50,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
       });
 
     axios
-      .get("http://127.0.0.1:8000/api/team_and_team_leader")
+      .get("http://crmapi.devcir.co/api/team_and_team_leader")
       .then((response) => {
         fetchedTeamAndLeaders = response.data;
         setTeam_And_TeamLeader(fetchedTeamAndLeaders);
@@ -226,7 +226,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
         password: password,
       };
 
-      const emailResponse = await fetch("http://127.0.0.1:8000/api/send-link", {
+      const emailResponse = await fetch("http://crmapi.devcir.co/api/send-link", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -247,7 +247,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
       };
 
       const updateResponse = await fetch(
-        `http://127.0.0.1:8000/api/update_team_leader`,
+        `http://crmapi.devcir.co/api/update_team_leader`,
         {
           method: "POST",
           headers: {
