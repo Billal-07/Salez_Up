@@ -116,7 +116,7 @@ export default function OpsManagerPage() {
     console.log("Main data", id);
 
     try {
-      const response = await fetch("http://localhost:8000/api/manager_details");
+      const response = await fetch("http://crmapi.devcir.co/api/manager_details");
       const data = await response.json();
       const filteredData = data.filter(
         (manager) =>
@@ -132,7 +132,7 @@ export default function OpsManagerPage() {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/manager_details/${selectedManager.id}`,
+        `http://crmapi.devcir.co/api/manager_details/${selectedManager.id}`,
         {
           method: "DELETE",
         }
@@ -185,7 +185,7 @@ export default function OpsManagerPage() {
         manager_password: encryptPassword(formData.manager_password),
       };
       const response = await fetch(
-        `http://localhost:8000/api/manager_details/${selectedManager.id}`,
+        `http://crmapi.devcir.co/api/manager_details/${selectedManager.id}`,
         {
           method: "PUT",
           headers: {

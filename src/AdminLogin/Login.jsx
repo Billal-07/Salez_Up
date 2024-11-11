@@ -27,7 +27,7 @@ export default function Login({ setIsAuthenticated }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get('http://localhost:8000/api/admin_portal_login');
+            const response = await axios.get('http://crmapi.devcir.co/api/admin_portal_login');
             const userDataList = response.data; 
             const userData = userDataList.find(user => user.admin_email === formData.email);
             if (!userData) {

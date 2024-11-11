@@ -167,7 +167,7 @@ const Ops_Manager_SignUp = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/manager_details");
+      const response = await fetch("http://crmapi.devcir.co/api/manager_details");
       if (!response.ok) {
         throw new Error("Failed to fetch user data");
       }
@@ -307,7 +307,7 @@ const Ops_Manager_SignUp = () => {
   //         };
 
   //         const response = await axios.post(
-  //           "http://localhost:8000/api/manager_details",
+  //           "http://crmapi.devcir.co/api/manager_details",
   //           data
   //         );
   //         console.log("Registration successful:", response.data);
@@ -414,7 +414,7 @@ const Ops_Manager_SignUp = () => {
             managerId: managerSecretId,
           };
 
-          const response = await axios.post("http://localhost:8000/api/manager_details", data);
+          const response = await axios.post("http://crmapi.devcir.co/api/manager_details", data);
           console.log("Registration successful:", response.data);
 
           try {

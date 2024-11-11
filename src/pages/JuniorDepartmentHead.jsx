@@ -76,7 +76,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
     let fetchedTeamAndLeaders = [];
 
     axios
-      .get("http://localhost:8000/api/department-heads")
+      .get("http://crmapi.devcir.co/api/department-heads")
       .then((response) => {
         fetchedTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")

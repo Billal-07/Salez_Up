@@ -38,7 +38,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
     let fetchedTeamAndLeaders = [];
 
     axios
-      .get("http://localhost:8000/api/teams")
+      .get("http://crmapi.devcir.co/api/teams")
       .then((response) => {
         fetchedTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -62,7 +62,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
       });
 
     axios
-      .get("http://localhost:8000/api/team_leaders")
+      .get("http://crmapi.devcir.co/api/team_leaders")
       .then((response) => {
         setTeamLeaders(
           response.data.filter(
@@ -199,7 +199,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
 
     try {
       // Check for existing email
-      const responses = await fetch("http://localhost:8000/api/team_leaders");
+      const responses = await fetch("http://crmapi.devcir.co/api/team_leaders");
       if (!responses.ok) throw new Error("Failed to fetch user data");
       const userData = await responses.json();
       const emailExists = userData.some((user) => user.email === email);
@@ -209,7 +209,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
       }
 
       // Create team leader
-      const response = await fetch("http://localhost:8000/api/team_leaders", {
+      const response = await fetch("http://crmapi.devcir.co/api/team_leaders", {
         method: "POST",
         body: formData,
       });

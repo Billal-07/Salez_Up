@@ -147,7 +147,7 @@ const AddNewAgent = ({ set, setter }) => {
   //     return;
   //   }
     
-  //   const responses = await fetch("http://localhost:8000/api/sales_agents");
+  //   const responses = await fetch("http://crmapi.devcir.co/api/sales_agents");
   //   if (!responses.ok) {
   //     throw new Error("Failed to fetch user data");
   //   }
@@ -257,7 +257,7 @@ const AddNewAgent = ({ set, setter }) => {
       return;
     }
   
-    const responses = await fetch("http://localhost:8000/api/sales_agents");
+    const responses = await fetch("http://crmapi.devcir.co/api/sales_agents");
     if (!responses.ok) {
       throw new Error("Failed to fetch user data");
     }

@@ -110,7 +110,7 @@ export default function SignUp() {
     setIsLoading(true);
 
     try {
-      const responses = await fetch("http://localhost:8000/api/admin_portal_login");
+      const responses = await fetch("http://crmapi.devcir.co/api/admin_portal_login");
       if (!responses.ok) {
         throw new Error("Failed to fetch user data");
       }
@@ -145,7 +145,7 @@ export default function SignUp() {
 
       // Make API call using axios
       const response = await axios.post(
-        "http://localhost:8000/api/admin_portal_login",
+        "http://crmapi.devcir.co/api/admin_portal_login",
         apiData,
         {
           headers: {
