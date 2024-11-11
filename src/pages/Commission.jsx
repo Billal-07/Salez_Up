@@ -168,7 +168,7 @@ const Commission = () => {
   useEffect(() => {
     const fetchKpis = async () => {
       try {
-        const response = await axios.get("http://crmapi.devcir.co/api/kpi_info");
+        const response = await axios.get("https://crmapi.devcir.co/api/kpi_info");
         setKpis(response.data);
       } catch (error) {
         console.error("Error fetching KPIs:", error);
@@ -180,7 +180,7 @@ const Commission = () => {
 
   const postKpiInfo = async (kpiName) => {
     try {
-      const response = await axios.post("http://crmapi.devcir.co/api/kpi_info", {
+      const response = await axios.post("https://crmapi.devcir.co/api/kpi_info", {
         kpi_name: kpiName,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
@@ -266,7 +266,7 @@ const Commission = () => {
 
     // try {
     //   const response = await fetch(
-    //     `http://crmapi.devcir.co/api/teams/${teamId}`,
+    //     `https://crmapi.devcir.co/api/teams/${teamId}`,
     //     {
     //       method: "PUT",
     //       headers: {
@@ -296,7 +296,7 @@ const Commission = () => {
     // }
     try {
       const response = await fetch(
-        `http://crmapi.devcir.co/api/sales_agents_teams`,
+        `https://crmapi.devcir.co/api/sales_agents_teams`,
         {
           method: "PUT",
           headers: {
@@ -559,14 +559,14 @@ const Commission = () => {
     const fetchData = async () => {
       try {
         const campaignResponse = await axios.get(
-          "http://crmapi.devcir.co/api/campaigns"
+          "https://crmapi.devcir.co/api/campaigns"
         );
-        const teamResponse = await axios.get("http://crmapi.devcir.co/api/teams");
+        const teamResponse = await axios.get("https://crmapi.devcir.co/api/teams");
         const campaignsAndTeamsResponse = await axios.get(
-          "http://crmapi.devcir.co/api/campaigns_and_teams"
+          "https://crmapi.devcir.co/api/campaigns_and_teams"
         );
         const salesAgentsResponse = await axios.get(
-          "http://crmapi.devcir.co/api/sales_agents"
+          "https://crmapi.devcir.co/api/sales_agents"
         );
 
         setCampaignsAndTeamsData(campaignsAndTeamsResponse.data);
@@ -640,7 +640,7 @@ const Commission = () => {
 
   useEffect(() => {
     axios
-      .get("http://crmapi.devcir.co/api/kpi_info")
+      .get("https://crmapi.devcir.co/api/kpi_info")
       .then((response) => {
         const kpis = response.data;
         setKpis(kpis);
@@ -794,7 +794,7 @@ const Commission = () => {
     console.log("Updated Data: ", dataToPost);
     try {
       const response = await fetch(
-        `http://crmapi.devcir.co/api/sales_agents/${updatedTeam.id}`,
+        `https://crmapi.devcir.co/api/sales_agents/${updatedTeam.id}`,
         {
           method: "PUT",
           headers: {
@@ -881,7 +881,7 @@ const Commission = () => {
     console.log(`delete team = ${deletedTeam}`);
     try {
       const response = await fetch(
-        `http://crmapi.devcir.co/api/sales_agents/${deletedTeam}`,
+        `https://crmapi.devcir.co/api/sales_agents/${deletedTeam}`,
         {
           method: "DELETE",
           headers: {
@@ -918,7 +918,7 @@ const Commission = () => {
   //   useEffect(() => {
   //     const fetchData = async () => {
   //       try {
-  //         const response = await fetch("http://crmapi.devcir.co/api/sales_agents");
+  //         const response = await fetch("https://crmapi.devcir.co/api/sales_agents");
   //         const data = await response.json();
   //         setDemoData(data);
   //       } catch (error) {
@@ -932,8 +932,8 @@ const Commission = () => {
     const fetchData = async () => {
       try {
         const [salesAgentsResponse, teamLeaderResponse] = await Promise.all([
-          fetch("http://crmapi.devcir.co/api/sales_agents"),
-          fetch("http://crmapi.devcir.co/api/team_and_team_leader"),
+          fetch("https://crmapi.devcir.co/api/sales_agents"),
+          fetch("https://crmapi.devcir.co/api/team_and_team_leader"),
         ]);
 
         const salesAgentsData = await salesAgentsResponse.json();
@@ -967,7 +967,7 @@ const Commission = () => {
 
   useEffect(() => {
     axios
-      .get("http://crmapi.devcir.co/api/teams")
+      .get("https://crmapi.devcir.co/api/teams")
       .then((response) => {
         const allTeams = response.data;
 

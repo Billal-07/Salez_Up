@@ -11,7 +11,7 @@ const Campaigns = () => {
   const [isCreated, setIsCreated] = useState(false);
 
   useEffect(() => {
-    fetch('http://crmapi.devcir.co/api/campaigns_and_teams')
+    fetch('https://crmapi.devcir.co/api/campaigns_and_teams')
       .then(response => response.json())
       .then(data => {
         const filtered = data.filter((team) => team.campaign.manager_id == localStorage.getItem("id"))

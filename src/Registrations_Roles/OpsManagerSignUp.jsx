@@ -48,7 +48,7 @@ const Ops_Manager_SignUp = () => {
 
       try {
         const response = await axios.get(
-          "http://crmapi.devcir.co/api/manager_details"
+          "https://crmapi.devcir.co/api/manager_details"
         );
         const allData = response.data;
         setAllManagerData(allData);
@@ -167,7 +167,7 @@ const Ops_Manager_SignUp = () => {
     }
 
     try {
-      const response = await fetch("http://crmapi.devcir.co/api/manager_details");
+      const response = await fetch("https://crmapi.devcir.co/api/manager_details");
       if (!response.ok) {
         throw new Error("Failed to fetch user data");
       }
@@ -181,7 +181,7 @@ const Ops_Manager_SignUp = () => {
 
       console.log("Sending OTP to email:", email);
 
-      const otpResponse = await fetch("http://crmapi.devcir.co/api/send-otp", {
+      const otpResponse = await fetch("https://crmapi.devcir.co/api/send-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -249,7 +249,7 @@ const Ops_Manager_SignUp = () => {
   //   const navigate = useNavigate();
 
   //   try {
-  //     const otpResponse = await fetch("http://crmapi.devcir.co/api/verify-otp", {
+  //     const otpResponse = await fetch("https://crmapi.devcir.co/api/verify-otp", {
   //       method: "POST",
   //       headers: {
   //         "Content-Type": "application/json",
@@ -307,14 +307,14 @@ const Ops_Manager_SignUp = () => {
   //         };
 
   //         const response = await axios.post(
-  //           "http://crmapi.devcir.co/api/manager_details",
+  //           "https://crmapi.devcir.co/api/manager_details",
   //           data
   //         );
   //         console.log("Registration successful:", response.data);
 
   //         try {
   //           const response = await fetch(
-  //             "http://crmapi.devcir.co/api/send-link",
+  //             "https://crmapi.devcir.co/api/send-link",
   //             {
   //               method: "POST",
   //               headers: {
@@ -361,7 +361,7 @@ const Ops_Manager_SignUp = () => {
     const link = generateUniqueCode();
 
     try {
-      const otpResponse = await fetch("http://crmapi.devcir.co/api/verify-otp", {
+      const otpResponse = await fetch("https://crmapi.devcir.co/api/verify-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -414,11 +414,11 @@ const Ops_Manager_SignUp = () => {
             managerId: managerSecretId,
           };
 
-          const response = await axios.post("http://crmapi.devcir.co/api/manager_details", data);
+          const response = await axios.post("https://crmapi.devcir.co/api/manager_details", data);
           console.log("Registration successful:", response.data);
 
           try {
-            const response = await fetch("http://crmapi.devcir.co/api/send-link", {
+            const response = await fetch("https://crmapi.devcir.co/api/send-link", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

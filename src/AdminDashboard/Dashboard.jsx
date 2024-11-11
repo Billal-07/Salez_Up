@@ -23,9 +23,9 @@ export default function DashboardPage() {
 
       try {
         const [opsResponse, seniorResponse, salesResponse] = await Promise.all([
-          fetch("http://crmapi.devcir.co/api/manager_details"),
-          fetch("http://crmapi.devcir.co/api/manager_details"),
-          fetch("http://crmapi.devcir.co/api/manager_details"),
+          fetch("https://crmapi.devcir.co/api/manager_details"),
+          fetch("https://crmapi.devcir.co/api/manager_details"),
+          fetch("https://crmapi.devcir.co/api/manager_details"),
         ]);
 
         const opsData = await opsResponse.json();

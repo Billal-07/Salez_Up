@@ -76,7 +76,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
     let fetchedTeamAndLeaders = [];
 
     axios
-      .get("http://crmapi.devcir.co/api/department-heads")
+      .get("https://crmapi.devcir.co/api/department-heads")
       .then((response) => {
         fetchedTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -137,7 +137,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
 
   useEffect(() => {
     axios
-      .get("http://crmapi.devcir.co/api/campaigns")
+      .get("https://crmapi.devcir.co/api/campaigns")
       .then((response) => {
         setCampaigns(response.data);
         response.data.forEach((campaign) =>
@@ -176,7 +176,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
 
     axios
       .post(
-        `http://crmapi.devcir.co/api/junior-department-heads/${id}?_method=PUT`,
+        `https://crmapi.devcir.co/api/junior-department-heads/${id}?_method=PUT`,
         formData,
         {
           headers: {
@@ -452,7 +452,7 @@ const JuniorHeadOfDepartment = () => {
 
     // Fetch agents from API
     axios
-      .get("http://crmapi.devcir.co/api/junior-department-heads")
+      .get("https://crmapi.devcir.co/api/junior-department-heads")
       .then((response) => {
         const fetchedTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -487,7 +487,7 @@ const JuniorHeadOfDepartment = () => {
     if (!confirmed) return;
 
     axios
-    .put(`http://crmapi.devcir.co/api/remove-Junior-dept-head/${team.id}`)
+    .put(`https://crmapi.devcir.co/api/remove-Junior-dept-head/${team.id}`)
     .then((response) => {
       toast.success("Junior Departments Updated.", {
         position: "bottom-right",
@@ -507,7 +507,7 @@ const JuniorHeadOfDepartment = () => {
       console.error("Error updating Dept_Head_id:", error);
     });
 
-    fetch(`http://crmapi.devcir.co/api/junior-department-heads/${team.id}`, {
+    fetch(`https://crmapi.devcir.co/api/junior-department-heads/${team.id}`, {
       method: "DELETE",
     })
       .then((response) => {

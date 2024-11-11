@@ -43,7 +43,7 @@ const Senior_Ops_manager_SignUp = () => {
 
       try {
         const response = await axios.get(
-          "http://crmapi.devcir.co/api/manager_details"
+          "https://crmapi.devcir.co/api/manager_details"
         );
         const filteredData = response.data.filter(
           (manager) => manager.manager_role === "Head Of Sales" && manager.Admin_Id == id
@@ -137,7 +137,7 @@ const Senior_Ops_manager_SignUp = () => {
 
 
     try {
-      const response = await fetch("http://crmapi.devcir.co/api/manager_details");
+      const response = await fetch("https://crmapi.devcir.co/api/manager_details");
       if (!response.ok) {
         throw new Error("Failed to fetch user data");
       }
@@ -151,7 +151,7 @@ const Senior_Ops_manager_SignUp = () => {
 
       console.log("Sending OTP to email:", email);
 
-      const otpResponse = await fetch("http://crmapi.devcir.co/api/send-otp", {
+      const otpResponse = await fetch("https://crmapi.devcir.co/api/send-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -218,7 +218,7 @@ const Senior_Ops_manager_SignUp = () => {
     const link = generateUniqueCode();
 
     try {
-      const otpResponse = await fetch("http://crmapi.devcir.co/api/verify-otp", {
+      const otpResponse = await fetch("https://crmapi.devcir.co/api/verify-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -272,14 +272,14 @@ const Senior_Ops_manager_SignUp = () => {
           };
 
           const response = await axios.post(
-            "http://crmapi.devcir.co/api/manager_details",
+            "https://crmapi.devcir.co/api/manager_details",
             data
           );
           console.log("Registration successful:", response.data);
 
           try {
             const response = await fetch(
-              "http://crmapi.devcir.co/api/send-link",
+              "https://crmapi.devcir.co/api/send-link",
               {
                 method: "POST",
                 headers: {

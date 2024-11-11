@@ -139,7 +139,7 @@ const AddNewHeadOfDepartment = ({ set, setter, onDepartmentHead}) => {
     }
     formData.append("manager_id", parseInt(localStorage.getItem("id")));
 
-    const responses = await fetch("http://crmapi.devcir.co/api/department-heads");
+    const responses = await fetch("https://crmapi.devcir.co/api/department-heads");
     if (!responses.ok) {
       throw new Error("Failed to fetch user data");
     }
@@ -153,7 +153,7 @@ const AddNewHeadOfDepartment = ({ set, setter, onDepartmentHead}) => {
 
     try {
       const response = await fetch(
-        "http://crmapi.devcir.co/api/department-heads",
+        "https://crmapi.devcir.co/api/department-heads",
         {
           method: "POST",
           body: formData,
@@ -177,7 +177,7 @@ const AddNewHeadOfDepartment = ({ set, setter, onDepartmentHead}) => {
       };
 
       try {
-        const response = await fetch("http://crmapi.devcir.co/api/send-link", {
+        const response = await fetch("https://crmapi.devcir.co/api/send-link", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

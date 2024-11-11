@@ -79,7 +79,7 @@ const Set_Contest_Combined = () => {
   const fetchTeams = async () => {
     const id = parseInt(localStorage.getItem('id'))
     try {
-      const response = await axios.get('http://crmapi.devcir.co/api/teams');
+      const response = await axios.get('https://crmapi.devcir.co/api/teams');
       const filteredAgents = response.data.filter(team => team.manager_id === id);
       setTeams(filteredAgents);
     } catch (error) {
@@ -90,7 +90,7 @@ const Set_Contest_Combined = () => {
   const fetchAgents = async () => {
     const id = parseInt(localStorage.getItem('id'))
     try {
-      const response = await axios.get('http://crmapi.devcir.co/api/sales_agents');
+      const response = await axios.get('https://crmapi.devcir.co/api/sales_agents');
       const filteredAgents = response.data.filter(agent => agent.manager_id === id);
       setAgents(filteredAgents);
     } catch (error) {
@@ -389,7 +389,7 @@ const Set_Contest_Combined = () => {
   useEffect(() => {
     const fetchExp = async () => {
       try {
-        const response = await fetch('http://crmapi.devcir.co/api/experiences');
+        const response = await fetch('https://crmapi.devcir.co/api/experiences');
         const data = await response.json();
         setExp(data);
       } catch (error) {
@@ -403,7 +403,7 @@ const Set_Contest_Combined = () => {
   useEffect(() => {
     const fetchVouchers = async () => {
       try {
-        const response = await fetch('http://crmapi.devcir.co/api/vouchers');
+        const response = await fetch('https://crmapi.devcir.co/api/vouchers');
         const data = await response.json();
         setVouchers(data);
       } catch (error) {
@@ -415,7 +415,7 @@ const Set_Contest_Combined = () => {
   }, []);
 
   useEffect(() => {
-    fetch('http://crmapi.devcir.co/api/kpi_info')
+    fetch('https://crmapi.devcir.co/api/kpi_info')
       .then(response => response.json())
       .then(data => setKpiOptions(data))
       .catch(error => console.error('Error fetching data:', error));
@@ -424,7 +424,7 @@ const Set_Contest_Combined = () => {
   useEffect(() => {
     const fetchFood = async () => {
       try {
-        const response = await fetch('http://crmapi.devcir.co/api/foods');
+        const response = await fetch('https://crmapi.devcir.co/api/foods');
         const data = await response.json();
         setFood(data);
       } catch (error) {

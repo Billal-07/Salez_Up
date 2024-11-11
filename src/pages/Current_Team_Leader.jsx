@@ -15,14 +15,14 @@ const Current_Team_Leader = () => {
     setManagerRole(role);
   
     const managerId = localStorage.getItem('id');
-    fetch(`http://crmapi.devcir.co/api/team_and_team_leader?manager_id=${managerId}`)
+    fetch(`https://crmapi.devcir.co/api/team_and_team_leader?manager_id=${managerId}`)
       .then(response => response.json())
       .then(async data => {
         const filteredData = data.filter(item => item.team.manager_id === parseInt(managerId));
         
         const categoriesWithCampaigns = await Promise.all(filteredData.map(async (item) => {
           try {
-            const campaignResponse = await fetch(`http://crmapi.devcir.co/api/campaigns_and_teams?team_id=${item.team.id}`);
+            const campaignResponse = await fetch(`https://crmapi.devcir.co/api/campaigns_and_teams?team_id=${item.team.id}`);
             const campaignData = await campaignResponse.json();
             
             const matchingCampaign = campaignData.find(campaign => 

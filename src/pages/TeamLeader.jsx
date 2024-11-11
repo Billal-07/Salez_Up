@@ -90,7 +90,7 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
     let fetchedTeamAndLeaders = [];
 
     axios
-      .get("http://crmapi.devcir.co/api/teams")
+      .get("https://crmapi.devcir.co/api/teams")
       .then((response) => {
         fetchedTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -102,7 +102,7 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
       });
 
     axios
-      .get("http://crmapi.devcir.co/api/team_and_team_leader")
+      .get("https://crmapi.devcir.co/api/team_and_team_leader")
       .then((response) => {
         fetchedTeamAndLeaders = response.data;
         setTeam_And_TeamLeader(fetchedTeamAndLeaders);
@@ -173,7 +173,7 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
 
   useEffect(() => {
     axios
-      .get("http://crmapi.devcir.co/api/campaigns")
+      .get("https://crmapi.devcir.co/api/campaigns")
       .then((response) => {
         setCampaigns(response.data);
         response.data.forEach((campaign) =>
@@ -212,7 +212,7 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
     try {
       // Update team leader details
       const response = await axios.post(
-        `http://crmapi.devcir.co/api/team_leaders/${id}?_method=PUT`,
+        `https://crmapi.devcir.co/api/team_leaders/${id}?_method=PUT`,
         formData,
         {
           headers: {
@@ -223,7 +223,7 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
 
       // Update team assignments
       await axios.post(
-        `http://crmapi.devcir.co/api/update_team_leader`,
+        `https://crmapi.devcir.co/api/update_team_leader`,
         selectedTeam
       );
 
@@ -481,12 +481,12 @@ const TeamLeader = () => {
 
     try {
       // Remove team assignments
-      await fetch(`http://crmapi.devcir.co/api/team_leader_update/${team.id}`, {
+      await fetch(`https://crmapi.devcir.co/api/team_leader_update/${team.id}`, {
         method: "PUT",
       });
 
       // Delete team leader
-      await fetch(`http://crmapi.devcir.co/api/team_leaders/${team.id}`, {
+      await fetch(`https://crmapi.devcir.co/api/team_leaders/${team.id}`, {
         method: "DELETE",
       });
 
@@ -508,12 +508,12 @@ const TeamLeader = () => {
   const fetchTeamAndTeamLeaders = async () => {
     try {
       const teamAndLeaderResponse = await fetch(
-        "http://crmapi.devcir.co/api/team_and_team_leader"
+        "https://crmapi.devcir.co/api/team_and_team_leader"
       );
       const teamAndLeaderData = await teamAndLeaderResponse.json();
 
       const teamLeadersResponse = await fetch(
-        "http://crmapi.devcir.co/api/team_leaders"
+        "https://crmapi.devcir.co/api/team_leaders"
       );
 
       const teamLeadersData = await teamLeadersResponse.json();

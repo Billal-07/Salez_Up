@@ -15,7 +15,7 @@ const Current_Teams = () => {
       try {
         const managerId = localStorage.getItem("id");
 
-        const response = await fetch("http://crmapi.devcir.co/api/teams");
+        const response = await fetch("https://crmapi.devcir.co/api/teams");
         const data = await response.json();
 
         const filteredTeams = data.filter(

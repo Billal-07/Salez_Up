@@ -6,7 +6,7 @@ const Campaigns = () => {
   const [currentCampaigns, setCurrentCampaigns] = useState([]);
 
   useEffect(() => {
-    fetch('http://crmapi.devcir.co/api/campaigns')
+    fetch('https://crmapi.devcir.co/api/campaigns')
       .then(response => response.json())
       .then(data => {
         const campaigns = data.map(campaign => ({

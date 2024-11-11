@@ -151,7 +151,7 @@ const SignIn = () => {
 
   // const fetchData = async () => {
   //   try {
-  //     const response = await fetch('http://crmapi.devcir.co/api/admin_registrations');
+  //     const response = await fetch('https://crmapi.devcir.co/api/admin_registrations');
   //     if (!response.ok) {
   //       throw new Error('Network response was not ok');
   //     }
@@ -230,11 +230,11 @@ const SignIn = () => {
   //   let apiUrl;
   //   // Check the role and set the appropriate API endpoint
   //   if (role === 'Manager') {
-  //     apiUrl = 'http://crmapi.devcir.co/api/admin_registrations';
+  //     apiUrl = 'https://crmapi.devcir.co/api/admin_registrations';
   //   } else if (role === 'Sales Agent') {
-  //     apiUrl = 'http://crmapi.devcir.co/api/sales_agents';
+  //     apiUrl = 'https://crmapi.devcir.co/api/sales_agents';
   //   } else if (role === 'Team Leader') {
-  //     apiUrl = 'http://crmapi.devcir.co/api/team_leaders';
+  //     apiUrl = 'https://crmapi.devcir.co/api/team_leaders';
   //   } else {
   //     throw new Error('Invalid role');
   //   }
@@ -304,7 +304,7 @@ const SignIn = () => {
 
   //         // New POST API request before navigation
   //         try {
-  //           const response = await fetch('http://crmapi.devcir.co/api/sendloginMessage', {
+  //           const response = await fetch('https://crmapi.devcir.co/api/sendloginMessage', {
   //             method: 'POST',
   //             headers: {
   //               'Content-Type': 'application/json'
@@ -411,7 +411,7 @@ const SignIn = () => {
 
           // New POST API request before navigation
           try {
-            const response = await fetch('http://crmapi.devcir.co/api/sendloginMessage', {
+            const response = await fetch('https://crmapi.devcir.co/api/sendloginMessage', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -479,11 +479,11 @@ const SignIn = () => {
     let apiUrl;
     // Check the role and set the appropriate API endpoint
     if (role === 'Manager') {
-      apiUrl = 'http://crmapi.devcir.co/api/managers';
+      apiUrl = 'https://crmapi.devcir.co/api/managers';
     } else if (role === 'Sales Agent') {
-      apiUrl = 'http://crmapi.devcir.co/api/sales_agents';
+      apiUrl = 'https://crmapi.devcir.co/api/sales_agents';
     } else if (role === 'Team Leader') {
-      apiUrl = 'http://crmapi.devcir.co/api/team_leaders';
+      apiUrl = 'https://crmapi.devcir.co/api/team_leaders';
     } else {
       throw new Error('Invalid role');
     }

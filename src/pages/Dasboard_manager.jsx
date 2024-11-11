@@ -15,7 +15,7 @@ const Current_Agent_Chart = () => {
   useEffect(() => {
     const fetchSalesAgents = async () => {
       try {
-        const response = await fetch('http://crmapi.devcir.co/api/sales_agents');
+        const response = await fetch('https://crmapi.devcir.co/api/sales_agents');
         const data = await response.json();
         setSalesAgents(data);
       } catch (error) {
@@ -30,7 +30,7 @@ const Current_Agent_Chart = () => {
   useEffect(() => {
     const fetchCampaigns = async () => {
       try {
-        const campaignsResponse = await fetch('http://crmapi.devcir.co/api/team_leaders');
+        const campaignsResponse = await fetch('https://crmapi.devcir.co/api/team_leaders');
         const campaignsData = await campaignsResponse.json();
         // console.log("Cap", campaignsData)
         const loggedInManagerName = localStorage.getItem("userFName");
@@ -344,7 +344,7 @@ const Dashboard_manager = () => {
   useEffect(() => {
     const fetchMyCampaigns = async () => {
       try {
-        const contributionData = await fetch('http://crmapi.devcir.co/api/team_leaders');
+        const contributionData = await fetch('https://crmapi.devcir.co/api/team_leaders');
         const campaignsData = await contributionData.json();
         setWajid(campaignsData);
 
@@ -359,7 +359,7 @@ const Dashboard_manager = () => {
           commissionMap[campaignId] = 0;
         });
 
-        const salesAgentsData = await fetch('http://crmapi.devcir.co/api/sales_agents');
+        const salesAgentsData = await fetch('https://crmapi.devcir.co/api/sales_agents');
         const salesAgentsList = await salesAgentsData.json();
         setSalesAgents(salesAgentsList);
 

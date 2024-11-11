@@ -48,19 +48,19 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
     return leaderIds.current[name];
   };
   useEffect(() => {
-    axios.get('http://crmapi.devcir.co/api/teams')
+    axios.get('https://crmapi.devcir.co/api/teams')
       .then(response => {
         setTeams(response.data.filter(team => team.status == 'active'));
       })
       .catch(error => console.error('Error fetching teams:', error));
-    axios.get('http://crmapi.devcir.co/api/campaigns')
+    axios.get('https://crmapi.devcir.co/api/campaigns')
       .then(response => {
         const fetchedCampaigns = response.data;
         setCampaigns(response.data);
         fetchedCampaigns.forEach(campaign => addCampaign(campaign.name, campaign.id));
       })
       .catch(error => console.error('Error fetching campaigns:', error));
-    axios.get('http://crmapi.devcir.co/api/team_leaders')
+    axios.get('https://crmapi.devcir.co/api/team_leaders')
       .then(response => {
         const fetchedLeaders = response.data;
         setLeaders(response.data);
@@ -93,7 +93,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
       frequency,
       campaign: formattedData,
     };
-    axios.put(`http://crmapi.devcir.co/api/sales_agents_update/${data.id}`, updatedData)
+    axios.put(`https://crmapi.devcir.co/api/sales_agents_update/${data.id}`, updatedData)
       .then(response => {
         toast.success('Agent successfully updated', {
           position: "bottom-right",
@@ -275,7 +275,7 @@ const SalesAgents = () => {
   }
   useEffect(() => {
     // Fetch teams
-    axios.get('http://crmapi.devcir.co/api/teams')
+    axios.get('https://crmapi.devcir.co/api/teams')
       .then(response => {
         setAllTeams(response.data.filter(team => team.status == 'active'));
         console.log("dataaaa", allTeams);
@@ -298,7 +298,7 @@ const SalesAgents = () => {
     ////console.log("My Data: ", selectedData);
   }, [selectedData]);
   useEffect(() => {
-    fetch('http://crmapi.devcir.co/api/sales_agents')
+    fetch('https://crmapi.devcir.co/api/sales_agents')
       .then(response => response.json())
       .then(data => {
         setTeams(data);
@@ -308,10 +308,10 @@ const SalesAgents = () => {
   }, [isCreated]);
   // delete functionality __________________________________________________
   const handleDelete = (id) => {
-    axios.delete(`http://crmapi.devcir.co/api/sales_agents_delete/${id}`)
+    axios.delete(`https://crmapi.devcir.co/api/sales_agents_delete/${id}`)
       .then(response => {
         // Update state or refetch data after successful delete
-        fetch('http://crmapi.devcir.co/api/sales_agents/34')
+        fetch('https://crmapi.devcir.co/api/sales_agents/34')
           .then(response => response.json())
           .then(data => {
             setTeams(data);

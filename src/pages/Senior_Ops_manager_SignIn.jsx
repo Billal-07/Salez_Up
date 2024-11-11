@@ -103,7 +103,7 @@ const Senior_Ops_manager_SignIn = () => {
   
     try {
       // Fetch ops managers data
-      const response = await fetch('http://crmapi.devcir.co/api/manager_details');
+      const response = await fetch('https://crmapi.devcir.co/api/manager_details');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -143,7 +143,7 @@ const Senior_Ops_manager_SignIn = () => {
   
       // Send login notification
       try {
-        await fetch('http://crmapi.devcir.co/api/sendloginMessage', {
+        await fetch('https://crmapi.devcir.co/api/sendloginMessage', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -195,7 +195,7 @@ const Senior_Ops_manager_SignIn = () => {
 
   //   try {
   //     // Fetch ops managers data
-  //     const response = await fetch('http://crmapi.devcir.co/api/senior-ops-managers');
+  //     const response = await fetch('https://crmapi.devcir.co/api/senior-ops-managers');
   //     if (!response.ok) {
   //       throw new Error('Network response was not ok');
   //     }
@@ -231,7 +231,7 @@ const Senior_Ops_manager_SignIn = () => {
 
   //     // Send login notification
   //     try {
-  //       await fetch('http://crmapi.devcir.co/api/sendloginMessage', {
+  //       await fetch('https://crmapi.devcir.co/api/sendloginMessage', {
   //         method: 'POST',
   //         headers: {
   //           'Content-Type': 'application/json'
