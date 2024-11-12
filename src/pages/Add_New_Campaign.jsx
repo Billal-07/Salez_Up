@@ -585,7 +585,7 @@ const My_Campaigns = ({ set, setter }) => {
           </button>
         </div>
       </div>
-      <ToastContainer
+      {/* <ToastContainer
         position="bottom-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -596,7 +596,7 @@ const My_Campaigns = ({ set, setter }) => {
         draggable
         pauseOnHover
         theme="light"
-      />
+      /> */}
     </form>
   );
 };
