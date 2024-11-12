@@ -72,7 +72,7 @@ const TeamLeaderKpiTable = () => {
           return demoData.some((agent) => {
             return (
               Array.isArray(agent.team) &&
-              agent.team.some((teamObj) => teamObj.team_name === team.team_name)
+              agent.team.some((teamObj) => teamObj.team_name == team.team_name)
             );
           });
         });
@@ -118,7 +118,7 @@ const TeamLeaderKpiTable = () => {
 
         const combinedData = filteredTeams.map((leader) => {
           const teamInfos = filtered.filter(
-            (team) => team.team_leader_id === leader.id
+            (team) => team.team_leader_id == leader.id
           );
 
           if (teamInfos.length > 1) {
@@ -142,7 +142,7 @@ const TeamLeaderKpiTable = () => {
                   team_name: teamInfo.team.team_name,
                 })),
             };
-          } else if (teamInfos.length === 1) {
+          } else if (teamInfos.length == 1) {
             return {
               ...leader,
               kpi_data: {
@@ -180,17 +180,17 @@ const TeamLeaderKpiTable = () => {
     const selectedKpiIds = selectedRow
       .flatMap((row) => {
         const kpiDataIds = row.kpiData.map((kpi, index) =>
-          kpiType === "kpiData" && index === kpiIndex ? null : kpi.kpi_Name_ID
+          kpiType == "kpiData" && index == kpiIndex ? null : kpi.kpi_Name_ID
         );
         const customKpiDataIds = row.customKpiData.map((customKpi, index) =>
-          kpiType === "customKpiData" && index === kpiIndex
+          kpiType == "customKpiData" && index == kpiIndex
             ? null
             : customKpi.Custom_KPI_ID?.toString()
         );
 
         return [...kpiDataIds, ...customKpiDataIds];
       })
-      .filter((id) => id !== null);
+      .filter((id) => id != null);
 
     return kpis.filter(
       (kpiOption) => !selectedKpiIds.includes(kpiOption.id.toString())
@@ -308,11 +308,11 @@ const TeamLeaderKpiTable = () => {
   const handleCustomKpiChange = (rowIndex, kpiIndex, field, value) => {
     setSelectedRow((prevRows) =>
       prevRows.map((row, rIndex) =>
-        rIndex === rowIndex
+        rIndex == rowIndex
           ? {
               ...row,
               kpiData: row.kpiData.map((kpi, kIndex) =>
-                kIndex === kpiIndex ? { ...kpi, [field]: value } : kpi
+                kIndex == kpiIndex ? { ...kpi, [field]: value } : kpi
               ),
             }
           : row
@@ -394,9 +394,9 @@ const TeamLeaderKpiTable = () => {
   } else {
     filteredAgents = filteredData.filter(
       (agent) =>
-        selectedTeamName === "All Teams" ||
+        selectedTeamName == "All Teams" ||
         (Array.isArray(agent.team) &&
-          agent.team.some((teamObj) => teamObj.team_name === selectedTeamName))
+          agent.team.some((teamObj) => teamObj.team_name == selectedTeamName))
     );
     currentPage = currentPageSingle;
     setCurrentPage = setCurrentPageSingle;
@@ -556,7 +556,7 @@ const TeamLeaderKpiTable = () => {
               if (team.kpi_data && Array.isArray(team.kpi_data.kpi_data)) {
                 team.kpi_data.kpi_data.forEach((kpiEntry) => {
                   const parsedKpiEntry =
-                    kpiEntry && typeof kpiEntry === "string"
+                    kpiEntry && typeof kpiEntry == "string"
                       ? JSON.parse(kpiEntry)
                       : kpiEntry;
 
@@ -816,7 +816,7 @@ const TeamLeaderKpiTable = () => {
                               </h2> */}
                               <h2 className="mb-4 text-lg font-bold">
                                 Update Data for{" "}
-                                {singleCampaignTeams.find((team) => team.id === row.id)?.team_name || row.id}
+                                {singleCampaignTeams.find((team) => team.id == row.id)?.team_name || row.id}
                               </h2>
                               <button
                                 type="button"
@@ -850,7 +850,7 @@ const TeamLeaderKpiTable = () => {
                                               rowIndex
                                             ].customKpiData.some(
                                               (customKpi) =>
-                                                customKpi.Custom_KPI_ID?.toString() ===
+                                                customKpi.Custom_KPI_ID?.toString() ==
                                                 newValue
                                             );
 
@@ -898,12 +898,12 @@ const TeamLeaderKpiTable = () => {
                                             const newTarget = e.target.value;
                                             setSelectedRow((prevRows) =>
                                               prevRows.map((r, rIndex) =>
-                                                rIndex === rowIndex
+                                                rIndex == rowIndex
                                                   ? {
                                                       ...r,
                                                       kpiData: r.kpiData.map(
                                                         (kpi, kpiIndex) =>
-                                                          kpiIndex === index
+                                                          kpiIndex == index
                                                             ? {
                                                                 ...kpi,
                                                                 target:
@@ -932,12 +932,12 @@ const TeamLeaderKpiTable = () => {
                                                 e.target.value;
                                               setSelectedRow((prevRows) =>
                                                 prevRows.map((r, rIndex) =>
-                                                  rIndex === rowIndex
+                                                  rIndex == rowIndex
                                                     ? {
                                                         ...r,
                                                         kpiData: r.kpiData.map(
                                                           (kpi, kpiIndex) =>
-                                                            kpiIndex === index
+                                                            kpiIndex == index
                                                               ? {
                                                                   ...kpi,
                                                                   weighting:
@@ -1002,12 +1002,12 @@ const TeamLeaderKpiTable = () => {
 
                                             setSelectedRow((prevRows) =>
                                               prevRows.map((r, rIndex) =>
-                                                rIndex === rowIndex
+                                                rIndex == rowIndex
                                                   ? {
                                                       ...r,
                                                       kpiData: r.kpiData.map(
                                                         (kpi, kpiIndex) =>
-                                                          kpiIndex === index
+                                                          kpiIndex == index
                                                             ? {
                                                                 ...kpi,
                                                                 gatekeeper:
@@ -1023,7 +1023,7 @@ const TeamLeaderKpiTable = () => {
                                               value ||
                                               row.kpiData.some(
                                                 (kpi, idx) =>
-                                                  idx !== index &&
+                                                  idx != index &&
                                                   kpi.gatekeeper
                                               ) ||
                                               row.customKpiData.some(
@@ -1060,7 +1060,7 @@ const TeamLeaderKpiTable = () => {
                                               rowIndex
                                             ].kpiData.some(
                                               (kpi) =>
-                                                kpi.kpi_Name_ID === newValue
+                                                kpi.kpi_Name_ID == newValue
                                             );
 
                                             if (isKpiIdUsed) {
@@ -1071,7 +1071,7 @@ const TeamLeaderKpiTable = () => {
                                             }
                                             const selectedKpi = kpis.find(
                                               (kpi) =>
-                                                kpi.id.toString() === newValue
+                                                kpi.id.toString() == newValue
                                             );
 
                                             const updatedCustomKpiData = [
@@ -1126,13 +1126,13 @@ const TeamLeaderKpiTable = () => {
                                             const newTarget = e.target.value;
                                             setSelectedRow((prevRows) =>
                                               prevRows.map((r, rIndex) =>
-                                                rIndex === rowIndex
+                                                rIndex == rowIndex
                                                   ? {
                                                       ...r,
                                                       customKpiData:
                                                         r.customKpiData.map(
                                                           (kpi, kpiIndex) =>
-                                                            kpiIndex === index
+                                                            kpiIndex == index
                                                               ? {
                                                                   ...kpi,
                                                                   Custom_Target:
@@ -1162,13 +1162,13 @@ const TeamLeaderKpiTable = () => {
                                                 e.target.value;
                                               setSelectedRow((prevRows) =>
                                                 prevRows.map((r, rIndex) =>
-                                                  rIndex === rowIndex
+                                                  rIndex == rowIndex
                                                     ? {
                                                         ...r,
                                                         customKpiData:
                                                           r.customKpiData.map(
                                                             (kpi, kpiIndex) =>
-                                                              kpiIndex === index
+                                                              kpiIndex == index
                                                                 ? {
                                                                     ...kpi,
                                                                     Custom_Weighting:
@@ -1255,7 +1255,7 @@ const TeamLeaderKpiTable = () => {
                                               ) ||
                                               updatedCustomKpiData.some(
                                                 (kpi, idx) =>
-                                                  idx !== index &&
+                                                  idx != index &&
                                                   kpi.Custom_Gatekeeper
                                               );
                                             setGatekeeperSet((prev) => ({
@@ -1319,7 +1319,7 @@ const TeamLeaderKpiTable = () => {
 
                       setSelectedRow((prevRows) =>
                         prevRows.map((row) => {
-                          if (row.id === selectedRow[updateCommission]?.id) {
+                          if (row.id == selectedRow[updateCommission]?.id) {
                             return {
                               ...row,
                               teamInfo: {

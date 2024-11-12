@@ -48,7 +48,7 @@ const Campaigns = () => {
 
               
               <div className='flex flex-wrap items-center justify-around'>
-  {currentCampaigns.length === 0 ? (
+  {currentCampaigns.length == 0 ? (
     <p className='text-center text-lg font-semibold text-gray-500'>No campaign available</p>
   ) : (
     currentCampaigns.map((campaign, index) => (

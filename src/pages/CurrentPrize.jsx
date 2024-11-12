@@ -114,18 +114,18 @@ const Voucher = () => {
       <img
         src={voucher.voucher_image}
         alt={voucher.name}
-        className={`w-[130px] h-[90px] ${selectedVoucher === voucher.name ? '' : 'opacity-40'} border border-1 border-black/10 rounded-xl`}
+        className={`w-[130px] h-[90px] ${selectedVoucher == voucher.name ? '' : 'opacity-40'} border border-1 border-black/10 rounded-xl`}
       />
       <div
         onClick={() => {
-          const updatedSelection = selectedVoucher === voucher.name ? '' : voucher.name;
+          const updatedSelection = selectedVoucher == voucher.name ? '' : voucher.name;
           setSelectedVoucher(updatedSelection);
           console.log(`Voucher Name: ${voucher.name}, Status: ${voucher.status}`);
         }}
-        className={`switch cursor-pointer w-[45.36px] h-[19.44px] rounded-[10.08px] border-[1.44px] relative ${selectedVoucher === voucher.name ? 'border-[#269F8B]' : 'border-[#F67E7E]'}`}
+        className={`switch cursor-pointer w-[45.36px] h-[19.44px] rounded-[10.08px] border-[1.44px] relative ${selectedVoucher == voucher.name ? 'border-[#269F8B]' : 'border-[#F67E7E]'}`}
       >
         <div
-          className={`toggler absolute w-[19.8px] h-[18.9px] -top-[1px] rounded-[10.08px] ${selectedVoucher === voucher.name ? 'bg-[#269F8B] right-0' : 'bg-[#F67E7E]'}`}
+          className={`toggler absolute w-[19.8px] h-[18.9px] -top-[1px] rounded-[10.08px] ${selectedVoucher == voucher.name ? 'bg-[#269F8B] right-0' : 'bg-[#F67E7E]'}`}
         ></div>
       </div>
     </div>
@@ -317,18 +317,18 @@ const Food = () => {
       <img
         src={food.food_image}
         alt={food.name}
-        className={`w-[130px] h-[90px] ${selectedFood === food.name ? '' : 'opacity-40'} border border-1 border-black/10 rounded-xl`}
+        className={`w-[130px] h-[90px] ${selectedFood == food.name ? '' : 'opacity-40'} border border-1 border-black/10 rounded-xl`}
       />
       <div
         onClick={() => {
-          const updatedSelection = selectedFood === food.name ? '' : food.name;
+          const updatedSelection = selectedFood == food.name ? '' : food.name;
           setSelectedFood(updatedSelection);
           console.log(`Food Name: ${food.name}, Status: ${food.status}`);
         }}
-        className={`switch cursor-pointer w-[45.36px] h-[19.44px] rounded-[10.08px] border-[1.44px] relative ${selectedFood === food.name ? 'border-[#269F8B]' : 'border-[#F67E7E]'}`}
+        className={`switch cursor-pointer w-[45.36px] h-[19.44px] rounded-[10.08px] border-[1.44px] relative ${selectedFood == food.name ? 'border-[#269F8B]' : 'border-[#F67E7E]'}`}
       >
         <div
-          className={`toggler absolute w-[19.8px] h-[18.9px] -top-[1px] rounded-[10.08px] ${selectedFood === food.name ? 'bg-[#269F8B] right-0' : 'bg-[#F67E7E]'}`}
+          className={`toggler absolute w-[19.8px] h-[18.9px] -top-[1px] rounded-[10.08px] ${selectedFood == food.name ? 'bg-[#269F8B] right-0' : 'bg-[#F67E7E]'}`}
         ></div>
       </div>
     </div>
@@ -522,18 +522,18 @@ const Experience = () => {
       <img
         src={exp.experience_image}
         alt={exp.name}
-        className={`w-[130px] h-[90px] ${selectedExperience === exp.name ? '' : 'opacity-40'} border border-1 border-black/10 rounded-xl`}
+        className={`w-[130px] h-[90px] ${selectedExperience == exp.name ? '' : 'opacity-40'} border border-1 border-black/10 rounded-xl`}
       />
       <div
         onClick={() => {
-          const updatedSelection = selectedExperience === exp.name ? '' : exp.name;
+          const updatedSelection = selectedExperience == exp.name ? '' : exp.name;
           setSelectedExperience(updatedSelection);
           console.log(`Experience Name: ${exp.name}, Status: ${exp.status}`);
         }}
-        className={`switch cursor-pointer w-[45.36px] h-[19.44px] rounded-[10.08px] border-[1.44px] relative ${selectedExperience === exp.name ? 'border-[#269F8B]' : 'border-[#F67E7E]'}`}
+        className={`switch cursor-pointer w-[45.36px] h-[19.44px] rounded-[10.08px] border-[1.44px] relative ${selectedExperience == exp.name ? 'border-[#269F8B]' : 'border-[#F67E7E]'}`}
       >
         <div
-          className={`toggler absolute w-[19.8px] h-[18.9px] -top-[1px] rounded-[10.08px] ${selectedExperience === exp.name ? 'bg-[#269F8B] right-0' : 'bg-[#F67E7E]'}`}
+          className={`toggler absolute w-[19.8px] h-[18.9px] -top-[1px] rounded-[10.08px] ${selectedExperience == exp.name ? 'bg-[#269F8B] right-0' : 'bg-[#F67E7E]'}`}
         ></div>
       </div>
     </div>

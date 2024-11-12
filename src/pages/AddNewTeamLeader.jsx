@@ -140,7 +140,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
     let code = "";
 
     for (let i = 0; i < 8; i++) {
-      if (i % 2 === 0) {
+      if (i % 2 == 0) {
         const randomNumberIndex = Math.floor(Math.random() * numbers.length);
         code += numbers[randomNumberIndex];
       } else {
@@ -202,7 +202,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
       const responses = await fetch("https://crmapi.devcir.co/api/team_leaders");
       if (!responses.ok) throw new Error("Failed to fetch user data");
       const userData = await responses.json();
-      const emailExists = userData.some((user) => user.email === email);
+      const emailExists = userData.some((user) => user.email == email);
       if (emailExists) {
         toast.error("Email already exists. Please use a different email.");
         return;
@@ -271,7 +271,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
         image_path: imageFile ? URL.createObjectURL(imageFile) : null,
         manager: { manager_name: manager },
         teams: selectedTeam.map((teamId) => {
-          const team = teams.find((t) => t.id === teamId);
+          const team = teams.find((t) => t.id == teamId);
           return {
             id: teamId,
             team_name: team ? team.team_name : "",
@@ -484,7 +484,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
             );
             const conflictingTeams = newlyAddedTeams.filter((teamId) => {
               const team = team_And_Teamleader.find(
-                (teamLeaderEntry) => teamLeaderEntry.team_id === teamId
+                (teamLeaderEntry) => teamLeaderEntry.team_id == teamId
               );
               return team && team.team_leader_id;
             });

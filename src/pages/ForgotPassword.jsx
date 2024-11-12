@@ -87,7 +87,7 @@ const ForgotPassword = () => {
             const userData = await response.json();
 
             // Check if the email already exists
-            const emailExists = userData.some(user => user.email === email);
+            const emailExists = userData.some(user => user.email == email);
             if (!emailExists) {
                 toast.error('Email Dont exists. Please use a different email.');
                 return;
@@ -136,7 +136,7 @@ const ForgotPassword = () => {
         let code = '';
 
         for (let i = 0; i < 12; i++) {
-            if (i % 3 === 0 || i % 3 === 1) {
+            if (i % 3 == 0 || i % 3 == 1) {
                 const randomLetterIndex = Math.floor(Math.random() * letters.length);
                 code += letters[randomLetterIndex];
             } else {

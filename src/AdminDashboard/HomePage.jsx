@@ -89,7 +89,7 @@ const DashboardLayout = () => {
           <button
             onClick={() => setSelectedPage("dashboard")}
             className={`w-full p-4 flex items-center gap-4 hover:bg-gray-700 transition-colors
-              ${selectedPage === "dashboard" ? "bg-gray-700" : ""}
+              ${selectedPage == "dashboard" ? "bg-gray-700" : ""}
               ${!isSidebarOpen ? "justify-center" : ""}`}
           >
             <Home size={24} />
@@ -101,7 +101,7 @@ const DashboardLayout = () => {
           <button
             onClick={() => setSelectedPage("head-of-sales")}
             className={`w-full p-4 flex items-center gap-4 hover:bg-gray-700 transition-colors
-              ${selectedPage === "head-of-sales" ? "bg-gray-700" : ""}
+              ${selectedPage == "head-of-sales" ? "bg-gray-700" : ""}
               ${!isSidebarOpen ? "justify-center" : ""}`}
           >
             <BarChart size={24} />
@@ -113,7 +113,7 @@ const DashboardLayout = () => {
           <button
             onClick={() => setSelectedPage("senior-ops")}
             className={`w-full p-4 flex items-center gap-4 hover:bg-gray-700 transition-colors
-              ${selectedPage === "senior-ops" ? "bg-gray-700" : ""}
+              ${selectedPage == "senior-ops" ? "bg-gray-700" : ""}
               ${!isSidebarOpen ? "justify-center" : ""}`}
           >
             <Users size={24} />
@@ -125,7 +125,7 @@ const DashboardLayout = () => {
           <button
             onClick={() => setSelectedPage("ops-manager")}
             className={`w-full p-4 flex items-center gap-4 hover:bg-gray-700 transition-colors
-              ${selectedPage === "ops-manager" ? "bg-gray-700" : ""}
+              ${selectedPage == "ops-manager" ? "bg-gray-700" : ""}
               ${!isSidebarOpen ? "justify-center" : ""}`}
           >
             <Settings size={24} />
@@ -137,7 +137,7 @@ const DashboardLayout = () => {
           <button
             onClick={() => setSelectedPage("edit_admin")}
             className={`w-full p-4 flex items-center gap-4 hover:bg-gray-700 transition-colors
-              ${selectedPage === "edit_admin" ? "bg-gray-700" : ""}
+              ${selectedPage == "edit_admin" ? "bg-gray-700" : ""}
               ${!isSidebarOpen ? "justify-center" : ""}`}
           >
             <Wrench size={24} />

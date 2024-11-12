@@ -129,17 +129,17 @@ const screensData = [
       <img 
         src={screen.image} 
         alt={screen.name} 
-        className={`w-[900px] h-[150px] rounded-[10px] ${selectedScreen === screen.name ? '' : 'opacity-40'}`} 
+        className={`w-[900px] h-[150px] rounded-[10px] ${selectedScreen == screen.name ? '' : 'opacity-40'}`} 
       />
       <div
         onClick={() => {
-          const updatedSelection = selectedScreen === screen.name ? '' : screen.name;
+          const updatedSelection = selectedScreen == screen.name ? '' : screen.name;
           setSelectedScreen(updatedSelection);
           console.log(`Screen Name: ${screen.name}, Status: ${screen.status}`);
         }}
-        className={`switch cursor-pointer w-[45.36px] h-[19.44px] rounded-[10.08px] border-[1.44px] relative ${selectedScreen === screen.name ? 'border-[#269F8B]' : 'border-[#F67E7E]'}`}
+        className={`switch cursor-pointer w-[45.36px] h-[19.44px] rounded-[10.08px] border-[1.44px] relative ${selectedScreen == screen.name ? 'border-[#269F8B]' : 'border-[#F67E7E]'}`}
       >
-        <div className={`toggler absolute w-[19.8px] h-[18.9px] -top-[1px] rounded-[10.08px] ${selectedScreen === screen.name ? 'bg-[#269F8B] right-0' : 'bg-[#F67E7E]'}`}></div>
+        <div className={`toggler absolute w-[19.8px] h-[18.9px] -top-[1px] rounded-[10.08px] ${selectedScreen == screen.name ? 'bg-[#269F8B] right-0' : 'bg-[#F67E7E]'}`}></div>
       </div>
     </div>
   ))}

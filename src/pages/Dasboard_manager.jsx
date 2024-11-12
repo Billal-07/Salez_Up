@@ -184,7 +184,7 @@ const Dashboard_manager = () => {
   };
 
   const getButtonClasses = (buttonName) =>
-    buttonName === selectedButton
+    buttonName == selectedButton
       ? 'px-4 py-1 border-2 border-[#1E8675] text-[#009245] rounded-lg text-xs'
       : 'px-4 py-1 border-2 border-[#E5E5E5] text-[#072D20] rounded-lg text-xs';
 
@@ -231,13 +231,13 @@ const Dashboard_manager = () => {
   const LeaderboardItem = ({ rank, name, score, image }) => {
     // Dynamically determine the badge based on rank
     let badge;
-    if (rank === 1) {
+    if (rank == 1) {
       badge = '/images/unicorn.png';
-    } else if (rank === 2) {
+    } else if (rank == 2) {
       badge = '/images/platinium.png';
-    } else if (rank === 3) {
+    } else if (rank == 3) {
       badge = '/images/gold.png';
-    } else if (rank === 4 || rank === 5) {
+    } else if (rank == 4 || rank == 5) {
       badge = '/images/silver.png';
     } else {
       badge = '/images/bronze.png';
@@ -369,7 +369,7 @@ const Dashboard_manager = () => {
 
         //   campaignIds.forEach(campaignId => {
         //     campaignsData.forEach(item => {
-        //       if (item.campaign_detail.id === Number(campaignId)) {
+        //       if (item.campaign_detail.id == Number(campaignId)) {
         //         matchedAgentsMap[item.campaign_detail.id].push(agent.name);
         //         commissionMap[item.campaign_detail.id] += Number(agent.commission || 0);
         //       }
@@ -408,9 +408,9 @@ const Dashboard_manager = () => {
   ];
 
   const getPercentColor = (percent) => {
-    if (percent === 50) return 'bg-[#FFF3F3]';
-    if (percent === 70 || percent === 95) return 'bg-[#FFFDD4]';
-    if (percent === 105 || percent === 101) return 'bg-[#F3FFF4]';
+    if (percent == 50) return 'bg-[#FFF3F3]';
+    if (percent == 70 || percent == 95) return 'bg-[#FFFDD4]';
+    if (percent == 105 || percent == 101) return 'bg-[#F3FFF4]';
     if (percent >= 90) return 'bg-green-100 text-green-800';
     if (percent >= 70) return 'bg-yellow-100 text-yellow-800';
     return 'bg-red-100 text-red-800';
@@ -453,7 +453,7 @@ const Dashboard_manager = () => {
   const [activeButton, setActiveButton] = useState('Month');
   const [showDetails, setShowDetails] = useState(false);
 
-  const filteredData = selectedFilter === 'All' ? performanceData : performanceData.filter(row => row.kpi === selectedFilter);
+  const filteredData = selectedFilter == 'All' ? performanceData : performanceData.filter(row => row.kpi == selectedFilter);
 
   const handleButtonClick1 = (button) => {
     setActiveButton(button);
@@ -553,7 +553,7 @@ const Dashboard_manager = () => {
                         <img src={item.image_path} alt={item.name} className="w-full h-full object-cover" />
                       </div>
                       <p className="text-base text-[#1E8675] font-semibold">
-                        ${commissionAmounts[index] !== undefined ? commissionAmounts[index].toFixed(2) : '0.00'}
+                        ${commissionAmounts[index] != undefined ? commissionAmounts[index].toFixed(2) : '0.00'}
                       </p>
                     </div>
                   ))}
@@ -653,12 +653,12 @@ const Dashboard_manager = () => {
                 <h1 className='font-[500] leading-[33px] text-[22px] text-[#269F8B]'>Campaign Performance</h1>
 
                 <div className='flex'>
-                  <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter === 'All' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('All')}>All</button>
-                  <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter === 'Revenue' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'}  border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Revenue')}>Revenue</button>
-                  <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter === 'Units' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'}  border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Units')}>Units</button>
-                  <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter === 'Conversion' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Conversion')}>Conversion</button>
-                  <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter === 'Dials' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Dials')}>Dials</button>
-                  <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter === 'Productivity' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Productivity')}>Productivity</button>
+                  <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter == 'All' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('All')}>All</button>
+                  <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter == 'Revenue' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'}  border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Revenue')}>Revenue</button>
+                  <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter == 'Units' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'}  border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Units')}>Units</button>
+                  <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter == 'Conversion' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Conversion')}>Conversion</button>
+                  <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter == 'Dials' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Dials')}>Dials</button>
+                  <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter == 'Productivity' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Productivity')}>Productivity</button>
                 </div>
 
               </div>
@@ -670,7 +670,7 @@ const Dashboard_manager = () => {
                     className='w-10 h-10 bg-cover bg-center rounded-full ml-2'
                     style={{
                       backgroundImage: `url(${image})`,
-                      opacity: selectedImage === image ? 1 : 0.5,
+                      opacity: selectedImage == image ? 1 : 0.5,
                       cursor: 'pointer'
                     }}
                     onClick={() => setSelectedImage(image)}
@@ -705,9 +705,9 @@ const Dashboard_manager = () => {
                             <span className={`px-6 py-1 ${getPercentColor(row.percentToTarget)}`}>{row.percentToTarget}%</span>
                           </td>
                           <td className='py-2 text-center'>{row.commission}</td>
-                          <td className={`px-6 py-1 text-center ${row.gatekeeper === 'N/A' ? 'bg-gray-100' : ''}`}>{row.gatekeeper}</td>
+                          <td className={`px-6 py-1 text-center ${row.gatekeeper == 'N/A' ? 'bg-gray-100' : ''}`}>{row.gatekeeper}</td>
                           <td className={`px-6 py-1 text-center`}>
-                            <span className={`inline-block ${row.gatekeeperTarget === '-' ? 'bg-gray-100 w-12' : ''}`}>{row.gatekeeperTarget}</span>
+                            <span className={`inline-block ${row.gatekeeperTarget == '-' ? 'bg-gray-100 w-12' : ''}`}>{row.gatekeeperTarget}</span>
                           </td>
                         </tr>
                       ))}
@@ -730,7 +730,7 @@ const Dashboard_manager = () => {
               <div className='flex space-x-2'>
                 <button
                   className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out 
-                  ${activeButton === 'Week' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} 
+                  ${activeButton == 'Week' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} 
                   border border-gray-300 bg-white rounded-lg`}
                   onClick={() => handleButtonClick1('Week')}
                 >
@@ -739,7 +739,7 @@ const Dashboard_manager = () => {
 
                 <button
                   className={`px-6 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out 
-                  ${activeButton === 'Month' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} 
+                  ${activeButton == 'Month' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} 
                   border border-gray-300 bg-white rounded-lg`}
                   onClick={() => handleButtonClick1('Month')}
                 >
@@ -748,7 +748,7 @@ const Dashboard_manager = () => {
 
                 <button
                   className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out 
-                  ${activeButton === 'Year' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} 
+                  ${activeButton == 'Year' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} 
                   border border-gray-300 bg-white rounded-lg`}
                   onClick={() => handleButtonClick1('Year')}
                 >

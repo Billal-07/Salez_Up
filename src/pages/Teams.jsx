@@ -65,7 +65,7 @@ const Current_Teams = () => {
                   </p>
                 </div>
               ))} */}
-              {teams.length === 0 ? (
+              {teams.length == 0 ? (
                 <div className="flex justify-center items-center w-full h-28">
                   <p className="text-center text-lg font-semibold text-gray-500">
                     No teams available

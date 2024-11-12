@@ -150,7 +150,7 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
     label: admin.first_name,
   }));
 
-  // ========================== team ==================================//
+  // ================== team =======================//
 
   const handleTeamChange = (event) => {
     setSelectedTeam(event.target.value);
@@ -169,7 +169,7 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
     setSelectedTeam(selectedOption);
   };
 
-  // ============================== campaign ------------------------------------------------------------//
+  // ==================== campaign ------------------------------------------------------------//
 
   useEffect(() => {
     axios
@@ -367,14 +367,14 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
                       !selectedTeam.team_ids.includes(teamId) &&
                       !team_And_Teamleader.some(
                         (teamLeaderEntry) =>
-                          teamLeaderEntry.team_id === teamId &&
-                          teamLeaderEntry.team_leader_id ===
+                          teamLeaderEntry.team_id == teamId &&
+                          teamLeaderEntry.team_leader_id ==
                             selectedTeam.team_leader_id
                       )
                   );
                   const conflictingTeams = newlyAddedTeams.filter((teamId) => {
                     const team = team_And_Teamleader.find(
-                      (teamLeaderEntry) => teamLeaderEntry.team_id === teamId
+                      (teamLeaderEntry) => teamLeaderEntry.team_id == teamId
                     );
                     return team && team.team_leader_id;
                   });
@@ -451,7 +451,7 @@ const TeamLeader = () => {
   const handleUpdateSuccess = (updatedTeamLeader) => {
     setTeams((prevTeams) =>
       prevTeams.map((team) =>
-        team.id === updatedTeamLeader.id ? updatedTeamLeader : team
+        team.id == updatedTeamLeader.id ? updatedTeamLeader : team
       )
     );
   };
@@ -491,7 +491,7 @@ const TeamLeader = () => {
       });
 
       // Update state to remove the deleted team leader
-      setTeams((prevTeams) => prevTeams.filter((t) => t.id !== team.id));
+      setTeams((prevTeams) => prevTeams.filter((t) => t.id != team.id));
 
       toast.success("Team Leader successfully deleted");
     } catch (error) {
@@ -561,7 +561,7 @@ const TeamLeader = () => {
         .includes(searchTerm.toLowerCase())
     );
 
-    if (searchedTeams.length === 0) {
+    if (searchedTeams.length == 0) {
       return <p className="text-center text-lg font-semibold text-gray-500">No Team Leader is available</p>;
     }
 
@@ -669,7 +669,7 @@ const TeamLeader = () => {
                     <button
                       onClick={() => setCurrentPage(i + 1)}
                       className={`px-3 py-1 rounded-lg w-[40px] ${
-                        currentPage === i + 1
+                        currentPage == i + 1
                           ? "bg-themeGreen text-white"
                           : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                       }`}
@@ -684,9 +684,9 @@ const TeamLeader = () => {
                   onClick={() =>
                     setCurrentPage((prev) => Math.max(prev - 1, 1))
                   }
-                  disabled={currentPage === 1}
+                  disabled={currentPage == 1}
                   className={`px-3 py-1 rounded-lg text-themeGreen ${
-                    currentPage === 1
+                    currentPage == 1
                       ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                       : "bg-gray-200 text-gray-700 hover:bg-gray-300 shadow-md"
                   }`}
@@ -705,11 +705,11 @@ const TeamLeader = () => {
                     )
                   }
                   disabled={
-                    currentPage ===
+                    currentPage ==
                     Math.ceil(searchedTeams.length / teamsPerPage)
                   }
                   className={`px-3 py-1 rounded-lg text-themeGreen ${
-                    currentPage ===
+                    currentPage ==
                     Math.ceil(searchedTeams.length / teamsPerPage)
                       ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                       : "bg-gray-200 text-gray-700 hover:bg-gray-300 shadow-md"
@@ -764,7 +764,7 @@ const TeamLeader = () => {
               >
                 <p
                   className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-                    selectedTeam === "All Teams"
+                    selectedTeam == "All Teams"
                       ? "bg-themeGreen text-white font-[600]"
                       : "bg-lGreen text-black font-[400]"
                   }`}
@@ -793,7 +793,7 @@ const TeamLeader = () => {
                   >
                     <p
                       className={`${
-                        selectedTeam === teamName
+                        selectedTeam == teamName
                           ? "bg-themeGreen text-white font-[600]"
                           : "bg-lGreen text-black font-[400]"
                       } w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}

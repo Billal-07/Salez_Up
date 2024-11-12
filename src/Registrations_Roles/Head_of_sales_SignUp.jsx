@@ -112,7 +112,7 @@ const Head_of_sales_SignUp = () => {
       }
       const userData = await response.json();
 
-      const emailExists = userData.some((user) => user.manager_email === email);
+      const emailExists = userData.some((user) => user.manager_email == email);
       if (emailExists) {
         toast.error("Email already exists. Please use a different email.");
         return;
@@ -170,7 +170,7 @@ const Head_of_sales_SignUp = () => {
     let code = "";
 
     for (let i = 0; i < 12; i++) {
-      if (i % 3 === 0 || i % 3 === 1) {
+      if (i % 3 == 0 || i % 3 == 1) {
         const randomLetterIndex = Math.floor(Math.random() * letters.length);
         code += letters[randomLetterIndex];
       } else {

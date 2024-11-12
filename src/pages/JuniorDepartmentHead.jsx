@@ -122,7 +122,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
     label: admin.first_name,
   }));
 
-  // ========================== team ==================================//
+  // ================== team =======================//
 
   const handleManagerChange = (event) => {
     setSelectedmanager(event.target.value);
@@ -133,7 +133,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
     label: team.first_name,
   }));
 
-  // ============================== campaign ------------------------------------------------------------//
+  // ==================== campaign ------------------------------------------------------------//
 
   useEffect(() => {
     axios
@@ -351,14 +351,14 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
                       !selectedTeam.team_ids.includes(teamId) &&
                       !team_And_Teamleader.some(
                         (teamLeaderEntry) =>
-                          teamLeaderEntry.team_id === teamId &&
-                          teamLeaderEntry.team_leader_id ===
+                          teamLeaderEntry.team_id == teamId &&
+                          teamLeaderEntry.team_leader_id ==
                             selectedTeam.team_leader_id
                       )
                   );
                   const conflictingTeams = newlyAddedTeams.filter((teamId) => {
                     const team = team_And_Teamleader.find(
-                      (teamLeaderEntry) => teamLeaderEntry.team_id === teamId
+                      (teamLeaderEntry) => teamLeaderEntry.team_id == teamId
                     );
                     return team && team.team_leader_id;
                   });
@@ -467,8 +467,8 @@ const JuniorHeadOfDepartment = () => {
   const filterAgentsByTeam = (agents, selectedTeam, searchQuery) => {
     return agents.filter(
       (agent) =>
-        (selectedTeam === "All Teams" ||
-          agent.team.team_name === selectedTeam) &&
+        (selectedTeam == "All Teams" ||
+          agent.team.team_name == selectedTeam) &&
         agent.first_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
@@ -548,7 +548,7 @@ const JuniorHeadOfDepartment = () => {
       indexOfFirstAgent,
       indexOfLastAgent
     );
-    const noDataAvailable = filteredAgents.length === 0;
+    const noDataAvailable = filteredAgents.length == 0;
 
     return (
       <>
@@ -680,7 +680,7 @@ const JuniorHeadOfDepartment = () => {
         >
           <p
             className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-              selectedTeam === "All Teams"
+              selectedTeam == "All Teams"
                 ? "bg-themeGreen text-white font-[600]"
                 : "bg-lGreen text-black font-[400]"
             }`}
@@ -696,7 +696,7 @@ const JuniorHeadOfDepartment = () => {
           >
             <p
               className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-                selectedTeam === teamName
+                selectedTeam == teamName
                   ? "bg-themeGreen text-white font-[600]"
                   : "bg-lGreen text-black font-[400]"
               }`}

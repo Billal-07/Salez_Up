@@ -38,7 +38,7 @@ const AddNewAgent = ({ set, setter }) => {
         .get("https://crmapi.devcir.co/api/teams")
         .then((response) => {
           const filteredTeams = response.data.filter(
-            (team) => team.manager_id === parseInt(managerId)
+            (team) => team.manager_id == parseInt(managerId)
           );
           setTeams(filteredTeams);
         })
@@ -119,7 +119,7 @@ const AddNewAgent = ({ set, setter }) => {
     let code = "";
 
     for (let i = 0; i < 8; i++) {
-      if (i % 2 === 0) {
+      if (i % 2 == 0) {
         const randomLetterIndex = Math.floor(Math.random() * letters.length);
         code += letters[randomLetterIndex];
       } else {
@@ -152,7 +152,7 @@ const AddNewAgent = ({ set, setter }) => {
   //     throw new Error("Failed to fetch user data");
   //   }
   //   const userData = await responses.json();
-  //   const emailExists = userData.some((user) => user.email.toLowerCase() === email.toLowerCase());
+  //   const emailExists = userData.some((user) => user.email.toLowerCase() == email.toLowerCase());
   //   if (emailExists) {
   //     toast.error("Email already exists. Please use a different email.");
   //     return;
@@ -262,7 +262,7 @@ const AddNewAgent = ({ set, setter }) => {
       throw new Error("Failed to fetch user data");
     }
     const userData = await responses.json();
-    const emailExists = userData.some((user) => user.email.toLowerCase() === email.toLowerCase());
+    const emailExists = userData.some((user) => user.email.toLowerCase() == email.toLowerCase());
     if (emailExists) {
       toast.error("Email already exists. Please use a different email.");
       return;

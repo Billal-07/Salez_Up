@@ -20,7 +20,7 @@ const TeamMember = ({ name, role, imageUrl, isLeader = false }) => (
 
 const OrgTree = ({ teamLeaderImage, salesAgents, teamleader }) => {
     const filteredAgents = salesAgents.filter(agent =>
-        agent.campaign_details && agent.campaign_details.some(campaign => campaign.team_leader_id === 26)
+        agent.campaign_details && agent.campaign_details.some(campaign => campaign.team_leader_id == 26)
     );
 
     return (
@@ -127,7 +127,7 @@ const Dashboard_TeamLeader = () => {
                         salesAgents.forEach(agent => {
                             if (agent.campaign_details && agent.campaign_details.length > 0) {
                                 agent.campaign_details.forEach(campaign => {
-                                    if (campaign.team_leader_id === 26) {
+                                    if (campaign.team_leader_id == 26) {
                                         console.log('Matched Sales Agent:', agent.name);
                                         // Add the agent's commission to commissionSum
                                         commissionSum += Number(agent.commission) || 0; // Ensure it's a number
@@ -164,7 +164,7 @@ const Dashboard_TeamLeader = () => {
     };
 
     const getButtonClasses = (buttonName) =>
-        buttonName === selectedButton
+        buttonName == selectedButton
             ? 'px-4 py-1 border-2 border-[#1E8675] text-[#009245] rounded-lg text-xs'
             : 'px-4 py-1 border-2 border-[#E5E5E5] text-[#072D20] rounded-lg text-xs';
 
@@ -218,13 +218,13 @@ const Dashboard_TeamLeader = () => {
 
     const LeaderboardItem = ({ rank, name, score, image }) => {
         let badge;
-        if (rank === 1) {
+        if (rank == 1) {
             badge = '/images/unicorn.png';
-        } else if (rank === 2) {
+        } else if (rank == 2) {
             badge = '/images/platinium.png';
-        } else if (rank === 3) {
+        } else if (rank == 3) {
             badge = '/images/gold.png';
-        } else if (rank === 4 || rank === 5) {
+        } else if (rank == 4 || rank == 5) {
             badge = '/images/silver.png';
         } else {
             badge = '/images/bronze.png';
@@ -336,9 +336,9 @@ const Dashboard_TeamLeader = () => {
     ];
 
     const getPercentColor = (percent) => {
-        if (percent === 50) return 'bg-[#FFF3F3]';
-        if (percent === 70 || percent === 95) return 'bg-[#FFFDD4]';
-        if (percent === 105 || percent === 101) return 'bg-[#F3FFF4]';
+        if (percent == 50) return 'bg-[#FFF3F3]';
+        if (percent == 70 || percent == 95) return 'bg-[#FFFDD4]';
+        if (percent == 105 || percent == 101) return 'bg-[#F3FFF4]';
         if (percent >= 90) return 'bg-green-100 text-green-800';
         if (percent >= 70) return 'bg-yellow-100 text-yellow-800';
         return 'bg-red-100 text-red-800';
@@ -378,7 +378,7 @@ const Dashboard_TeamLeader = () => {
     const [activeButton, setActiveButton] = useState('Month');
     const [showDetails, setShowDetails] = useState(false);
 
-    const filteredData = selectedFilter === 'All' ? performanceData : performanceData.filter(row => row.kpi === selectedFilter);
+    const filteredData = selectedFilter == 'All' ? performanceData : performanceData.filter(row => row.kpi == selectedFilter);
 
     const handleButtonClick1 = (button) => {
         setActiveButton(button);
@@ -584,19 +584,19 @@ const Dashboard_TeamLeader = () => {
                                 <h1 className='font-[500] leading-[33px] text-[22px] text-[#269F8B]'>Campaign Performance</h1>
 
                                 <div className='flex'>
-                                    <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter === 'All' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('All')}>All</button>
-                                    <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter === 'Revenue' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'}  border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Revenue')}>Revenue</button>
-                                    <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter === 'Units' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'}  border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Units')}>Units</button>
-                                    <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter === 'Conversion' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Conversion')}>Conversion</button>
-                                    <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter === 'Dials' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Dials')}>Dials</button>
-                                    <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter === 'Productivity' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Productivity')}>Productivity</button>
+                                    <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter == 'All' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('All')}>All</button>
+                                    <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter == 'Revenue' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'}  border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Revenue')}>Revenue</button>
+                                    <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter == 'Units' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'}  border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Units')}>Units</button>
+                                    <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter == 'Conversion' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Conversion')}>Conversion</button>
+                                    <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter == 'Dials' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Dials')}>Dials</button>
+                                    <button className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out ${selectedFilter == 'Productivity' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} border border-gray-300 bg-white rounded-lg`} onClick={() => setSelectedFilter('Productivity')}>Productivity</button>
                                     <div
                                         className='w-10 h-10 bg-cover bg-center rounded-full ml-2'
                                         style={{
                                             backgroundImage: teamLeader && teamLeader.campaign_detail
                                                 ? `url(${teamLeader.campaign_detail.company_logo})`
                                                 : " ",
-                                            // opacity: selectedImage === image ? 1 : 0.5,
+                                            // opacity: selectedImage == image ? 1 : 0.5,
                                             cursor: 'pointer'
                                         }}
                                     // onClick={() => setSelectedImage(image)}
@@ -613,7 +613,7 @@ const Dashboard_TeamLeader = () => {
                                             backgroundImage: teamLeader && teamLeader.campaign_detail 
                                             ? `url(${teamLeader.campaign_detail.company_logo})` 
                                             : " " ,
-                                            // opacity: selectedImage === image ? 1 : 0.5,
+                                            // opacity: selectedImage == image ? 1 : 0.5,
                                             cursor: 'pointer'
                                         }}
                                         // onClick={() => setSelectedImage(image)}
@@ -629,7 +629,7 @@ const Dashboard_TeamLeader = () => {
                                         className='w-10 h-10 bg-cover bg-center rounded-full ml-2'
                                         style={{
                                             backgroundImage: `url(${image})`,
-                                            opacity: selectedImage === image ? 1 : 0.5,
+                                            opacity: selectedImage == image ? 1 : 0.5,
                                             cursor: 'pointer'
                                         }}
                                         onClick={() => setSelectedImage(image)}
@@ -664,9 +664,9 @@ const Dashboard_TeamLeader = () => {
                                                         <span className={`px-6 py-1 ${getPercentColor(row.percentToTarget)}`}>{row.percentToTarget}%</span>
                                                     </td>
                                                     <td className='py-2 text-center'>{row.commission}</td>
-                                                    <td className={`px-6 py-1 text-center ${row.gatekeeper === 'N/A' ? 'bg-gray-100' : ''}`}>{row.gatekeeper}</td>
+                                                    <td className={`px-6 py-1 text-center ${row.gatekeeper == 'N/A' ? 'bg-gray-100' : ''}`}>{row.gatekeeper}</td>
                                                     <td className={`px-6 py-1 text-center`}>
-                                                        <span className={`inline-block ${row.gatekeeperTarget === '-' ? 'bg-gray-100 w-12' : ''}`}>{row.gatekeeperTarget}</span>
+                                                        <span className={`inline-block ${row.gatekeeperTarget == '-' ? 'bg-gray-100 w-12' : ''}`}>{row.gatekeeperTarget}</span>
                                                     </td>
                                                 </tr>
                                             ))}
@@ -689,7 +689,7 @@ const Dashboard_TeamLeader = () => {
                             <div className='flex space-x-2'>
                                 <button
                                     className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out 
-                    ${activeButton === 'Week' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} 
+                    ${activeButton == 'Week' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} 
                     border border-gray-300 bg-white rounded-lg`}
                                     onClick={() => handleButtonClick1('Week')}
                                 >
@@ -698,7 +698,7 @@ const Dashboard_TeamLeader = () => {
 
                                 <button
                                     className={`px-6 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out 
-                    ${activeButton === 'Month' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} 
+                    ${activeButton == 'Month' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} 
                     border border-gray-300 bg-white rounded-lg`}
                                     onClick={() => handleButtonClick1('Month')}
                                 >
@@ -707,7 +707,7 @@ const Dashboard_TeamLeader = () => {
 
                                 <button
                                     className={`px-3 py-1 text-sm font-medium transform transition-all duration-500 ease-in-out 
-                    ${activeButton === 'Year' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} 
+                    ${activeButton == 'Year' ? 'text-[#269F8B] shadow-xl scale-125 rotate-360' : 'text-[#ABABAB]'} 
                     border border-gray-300 bg-white rounded-lg`}
                                     onClick={() => handleButtonClick1('Year')}
                                 >
@@ -755,15 +755,15 @@ const Dashboard_TeamLeader = () => {
                             <div className='flex justify-center  bg-white rounded-lg shadow-sm order-2 border-2 border-gray-100 py-8'>
                                 {sortedContestants.map((contestant, index) => {
                                     let level, money, badgeColor;
-                                    if (index === 0) {
+                                    if (index == 0) {
                                         level = 'Unicorn';
                                         money = 500;
                                         badgeColor = '/images/unicorn.png';
-                                    } else if (index === 1) {
+                                    } else if (index == 1) {
                                         level = 'Platinum';
                                         money = 277;
                                         badgeColor = '/images/platinium.png';
-                                    } else if (index === 2) {
+                                    } else if (index == 2) {
                                         level = 'Gold';
                                         money = 200;
                                         badgeColor = '/images/gold.png';
@@ -778,7 +778,7 @@ const Dashboard_TeamLeader = () => {
                                                 </div>
                                             </div>
                                             <p className='mt-2 text-lg font-medium text-[#009245]'>{contestant.name}</p>
-                                            <p className={`mt-1 text-base font-bold bg-clip-text text-transparent ${index === 0 ? 'bg-gradient-to-r from-[#1DD6FF] to-[#D21EFF]' : index === 1 ? 'bg-[#4F4F4F]' : 'bg-[#FFC700]'}`}>
+                                            <p className={`mt-1 text-base font-bold bg-clip-text text-transparent ${index == 0 ? 'bg-gradient-to-r from-[#1DD6FF] to-[#D21EFF]' : index == 1 ? 'bg-[#4F4F4F]' : 'bg-[#FFC700]'}`}>
                                                 {level}
                                             </p>
                                             <div className='flex items-center mt-1'>

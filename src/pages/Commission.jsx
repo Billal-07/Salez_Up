@@ -370,7 +370,7 @@ const Commission = () => {
           ? null
           : customKpi.Custom_KPI_ID.toString()
       ),
-    ].filter((id) => id !== null);
+    ].filter((id) => id != null);
 
     return kpis.filter(
       (kpiOption) => !selectedKpiIds.includes(kpiOption.id.toString())
@@ -449,7 +449,7 @@ const Commission = () => {
     setSelectedCampaign(campaign);
 
     const filtered = campaignsAndTeamsData
-      .filter((item) => item.campaign_id === campaign.id)
+      .filter((item) => item.campaign_id == campaign.id)
       .map((item) => item.team_id);
 
     const filteredTeams = teams.filter((team) => filtered.includes(team.id));
@@ -577,7 +577,7 @@ const Commission = () => {
 
         const finalFilteredTeams = filteredTeams.filter((team) => {
           return salesAgentsResponse.data.some(
-            (salesAgent) => salesAgent.team_id === team.id
+            (salesAgent) => salesAgent.team_id == team.id
           );
         });
 
@@ -585,11 +585,11 @@ const Commission = () => {
 
         const filteredCampaigns = campaignResponse.data.filter((campaign) => {
           const relatedCampaignTeams = campaignsAndTeamsResponse.data.filter(
-            (campaignTeam) => campaignTeam.campaign_id === campaign.id
+            (campaignTeam) => campaignTeam.campaign_id == campaign.id
           );
 
           const hasTeamsLeft = relatedCampaignTeams.some((campaignTeam) =>
-            finalFilteredTeams.some((team) => team.id === campaignTeam.team_id)
+            finalFilteredTeams.some((team) => team.id == campaignTeam.team_id)
           );
           return (
             campaign.manager_id == localStorage.getItem("id") && hasTeamsLeft
@@ -603,7 +603,7 @@ const Commission = () => {
 
           const campaignId = campaignResponse.data[0].id;
           const relevantTeams = campaignsAndTeamsResponse.data
-            .filter((item) => item.campaign_id === campaignId)
+            .filter((item) => item.campaign_id == campaignId)
             .map((item) => item.team_id);
 
           const initialFilteredTeams = teamResponse.data.filter((team) =>
@@ -944,7 +944,7 @@ const Commission = () => {
 
         const combinedData = filteredTeams.map((agent) => {
           const teamLeaderInfo = filtered.find(
-            (team) => agent.team && team.team_id === agent.team.id
+            (team) => agent.team && team.team_id == agent.team.id
           );
 
           return {
@@ -1024,8 +1024,8 @@ const Commission = () => {
     } else {
       filteredAgents = filteredData.filter(
         (agent) =>
-          selectedTeamName === "All Teams" ||
-          (agent.team && agent.team.team_name === selectedTeamName)
+          selectedTeamName == "All Teams" ||
+          (agent.team && agent.team.team_name == selectedTeamName)
       );
       currentPage = currentPageSingle;
       setCurrentPage = setCurrentPageSingle;
@@ -1489,11 +1489,11 @@ const Commission = () => {
                                               value={customKpi.weighting}
                                               onKeyDown={(e) => {
                                                 if (
-                                                  e.key === "e" ||
-                                                  e.key === "+" ||
-                                                  e.key === "-" ||
-                                                  e.key === "." ||
-                                                  e.key === ","
+                                                  e.key == "e" ||
+                                                  e.key == "+" ||
+                                                  e.key == "-" ||
+                                                  e.key == "." ||
+                                                  e.key == ","
                                                 ) {
                                                   e.preventDefault();
                                                 }
@@ -1631,7 +1631,7 @@ const Commission = () => {
                                                 const otherGatekeepers =
                                                   updatedCustomKpiData.some(
                                                     (kpi, i) =>
-                                                      i !== index &&
+                                                      i != index &&
                                                       kpi.gatekeeper
                                                   );
                                                 if (!otherGatekeepers) {
@@ -1823,16 +1823,16 @@ const Commission = () => {
                                             onKeyDown={(e) => {
                                               // Prevent +, -, e, and other special characters
                                               if (
-                                                e.key === "e" ||
-                                                e.key === "+" ||
-                                                e.key === "-" ||
-                                                e.key === "." ||
-                                                e.key === "," ||
+                                                e.key == "e" ||
+                                                e.key == "+" ||
+                                                e.key == "-" ||
+                                                e.key == "." ||
+                                                e.key == "," ||
                                                 (!/^\d$/.test(e.key) &&
-                                                  e.key !== "Backspace" &&
-                                                  e.key !== "Delete" &&
-                                                  e.key !== "ArrowLeft" &&
-                                                  e.key !== "ArrowRight")
+                                                  e.key != "Backspace" &&
+                                                  e.key != "Delete" &&
+                                                  e.key != "ArrowLeft" &&
+                                                  e.key != "ArrowRight")
                                               ) {
                                                 e.preventDefault();
                                               }
@@ -1842,7 +1842,7 @@ const Commission = () => {
 
                                               // Only proceed if input is empty or a positive integer
                                               if (
-                                                newValue !== "" &&
+                                                newValue != "" &&
                                                 (!Number.isInteger(
                                                   Number(newValue)
                                                 ) ||
@@ -1895,7 +1895,7 @@ const Commission = () => {
                                                 const otherGatekeepers =
                                                   updatedCustomKpiData.some(
                                                     (kpi, i) =>
-                                                      i !== index &&
+                                                      i != index &&
                                                       kpi.Custom_Gatekeeper
                                                   );
                                                 if (!otherGatekeepers) {
@@ -1954,11 +1954,11 @@ const Commission = () => {
                       value={selectedRow.kpi_data.teamInfo.opportunity}
                       onKeyDown={(e) => {
                         if (
-                          e.key === "e" ||
-                          e.key === "+" ||
-                          e.key === "-" ||
-                          e.key === "." ||
-                          e.key === ","
+                          e.key == "e" ||
+                          e.key == "+" ||
+                          e.key == "-" ||
+                          e.key == "." ||
+                          e.key == ","
                         ) {
                           e.preventDefault();
                         }
@@ -2109,7 +2109,7 @@ const Commission = () => {
                 {campaigns
                   .filter((campaign) =>
                     campaignsAndTeamsData.some(
-                      (item) => item.campaign_id === campaign.id
+                      (item) => item.campaign_id == campaign.id
                     )
                   )
                   .map((campaign, index) => (
@@ -2122,7 +2122,7 @@ const Commission = () => {
                       alt={campaign.campaign_name}
                       key={index}
                       className={`${
-                        campaign === selectedCampaign ? "" : "opacity-40"
+                        campaign == selectedCampaign ? "" : "opacity-40"
                       } w-[40px] h-[40px] mx-3 cursor-pointer`}
                       onClick={() => handleCampaignClick(campaign)}
                     />

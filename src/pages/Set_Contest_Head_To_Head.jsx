@@ -93,7 +93,7 @@ const TeamAreas = ({ agents = [], onDrop, oppositeTeam, onAgentRemove }) => {
   const [{ isOver }, drop] = useDrop({
     accept: 'AGENT',
     drop: (item) => {
-      if (agents.length > 0 && agents[0]?.team?.id !== item.agent.team.id) {
+      if (agents.length > 0 && agents[0]?.team?.id != item.agent.team.id) {
         alert(`All agents in a team must belong to the same team (${agents[0]?.team?.team_name}).`);
         return;
       }
@@ -357,7 +357,7 @@ export default function Set_Contest_Head_To_Head() {
 
 
   const filteredAgents = selectedTeam1
-  ? agents.filter(agent => agent.team.team_name === selectedTeam1)
+  ? agents.filter(agent => agent.team.team_name == selectedTeam1)
   : agents;
 
   const assignPointsToAgents = (agents) => {
@@ -387,7 +387,7 @@ export default function Set_Contest_Head_To_Head() {
       return newTeams;
     });
 
-    setAgents((prev) => prev.filter((a) => a.id !== agent.id));
+    setAgents((prev) => prev.filter((a) => a.id != agent.id));
     setTeamLocked(true);
   };
 
@@ -400,7 +400,7 @@ export default function Set_Contest_Head_To_Head() {
       return newTeams;
     });
 
-    setAgents((prev) => prev.filter((a) => a.id !== agent.id));
+    setAgents((prev) => prev.filter((a) => a.id != agent.id));
     setTeamLocked(true);
   };
 
@@ -415,7 +415,7 @@ export default function Set_Contest_Head_To_Head() {
   const removeAgentFromTeam = (agent, setTeam, index) => {
     setTeam((prev) => {
       const newTeams = [...prev];
-      newTeams[index] = newTeams[index].filter((a) => a.id !== agent.id);
+      newTeams[index] = newTeams[index].filter((a) => a.id != agent.id);
       return newTeams;
     });
     setAgents((prev) => [...prev, agent]);
@@ -449,7 +449,7 @@ export default function Set_Contest_Head_To_Head() {
       setTeamSelected(true);
 
       const agentCount = agents.filter(agent =>
-        agent.team.team_name === team
+        agent.team.team_name == team
       ).length;
 
       const halfCount = Math.floor(agentCount / 2);
@@ -1173,7 +1173,7 @@ export default function Set_Contest_Head_To_Head() {
                   key={index}
                   onClick={() => handleTeamSelect(team)}
                   className={`px-4 py-2 rounded-lg ${selectedTeam1 == team ? 'bg-teal-600 text-white' : 'bg-gray-200 text-gray-700'}`}
-                  disabled={teamLocked || (isDragging && selectedCompetitionTeam !== team)}
+                  disabled={teamLocked || (isDragging && selectedCompetitionTeam != team)}
                 >
                   {team}
                 </button>

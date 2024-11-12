@@ -191,7 +191,7 @@ export default function Set_Contest_Team_VS_Team() {
       .then(response => response.json())
       .then(data => {
         const id = parseInt(localStorage.getItem('id'))
-        const filteredAgents = data.filter(agent => agent.manager_id === id);
+        const filteredAgents = data.filter(agent => agent.manager_id == id);
   
         setAgents(filteredAgents);
   
@@ -221,7 +221,7 @@ export default function Set_Contest_Team_VS_Team() {
 
 
   const filteredAgents = agents.filter(agent =>
-    agent.team.team_name === selectedTeam1
+    agent.team.team_name == selectedTeam1
   );
 
   const [allTeamAgents, setAllTeamAgents] = useState([]);
@@ -243,7 +243,7 @@ export default function Set_Contest_Team_VS_Team() {
         const teams = response.data;
   
         // Filter teams by manager_id
-        const filteredTeams = teams.filter(team => team.manager_id === id);
+        const filteredTeams = teams.filter(team => team.manager_id == id);
   
         setAllTeams(filteredTeams);
       } catch (error) {
@@ -331,7 +331,7 @@ export default function Set_Contest_Team_VS_Team() {
       newTeams[index] = [...(newTeams[index] || []), agent];
       return newTeams;
     });
-    setAgents((prev) => prev.filter((a) => a.id !== agent.id));
+    setAgents((prev) => prev.filter((a) => a.id != agent.id));
   };
 
   const handleTeamNameChange = (side, value) => {
@@ -354,12 +354,12 @@ export default function Set_Contest_Team_VS_Team() {
       newTeams[index] = [...(newTeams[index] || []), agent];
       return newTeams;
     });
-    setAgents((prev) => prev.filter((a) => a.id !== agent.id));
+    setAgents((prev) => prev.filter((a) => a.id != agent.id));
   };
 
   const handleAgentRemove = (agent, teamSetter) => {
     teamSetter((prevTeams) =>
-      prevTeams.map((team) => team.filter((a) => a.id !== agent.id))
+      prevTeams.map((team) => team.filter((a) => a.id != agent.id))
     );
     setAgents((prev) => [...prev, agent]);
   };
@@ -381,13 +381,13 @@ export default function Set_Contest_Team_VS_Team() {
   // };
 
   const handleTeamSelect = (team) => {
-    const allLeftEmpty = leftTeamAgents.every((area) => area.length === 0);
-    const allRightEmpty = rightTeamAgents.every((area) => area.length === 0);
+    const allLeftEmpty = leftTeamAgents.every((area) => area.length == 0);
+    const allRightEmpty = rightTeamAgents.every((area) => area.length == 0);
   
     if (allLeftEmpty && allRightEmpty) {
       setSelectedTeam1(team);
       const agentCount = agents.filter((agent) =>
-        agent.team.team_name === team
+        agent.team.team_name == team
       ).length;
       setSelectedCount(agentCount);
     } else {
@@ -420,9 +420,9 @@ export default function Set_Contest_Team_VS_Team() {
   const getOrdinalSuffix = (number) => {
     const j = number % 10;
     const k = number % 100;
-    if (j == 1 && k !== 11) return "st";
-    if (j == 2 && k !== 12) return "nd";
-    if (j == 3 && k !== 13) return "rd";
+    if (j == 1 && k != 11) return "st";
+    if (j == 2 && k != 12) return "nd";
+    if (j == 3 && k != 13) return "rd";
     return "th";
   };
 
@@ -764,7 +764,7 @@ export default function Set_Contest_Team_VS_Team() {
       filteredAgents = agents.slice(0, 15);
     } else {
        filteredAgents = agents
-      .filter(agent => agent.team.team_name === selectedTeam1)
+      .filter(agent => agent.team.team_name == selectedTeam1)
       .slice(0, 15);
     }
   

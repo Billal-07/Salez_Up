@@ -130,7 +130,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
     label: admin.first_name,
   }));
 
-  // ========================== team ==================================//
+  // ================== team =======================//
 
   const handleManagerChange = (event) => {
     setSelectedmanager(event.target.value);
@@ -141,7 +141,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
     label: team.team_name,
   }));
 
-  // ============================== campaign ------------------------------------------------------------//
+  // ==================== campaign ------------------------------------------------------------//
 
   useEffect(() => {
     axios
@@ -405,8 +405,8 @@ const SalesAgents = () => {
   const filterAgentsByTeam = (agents, selectedTeam, searchQuery) => {
     return agents.filter(
       (agent) =>
-        (selectedTeam === "All Teams" ||
-          (agent.team_id !== null && agent.team.team_name === selectedTeam)) &&
+        (selectedTeam == "All Teams" ||
+          (agent.team_id != null && agent.team.team_name == selectedTeam)) &&
         agent.first_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
@@ -423,7 +423,7 @@ const SalesAgents = () => {
         searchQuery
       );
 
-      if (filteredAgents.length === 0) {
+      if (filteredAgents.length == 0) {
         toast.warning("No sales agent, so first add any sales agent.");
         return; 
       }
@@ -511,7 +511,7 @@ const SalesAgents = () => {
       selectedTeam,
       searchQuery
     );
-    const noDataAvailable = filteredAgents.length === 0;
+    const noDataAvailable = filteredAgents.length == 0;
 
     // Pagination Logic
     const offset = currentPage * agentsPerPage;
@@ -645,7 +645,7 @@ const SalesAgents = () => {
     const teamNames = [
       ...new Set(
         agents
-          .filter((agent) => agent.team_id !== null)
+          .filter((agent) => agent.team_id != null)
           .map((agent) => agent.team.team_name)
       ),
     ];
@@ -657,7 +657,7 @@ const SalesAgents = () => {
         >
           <p
             className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-              selectedTeam === "All Teams"
+              selectedTeam == "All Teams"
                 ? "bg-themeGreen text-white font-[600]"
                 : "bg-lGreen text-black font-[400]"
             }`}
@@ -676,7 +676,7 @@ const SalesAgents = () => {
           >
             <p
               className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-                selectedTeam === teamName
+                selectedTeam == teamName
                   ? "bg-themeGreen text-white font-[600]"
                   : "bg-lGreen text-black font-[400]"
               }`}

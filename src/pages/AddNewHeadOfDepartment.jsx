@@ -104,7 +104,7 @@ const AddNewHeadOfDepartment = ({ set, setter, onDepartmentHead}) => {
     let code = "";
 
     for (let i = 0; i < 8; i++) {
-      if (i % 2 === 0) {
+      if (i % 2 == 0) {
         const randomLetterIndex = Math.floor(Math.random() * letters.length);
         code += letters[randomLetterIndex];
       } else {
@@ -145,7 +145,7 @@ const AddNewHeadOfDepartment = ({ set, setter, onDepartmentHead}) => {
     }
     const userData = await responses.json();
 
-    const emailExists = userData.some((user) => user.email === email);
+    const emailExists = userData.some((user) => user.email == email);
     if (emailExists) {
       toast.error("Email already exists. Please use a different email.");
       return;

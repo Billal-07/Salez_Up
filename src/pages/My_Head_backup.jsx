@@ -34,7 +34,7 @@ const TeamArea1 = ({ agents, onDrop, oppositeTeam, onAgentRemove }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: AgentType1,
     drop: (item) => {
-      if (agents.length > 0 && agents[0].team.id !== item.agent.team.id) {
+      if (agents.length > 0 && agents[0].team.id != item.agent.team.id) {
         alert(`All agents in a team must belong to the same team (${agents[0].team.team_name}).`);
         return;
       }
@@ -117,7 +117,7 @@ const SetContest1 = () => {
       return;
     }
 
-    setAgents((prev) => prev.filter((a) => a !== agent));
+    setAgents((prev) => prev.filter((a) => a != agent));
     setTeam((team) => [...team, agent]);
     const firstCampaign = agent.campaign_details;
     if (firstCampaign) {
@@ -130,7 +130,7 @@ const SetContest1 = () => {
 
 
   const removeAgentFromTeam = (agent, setTeam) => {
-    setTeam((team) => team.filter((a) => a.id !== agent.id));
+    setTeam((team) => team.filter((a) => a.id != agent.id));
     setAgents((prev) => [...prev, agent]);
     if (leftTeam.length + rightTeam.length == 1) {
       setSelectedCompetitionTeam(null);
@@ -178,7 +178,7 @@ const SetContest1 = () => {
       className={`px-4 py-2 rounded-lg ${
         selectedTeam == team ? 'bg-teal-600 text-white' : 'bg-gray-200 text-gray-700'
       }`}
-      disabled={isDragging && selectedCompetitionTeam !== team}
+      disabled={isDragging && selectedCompetitionTeam != team}
     >
       {team}
     </button>

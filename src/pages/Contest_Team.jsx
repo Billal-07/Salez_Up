@@ -156,7 +156,7 @@ export default function Contest_Team() {
       newTeams[index] = [...(newTeams[index] || []), agent];
       return newTeams;
     });
-    setAgents((prev) => prev.filter((a) => a.id !== agent.id));
+    setAgents((prev) => prev.filter((a) => a.id != agent.id));
   };
 
   const handleTeamNameChange = (side, value) => {
@@ -173,12 +173,12 @@ export default function Contest_Team() {
       newTeams[index] = [...(newTeams[index] || []), agent];
       return newTeams;
     });
-    setAgents((prev) => prev.filter((a) => a.id !== agent.id));
+    setAgents((prev) => prev.filter((a) => a.id != agent.id));
   };
 
   const handleAgentRemove = (agent, teamSetter) => {
     teamSetter((prevTeams) =>
-      prevTeams.map((team) => team.filter((a) => a.id !== agent.id))
+      prevTeams.map((team) => team.filter((a) => a.id != agent.id))
     );
     setAgents((prev) => [...prev, agent]);
   };

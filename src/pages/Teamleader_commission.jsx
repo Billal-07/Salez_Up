@@ -307,7 +307,7 @@ const Teamleader_commission = () => {
   // };
 
   const handleSave = async (teamId) => {
-    const matchingRecord = teamLeraderAndTeamsData.find((record) => record.team_id === teamId);
+    const matchingRecord = teamLeraderAndTeamsData.find((record) => record.team_id == teamId);
     const matchingTeamLeaderId = matchingRecord ? matchingRecord.team_leader_id : null;
     console.log("Matching team leader ID:", matchingTeamLeaderId);
 
@@ -447,7 +447,7 @@ const Teamleader_commission = () => {
           ? null
           : customKpi.Custom_KPI_ID.toString()
       ),
-    ].filter((id) => id !== null);
+    ].filter((id) => id != null);
 
     console.log("selll", selectedKpiIds);
 
@@ -539,7 +539,7 @@ const Teamleader_commission = () => {
     setSelectedCampaign(campaign);
 
     const filtered = campaignsAndTeamsData
-      .filter((item) => item.campaign_id === campaign.id) 
+      .filter((item) => item.campaign_id == campaign.id) 
       .map((item) => item.team_id);
 
     const filteredTeams = teams.filter((team) => filtered.includes(team.id));
@@ -687,11 +687,11 @@ const Teamleader_commission = () => {
       
           const finalFilteredTeams = filteredTeams.filter((team) => {
             const relatedCampaignTeam = campaignsAndTeamsResponse.data.find(
-              (campaignTeam) => campaignTeam.team_id === team.id
+              (campaignTeam) => campaignTeam.team_id == team.id
             );
             if (relatedCampaignTeam) {
               const relatedTeamLeaderTeam = teamLeaderAndTeamsResponse.data.find(
-                (leaderTeam) => leaderTeam.team_id === team.id
+                (leaderTeam) => leaderTeam.team_id == team.id
               );
               return relatedTeamLeaderTeam && relatedTeamLeaderTeam.team_leader_id != null;
             }
@@ -702,11 +702,11 @@ const Teamleader_commission = () => {
       
           const filteredCampaigns = campaignResponse.data.filter((campaign) => {
             const relatedCampaignTeams = campaignsAndTeamsResponse.data.filter(
-              (campaignTeam) => campaignTeam.campaign_id === campaign.id
+              (campaignTeam) => campaignTeam.campaign_id == campaign.id
             );
 
             const hasTeamsLeft = relatedCampaignTeams.some((campaignTeam) =>
-              finalFilteredTeams.some((team) => team.id === campaignTeam.team_id)
+              finalFilteredTeams.some((team) => team.id == campaignTeam.team_id)
             );
             return campaign.manager_id == localStorage.getItem("id") && hasTeamsLeft;
           });
@@ -721,7 +721,7 @@ const Teamleader_commission = () => {
 
           const campaignId = campaignResponse.data[0].id;
           const relevantTeams = campaignsAndTeamsResponse.data
-            .filter((item) => item.campaign_id === campaignId)
+            .filter((item) => item.campaign_id == campaignId)
             .map((item) => item.team_id);
 
           const initialFilteredTeams = finalFilteredTeams.filter((team) =>
@@ -1092,11 +1092,11 @@ const Teamleader_commission = () => {
         const singleCampaignTeams = allTeams.filter((team) => {
           return demoData.some(
             (agent) =>
-              agent.campaign_details.length === 1 &&
+              agent.campaign_details.length == 1 &&
               campaignsAndTeamsData.some(
                 (item) =>
-                  item.team_id === team.id &&
-                  agent.campaign_details[0].team_name === team.team_name
+                  item.team_id == team.id &&
+                  agent.campaign_details[0].team_name == team.team_name
               )
           );
         });
@@ -1108,8 +1108,8 @@ const Teamleader_commission = () => {
               agent.campaign_details.length > 1 &&
               agent.campaign_details.some(
                 (detail) =>
-                  detail.team_name === team.team_name &&
-                  campaignsAndTeamsData.some((item) => item.team_id === team.id)
+                  detail.team_name == team.team_name &&
+                  campaignsAndTeamsData.some((item) => item.team_id == team.id)
               )
           );
         });
@@ -1716,7 +1716,7 @@ const Teamleader_commission = () => {
                                                 const otherGatekeepers =
                                                   updatedCustomKpiData.some(
                                                     (kpi, i) =>
-                                                      i !== index &&
+                                                      i != index &&
                                                       kpi.gatekeeper
                                                   );
                                                 if (!otherGatekeepers) {
@@ -1928,7 +1928,7 @@ const Teamleader_commission = () => {
                                                 const otherGatekeepers =
                                                   updatedCustomKpiData.some(
                                                     (kpi, i) =>
-                                                      i !== index &&
+                                                      i != index &&
                                                       kpi.Custom_Gatekeeper
                                                   );
                                                 if (!otherGatekeepers) {
@@ -2096,7 +2096,7 @@ const Teamleader_commission = () => {
           {campaigns
             .filter((campaign) =>
               campaignsAndTeamsData.some(
-                (item) => item.campaign_id === campaign.id
+                (item) => item.campaign_id == campaign.id
               )
             )
             .map((campaign, index) => (
@@ -2105,7 +2105,7 @@ const Teamleader_commission = () => {
                 alt={campaign.campaign_name}
                 key={index}
                 className={`${
-                  campaign === selectedCampaign ? "" : "opacity-40"
+                  campaign == selectedCampaign ? "" : "opacity-40"
                 } w-[40px] h-[40px] mx-3 cursor-pointer`}
                 onClick={() => handleCampaignClick(campaign)}
               />

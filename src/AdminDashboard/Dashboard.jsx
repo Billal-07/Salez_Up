@@ -33,17 +33,17 @@ export default function DashboardPage() {
         const salesData = await salesResponse.json();
 
         const opsManagerData = opsData.filter(
-          (manager) => manager.manager_role === "Ops Manager" && manager.Admin_Id == id
+          (manager) => manager.manager_role == "Ops Manager" && manager.Admin_Id == id
         );
         console.log("Ops Data: ", opsManagerData);
 
         const seniorOpsManagerData = seniorData.filter(
-          (manager) => manager.manager_role === "Senior Ops Manager" && manager.Admin_Id == id
+          (manager) => manager.manager_role == "Senior Ops Manager" && manager.Admin_Id == id
         );
         console.log("senior Ops Manager Data: ", seniorOpsManagerData);
 
         const headOfSalesData = salesData.filter(
-          (manager) => manager.manager_role === "Head Of Sales" && manager.Admin_Id == id
+          (manager) => manager.manager_role == "Head Of Sales" && manager.Admin_Id == id
         );
         console.log("Head Of Sales Data: ", headOfSalesData);
 

@@ -79,7 +79,7 @@ const Set_Contest_Individual = () => {
     const id = parseInt(localStorage.getItem('id'))
     try {
       const response = await axios.get('https://crmapi.devcir.co/api/teams');
-      const filteredAgents = response.data.filter(team => team.manager_id === id);
+      const filteredAgents = response.data.filter(team => team.manager_id == id);
       setTeams(filteredAgents);
     } catch (error) {
       console.error('Error fetching teams:', error);
@@ -90,7 +90,7 @@ const Set_Contest_Individual = () => {
     const id = parseInt(localStorage.getItem('id'))
     try {
       const response = await axios.get('https://crmapi.devcir.co/api/sales_agents');
-      const filteredAgents = response.data.filter(agent => agent.manager_id === id);
+      const filteredAgents = response.data.filter(agent => agent.manager_id == id);
       setAgents(filteredAgents);
     } catch (error) {
       console.error('Error fetching agents:', error);
@@ -154,7 +154,7 @@ const Set_Contest_Individual = () => {
       const teamId = agent.team_id;
       const existingAgents = prev[teamId] || [];
       const updatedAgents = existingAgents.includes(agent.id)
-        ? existingAgents.filter((id) => id !== agent.id)
+        ? existingAgents.filter((id) => id != agent.id)
         : [...existingAgents, agent.id];
 
       const newMap = { ...prev, [teamId]: updatedAgents };
@@ -196,7 +196,7 @@ const Set_Contest_Individual = () => {
     );
   };
 
-  // ==================== Select Contests ====================
+  // ============== Select Contests ==============
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -269,7 +269,7 @@ const Set_Contest_Individual = () => {
     }
   }, [startDate, endDate, startTime, endTime]);
 
-  // ==================  KPI Data =================
+  // ============  KPI Data ============
 
   const [targetAmount, setTargetAmount] = useState(0);
   const [selectedKpi, setSelectedKpi] = useState('');
@@ -655,9 +655,9 @@ const Set_Contest_Individual = () => {
       } else if (!isNaN(value) && parseInt(value) >= 0 && Number.isInteger(parseFloat(value))) {
         const newValue = parseInt(value);
 
-        if (secondPrize !== "" && newValue <= parseInt(secondPrize)) {
+        if (secondPrize != "" && newValue <= parseInt(secondPrize)) {
           alert("Kindly enter a value greater than 2nd prize");
-        } else if (thirdPrize !== "" && newValue <= parseInt(thirdPrize)) {
+        } else if (thirdPrize != "" && newValue <= parseInt(thirdPrize)) {
           alert("Kindly enter a value greater than 3rd prize");
         } else {
           setFirstPrize(newValue);
@@ -680,9 +680,9 @@ const Set_Contest_Individual = () => {
       } else if (!isNaN(value) && parseInt(value) >= 0 && Number.isInteger(parseFloat(value))) {
         const newValue = parseInt(value);
 
-        if (firstPrize !== "" && newValue >= parseInt(firstPrize)) {
+        if (firstPrize != "" && newValue >= parseInt(firstPrize)) {
           alert("Kindly enter a value less than 1st prize");
-        } else if (thirdPrize !== "" && newValue <= parseInt(thirdPrize)) {
+        } else if (thirdPrize != "" && newValue <= parseInt(thirdPrize)) {
           alert("Kindly enter a value greater than 3rd prize");
         } else {
           setSecondPrize(newValue);
@@ -706,9 +706,9 @@ const Set_Contest_Individual = () => {
       } else if (!isNaN(value) && parseInt(value) >= 0 && Number.isInteger(parseFloat(value))) {
         const newValue = parseInt(value);
 
-        if (firstPrize !== "" && newValue >= parseInt(firstPrize)) {
+        if (firstPrize != "" && newValue >= parseInt(firstPrize)) {
           alert("Kindly enter a value less than 1st prize");
-        } else if (secondPrize !== "" && newValue >= parseInt(secondPrize)) {
+        } else if (secondPrize != "" && newValue >= parseInt(secondPrize)) {
           alert("Kindly enter a value less than 2nd prize");
         } else {
           setThirdPrize(newValue);
@@ -1065,9 +1065,9 @@ const Set_Contest_Individual = () => {
                 <h1 className='font-[500] leading-[33px] text-[22px] text-[#269F8B]'>Select Agents</h1>
                 <div className='flex gap-[10px] flex-wrap'>
                   <button
-                    className={` w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${selectedTeam == 'All Agents' ? 'text-white bg-themeGreen font-[600]' : 'text-[#269F8B] bg-lGreen '} ${teams.length == 0 ? 'rounded-full' : 'rounded-l-full'} ${isAnyAgentSelected && selectedTeam !== 'All Agents' ? ' text-gray-700' : ''}`}
+                    className={` w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${selectedTeam == 'All Agents' ? 'text-white bg-themeGreen font-[600]' : 'text-[#269F8B] bg-lGreen '} ${teams.length == 0 ? 'rounded-full' : 'rounded-l-full'} ${isAnyAgentSelected && selectedTeam != 'All Agents' ? ' text-gray-700' : ''}`}
                     onClick={handleAllAgentsClick}
-                    disabled={isAnyAgentSelected && selectedTeam !== 'All Agents'}
+                    disabled={isAnyAgentSelected && selectedTeam != 'All Agents'}
                   >
                     All Agents
                   </button>
@@ -1081,8 +1081,8 @@ const Set_Contest_Individual = () => {
                       <div key={team.id} className='cursor-pointer' onClick={() => setSelectedTeam(team)}>
                         <button
                           onClick={() => handleTeamClick(team, team.id)}
-                          disabled={isAnyAgentSelected && selectedTeam !== team.team_name}
-                          className={`${selectedTeam && selectedTeam.team_name == team.team_name ? "bg-themeGreen text-white font-[600]" : "bg-lGreen text-[#269F8B] font-[400]"} ${index == filteredTeams.length - 1 ? 'rounded-r-full' : ''} w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${isAnyAgentSelected && selectedTeam !== team.team_name ? 'text-gray-700' : ''} `}
+                          disabled={isAnyAgentSelected && selectedTeam != team.team_name}
+                          className={`${selectedTeam && selectedTeam.team_name == team.team_name ? "bg-themeGreen text-white font-[600]" : "bg-lGreen text-[#269F8B] font-[400]"} ${index == filteredTeams.length - 1 ? 'rounded-r-full' : ''} w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${isAnyAgentSelected && selectedTeam != team.team_name ? 'text-gray-700' : ''} `}
                         >
                           {team.team_name}
                         </button>

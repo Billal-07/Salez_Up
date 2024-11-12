@@ -55,7 +55,7 @@ const Ops_Manager_SignUp = () => {
 
         const filteredData = allData.filter(
           (manager) =>
-            manager.manager_role === "Senior Ops Manager" &&
+            manager.manager_role == "Senior Ops Manager" &&
             manager.Admin_Id == id
         );
 
@@ -86,7 +86,7 @@ const Ops_Manager_SignUp = () => {
     }
     if (selectedOption.head_of_sales_id) {
       const headOfSales = allManagerData.find(
-        (manager) => manager.id === selectedOption.head_of_sales_id
+        (manager) => manager.id == selectedOption.head_of_sales_id
       );
       if (headOfSales) {
         setHeadOfSalesName({
@@ -173,7 +173,7 @@ const Ops_Manager_SignUp = () => {
       }
       const userData = await response.json();
 
-      const emailExists = userData.some((user) => user.manager_email === email);
+      const emailExists = userData.some((user) => user.manager_email == email);
       if (emailExists) {
         toast.error("Email already exists. Please use a different email.");
         return;
@@ -227,7 +227,7 @@ const Ops_Manager_SignUp = () => {
     let code = "";
 
     for (let i = 0; i < 12; i++) {
-      if (i % 3 === 0 || i % 3 === 1) {
+      if (i % 3 == 0 || i % 3 == 1) {
         const randomLetterIndex = Math.floor(Math.random() * letters.length);
         code += letters[randomLetterIndex];
       } else {

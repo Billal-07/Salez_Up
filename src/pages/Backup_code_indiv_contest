@@ -12,7 +12,7 @@ backup code of voucher images div
                         }`}
                       onClick={() => {
                         const updatedSelection = selectedVouchers.includes(voucher.name)
-                          ? selectedVouchers.filter(v => v !== voucher.name)
+                          ? selectedVouchers.filter(v => v != voucher.name)
                           : [...selectedVouchers, voucher.name];
 
                         setSelectedVouchers(updatedSelection);
@@ -40,7 +40,7 @@ backup code of voucher images div
                         }`}
                       onClick={() => {
                         const updatedSelection = selectedFoods.includes(food.name)
-                          ? selectedFoods.filter(v => v !== food.name)
+                          ? selectedFoods.filter(v => v != food.name)
                           : [...selectedFoods, food.name];
 
                         setSelectedFoods(updatedSelection);
@@ -69,7 +69,7 @@ backup code of exp div
                         }`}
                       onClick={() => {
                         const updatedSelection = selectedExperiences.includes(exp.name)
-                          ? selectedExperiences.filter(v => v !== exp.name)
+                          ? selectedExperiences.filter(v => v != exp.name)
                           : [...selectedExperiences, exp.name];
 
                         setSelectedExperiences(updatedSelection);

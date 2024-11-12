@@ -80,7 +80,7 @@ const Set_Contest_Combined = () => {
     const id = parseInt(localStorage.getItem('id'))
     try {
       const response = await axios.get('https://crmapi.devcir.co/api/teams');
-      const filteredAgents = response.data.filter(team => team.manager_id === id);
+      const filteredAgents = response.data.filter(team => team.manager_id == id);
       setTeams(filteredAgents);
     } catch (error) {
       console.error('Error fetching teams:', error);
@@ -91,7 +91,7 @@ const Set_Contest_Combined = () => {
     const id = parseInt(localStorage.getItem('id'))
     try {
       const response = await axios.get('https://crmapi.devcir.co/api/sales_agents');
-      const filteredAgents = response.data.filter(agent => agent.manager_id === id);
+      const filteredAgents = response.data.filter(agent => agent.manager_id == id);
       setAgents(filteredAgents);
     } catch (error) {
       console.error('Error fetching agents:', error);
@@ -205,7 +205,7 @@ const Set_Contest_Combined = () => {
       const teamId = agent.team_id;
       const existingAgents = prev[teamId] || [];
       const updatedAgents = existingAgents.includes(agent.id)
-        ? existingAgents.filter((id) => id !== agent.id)
+        ? existingAgents.filter((id) => id != agent.id)
         : [...existingAgents, agent.id];
 
       const newMap = { ...prev, [teamId]: updatedAgents };
@@ -247,7 +247,7 @@ const Set_Contest_Combined = () => {
     );
   };
 
-  // ==================== Select Contests ====================
+  // ============== Select Contests ==============
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -320,7 +320,7 @@ const Set_Contest_Combined = () => {
     }
   }, [startDate, endDate, startTime, endTime]);
 
-  // ==================  KPI Data =================
+  // ============  KPI Data ============
 
   const [targetAmount, setTargetAmount] = useState(0);
   const [selectedKpi, setSelectedKpi] = useState('');
@@ -1134,9 +1134,9 @@ const Set_Contest_Combined = () => {
                 <h1 className='font-[500] leading-[33px] text-[22px] text-[#269F8B]'>Select Agents</h1>
                 <div className='flex gap-[10px] flex-wrap'>
                   <button
-                    className={` w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${selectedTeam == 'All Agents' ? 'text-white bg-themeGreen font-[600]' : 'text-[#269F8B] bg-lGreen '} ${teams.length == 0 ? 'rounded-full' : 'rounded-l-full'} ${isAnyAgentSelected && selectedTeam !== 'All Agents' ? ' text-gray-700' : ''}`}
+                    className={` w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${selectedTeam == 'All Agents' ? 'text-white bg-themeGreen font-[600]' : 'text-[#269F8B] bg-lGreen '} ${teams.length == 0 ? 'rounded-full' : 'rounded-l-full'} ${isAnyAgentSelected && selectedTeam != 'All Agents' ? ' text-gray-700' : ''}`}
                     onClick={handleAllAgentsClick}
-                    disabled={isAnyAgentSelected && selectedTeam !== 'All Agents'}
+                    disabled={isAnyAgentSelected && selectedTeam != 'All Agents'}
                   >
                     All Agents
                   </button>
@@ -1150,8 +1150,8 @@ const Set_Contest_Combined = () => {
                       <div key={team.id} className='cursor-pointer' onClick={() => setSelectedTeam(team)}>
                         <button
                           onClick={() => handleTeamClick(team, team.id)}
-                          disabled={isAnyAgentSelected && selectedTeam !== team.team_name}
-                          className={`${selectedTeam && selectedTeam.team_name == team.team_name ? "bg-themeGreen text-white font-[600]" : "bg-lGreen text-[#269F8B] font-[400]"} ${index == filteredTeams.length - 1 ? 'rounded-r-full' : ''} w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${isAnyAgentSelected && selectedTeam !== team.team_name ? 'text-gray-700' : ''} `}
+                          disabled={isAnyAgentSelected && selectedTeam != team.team_name}
+                          className={`${selectedTeam && selectedTeam.team_name == team.team_name ? "bg-themeGreen text-white font-[600]" : "bg-lGreen text-[#269F8B] font-[400]"} ${index == filteredTeams.length - 1 ? 'rounded-r-full' : ''} w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${isAnyAgentSelected && selectedTeam != team.team_name ? 'text-gray-700' : ''} `}
                         >
                           {team.team_name}
                         </button>

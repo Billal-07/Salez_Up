@@ -112,7 +112,7 @@ const Current_Agent = () => {
 
                               <div className="agents-container mt-4">
                                 {category.SalesAgents.map((agent, agentIndex) => (
-                                  (agent.SalesAgentImage !== "No Image Available" && agent.SalesAgentName !== "No Sales Agent") && (
+                                  (agent.SalesAgentImage != "No Image Available" && agent.SalesAgentName != "No Sales Agent") && (
                                     <div key={agentIndex} className="agent-item">
                                       <div className="circle">
                                         <img className="rounded-full agent-avatar" src={agent.SalesAgentImage} alt="Agent" />

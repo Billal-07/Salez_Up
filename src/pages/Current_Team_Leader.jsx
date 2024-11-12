@@ -18,7 +18,7 @@ const Current_Team_Leader = () => {
     fetch(`https://crmapi.devcir.co/api/team_and_team_leader?manager_id=${managerId}`)
       .then(response => response.json())
       .then(async data => {
-        const filteredData = data.filter(item => item.team.manager_id === parseInt(managerId));
+        const filteredData = data.filter(item => item.team.manager_id == parseInt(managerId));
         
         const categoriesWithCampaigns = await Promise.all(filteredData.map(async (item) => {
           try {
@@ -26,7 +26,7 @@ const Current_Team_Leader = () => {
             const campaignData = await campaignResponse.json();
             
             const matchingCampaign = campaignData.find(campaign => 
-              campaign.team_id === item.team.id
+              campaign.team_id == item.team.id
             );
 
             return {
@@ -95,20 +95,20 @@ const Current_Team_Leader = () => {
                                 />
                               )}
                               <div className="category-name bg-themeGreen text-white font-[400] min-w-[103px] min-h-[34px] rounded-[200px] flex items-center justify-center mt-1">
-                                {category.teamName !== 'Undefined' ? category.teamName : 'No Team'}
+                                {category.teamName != 'Undefined' ? category.teamName : 'No Team'}
                               </div>
                               <div className="vertical-line my-1"></div>
                               <img
                                 className="avatar w-[64px] h-[64px] rounded-full z-[1] bg-green-500"
-                                // src={category.LeaderImg !== 'Undefined' ? category.LeaderImg : fallbackImage}
+                                // src={category.LeaderImg != 'Undefined' ? category.LeaderImg : fallbackImage}
                                 src={category.LeaderImg ? category.LeaderImg : fallbackImage}
                                 alt="Leader"
                               />
                               <div className="mt-1 text-sm text-center name">
-                                {category.LeaderName !== 'Undefined' ? 'Team Leader' : 'No Team Leader'}
+                                {category.LeaderName != 'Undefined' ? 'Team Leader' : 'No Team Leader'}
                               </div>
                               <div className="mt-1 font-semibold text-center name">
-                                <p>{category.LeaderName !== 'Undefined' ? category.LeaderName : 'No Team Leader'}</p>
+                                <p>{category.LeaderName != 'Undefined' ? category.LeaderName : 'No Team Leader'}</p>
                               </div>
                             </div>
                           </div>

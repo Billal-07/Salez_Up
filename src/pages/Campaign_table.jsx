@@ -57,9 +57,9 @@ const Campaign_table = () => {
   useEffect(() => {
     const managerId = parseInt(localStorage.getItem("id"));
     if (managerId) {
-      setFilteredTeams(teams.filter((team) => team.manager_id === managerId));
+      setFilteredTeams(teams.filter((team) => team.manager_id == managerId));
       setFilteredJuniorHeads(
-        juniorDepartmentHeads.filter((head) => head.manager_id === managerId)
+        juniorDepartmentHeads.filter((head) => head.manager_id == managerId)
       );
     }
   }, [teams, juniorDepartmentHeads]);
@@ -67,11 +67,11 @@ const Campaign_table = () => {
   // Find department head based on junior head selection
   const findDepartmentHeadByJuniorHead = (selectedJuniorHeadName) => {
     const selectedJuniorHead = juniorDepartmentHeads.find(
-      (head) => head.first_name === selectedJuniorHeadName
+      (head) => head.first_name == selectedJuniorHeadName
     );
     if (selectedJuniorHead) {
       const matchingDepartmentHead = departmentHeads.find(
-        (deptHead) => deptHead.id === selectedJuniorHead.Dept_Head_id
+        (deptHead) => deptHead.id == selectedJuniorHead.Dept_Head_id
       );
       return matchingDepartmentHead ? matchingDepartmentHead.first_name : "";
     }
@@ -111,14 +111,14 @@ const Campaign_table = () => {
   //     campaign.junior_department_head?.first_name || "";
 
   //   const matchesSearch =
-  //     searchTerm === "" ||
+  //     searchTerm == "" ||
   //     campaignName.toLowerCase().includes(searchTerm.toLowerCase()) ||
   //     teamName.toLowerCase().includes(searchTerm.toLowerCase()) ||
   //     deptHeadName.toLowerCase().includes(searchTerm.toLowerCase()) ||
   //     juniorDeptHeadName.toLowerCase().includes(searchTerm.toLowerCase());
 
   //   const matchesTeam =
-  //     selectedTeam === "All Teams" || teamName === selectedTeam;
+  //     selectedTeam == "All Teams" || teamName == selectedTeam;
 
   //   return matchesSearch && matchesTeam;
   // });
@@ -132,14 +132,14 @@ const Campaign_table = () => {
       
       const searchLower = searchTerm.toLowerCase();
       
-      const matchesSearch = searchTerm === "" || 
+      const matchesSearch = searchTerm == "" || 
         campaignName.includes(searchLower) ||
         teamName.includes(searchLower) ||
         deptHeadName.includes(searchLower) ||
         juniorDeptHeadName.includes(searchLower);
 
-      const matchesTeam = selectedTeam === "All Teams" || 
-        campaign.team?.team_name === selectedTeam;
+      const matchesTeam = selectedTeam == "All Teams" || 
+        campaign.team?.team_name == selectedTeam;
 
       return matchesSearch && matchesTeam;
     });
@@ -151,7 +151,7 @@ const Campaign_table = () => {
   const fetchCampaignImage = async (campaignId) => {
     try {
       const response = await axios.get("https://crmapi.devcir.co/api/campaigns");
-      const campaign = response.data.find((camp) => camp.id === campaignId);
+      const campaign = response.data.find((camp) => camp.id == campaignId);
       if (campaign && campaign.image_path) {
         setCampaignImage(campaign.image_path);
       } else {
@@ -199,7 +199,7 @@ const Campaign_table = () => {
 
         // Update the campaigns state to remove the deleted campaign
         setCampaigns((prevCampaigns) =>
-          prevCampaigns.filter((campaign) => campaign.campaign_id !== id)
+          prevCampaigns.filter((campaign) => campaign.campaign_id != id)
         );
 
         // Show success toast message
@@ -247,7 +247,7 @@ const Campaign_table = () => {
         >
           <p
             className={`w-[100px] h-[44px] flex items-center justify-center rounded-[10px] ${
-              selectedTeam === "All Teams"
+              selectedTeam == "All Teams"
                 ? "bg-themeGreen text-white font-[600]"
                 : "bg-lGreen text-black font-[400]"
             }`}
@@ -263,7 +263,7 @@ const Campaign_table = () => {
           >
             <p
               className={`w-[100px] h-[44px] flex items-center justify-center rounded-[10px] ${
-                selectedTeam === teamName
+                selectedTeam == teamName
                   ? "bg-themeGreen text-white font-[600]"
                   : "bg-lGreen text-black font-[400]"
               }`}
@@ -320,25 +320,25 @@ const Campaign_table = () => {
 
       const updateDepartmentHeads = async () => {
         const juniorDepartmentHeadId = juniorDepartmentHeads.find(
-          (head) => head.first_name === editedCampaign.juniorDepartmentHead
+          (head) => head.first_name == editedCampaign.juniorDepartmentHead
         )?.id;
         const departmentHeadId = departmentHeads.find(
-          (deptHead) => deptHead.first_name === editedCampaign.departmentHead
+          (deptHead) => deptHead.first_name == editedCampaign.departmentHead
         )?.id;
 
         if (
           juniorDepartmentHeadId ||
           departmentHeadId ||
-          editedCampaign.juniorDepartmentHead === null ||
-          editedCampaign.departmentHead === null
+          editedCampaign.juniorDepartmentHead == null ||
+          editedCampaign.departmentHead == null
         ) {
           if (juniorDepartmentHeadId || departmentHeadId) {
             const conflictingCampaign = campaigns.find(
               (campaign) =>
-                (campaign.junior_department_head_id ===
+                (campaign.junior_department_head_id ==
                   juniorDepartmentHeadId ||
-                  campaign.department_head_id === departmentHeadId) &&
-                campaign.campaign_id !== editedCampaign.campaignId
+                  campaign.department_head_id == departmentHeadId) &&
+                campaign.campaign_id != editedCampaign.campaignId
             );
 
             if (conflictingCampaign) {
@@ -362,7 +362,7 @@ const Campaign_table = () => {
       };
 
       const updateTeam = async () => {
-        if (editedCampaign.teamId !== undefined) {
+        if (editedCampaign.teamId != undefined) {
           await axios.put(
             `https://crmapi.devcir.co/api/campaigns_and_teams_update-team/${editedCampaign.campaignId}`,
             {
@@ -377,10 +377,10 @@ const Campaign_table = () => {
       const updates = {
         name: Boolean(editedCampaign.campaignName),
         departmentHeads: Boolean(
-          editedCampaign.juniorDepartmentHead !== undefined ||
-            editedCampaign.departmentHead !== undefined
+          editedCampaign.juniorDepartmentHead != undefined ||
+            editedCampaign.departmentHead != undefined
         ),
-        team: editedCampaign.teamId !== undefined,
+        team: editedCampaign.teamId != undefined,
         image: Boolean(newImageFile), // Add image update check
       };
 
@@ -667,7 +667,7 @@ const Campaign_table = () => {
                   onChange={(e) => {
                     const selectedTeamName = e.target.value;
                     const selectedTeam = filteredTeams.find(
-                      (team) => team.team_name === selectedTeamName
+                      (team) => team.team_name == selectedTeamName
                     );
                     const selectedTeamId = selectedTeam
                       ? selectedTeam.id
@@ -676,7 +676,7 @@ const Campaign_table = () => {
                     setEditedCampaign({
                       ...editedCampaign,
                       teamName:
-                        selectedTeamName === "No Team" ? "" : selectedTeamName,
+                        selectedTeamName == "No Team" ? "" : selectedTeamName,
                       teamId: selectedTeamId,
                     });
 

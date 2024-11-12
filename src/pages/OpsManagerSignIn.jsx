@@ -27,11 +27,11 @@ const OpsManagerSignIn = () => {
   // Pattern validation functions
   const isOpsManagerPattern = (roleId) => {
     if (!roleId) return false;
-    if (roleId.length !== 12) return false;
+    if (roleId.length != 12) return false;
 
     for (let i = 0; i < roleId.length; i++) {
       const char = roleId[i];
-      if ((i + 1) % 3 === 0) {
+      if ((i + 1) % 3 == 0) {
         if (!/[0-9]/.test(char)) return false;
       } else {
         if (!/[a-zA-Z]/.test(char)) return false;
@@ -116,7 +116,7 @@ const OpsManagerSignIn = () => {
   
       // Find matching user
       const foundUser = data.find(
-        user => user.manager_email === email && user.manager_secret_id === numericOpsManagerId
+        user => user.manager_email == email && user.manager_secret_id == numericOpsManagerId
       );
   
       console.log("Found User: ", foundUser);
@@ -135,7 +135,7 @@ const OpsManagerSignIn = () => {
       console.log("Entered Password: ", password);
   
       // Check if the provided password matches the decrypted one
-      if (password !== decryptedPassword) {
+      if (password != decryptedPassword) {
         showToast.error('Invalid password');
         return;
       }
@@ -209,8 +209,8 @@ const OpsManagerSignIn = () => {
   
   //     // Find matching user
   //     const foundUser = data.find(user => 
-  //       user.email === email && 
-  //       user.ops_manager_secret_id === numericOpsManagerId
+  //       user.email == email && 
+  //       user.ops_manager_secret_id == numericOpsManagerId
   //     );
       
 
@@ -223,7 +223,7 @@ const OpsManagerSignIn = () => {
   //     }
 
   //     Check if the password matches directly since it's not encrypted in the API
-  //     if (password !== foundUser.password) {
+  //     if (password != foundUser.password) {
   //       showToast.error('Invalid password');
   //       return;
   //     }

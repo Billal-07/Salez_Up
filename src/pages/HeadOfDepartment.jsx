@@ -268,7 +268,7 @@ const HeadOfDepartment = () => {
   const handleUpdateSuccess = (updatedDepartmentHead) => {
     setdepartmentHead((prevTeams) =>
       prevTeams.map((team) =>
-        team.id === updatedDepartmentHead.id ? updatedDepartmentHead : team
+        team.id == updatedDepartmentHead.id ? updatedDepartmentHead : team
       )
     );
   };
@@ -299,8 +299,8 @@ const HeadOfDepartment = () => {
   const filterdepartmentHeadByTeam = (departmentHead, selectedTeam, searchQuery) => {
     return departmentHead.filter(
       (agent) =>
-        (selectedTeam === "All Teams" ||
-          agent.team.team_name === selectedTeam) &&
+        (selectedTeam == "All Teams" ||
+          agent.team.team_name == selectedTeam) &&
         agent.first_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
@@ -378,7 +378,7 @@ const HeadOfDepartment = () => {
       indexOfFirstAgent,
       indexOfLastAgent
     );
-    const noDataAvailable = filtereddepartmentHead.length === 0;
+    const noDataAvailable = filtereddepartmentHead.length == 0;
 
     return (
       <>
@@ -493,7 +493,7 @@ const HeadOfDepartment = () => {
 
   const renderPagination = (totaldepartmentHead) => {
     // Only proceed if there are department heads
-    if (totaldepartmentHead === 0) return null;
+    if (totaldepartmentHead == 0) return null;
   
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(totaldepartmentHead / departmentHeadPerPage); i++) {
@@ -533,7 +533,7 @@ const HeadOfDepartment = () => {
         >
           <p
             className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-              selectedTeam === "All Teams"
+              selectedTeam == "All Teams"
                 ? "bg-themeGreen text-white font-[600]"
                 : "bg-lGreen text-black font-[400]"
             }`}
@@ -549,7 +549,7 @@ const HeadOfDepartment = () => {
           >
             <p
               className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-                selectedTeam === teamName
+                selectedTeam == teamName
                   ? "bg-themeGreen text-white font-[600]"
                   : "bg-lGreen text-black font-[400]"
               }`}

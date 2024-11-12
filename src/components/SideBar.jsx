@@ -172,7 +172,7 @@ const SideBar = ({ name = "none" }) => {
             .split(' ') // Split the string by spaces
             .map((word, index) => {
                 // Capitalize the first letter of each word except the first word
-                if (index === 0) {
+                if (index == 0) {
                     return word;
                 }
                 return word.charAt(0).toUpperCase() + word.slice(1);
@@ -314,25 +314,25 @@ const SideBar = ({ name = "none" }) => {
         }
         // Set the respective link to true based on the fragment
 
-        if (fragment === 'currentCampaigns') {
+        if (fragment == 'currentCampaigns') {
             newLinkState.currentcampaign = true;
         }
-        if (fragment === 'addNewCampaign') {
+        if (fragment == 'addNewCampaign') {
             newLinkState.addnewcampaign = true;
         }
-        if (fragment === 'currentTeams') {
+        if (fragment == 'currentTeams') {
             newLinkState.currentteams = true;
         }
-        if (fragment === 'addNewTeams') {
+        if (fragment == 'addNewTeams') {
             newLinkState.addnewteam = true;
         }
-        if (fragment === 'orgChart') {
+        if (fragment == 'orgChart') {
             newLinkState.orgchart = true;
         }
-        if (fragment === 'currentTeamLeaders') {
+        if (fragment == 'currentTeamLeaders') {
             newLinkState.teamleader = true;
         }
-        if (fragment === 'addNewTeamLeader') {
+        if (fragment == 'addNewTeamLeader') {
             newLinkState.addnewteamleader = true;
         }
 
@@ -360,7 +360,7 @@ const SideBar = ({ name = "none" }) => {
         //                             <div
         //                                 className="flex flex-row group items-center cursor-pointer icon-parent h-[56px] px-2 gap-[14px] text-themeGray hover:text-[#269F8B]"
         //                                 onClick={() => {
-        //                                     if (link.name === 'Dashboard') {
+        //                                     if (link.name == 'Dashboard') {
         //                                         // Navigate to dashboard directly
         //                                         window.location.href = link.link;  // Replace this with your navigation method (e.g., history.push or a router method)
         //                                     } else {
@@ -421,7 +421,7 @@ const SideBar = ({ name = "none" }) => {
                 <ul className="flex flex-col py-4 space-y-1">
                     {links.map((link, index) => (
                         <li key={index} className='py-1 border-b-[0.8px] border-b-[#3333334D]'>
-                            {link.type === 'header' ? (
+                            {link.type == 'header' ? (
                                 <div className="text-[18px] font-bold text-[#269F8B] mb-2 mt-4 pl-2">
                                     {link.name}
                                 </div>
@@ -429,7 +429,7 @@ const SideBar = ({ name = "none" }) => {
                                 <div
                                     className="flex flex-row group items-center cursor-pointer icon-parent h-[56px] px-2 gap-[14px] text-themeGray hover:text-[#269F8B]"
                                     onClick={() => {
-                                        if (link.name === 'Dashboard') {
+                                        if (link.name == 'Dashboard') {
                                             window.location.href = link.link;
                                         } else {
                                             setIsLinkExpanded({ ...isLinkExpanded, [link.name]: !isLinkExpanded[link.name] });
@@ -612,7 +612,7 @@ export default SideBar;
 //         const initialExpandedState = {};
         
 //         links.forEach(item => {
-//             if (item.type !== 'header') {
+//             if (item.type != 'header') {
 //                 initialLinkState[item.name.toLowerCase().replace(/\s+/g, '')] = false;
 //                 initialExpandedState[item.name] = false;
 //                 if (item.children) {
@@ -650,7 +650,7 @@ export default SideBar;
 //         });
 
 //         links.forEach(item => {
-//             if (item.type !== 'header') {
+//             if (item.type != 'header') {
 //                 if (location.pathname.includes(item.link?.toLowerCase() || '')) {
 //                     newExpandedState[item.name] = true;
 //                 }
@@ -675,7 +675,7 @@ export default SideBar;
 //     }, [location]);
 
 //     const handleMenuClick = (item) => {
-//         if (item.type === 'header') return;
+//         if (item.type == 'header') return;
         
 //         if (item.link) {
 //             window.location.href = item.link;
@@ -691,7 +691,7 @@ export default SideBar;
 //     const setActiveLink = (linkName, ref = null) => {
 //         const newLinkState = {};
 //         Object.keys(linkState).forEach(key => {
-//             newLinkState[key] = key === linkName.toLowerCase().replace(/\s+/g, '');
+//             newLinkState[key] = key == linkName.toLowerCase().replace(/\s+/g, '');
 //         });
 //         setLinkState(newLinkState);
 
@@ -701,7 +701,7 @@ export default SideBar;
 //     };
 
 //     const renderMenuItem = (item) => {
-//         if (item.type === 'header') {
+//         if (item.type == 'header') {
 //             return (
 //                 <div key={item.name} className="py-2 mt-4 mb-2">
 //                     <div className="text-[16px] font-semibold text-gray-600 px-4">

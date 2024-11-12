@@ -37,7 +37,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
       .get("https://crmapi.devcir.co/api/department-heads")
       .then((response) => {
         const filteredTeams = response.data.filter(
-          (team) => team.manager_id === parseInt(managerId)
+          (team) => team.manager_id == parseInt(managerId)
         );
         setTeams(filteredTeams);
       })
@@ -117,7 +117,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
     let code = "";
 
     for (let i = 0; i < 8; i++) {
-      if (i % 2 === 0) {
+      if (i % 2 == 0) {
         const randomLetterIndex = Math.floor(Math.random() * letters.length);
         code += letters[randomLetterIndex];
       } else {
@@ -160,7 +160,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
     }
     const userData = await responses.json();
 
-    const emailExists = userData.some((user) => user.email === email);
+    const emailExists = userData.some((user) => user.email == email);
     if (emailExists) {
       toast.error("Email already exists. Please use a different email.");
       return;

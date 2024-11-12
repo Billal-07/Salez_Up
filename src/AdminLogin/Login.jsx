@@ -29,7 +29,7 @@ export default function Login({ setIsAuthenticated }) {
         try {
             const response = await axios.get('https://crmapi.devcir.co/api/admin_portal_login');
             const userDataList = response.data; 
-            const userData = userDataList.find(user => user.admin_email === formData.email);
+            const userData = userDataList.find(user => user.admin_email == formData.email);
             if (!userData) {
                 toast.error('Invalid email or password');
                 return;
@@ -37,7 +37,7 @@ export default function Login({ setIsAuthenticated }) {
             const decryptedBytes = CryptoJS.AES.decrypt(userData.admin_password, 'DBBDRSSR54321');
             const decryptedPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
             formData.id = userData.id;
-            if (decryptedPassword === formData.password) {
+            if (decryptedPassword == formData.password) {
 
                 toast.success('Login successful!');
                 // login(); 

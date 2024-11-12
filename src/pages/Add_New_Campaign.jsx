@@ -10,7 +10,7 @@ const api = axios.create({
 });
 
 api.interceptors.response.use(undefined, async (error) => {
-  if (error.response?.status === 429) {
+  if (error.response?.status == 429) {
     const retryAfter = error.response.headers['retry-after'] || 5;
     await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
     return api.request(error.config);
@@ -90,7 +90,7 @@ const My_Campaigns = ({ set, setter }) => {
       });
       return response.data;
     } catch (error) {
-      if (error.response?.status === 429) {
+      if (error.response?.status == 429) {
         toast.warning("Too many requests. Please wait a moment...");
       }
       throw error;
@@ -135,7 +135,7 @@ const My_Campaigns = ({ set, setter }) => {
           }))
         );
 
-        if (availableJuniors.length === 0) {
+        if (availableJuniors.length == 0) {
           setDeptHeadOptions(
             filteredHeads.map(head => ({
               value: head.id,
@@ -322,7 +322,7 @@ const My_Campaigns = ({ set, setter }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!campaignName || !startDate || selectedTeam.length === 0) {
+    if (!campaignName || !startDate || selectedTeam.length == 0) {
       toast.warn("Please fill all required fields");
       return;
     }
@@ -364,7 +364,7 @@ const My_Campaigns = ({ set, setter }) => {
       setTimeout(() => window.location.reload(), 1500);
     } catch (error) {
       console.error("Error creating campaign:", error);
-      if (error.response?.status === 429) {
+      if (error.response?.status == 429) {
         toast.error("Too many requests. Please wait a moment before trying again.");
       } else {
         toast.error("Error creating campaign. Please try again.");

@@ -76,7 +76,7 @@ export default function OpsManagerPage() {
       const options = data
         .filter(
           (manager) =>
-            manager.manager_role === "Senior Ops Manager" &&
+            manager.manager_role == "Senior Ops Manager" &&
             manager.Admin_Id == id
         )
         .map((manager) => ({
@@ -100,7 +100,7 @@ export default function OpsManagerPage() {
       const headOfSalesOptions = data
         .filter(
           (manager) =>
-            manager.manager_role === "Head Of Sales" && manager.Admin_Id == id
+            manager.manager_role == "Head Of Sales" && manager.Admin_Id == id
         )
         .map((manager) => ({ value: manager.id, label: manager.manager_name }));
       setHeadOfSalesOptions(headOfSalesOptions);
@@ -120,7 +120,7 @@ export default function OpsManagerPage() {
       const data = await response.json();
       const filteredData = data.filter(
         (manager) =>
-          manager.manager_role === "Ops Manager" && manager.Admin_Id == id
+          manager.manager_role == "Ops Manager" && manager.Admin_Id == id
       );
       setManagers(Array.isArray(filteredData) ? filteredData : [filteredData]);
     } catch (error) {
@@ -429,7 +429,7 @@ export default function OpsManagerPage() {
                   value={
                     seniorOpsManagerOptions.find(
                       (option) =>
-                        option.value === formData.senior_ops_manager_id
+                        option.value == formData.senior_ops_manager_id
                     ) || null
                   }
                   onChange={(selectedOption) =>

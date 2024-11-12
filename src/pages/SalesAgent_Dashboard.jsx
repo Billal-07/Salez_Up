@@ -239,12 +239,12 @@ const SalesAgent_Dashboard = () => {
                                                 />
                                             </div>
                                             <p className="text-base text-[#009245] font-semibold">
-                                                {item.name === 'Team Rank' ? item.amount : `$${item.amount}`}
+                                                {item.name == 'Team Rank' ? item.amount : `$${item.amount}`}
                                             </p>
-                                            {item.name !== 'Team Rank' && (
+                                            {item.name != 'Team Rank' && (
                                                 <p className="text-sm text-gray-600">{item.name}</p>
                                             )}
-                                            {item.name === 'Team Rank' && (
+                                            {item.name == 'Team Rank' && (
                                                 <p className="text-sm text-gray-600">/{item.max}</p>
                                             )}
                                         </div>

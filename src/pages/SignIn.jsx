@@ -17,7 +17,7 @@ const SignIn = () => {
   const isTeamLeaderPattern = (roleId) => {
     for (let i = 0; i < roleId.length; i++) {
       const char = roleId[i];
-      if (i % 2 === 0) {
+      if (i % 2 == 0) {
         if (!/[0-9]/.test(char)) return false; // Even indices: must be a number
       } else {
         if (!/[a-zA-Z]/.test(char)) return false; // Odd indices: must be a letter
@@ -29,7 +29,7 @@ const SignIn = () => {
   const isSalesAgentPattern = (roleId) => {
     for (let i = 0; i < roleId.length; i++) {
       const char = roleId[i];
-      if (i % 2 === 0) {
+      if (i % 2 == 0) {
         // Even index: must be a letter
         if (!/[a-zA-Z]/.test(char)) return false;
       } else {
@@ -43,12 +43,12 @@ const SignIn = () => {
   // Validation for "Manager" roleId (2 letters at odd positions followed by a number at every even position, total length 12)
   const isManagerPattern = (roleId) => {
     // Ensure the roleId is exactly 12 characters long
-    if (roleId.length !== 12) return false;
+    if (roleId.length != 12) return false;
 
     for (let i = 0; i < roleId.length; i++) {
       const char = roleId[i];
 
-      if ((i + 1) % 3 === 0) {
+      if ((i + 1) % 3 == 0) {
         // Every third position (3, 6, 9, 12) must be a number
         if (!/[0-9]/.test(char)) return false;
       } else {
@@ -229,11 +229,11 @@ const SignIn = () => {
   // const fetchData = async (role) => {
   //   let apiUrl;
   //   // Check the role and set the appropriate API endpoint
-  //   if (role === 'Manager') {
+  //   if (role == 'Manager') {
   //     apiUrl = 'https://crmapi.devcir.co/api/admin_registrations';
-  //   } else if (role === 'Sales Agent') {
+  //   } else if (role == 'Sales Agent') {
   //     apiUrl = 'https://crmapi.devcir.co/api/sales_agents';
-  //   } else if (role === 'Team Leader') {
+  //   } else if (role == 'Team Leader') {
   //     apiUrl = 'https://crmapi.devcir.co/api/team_leaders';
   //   } else {
   //     throw new Error('Invalid role');
@@ -247,7 +247,7 @@ const SignIn = () => {
   //     const data = await response.json();
   //     console.log(data);
 
-  //     if (type === "Manager") {
+  //     if (type == "Manager") {
   //       const filteredData = data.map(({ id, email, password, first_name, managerId }) => ({ id, email, password, first_name, managerId }));
   //       setFilteredData(filteredData);
   //     } else {
@@ -286,17 +286,17 @@ const SignIn = () => {
   //     let foundUser = false;
 
   //     if (type == "Manager") {
-  //       foundUser = filteredData.find(user => user.email === email && user.managerId == managerId);
+  //       foundUser = filteredData.find(user => user.email == email && user.managerId == managerId);
   //     } else {
-  //       foundUser = filteredData.find(user => user.email === email);
+  //       foundUser = filteredData.find(user => user.email == email);
   //     }
 
   //     if (foundUser) {
-  //       const decryptedPassword = type === 'Manager'
+  //       const decryptedPassword = type == 'Manager'
   //         ? CryptoJS.AES.decrypt(foundUser.password, 'DBBDRSSR54321').toString(CryptoJS.enc.Utf8)
   //         : foundUser.password; // Use plain password for other roles
 
-  //       if (password === decryptedPassword) {
+  //       if (password == decryptedPassword) {
   //         console.log("Decrypted Password: ", decryptedPassword);
   //         console.log("----  Right User ----");
   //         console.log("my user: ", foundUser);
@@ -326,13 +326,13 @@ const SignIn = () => {
 
 
   //         // Navigate based on role
-  //         if (type === "Manager") {
+  //         if (type == "Manager") {
   //           navigate('/dashboard', { state: { foundUser } });
   //         }
-  //         else if (type === "Team Leader") {
+  //         else if (type == "Team Leader") {
   //           navigate('/TeamleaderDashboard', { state: { foundUser } });
   //         }
-  //         else if (type === "Sales Agent") {
+  //         else if (type == "Sales Agent") {
   //           navigate('/SalesAgentDashboard', { state: { foundUser } });
   //         }
 
@@ -352,7 +352,7 @@ const SignIn = () => {
   //       wrongCombination();
   //       const foundPassword = filteredData.some(user => {
   //         const decryptedPassword = CryptoJS.AES.decrypt(user.password, 'DBBDRSSR54321').toString(CryptoJS.enc.Utf8);
-  //         return password === decryptedPassword;
+  //         return password == decryptedPassword;
   //       });
 
   //       if (foundPassword) {
@@ -393,17 +393,17 @@ const SignIn = () => {
       let foundUser = false;
 
       if (type == "Manager") {
-        foundUser = filteredData.find(user => user.email === email && user.manager_secret_id == managerId);
+        foundUser = filteredData.find(user => user.email == email && user.manager_secret_id == managerId);
       } else {
-        foundUser = filteredData.find(user => user.email === email);
+        foundUser = filteredData.find(user => user.email == email);
       }
 
       if (foundUser) {
-        const decryptedPassword = type === 'Manager'
+        const decryptedPassword = type == 'Manager'
           ? CryptoJS.AES.decrypt(foundUser.password, 'DBBDRSSR54321').toString(CryptoJS.enc.Utf8)
           : foundUser.password; // Use plain password for other roles
 
-        if (password === decryptedPassword) {
+        if (password == decryptedPassword) {
           console.log("Decrypted Password: ", decryptedPassword);
           console.log("----  Right User ----");
           console.log("my user: ", foundUser);
@@ -432,13 +432,13 @@ const SignIn = () => {
           }
 
           // Navigate based on role
-          if (type === "Manager") {
+          if (type == "Manager") {
             navigate('/dashboard', { state: { foundUser } });
           }
-          else if (type === "Team Leader") {
+          else if (type == "Team Leader") {
             navigate('/TeamleaderDashboard', { state: { foundUser } });
           }
-          else if (type === "Sales Agent") {
+          else if (type == "Sales Agent") {
             navigate('/SalesAgentDashboard', { state: { foundUser } });
           }
 
@@ -458,7 +458,7 @@ const SignIn = () => {
         wrongCombination();
         const foundPassword = filteredData.some(user => {
           const decryptedPassword = CryptoJS.AES.decrypt(user.password, 'DBBDRSSR54321').toString(CryptoJS.enc.Utf8);
-          return password === decryptedPassword;
+          return password == decryptedPassword;
         });
 
         if (foundPassword) {
@@ -478,11 +478,11 @@ const SignIn = () => {
   const fetchData = async (role) => {
     let apiUrl;
     // Check the role and set the appropriate API endpoint
-    if (role === 'Manager') {
+    if (role == 'Manager') {
       apiUrl = 'https://crmapi.devcir.co/api/managers';
-    } else if (role === 'Sales Agent') {
+    } else if (role == 'Sales Agent') {
       apiUrl = 'https://crmapi.devcir.co/api/sales_agents';
-    } else if (role === 'Team Leader') {
+    } else if (role == 'Team Leader') {
       apiUrl = 'https://crmapi.devcir.co/api/team_leaders';
     } else {
       throw new Error('Invalid role');

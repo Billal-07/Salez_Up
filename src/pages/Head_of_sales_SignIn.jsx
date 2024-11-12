@@ -25,11 +25,11 @@ const Ops_manager_SignIn = () => {
 
   const isHeadOfSalesPattern = (roleId) => {
     if (!roleId) return false;
-    if (roleId.length !== 12) return false;
+    if (roleId.length != 12) return false;
 
     for (let i = 0; i < roleId.length; i++) {
       const char = roleId[i];
-      if ((i + 1) % 3 === 0) {
+      if ((i + 1) % 3 == 0) {
         if (!/[0-9]/.test(char)) return false;
       } else {
         if (!/[a-zA-Z]/.test(char)) return false;
@@ -112,7 +112,7 @@ const Ops_manager_SignIn = () => {
       const numericHeadOfSalesId = Number(headOfSalesId);
   
       const foundUser = data.find(
-        user => user.	manager_email === email && user.manager_secret_id === numericHeadOfSalesId
+        user => user.	manager_email == email && user.manager_secret_id == numericHeadOfSalesId
       );
   
       console.log("Found User: ", foundUser);
@@ -128,7 +128,7 @@ const Ops_manager_SignIn = () => {
       console.log("Decrypted Password from DB: ", decryptedBytes);
       console.log("Entered Password: ", password);
   
-      if (password !== decryptedBytes) {
+      if (password != decryptedBytes) {
         showToast.error('Invalid password');
         return;
       }

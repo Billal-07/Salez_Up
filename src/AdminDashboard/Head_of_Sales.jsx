@@ -73,7 +73,7 @@ export default function HeadOfSalesPage() {
     try {
       const response = await fetch("https://crmapi.devcir.co/api/manager_details");
       const data = await response.json();
-      const filteredData = data.filter(manager => manager.manager_role === "Head Of Sales" && manager.Admin_Id == id);
+      const filteredData = data.filter(manager => manager.manager_role == "Head Of Sales" && manager.Admin_Id == id);
       setSalesHeads(Array.isArray(filteredData) ? filteredData : [filteredData]);
     } catch (error) {
       console.error("Error fetching data:", error);

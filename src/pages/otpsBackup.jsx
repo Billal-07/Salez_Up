@@ -63,7 +63,7 @@ export default function Registration() {
             const userData = await response.json();
 
             // Check if the email already exists
-            const emailExists = userData.some(user => user.email === email);
+            const emailExists = userData.some(user => user.email == email);
             if (emailExists) {
                 toast.error('Email already exists. Please use a different email.');
                 return;
@@ -258,7 +258,7 @@ export default function Registration() {
                                 type="radio"
                                 name="service"
                                 value={service}
-                                checked={selectedService === service}
+                                checked={selectedService == service}
                                 onChange={() => setSelectedService(service)}
                                 className="w-4 h-4 text-[#007AAFF7] form-radio focus:ring-[#007AAFF7]"
                             />

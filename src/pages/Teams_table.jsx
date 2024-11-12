@@ -181,8 +181,8 @@ const Teams_table = () => {
 
       const isDuplicate = existingTeams.some(
         (name, index) =>
-          name === currentTeam.team.team_name &&
-          response.data[index].team_id !== currentTeam.team_id
+          name == currentTeam.team.team_name &&
+          response.data[index].team_id != currentTeam.team_id
       );
 
       if (isDuplicate) {

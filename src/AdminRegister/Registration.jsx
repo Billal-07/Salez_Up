@@ -90,7 +90,7 @@ export default function SignUp() {
       return false;
     }
 
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.password != formData.confirmPassword) {
       toast.error("Passwords do not match");
       return false;
     }
@@ -116,7 +116,7 @@ export default function SignUp() {
       }
       const userData = await responses.json();
 
-      const emailExists = userData.some((user) => user.admin_email === formData.email);
+      const emailExists = userData.some((user) => user.admin_email == formData.email);
       if (emailExists) {
         toast.error("Email already exists. Please use a different email.");
         return;

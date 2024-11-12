@@ -14,7 +14,7 @@ const Campaigns = () => {
           img: campaign.company_logo
         }));
         setCurrentCampaigns(campaigns);
-        console.log("data: =====",currentCampaigns)
+        console.log("data: ====",currentCampaigns)
       })
       .catch(error => console.error('Error fetching campaigns:', error));
   }, []);
