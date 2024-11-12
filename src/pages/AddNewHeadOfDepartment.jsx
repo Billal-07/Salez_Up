@@ -172,7 +172,7 @@ const AddNewHeadOfDepartment = ({ set, setter, onDepartmentHead}) => {
       const payloadMail = {
         role: "Department Head",
         email: email,
-        link: `http://localhost:5173/TeamLeader/${link}`,
+        link: `https://crmapi.devcir.co/TeamLeader/${link}`,
         password: password,
       };
 

@@ -191,7 +191,7 @@ const AddNewAgent = ({ set, setter }) => {
   //     const payloadMail = {
   //       role: "Sales Agent",
   //       email: email,
-  //       link: `http://localhost:5173/SalesAgent/${link}`,
+  //       link: `https://crmapi.devcir.co/SalesAgent/${link}`,
   //       password: password,
   //     }
 
@@ -300,7 +300,7 @@ const AddNewAgent = ({ set, setter }) => {
       const payloadMail = {
         role: "Sales Agent",
         email: email,
-        link: `http://localhost:5173/SalesAgent/${link}`,
+        link: `https://crmapi.devcir.co/SalesAgent/${link}`,
         password: password,
       };
   

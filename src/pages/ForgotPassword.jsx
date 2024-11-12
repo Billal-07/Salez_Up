@@ -179,7 +179,7 @@ const ForgotPassword = () => {
                     const payloadMail = {
                         role: "Manager",
                         email: email,
-                        link: `http://localhost:5173/Manager/${link}`,
+                        link: `https://crmapi.devcir.co/Manager/${link}`,
                         password: password,
                         managerId: response.data.managerId
                     }

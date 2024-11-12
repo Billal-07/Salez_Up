@@ -222,7 +222,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
       const payloadMail = {
         role: "Team Leader",
         email: email,
-        link: `http://localhost:5173/TeamLeader/${link}`,
+        link: `https://crmapi.devcir.co/TeamLeader/${link}`,
         password: password,
       };
 

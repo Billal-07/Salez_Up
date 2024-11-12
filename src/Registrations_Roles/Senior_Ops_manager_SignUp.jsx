@@ -46,7 +46,8 @@ const Senior_Ops_manager_SignUp = () => {
           "https://crmapi.devcir.co/api/manager_details"
         );
         const filteredData = response.data.filter(
-          (manager) => manager.manager_role === "Head Of Sales" && manager.Admin_Id == id
+          (manager) =>
+            manager.manager_role === "Head Of Sales" && manager.Admin_Id == id
         );
         const fetchedOptions = filteredData.map((manager) => ({
           value: manager.id,
@@ -97,17 +98,17 @@ const Senior_Ops_manager_SignUp = () => {
       theme: "light",
     });
 
-    const noHeadOfSales = () =>
-      toast.error("No Head of Sales assigned to this Senior Ops Manager", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+  const noHeadOfSales = () =>
+    toast.error("No Head of Sales assigned to this Senior Ops Manager", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
 
   const loggingIn = () =>
     toast.info("Logging in...", {
@@ -135,9 +136,10 @@ const Senior_Ops_manager_SignUp = () => {
       return;
     }
 
-
     try {
-      const response = await fetch("https://crmapi.devcir.co/api/manager_details");
+      const response = await fetch(
+        "https://crmapi.devcir.co/api/manager_details"
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch user data");
       }
@@ -168,7 +170,6 @@ const Senior_Ops_manager_SignUp = () => {
           toast.success("OTP sent successfully!");
           console.log(result.message);
           setShowOtpForm(true);
-          // loggingIn();
         } catch (error) {
           console.error("Error parsing JSON:", error);
           toast.error("Unexpected server response. Please try again.");
@@ -218,13 +219,16 @@ const Senior_Ops_manager_SignUp = () => {
     const link = generateUniqueCode();
 
     try {
-      const otpResponse = await fetch("https://crmapi.devcir.co/api/verify-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, otp }),
-      });
+      const otpResponse = await fetch(
+        "https://crmapi.devcir.co/api/verify-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, otp }),
+        }
+      );
 
       const otpResult = await otpResponse.json();
       if (otpResponse.ok) {
@@ -266,7 +270,7 @@ const Senior_Ops_manager_SignUp = () => {
           const payloadMail = {
             role: "Senior Ops Manager",
             email: email,
-            link: `http://localhost:5173/SeniorOpsManager_SignIn/${link}`,
+            link: `https://crmapi.devcir.co/SeniorOpsManager_SignIn/${link}`,
             password: password,
             managerId: managerSecretId,
           };
@@ -326,10 +330,13 @@ const Senior_Ops_manager_SignUp = () => {
 
   return (
     <div className="flex items-center justify-center p-8 pt-24 overflow-hidden">
-      <div className="flex flex-col gap-8 p-6 md:p-8 mt-[-48px] rounded-lg w-full max-w-6xl mx-auto"
-  style={{
-    boxShadow: '0px 4px 6px rgba(29, 135, 117, 0.2), 0px -4px 6px rgba(29, 135, 117, 0.2), 4px 0px 6px rgba(29, 135, 117, 0.2), -4px 0px 6px rgba(29, 135, 117, 0.2)'
-  }}>
+      <div
+        className="flex flex-col gap-8 p-6 md:p-8 mt-[-48px] rounded-lg w-full max-w-6xl mx-auto"
+        style={{
+          boxShadow:
+            "0px 4px 6px rgba(29, 135, 117, 0.2), 0px -4px 6px rgba(29, 135, 117, 0.2), 4px 0px 6px rgba(29, 135, 117, 0.2), -4px 0px 6px rgba(29, 135, 117, 0.2)",
+        }}
+      >
         <div className="flex items-center justify-center w-full mb-2 ">
           <img
             src="/images/logo.png"
@@ -488,7 +495,6 @@ const Senior_Ops_manager_SignUp = () => {
                       }}
                     />
                   </div>
-
                 </div>
               </div>
 

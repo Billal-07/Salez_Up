@@ -184,7 +184,7 @@ const SignUp = () => {
           const payloadMail = {
             role: "Ops Manager",
             email: email,
-            link: `http://localhost:5173/OpsManager_SignUp/${link}`,
+            link: `https://crmapi.devcir.co/OpsManager_SignUp/${link}`,
             password: password,
             managerId: managerId
           }

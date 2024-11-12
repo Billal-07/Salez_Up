@@ -301,7 +301,7 @@ const Ops_Manager_SignUp = () => {
   //         const payloadMail = {
   //           role: "Ops Manager",
   //           email: email,
-  //           link: `http://localhost:5173/OpsManager_SignIn/${link}`,
+  //           link: `https://crmapi.devcir.co/OpsManager_SignIn/${link}`,
   //           password: password,
   //           managerId: managerSecretId,
   //         };
@@ -409,7 +409,7 @@ const Ops_Manager_SignUp = () => {
           const payloadMail = {
             role: "Ops Manager",
             email: email,
-            link: `http://localhost:5173/OpsManager_SignIn/${link}`,
+            link: `https://crmapi.devcir.co/OpsManager_SignIn/${link}`,
             password: password,
             managerId: managerSecretId,
           };

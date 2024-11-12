@@ -183,7 +183,7 @@ const Senior_Ops_manager_SignUp = () => {
           const payloadMail = {
             role: "Senior Ops Manager",
             email: email,
-            link: `http://localhost:5173/SeniorOpsManager/${link}`,
+            link: `https://crmapi.devcir.co/SeniorOpsManager/${link}`,
             password: password,
             managerId: ops_manager_secret_id
           }

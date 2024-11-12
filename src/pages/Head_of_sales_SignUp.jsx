@@ -183,7 +183,7 @@ const Head_of_sales_SignUp = () => {
           const payloadMail = {
             role: "Head of Sales",
             email: email,
-            link: `http://localhost:5173/HeadofSales/${link}`,
+            link: `https://crmapi.devcir.co/HeadofSales/${link}`,
             password: password,
             managerId: head_of_sales_secret_id
           }
