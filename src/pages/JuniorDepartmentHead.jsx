@@ -596,7 +596,12 @@ const JuniorHeadOfDepartment = () => {
                       <p>{managerFName}</p>{" "}
                     </td>
                     <td className="px-[10px] w-[91px] text-mm">
-                      <p>{agent.dept_head ? agent.dept_head.first_name : ""}</p>
+                      {agent.dept_head ? 
+                      <p>{agent.dept_head ? agent.dept_head.first_name : ""}  </p>
+                      :
+                      <p className="text-xs">Not Assiged</p>
+                      }
+                      
                     </td>
                     {/* <td className="px-[10px] w-[91px] text-xs">
                       <p>{agent.commission ? agent.commission : "0"}</p>
