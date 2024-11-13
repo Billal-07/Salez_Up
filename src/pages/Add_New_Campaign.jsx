@@ -1,22 +1,340 @@
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import { useScrollContext } from "../contexts/scrollContext";
+// import Select from "react-select";
+
+
+
+// const My_Campaigns = ({ set, setter }) => {
+  
+//   const [campaigns, setCampaigns] = useState([]);
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+//   const [editedCampaign, setEditedCampaign] = useState({});
+//   const [searchTerm, setSearchTerm] = useState("");
+//   const [selectedTeam, setSelectedTeam] = useState("All Teams");
+//   const [teams, setTeams] = useState([]);
+//   const [originalTeams, setOriginalTeams] = useState([]);
+//   const [juniorDepartmentHeads, setJuniorDepartmentHeads] = useState([]);
+//   const [departmentHeads, setDepartmentHeads] = useState([]);
+//   const [selectedCampaignId, setSelectedCampaignId] = useState("");
+//   const [campaignImage, setCampaignImage] = useState(null);
+//   const [imagePath, setImagePath] = useState(null);
+//   const [campaignName, setCampaignName] = useState("");
+//   const [startDate, setStartDate] = useState("");
+//   const [managerName, setManagerName] = useState("");
+//   const [selectedDeptHead, setSelectedDeptHead] = useState(null);
+//   const [deptHeadId, setDeptHeadId] = useState("");
+//   const [showDeptHead, setShowDeptHead] = useState(false);
+//   const [teamOptions, setTeamOptions] = useState([]);
+//   const [selectedTeams, setSelectedTeams] = useState([]);
+//   const [juniorDeptHeadOptions, setJuniorDeptHeadOptions] = useState([]);
+//   const [deptHeadOptions, setDeptHeadOptions] = useState([]);
+  
+//   useEffect(() => {
+//     const fetchAllData = async () => {
+//       try {
+//         const [
+//           campaignsResponse,
+//           teamsResponse,
+//           juniorHeadsResponse,
+//           departmentHeadsResponse,
+//         ] = await Promise.all([
+//           axios.get("https://crmapi.devcir.co/api/campaigns_and_teams"),
+//           axios.get("https://crmapi.devcir.co/api/teams"),
+//           axios.get("https://crmapi.devcir.co/api/junior-department-heads"),
+//           axios.get("https://crmapi.devcir.co/api/department-heads"),
+//         ]);
+
+//         const managerId = localStorage.getItem("id");
+//         const filtered = campaignsResponse.data.filter(
+//           (team) => team.campaign.manager_id === managerId
+//         );
+
+//         setCampaigns(filtered);
+//         setOriginalTeams(filtered);
+//         setTeams(teamsResponse.data);
+//         setJuniorDepartmentHeads(juniorHeadsResponse.data);
+//         setDepartmentHeads(departmentHeadsResponse.data);
+
+//         // Set up team options for Select component
+//         const teamOpts = teamsResponse.data
+//           .filter(team => team.manager_id === managerId)
+//           .map(team => ({
+//             value: team.id,
+//             label: team.team_name
+//           }));
+//         setTeamOptions(teamOpts);
+
+//         // Set up department head options
+//         const deptHeadOpts = departmentHeadsResponse.data.map(head => ({
+//           value: head.id,
+//           label: `${head.first_name} ${head.last_name}`
+//         }));
+//         setDeptHeadOptions(deptHeadOpts);
+
+//         // Set up junior department head options
+//         const juniorHeadOpts = juniorHeadsResponse.data
+//           .filter(head => head.manager_id === managerId)
+//           .map(head => ({
+//             value: head.id,
+//             label: `${head.first_name} ${head.last_name}`,
+//             Dept_Head_id: head.Dept_Head_id 
+//           }));
+//         setJuniorDeptHeadOptions(juniorHeadOpts);
+
+//       } catch (error) {
+//         console.error("Error fetching data:", error);
+//         toast.error("Failed to fetch data");
+//       }
+//     };
+
+//     fetchAllData();
+//   }, []);
+
+
+//   // Handle image change
+//   const handleImageChange = (e) => {
+//     const file = e.target.files[0];
+//     if (file) {
+//       const reader = new FileReader();
+//       reader.onloadend = () => {
+//         setImagePath(reader.result);
+//       };
+//       reader.readAsDataURL(file);
+//     }
+//   };
+
+//   // Handle team selection
+//   const handleTeamChange = (selectedOptions) => {
+//     setSelectedTeams(selectedOptions || []);
+//   };
+
+//   // Handle department head selection
+//   const handleDeptHeadChange = (selectedOption) => {
+//     setSelectedDeptHead(selectedOption);
+//     setDeptHeadId(selectedOption?.value || "");
+//     setShowDeptHead(!!selectedOption);
+//   };
+
+ 
+
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     if (!campaignName || !startDate || selectedTeams.length === 0) {
+//       toast.error("Please fill in all required fields");
+//       return;
+//     }
+
+//     try {
+//       const formData = new FormData();
+//       formData.append("campaign_name", campaignName);
+//       formData.append("start_date", startDate);
+//       formData.append("manager_id", localStorage.getItem("id"));
+//       formData.append("teams", JSON.stringify(selectedTeams.map(team => team.value)));
+//       if (imagePath) {
+//         formData.append("image", imagePath);
+//       }
+//       if (selectedDeptHead) {
+//         formData.append("department_head_id", selectedDeptHead.value);
+//       }
+
+//       await axios.post("https://crmapi.devcir.co/api/campaigns", formData, {
+//         headers: {
+//           "Content-Type": "multipart/form-data",
+//         },
+//       });
+
+//       toast.success("Campaign created successfully");
+//       setTimeout(() => {
+//         window.location.reload();
+//       }, 1000);
+
+//     } catch (error) {
+//       console.error("Error creating campaign:", error);
+//       toast.error("Failed to create campaign");
+//     }
+//   };
+
+//   return (
+//     <form>
+//     <div className="w-full p-8 flex flex-col gap-10 card pb-12">
+//       <h1 className="font-[500] leading-[33px] text-[22px] text-[#269F8B]">
+//         Add New Campaign
+//       </h1>
+//       <div className="flex flex-wrap justify-between gap-1">
+//         <div className="flex flex-col gap-3 w-[161px]">
+//           <p className="font-[400] text-[14px] text-dGreen">Campaign Logo</p>
+//           <label className="flex flex-col items-center justify-center w-[159px] h-[148px] rounded-[20px] bg-lGreen cursor-pointer">
+//             <div className="overflow-hidden border-black rounded-xl block w-32 h-32 items-center justify-center">
+//               {imagePath ? (
+//                 <img
+//                   src={imagePath}
+//                   alt="Selected"
+//                   className="w-32 h-32 m-auto"
+//                 />
+//               ) : (
+//                 <div>
+//                   <img
+//                     src="/images/image.jpg"
+//                     alt="Default"
+//                     className="w-32 h-32 m-auto shadow cursor-pointer"
+//                   />
+//                 </div>
+//               )}
+//             </div>
+//             <input
+//               type="file"
+//               onChange={handleImageChange}
+//               className="hidden"
+//               accept="image/*"
+//             />
+//           </label>
+//         </div>
+
+//         <div className="flex flex-col gap-3 w-[269px]">
+//           <label className="font-[400] text-[14px] text-dGreen">
+//             Name
+//           </label>
+//           <input
+//             type="text"
+//             value={campaignName}
+//             onChange={(e) => setCampaignName(e.target.value)}
+//             className="w-full bg-lGreen p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+//             placeholder="Enter name"
+//           />
+
+//           <label className="block text-themeGray text-sm font-[500] mb-1">
+//             Select Teams
+//           </label>
+//           {teamOptions.length > 0 ? (
+//             <Select
+//               isMulti
+//               value={selectedTeams}
+//               onChange={handleTeamChange}
+//               options={teamOptions}
+//               className="basic-multi-select"
+//               classNamePrefix="select"
+//             />
+//           ) : (
+//             <div className="text-gray-500 text-sm p-2 bg-lGreen rounded">
+//               No available teams to assign
+//             </div>
+//           )}
+
+//           {juniorDeptHeadOptions.length > 0 && (
+//             <div className="flex flex-col gap-3">
+//               <label className="font-[400] text-[14px] text-dGreen">
+//                 Select Junior Department Head
+//               </label>
+//               <Select
+//                 value={selectedDeptHead}
+//                 onChange={handleDeptHeadChange}
+//                 options={juniorDeptHeadOptions}
+//                 placeholder="Select Junior Department Head"
+//               />
+//             </div>
+//           )}
+//         </div>
+
+//         <div className="flex flex-col gap-3 w-[269px]">
+//           <label className="font-[400] text-[14px] text-dGreen">
+//             Manager
+//           </label>
+//           <input
+//             type="text"
+//             readOnly
+//             value={managerName}
+//             className="w-full bg-lGreen p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+//           />
+
+//           <label className="font-[400] text-[14px] text-dGreen">
+//             Start Date
+//           </label>
+//           <div className="relative custom-date-input">
+//             <img
+//               src="/icons/calendarIcon.png"
+//               alt="Calendar"
+//               className="absolute w-[18px] h-[17px] top-[14px] right-[9px]"
+//             />
+//             <input
+//               type="date"
+//               value={startDate}
+//               onChange={(e) => setStartDate(e.target.value)}
+//               min={new Date().toISOString().split('T')[0]}
+//               className="date-input w-full text-[#8fa59c] bg-lGreen p-2 text-[14px] font-[500] border-none h-[45px]"
+//             />
+//           </div>
+
+//           {showDeptHead && (
+//             <div>
+//               <label className="font-[400] text-[14px] text-dGreen">
+//                 Department Head
+//               </label>
+//               <input
+//                 readOnly
+//                 value={deptHeadId}
+//                 className="w-full bg-lGreen p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+//               />
+//             </div>
+//           )}
+//         </div>
+
+//         <div className="flex flex-col gap-3 w-[161px]">
+//           <p className="font-[400] text-[14px] text-dGreen">Preview Upload</p>
+//           <div className="flex flex-col items-center justify-center w-[159px] h-[148px] rounded-[20px] bg-lGreen">
+//             {imagePath ? (
+//               <img
+//                 src={imagePath}
+//                 alt="Preview"
+//                 className="w-full h-full object-cover rounded-[20px]"
+//               />
+//             ) : (
+//               <p className="font-[400] text-[14px] text-dGreen">No image uploaded</p>
+//             )}
+//           </div>
+//         </div>
+//       </div>
+
+//       <div className="flex justify-end w-full">
+//         <button
+//           type="submit"
+//           onClick={handleSubmit}
+//           className="bg-themeGreen rounded-[10px] px-5 py-1 text-[16px] drop-shadow-[0_8px_8px_rgba(64,144,132,0.2)] font-[700] text-white"
+//         >
+//           Add Campaign
+//         </button>
+//       </div>
+//     </div>
+//     <ToastContainer
+//       position="bottom-right"
+//       autoClose={5000}
+//       hideProgressBar={false}
+//       newestOnTop={false}
+//       closeOnClick
+//       rtl={false}
+//       pauseOnFocusLoss
+//       draggable
+//       pauseOnHover
+//       theme="light"
+//     />
+//   </form>
+//   );
+// };
+
+// export default My_Campaigns;
+
+
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useScrollContext } from "../contexts/scrollContext";
 import Select from "react-select";
-
-const api = axios.create({
-  baseURL: 'https://crmapi.devcir.co/api'
-});
-
-api.interceptors.response.use(undefined, async (error) => {
-  if (error.response?.status == 429) {
-    const retryAfter = error.response.headers['retry-after'] || 5;
-    await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
-    return api.request(error.config);
-  }
-  return Promise.reject(error);
-});
 
 const My_Campaigns = ({ set, setter }) => {
   const fillAllCredentials = () =>
@@ -68,8 +386,6 @@ const My_Campaigns = ({ set, setter }) => {
     setStartDate(today);
   }, []);
 
-
-
   useEffect(() => {
     const userFName = localStorage.getItem("userFName");
 
@@ -78,57 +394,51 @@ const My_Campaigns = ({ set, setter }) => {
     }
   }, []);
 
-
-
-  const fetchWithRetry = async (endpoint, options = {}) => {
-    try {
-      const response = await api.get(endpoint, {
-        ...options,
-        headers: {
-          'Cache-Control': 'no-cache'
-        }
-      });
-      return response.data;
-    } catch (error) {
-      if (error.response?.status == 429) {
-        toast.warning("Too many requests. Please wait a moment...");
-      }
-      throw error;
-    }
-  };
-
   useEffect(() => {
     const fetchAvailableDepartmentHeads = async () => {
       try {
-        const [juniorResponse, departmentResponse, assignmentsResponse] = await Promise.all([
-          fetchWithRetry('/junior-department-heads'),
-          fetchWithRetry('/department-heads'),
-          fetchWithRetry('/campaigns_and_teams')
-        ]);
+        // Fetch all junior department heads
+        const juniorDeptHeadsResponse = await axios.get(
+          "https://crmapi.devcir.co/api/junior-department-heads"
+        );
+        const filtered = juniorDeptHeadsResponse.data.filter((team) => team.manager_id == localStorage.getItem("id"))
+        const allJuniorDeptHeads = filtered
 
-        const filtered = juniorResponse.filter(
-          team => team.manager_id == localStorage.getItem("id")
+        // Fetch all department heads
+        const departmentHeadsResponse = await axios.get(
+          "https://crmapi.devcir.co/api/department-heads"
         );
-        const filteredHeads = departmentResponse.filter(
-          team => team.manager_id == localStorage.getItem("id")
-        );
+        const filteredheads = departmentHeadsResponse.data.filter((team) => team.manager_id == localStorage.getItem("id"))
+        const allDepartmentHeads = filteredheads;
 
-        const assignedJuniorIds = assignmentsResponse.map(
-          assignment => assignment.junior_department_head_id
+        // Fetch existing campaign assignments
+        const campaignAssignmentsResponse = await axios.get(
+          "https://crmapi.devcir.co/api/campaigns_and_teams"
         );
-        const assignedDeptHeadIds = assignmentsResponse.map(
-          assignment => assignment.department_head_id
-        );
+        const existingAssignments = campaignAssignmentsResponse.data;
 
-        const availableJuniors = filtered.filter(
-          deptHead => !assignedJuniorIds.includes(deptHead.id)
-        );
-        const availableSeniors = filteredHeads.filter(
-          deptHead => assignedDeptHeadIds.includes(deptHead.id)
+        // Filter out already assigned junior department heads
+        const assignedJuniorDeptHeadIds = existingAssignments.map(
+          (assignment) => assignment.junior_department_head_id
         );
 
+        const assignedDeptHeadIds = existingAssignments.map(
+          (assignment) => assignment.department_head_id
+        );
+
+        // Filter available junior department heads
+        const availableJuniors = allJuniorDeptHeads.filter(
+          (deptHead) => !assignedJuniorDeptHeadIds.includes(deptHead.id)
+        );
+
+        // Filter available department heads
+        const availableSeniors = allDepartmentHeads.filter(
+          (deptHead) => assignedDeptHeadIds.includes(deptHead.id)
+        );
+
+        // Update the options for the Select component
         setJuniorDeptHeadOptions(
-          availableJuniors.map(deptHead => ({
+          availableJuniors.map((deptHead) => ({
             value: deptHead.id,
             label: deptHead.first_name,
             Dept_Head_id: deptHead.Dept_Head_id,
@@ -136,19 +446,20 @@ const My_Campaigns = ({ set, setter }) => {
         );
 
         if (availableJuniors.length == 0) {
-          setDeptHeadOptions(
-            filteredHeads.map(head => ({
-              value: head.id,
-              label: head.first_name,
-            }))
-          );
+          const members = allDepartmentHeads.map((head) => ({
+            value: head.id,
+            label: head.first_name,
+          }));
+          setDeptHeadOptions(members);
         }
+        // console.log("Dept HEads", members)
 
+        // Store available department heads
         setAvailableDepartmentHeads(availableSeniors);
-        setAllDeptHeads(filteredHeads);
+        setAllDeptHeads(allDepartmentHeads);
       } catch (error) {
-        console.error("Error fetching department heads:", error);
-        toast.error("Error loading department heads. Please try again later.");
+        console.error("Error fetching available department heads:", error);
+        toast.error("Error loading department heads data");
       }
     };
 
@@ -159,40 +470,44 @@ const My_Campaigns = ({ set, setter }) => {
     const fetchTeamsAndAssignments = async () => {
       const userId = localStorage.getItem("id");
       try {
-        const [teamsResponse, assignmentsResponse] = await Promise.all([
-          fetchWithRetry('/teams'),
-          fetchWithRetry('/campaigns_and_teams')
-        ]);
-
-        const managerTeams = teamsResponse.filter(
-          team => parseInt(team.manager_id) == parseInt(userId)
+        // Fetch all teams
+        const teamsResponse = await axios.get(
+          "https://crmapi.devcir.co/api/teams"
         );
-        const assignedTeamIds = assignmentsResponse.map(
-          assignment => assignment.team_id
+        const managerTeams = teamsResponse.data.filter(
+          (team) => team.manager_id == parseInt(userId)
         );
 
+        // Fetch all campaign and team assignments
+        const assignmentsResponse = await axios.get(
+          "https://crmapi.devcir.co/api/campaigns_and_teams"
+        );
+        const assignedTeamIds = assignmentsResponse.data.map(
+          (assignment) => assignment.team_id
+        );
+
+        // Filter out teams that are already assigned to campaigns
         const availableTeams = managerTeams.filter(
-          team => !assignedTeamIds.includes(team.id)
+          (team) => !assignedTeamIds.includes(team.id)
         );
 
+        // Update team options with only available teams
         setTeamOptions(
-          availableTeams.map(team => ({
+          availableTeams.map((team) => ({
             value: team.id,
             label: team.team_name,
           }))
         );
 
+        // Store all teams for team leader check functionality
         setTeam_And_Teamleader(managerTeams);
       } catch (error) {
-        console.error("Error fetching teams:", error);
-        toast.error("Error loading teams. Please try again later.");
+        console.error("Error fetching teams and assignments:", error);
       }
     };
 
     fetchTeamsAndAssignments();
   }, []);
-
-
 
   const handleTeamChange = (selectedOptions) => {
     const updatedTeamIds = selectedOptions.map((option) => option.value);
@@ -216,69 +531,33 @@ const My_Campaigns = ({ set, setter }) => {
     setSelectedTeam(updatedTeamIds);
   };
 
-  // const handleDeptHeadChange = (selectedOption) => {
-  //   if (juniorDeptHeadOptions.length > 0) {
-  //     setSelectedDeptHead(selectedOption?.Dept_Head_id);
-  //     setSelectedJuniorDeptHead(selectedOption);
-
-  //     if (selectedOption) {
-  //       const matchedDeptHead = allDeptHeads.find(
-  //         (deptHead) => deptHead.id == selectedOption.Dept_Head_id
-  //       );
-        
-  //       console.log("1st Match", matchedDeptHead)
-        
-        
-  //       const matchedInAllDeptHeads = availableDepartmentHeads.find(
-  //         (deptHead) => deptHead.id == selectedOption.Dept_Head_id
-  //       );
-
-  //       console.log("2nd Match", availableDepartmentHeads)
-        
-  //       if (matchedDeptHead && matchedInAllDeptHeads) {
-  //         // If found in both, display warning
-  //         toast.warn(
-  //           "Selected department head is already registered in a campaign."
-  //         );
-  //         setDeptHeadId(matchedDeptHead.first_name);
-  //       } else {
-  //         // If only in availableDepartmentHeads, set the department head without warning
-  //         setDeptHeadId(matchedDeptHead.first_name);
-  //       }
-  //     }
-  //     setShowDeptHead(selectedOption ? true : false);
-  //   } else {
-  //     setSelectedDeptHead(selectedOption.value);
-  //   }
-  // };
-
-
   const handleDeptHeadChange = (selectedOption) => {
     if (juniorDeptHeadOptions.length > 0) {
-      // Check if the selected junior department head has a department head assigned
-      if (selectedOption && !selectedOption.Dept_Head_id) {
-        toast.error("No head of department assigned to this junior department head");
-        return;
-      }
-  
       setSelectedDeptHead(selectedOption?.Dept_Head_id);
       setSelectedJuniorDeptHead(selectedOption);
-  
+
       if (selectedOption) {
         const matchedDeptHead = allDeptHeads.find(
           (deptHead) => deptHead.id == selectedOption.Dept_Head_id
         );
         
+        console.log("1st Match", matchedDeptHead)
+        
+        
         const matchedInAllDeptHeads = availableDepartmentHeads.find(
           (deptHead) => deptHead.id == selectedOption.Dept_Head_id
         );
+
+        console.log("2nd Match", availableDepartmentHeads)
         
         if (matchedDeptHead && matchedInAllDeptHeads) {
+          // If found in both, display warning
           toast.warn(
             "Selected department head is already registered in a campaign."
           );
           setDeptHeadId(matchedDeptHead.first_name);
         } else {
+          // If only in availableDepartmentHeads, set the department head without warning
           setDeptHeadId(matchedDeptHead.first_name);
         }
       }
@@ -318,30 +597,48 @@ const My_Campaigns = ({ set, setter }) => {
     }
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const managerId = parseInt(localStorage.getItem("id"));
+
     if (!campaignName || !startDate || selectedTeam.length == 0) {
-      toast.warn("Please fill all required fields");
+      toast.warn("Fill all the fields");
       return;
     }
 
     const formData = new FormData();
     formData.append("campaign_name", campaignName);
     formData.append("start_date", startDate);
-    formData.append("manager_id", localStorage.getItem("id"));
+    formData.append("manager_id", managerId);
     formData.append("end_date", "2024-12-31");
     if (imageFile) {
       formData.append("image_path", imageFile);
     }
 
-    try {
-      const createResponse = await api.post('/campaigns', formData);
-      const newCampaignId = createResponse.data.id;
+    console.log("Junior", selectedJuniorDeptHead);
+    console.log("Head", selectedDeptHead);
 
-      // Create campaign team associations with sequential processing
-      for (const teamId of selectedTeam) {
+    try {
+      const createResponse = await axios.post(
+        "https://crmapi.devcir.co/api/campaigns",
+        formData
+      );
+
+      if (!createResponse) {
+        return;
+      }
+
+      // Second API call - Get all campaigns to find the latest one
+      const getAllCampaigns = await axios.get(
+        "https://crmapi.devcir.co/api/campaigns"
+      );
+      const latestCampaign =
+        getAllCampaigns.data[getAllCampaigns.data.length - 1];
+      const newCampaignId = latestCampaign.id;
+
+      // Third API call - Create campaign and team associations
+      const campaignTeamPromises = selectedTeam.map(async (teamId) => {
         const campaignTeamData = {
           campaign_id: newCampaignId,
           team_id: teamId,
@@ -349,26 +646,27 @@ const My_Campaigns = ({ set, setter }) => {
           department_head_id: parseInt(selectedDeptHead),
         };
 
-        await api.post('/campaigns_and_teams', campaignTeamData);
-      }
+        return axios.post(
+          "https://crmapi.devcir.co/api/campaigns_and_teams",
+          campaignTeamData
+        );
+      });
 
-      toast.success("Campaign created successfully");
-      // Reset form
+      await Promise.all(campaignTeamPromises);
+
+      toast.success("Successfully created campaign and assigned teams");
+      window.location.reload();
+      console.log("Campaign created with ID:", newCampaignId);
+
+      // Optional: Reset form fields
       setCampaignName("");
       setSelectedTeam([]);
       setSelectedDeptHead(null);
       setImageFile(null);
-      setImagePath("");
-      
-      // Optional: Reload page after short delay
-      setTimeout(() => window.location.reload(), 1500);
+      setImagePath(null);
     } catch (error) {
-      console.error("Error creating campaign:", error);
-      if (error.response?.status == 429) {
-        toast.error("Too many requests. Please wait a moment before trying again.");
-      } else {
-        toast.error("Error creating campaign. Please try again.");
-      }
+      console.error("Error in campaign creation process:", error);
+      toast.error("Error creating campaign and assigning teams");
     }
   };
 
@@ -465,7 +763,7 @@ const My_Campaigns = ({ set, setter }) => {
                   value={selectedDeptHead ? selectedDeptHead.label : " "}
                   onChange={handleDeptHeadChange}
                   options={juniorDeptHeadOptions}
-                  placeholder="JDH"
+                  placeholder="Junior Department Head"
                 />
               </div>
             ) : deptHeadOptions.length > 0 ? (
@@ -519,7 +817,7 @@ const My_Campaigns = ({ set, setter }) => {
                 id="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                min={startDate}
+                // min={formattedToday}
                 className="date-input w-full text-[#8fa59c]  bg-lGreen p-2 text-[14px] font-[500] border-none h-[45px]"
               />
             </div>
@@ -542,7 +840,7 @@ const My_Campaigns = ({ set, setter }) => {
             )}
           </div>
 
-          {/* <div className="flex flex-col gap-3 w-[161px]">
+          <div className="flex flex-col gap-3 w-[161px]">
             <p className="font-[400] text-[14px] text-dGreen">Preview Upload</p>
             <div class="flex flex-col items-center justify-center w-[159px] h-[148px] rounded-[20px] bg-lGreen cursor-pointer">
               {imagePath ? (
@@ -552,28 +850,10 @@ const My_Campaigns = ({ set, setter }) => {
                   className="w-full h-full object-cover "
                 />
               ) : (
-                
                 <img className="w-42 h-42 m-auto rounded-full shadow cursor-pointer " />
               )}
             </div>
-          </div> */}
-
-<div className="flex flex-col gap-3 w-[161px]">
-  <p className="font-[400] text-[14px] text-dGreen">Preview Upload</p>
-  <div className="flex flex-col items-center justify-center w-[159px] h-[148px] rounded-[20px] bg-lGreen cursor-pointer">
-    {imagePath ? (
-      <img
-        src={imagePath}
-        alt="Selected"
-        className="w-full h-full object-cover"
-      />
-    ) : (
-      <p className="font-[400] text-[14px] text-dGreen">No image uploaded</p>
-    )}
-  </div>
-</div>
-
-
+          </div>
         </div>
         <div className="flex justify-end w-full">
           <button
@@ -585,7 +865,7 @@ const My_Campaigns = ({ set, setter }) => {
           </button>
         </div>
       </div>
-      {/* <ToastContainer
+      <ToastContainer
         position="bottom-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -596,7 +876,7 @@ const My_Campaigns = ({ set, setter }) => {
         draggable
         pauseOnHover
         theme="light"
-      /> */}
+      />
     </form>
   );
 };
