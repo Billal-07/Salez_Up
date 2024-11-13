@@ -540,7 +540,7 @@ const Teamleader_commission = () => {
 
     const filtered = campaignsAndTeamsData
       .filter((item) => item.campaign_id == campaign.id) 
-      .map((item) => item.team_id);
+      .map((item) => parseInt(item.team_id));
 
     const filteredTeams = teams.filter((team) => filtered.includes(team.id));
 
