@@ -399,11 +399,12 @@ const SignIn = () => {
       }
 
       if (foundUser) {
+        console.log(`Found Pass ${CryptoJS.AES.decrypt(foundUser.password, 'DBBDRSSR54321').toString(CryptoJS.enc.Utf8)}`)
         const decryptedPassword = type == 'Manager'
           ? CryptoJS.AES.decrypt(foundUser.password, 'DBBDRSSR54321').toString(CryptoJS.enc.Utf8)
-          : foundUser.password; // Use plain password for other roles
-
-        if (password == decryptedPassword) {
+          :  CryptoJS.AES.decrypt(foundUser.password, 'DBBDRSSR54321').toString(CryptoJS.enc.Utf8); // Use plain password for other roles
+        console.log("pass: ", password)
+        if (password === decryptedPassword) {
           console.log("Decrypted Password: ", decryptedPassword);
           console.log("----  Right User ----");
           console.log("my user: ", foundUser);
