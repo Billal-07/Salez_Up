@@ -5,10 +5,8 @@
 // import { useScrollContext } from "../contexts/scrollContext";
 // import Select from "react-select";
 
-
-
 // const My_Campaigns = ({ set, setter }) => {
-  
+
 //   const [campaigns, setCampaigns] = useState([]);
 //   const [isModalOpen, setIsModalOpen] = useState(false);
 //   const [editedCampaign, setEditedCampaign] = useState({});
@@ -31,7 +29,7 @@
 //   const [selectedTeams, setSelectedTeams] = useState([]);
 //   const [juniorDeptHeadOptions, setJuniorDeptHeadOptions] = useState([]);
 //   const [deptHeadOptions, setDeptHeadOptions] = useState([]);
-  
+
 //   useEffect(() => {
 //     const fetchAllData = async () => {
 //       try {
@@ -80,7 +78,7 @@
 //           .map(head => ({
 //             value: head.id,
 //             label: `${head.first_name} ${head.last_name}`,
-//             Dept_Head_id: head.Dept_Head_id 
+//             Dept_Head_id: head.Dept_Head_id
 //           }));
 //         setJuniorDeptHeadOptions(juniorHeadOpts);
 
@@ -92,7 +90,6 @@
 
 //     fetchAllData();
 //   }, []);
-
 
 //   // Handle image change
 //   const handleImageChange = (e) => {
@@ -117,9 +114,6 @@
 //     setDeptHeadId(selectedOption?.value || "");
 //     setShowDeptHead(!!selectedOption);
 //   };
-
- 
-
 
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
@@ -327,8 +321,6 @@
 
 // export default My_Campaigns;
 
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -401,14 +393,18 @@ const My_Campaigns = ({ set, setter }) => {
         const juniorDeptHeadsResponse = await axios.get(
           "https://crmapi.devcir.co/api/junior-department-heads"
         );
-        const filtered = juniorDeptHeadsResponse.data.filter((team) => team.manager_id == localStorage.getItem("id"))
-        const allJuniorDeptHeads = filtered
+        const filtered = juniorDeptHeadsResponse.data.filter(
+          (team) => team.manager_id == localStorage.getItem("id")
+        );
+        const allJuniorDeptHeads = filtered;
 
         // Fetch all department heads
         const departmentHeadsResponse = await axios.get(
           "https://crmapi.devcir.co/api/department-heads"
         );
-        const filteredheads = departmentHeadsResponse.data.filter((team) => team.manager_id == localStorage.getItem("id"))
+        const filteredheads = departmentHeadsResponse.data.filter(
+          (team) => team.manager_id == localStorage.getItem("id")
+        );
         const allDepartmentHeads = filteredheads;
 
         // Fetch existing campaign assignments
@@ -432,8 +428,8 @@ const My_Campaigns = ({ set, setter }) => {
         );
 
         // Filter available department heads
-        const availableSeniors = allDepartmentHeads.filter(
-          (deptHead) => assignedDeptHeadIds.includes(deptHead.id)
+        const availableSeniors = allDepartmentHeads.filter((deptHead) =>
+          assignedDeptHeadIds.includes(deptHead.id)
         );
 
         // Update the options for the Select component
@@ -477,19 +473,22 @@ const My_Campaigns = ({ set, setter }) => {
         const managerTeams = teamsResponse.data.filter(
           (team) => team.manager_id == parseInt(userId)
         );
+        console.log("MAnager Teams", managerTeams)
 
         // Fetch all campaign and team assignments
         const assignmentsResponse = await axios.get(
           "https://crmapi.devcir.co/api/campaigns_and_teams"
         );
         const assignedTeamIds = assignmentsResponse.data.map(
-          (assignment) => assignment.team_id
+          (assignment) => parseInt(assignment.team_id)
         );
-
+        console.log("Assigned team IDs: " + assignedTeamIds)
         // Filter out teams that are already assigned to campaigns
         const availableTeams = managerTeams.filter(
-          (team) => !assignedTeamIds.includes(team.id)
+          
+          (team) => !assignedTeamIds.includes(parseInt(team.id))
         );
+        console.log("available Teams: " + availableTeams);
 
         // Update team options with only available teams
         setTeamOptions(
@@ -522,7 +521,7 @@ const My_Campaigns = ({ set, setter }) => {
     });
     if (conflictingTeams.length > 0) {
       const confirmMessage =
-        "The selected team(s) already have a team leader. Do you want to proceed with assigning a new team leader?";
+        "The selected team(s) already have a Campaign. Do you want to proceed with assigning a new Campaign?";
       const userConfirmed = window.confirm(confirmMessage);
       if (!userConfirmed) {
         return;
@@ -533,6 +532,15 @@ const My_Campaigns = ({ set, setter }) => {
 
   const handleDeptHeadChange = (selectedOption) => {
     if (juniorDeptHeadOptions.length > 0) {
+      // Check if the selected junior department head has a department head assigned
+      if (selectedOption && !selectedOption.Dept_Head_id) {
+        toast.error(
+          "No head of department assigned to this junior department head"
+        );
+        setDeptHeadId("")
+        return;
+      }
+
       setSelectedDeptHead(selectedOption?.Dept_Head_id);
       setSelectedJuniorDeptHead(selectedOption);
 
@@ -540,24 +548,17 @@ const My_Campaigns = ({ set, setter }) => {
         const matchedDeptHead = allDeptHeads.find(
           (deptHead) => deptHead.id == selectedOption.Dept_Head_id
         );
-        
-        console.log("1st Match", matchedDeptHead)
-        
-        
+
         const matchedInAllDeptHeads = availableDepartmentHeads.find(
           (deptHead) => deptHead.id == selectedOption.Dept_Head_id
         );
 
-        console.log("2nd Match", availableDepartmentHeads)
-        
         if (matchedDeptHead && matchedInAllDeptHeads) {
-          // If found in both, display warning
           toast.warn(
             "Selected department head is already registered in a campaign."
           );
           setDeptHeadId(matchedDeptHead.first_name);
         } else {
-          // If only in availableDepartmentHeads, set the department head without warning
           setDeptHeadId(matchedDeptHead.first_name);
         }
       }
@@ -715,8 +716,6 @@ const My_Campaigns = ({ set, setter }) => {
             </label>
           </div>
 
-
-          
           <div className="flex flex-col gap-3 w-[269px]">
             <label
               htmlFor="name"
@@ -763,7 +762,7 @@ const My_Campaigns = ({ set, setter }) => {
                   value={selectedDeptHead ? selectedDeptHead.label : " "}
                   onChange={handleDeptHeadChange}
                   options={juniorDeptHeadOptions}
-                  placeholder="Junior Department Head"
+                  placeholder="JDH"
                 />
               </div>
             ) : deptHeadOptions.length > 0 ? (
