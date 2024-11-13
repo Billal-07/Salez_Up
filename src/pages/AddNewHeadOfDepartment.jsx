@@ -166,7 +166,7 @@ const AddNewHeadOfDepartment = ({ set, setter, onDepartmentHead}) => {
 
       const responseData = await response.json();
       console.log("Success:", responseData);
-      window.location.reload();
+      // window.location.reload();
       toast.success("Head of department registered successfully!");
 
       const payloadMail = {

@@ -182,7 +182,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
       const responseData = await response.json();
       console.log("Success:", responseData);
       toast.success("Junior Department Head registered successfully!");
-      window.location.reload();
+      // window.location.reload();
 
       const payloadMail = {
         role: "Junior Department Head",
