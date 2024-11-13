@@ -20,10 +20,12 @@ const AddNewAgent = ({ set, setter }) => {
   const [imageFile, setImageFile] = useState(null);
   const [imagePath, setImagePath] = useState("");
   const [imageName, setImageName] = useState("");
+  const [teamLeaderData, setTeamLeaderData] = useState([]);
+  const [teamLeaderId, setTeamLeaderId] = useState("");
 
   useEffect(() => {
-    const today = new Date().toLocaleDateString('en-CA'); 
-    setStartDate(today); 
+    const today = new Date().toLocaleDateString("en-CA");
+    setStartDate(today);
   }, []);
 
   useEffect(() => {
@@ -44,6 +46,15 @@ const AddNewAgent = ({ set, setter }) => {
         })
         .catch((error) => {
           console.error("Error fetching teams:", error);
+        });
+
+      axios
+        .get("https://crmapi.devcir.co/api/team_and_team_leader")
+        .then((response) => {
+          setTeamLeaderData(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching team leader data:", error);
         });
     }
   }, []);
@@ -141,12 +152,12 @@ const AddNewAgent = ({ set, setter }) => {
   //     !firstName ||
   //     !surName ||
   //     !startDate ||
-  //     !email 
+  //     !email
   //   ) {
   //     fillAllCredentials();
   //     return;
   //   }
-    
+
   //   const responses = await fetch("https://crmapi.devcir.co/api/sales_agents");
   //   if (!responses.ok) {
   //     throw new Error("Failed to fetch user data");
@@ -171,7 +182,6 @@ const AddNewAgent = ({ set, setter }) => {
   //   if(imageFile){
   //     formData.append("image_path", imageFile);
   //   }
-
 
   //   try {
   //     const response = await fetch("https://crmapi.devcir.co/api/sales_agents", {
@@ -233,41 +243,43 @@ const AddNewAgent = ({ set, setter }) => {
   //   }
   // };
 
-
-
-
   const register_sales_agent = async (e) => {
     e.preventDefault();
-  
+
     const password = generatePassword();
-    const encryptedPassword = CryptoJS.AES.encrypt(password, 'DBBDRSSR54321').toString();
+    const encryptedPassword = CryptoJS.AES.encrypt(
+      password,
+      "DBBDRSSR54321"
+    ).toString();
     const link = generateUniqueCode();
-  
+
     // Regular expression for validating email format
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  
+
     if (!firstName || !surName || !startDate || !email) {
       fillAllCredentials();
       return;
     }
-  
+
     // Check if the email matches the standard structure
     if (!emailPattern.test(email)) {
       alert("Kindly write correct email");
       return;
     }
-  
+
     const responses = await fetch("https://crmapi.devcir.co/api/sales_agents");
     if (!responses.ok) {
       throw new Error("Failed to fetch user data");
     }
     const userData = await responses.json();
-    const emailExists = userData.some((user) => user.email.toLowerCase() == email.toLowerCase());
+    const emailExists = userData.some(
+      (user) => user.email.toLowerCase() == email.toLowerCase()
+    );
     if (emailExists) {
       toast.error("Email already exists. Please use a different email.");
       return;
     }
-  
+
     const formData = new FormData();
     if (selectedTeam) {
       formData.append("team_id", parseInt(selectedTeam));
@@ -281,59 +293,62 @@ const AddNewAgent = ({ set, setter }) => {
     if (imageFile) {
       formData.append("image_path", imageFile);
     }
-  
+
     try {
-      const response = await fetch("https://crmapi.devcir.co/api/sales_agents", {
-        method: "POST",
-        body: formData,
-      });
-  
+      const response = await fetch(
+        "https://crmapi.devcir.co/api/sales_agents",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-  
+
       const responseData = await response.json();
       console.log("Success:", responseData);
       window.location.reload();
       toast.success("Sales agent registered successfully!");
-  
+
       const payloadMail = {
         role: "Sales Agent",
         email: email,
         link: `https://salez-up.vercel.app/SalesAgent/${link}`,
         password: password,
       };
-  
+
       try {
-        const response = await fetch('https://crmapi.devcir.co/api/send-link', {
-          method: 'POST',
+        const response = await fetch("https://crmapi.devcir.co/api/send-link", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(payloadMail),
         });
-  
+
         const result = await response.json();
-  
+
         if (response.ok) {
-          toast.success('Email Has Been Sent Successfully');
+          toast.success("Email Has Been Sent Successfully");
         } else {
-          toast.error('Error Sending Email. Please Try Again Later');
+          toast.error("Error Sending Email. Please Try Again Later");
         }
       } catch (error) {
-        console.log('An error occurred: ' + error.message);
+        console.log("An error occurred: " + error.message);
       }
-  
+
       const data = await response.json();
       console.log("Response from API:", data);
-  
-      setFirstName('');
-      setSurName('');
+
+      setFirstName("");
+      setSurName("");
       setSelectedTeam("");
       setEmail("");
       setImageFile();
       alert("Agent is successfully created");
-  
+
       setter(!set);
       successfulMsg();
       window.location.reload();
@@ -341,7 +356,7 @@ const AddNewAgent = ({ set, setter }) => {
       console.error("There was a problem with the fetch operation:", error);
     }
   };
-  
+
   // Input field remains the same
   <div className="w-full ml-[190px] mt-[-140px]">
     <label
@@ -359,8 +374,7 @@ const AddNewAgent = ({ set, setter }) => {
         setEmail(e.target.value);
       }}
     />
-  </div>
-  
+  </div>;
 
   return (
     <form>
@@ -369,9 +383,9 @@ const AddNewAgent = ({ set, setter }) => {
           Add New Sales Agent
         </h1>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="flex flex-col  gap-3 w-[161px] mt-[60px]">
-            <label class="flex flex-col items-center justify-center w-[159px] h-[148px] rounded-[20px] bg-lGreen cursor-pointer">
+        <div className="flex space-x-9">
+          <div className="flex flex-col justify-center items-center">
+            <label class="flex flex-col items-center justify-center w-[160px] h-[148px] rounded-[20px] bg-lGreen cursor-pointer">
               <div className=" overflow-hidden border-black rounded-xl block w-32 h-32 items-center justify-center">
                 {imagePath ? (
                   <img
@@ -400,131 +414,167 @@ const AddNewAgent = ({ set, setter }) => {
               />
 
               {imagePath && <p></p>}
-
-              {/* </div> */}
-
               <input type="file" class="opacity-0" />
             </label>
           </div>
 
-          <div className="w-full ml-[-120px] mt-[16px]">
-            <label
-              htmlFor="fname"
-              className="font-medium text-[14px] text-dGreen mb-2 block"
-            >
-              First Name
-            </label>
-            <input
-              type="text"
-              id="fname"
-              className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
-              placeholder="Enter first name"
-              onChange={(e) => {
-                setFirstName(e.target.value);
-              }}
-            />
-          </div>
+          <div className="w-full ">
 
-          <div className="w-full ml-[-190px] mt-[16px]">
-            <label
-              htmlFor="lname"
-              className="font-medium text-[14px] text-dGreen mb-2 block"
-            >
-              Last Name
-            </label>
-            <input
-              type="text"
-              id="lname"
-              className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
-              placeholder="Enter last name"
-              onChange={(e) => {
-                setSurName(e.target.value);
-              }}
-            />
-          </div>
+            <div className="flex">
+              <div className="w-full ">
+                <label
+                  htmlFor="fname"
+                  className="font-medium text-[14px] text-dGreen mb-2 block"
+                >
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  id="fname"
+                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  placeholder="Enter first name"
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                  }}
+                />
+              </div>
 
-          <div className="w-full ml-[190px] mt-[-130px]">
-            <label
-              htmlFor="email"
-              className="font-medium text-[14px] text-dGreen mb-2 block"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
-              placeholder="abcd@xyz.com"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-          </div>
+              <div className="w-full">
+                <label
+                  htmlFor="lname"
+                  className="font-medium text-[14px] text-dGreen mb-2 block"
+                >
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  id="lname"
+                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  placeholder="Enter last name"
+                  onChange={(e) => {
+                    setSurName(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
 
-          <div className="w-full ml-[120px] mt-[-130px]">
-            <label
-              htmlFor="manager"
-              className="font-medium text-[14px] text-dGreen mb-2 block"
-            >
-              Manager
-            </label>
-            <input
-              type="text"
-              readOnly
-              value={managerName}
-              className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
-            />
-          </div>
+            <div className="flex mt-4">
+              <div className="w-full">
+                <label
+                  htmlFor="email"
+                  className="font-medium text-[14px] text-dGreen mb-2 block"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  placeholder="abcd@xyz.com"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+              </div>
 
-          <div className="w-full ml-[-432px] mt-[-40px]">
-            <label
-              htmlFor="team"
-              className="font-medium text-[14px] text-dGreen mb-2 block"
-            >
-              Team
-            </label>
-            <select
-              id="team"
-              className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
-              value={selectedTeam}
-              onChange={(e) => setSelectedTeam(e.target.value)}
-            >
-              <option value="" disabled>
-                Select a team
-              </option>
-              {teams.map((team) => (
-                <option key={team.id} value={team.id}>
-                  {team.team_name}
-                </option>
-              ))}
-            </select>
-          </div>
+              <div className="w-full">
+                <label
+                  htmlFor="manager"
+                  className="font-medium text-[14px] text-dGreen mb-2 block"
+                >
+                  Manager
+                </label>
+                <input
+                  type="text"
+                  readOnly
+                  value={managerName}
+                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                />
+              </div>
+            </div>
 
-          <div className="w-full ml-[432px] mt-[-90px]">
-            <label
-              htmlFor="date"
-              className="font-medium text-[14px] text-dGreen mb-2 block"
-            >
-              Start Date
-            </label>
-            <div className="relative custom-date-input">
-              <img
-                src="/icons/calendarIcon.png"
-                alt=""
-                className="absolute w-[18px] h-[17px] top-[14px] right-[9px]"
-              />
-              <input
-                type="date"
-                id="date"
-                className="date-input w-full text-[#8fa59c]  bg-lGreen p-2 text-[14px] font-[500] border-none h-[45px]"
-                value={startDate}
-                min={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
+            <div className="flex mt-4">
+              <div className="w-full ">
+                <label
+                  htmlFor="team"
+                  className="font-medium text-[14px] text-dGreen mb-2 block"
+                >
+                  Team
+                </label>
+                <select
+                  id="team"
+                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  value={selectedTeam}
+                  onChange={(e) => {
+                    setSelectedTeam(e.target.value);
+                    const selectedTeamData = teamLeaderData.find(
+                      (item) => item.team_id == parseInt(e.target.value)
+                    );
+                    setTeamLeaderId(
+                      selectedTeamData
+                        ? selectedTeamData.team_leader.first_name
+                        : "No Team Leader Assigned To This Team"
+                    );
+                    console.log("sada", selectedTeamData);
+                  }}
+                >
+                  <option value="" disabled>
+                    Select a team
+                  </option>
+                  {teams.map((team) => (
+                    <option key={team.id} value={team.id}>
+                      {team.team_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="w-full">
+                <label
+                  htmlFor="date"
+                  className="font-medium text-[14px] text-dGreen mb-2 block"
+                >
+                  Start Date
+                </label>
+                <div className="relative custom-date-input">
+                  <img
+                    src="/icons/calendarIcon.png"
+                    alt=""
+                    className="absolute w-[18px] h-[17px] top-[14px] right-[9px]"
+                  />
+                  <input
+                    type="date"
+                    id="date"
+                    className="date-input w-full text-[#8fa59c]  bg-lGreen p-2 text-[14px] font-[500] border-none h-[45px]"
+                    value={startDate}
+                    min={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex mt-4">
+
+              <div className="w-1/2 flex flex-col items-start">
+                <label
+                  htmlFor="teamLeader"
+                  className="font-medium text-[14px] text-dGreen mb-2 block"
+                >
+                  Team Leader
+                </label>
+                <input
+                  type="text"
+                  id="teamLeader"
+                  value={teamLeaderId}
+                  readOnly
+                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                />
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 w-[161px] ml-[432px] mt-[-250px]">
+          <div className="flex flex-col justify-center items-center">
             <p className="font-[400] text-[14px] text-dGreen">Preview Upload</p>
             <div class="flex flex-col items-center justify-center w-[159px] h-[148px] rounded-[20px] bg-lGreen cursor-pointer">
               {imagePath ? (
@@ -535,7 +585,9 @@ const AddNewAgent = ({ set, setter }) => {
                 />
               ) : (
                 // <img className="w-42 h-42 m-auto rounded-full shadow cursor-pointer " />
-                <p className="font-[400] text-[14px] text-dGreen">No image uploaded</p>
+                <p className="font-[400] text-[14px] text-dGreen">
+                  No image uploaded
+                </p>
               )}
             </div>
           </div>
