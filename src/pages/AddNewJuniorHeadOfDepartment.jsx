@@ -187,7 +187,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
       const payloadMail = {
         role: "Junior Department Head",
         email: email,
-        link: `https://crmapi.devcir.co/TeamLeader/${link}`,
+        link: `https://salez-up.vercel.app/TeamLeader/${link}`,
         password: password,
       };
 

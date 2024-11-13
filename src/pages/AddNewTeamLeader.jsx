@@ -222,7 +222,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
       const payloadMail = {
         role: "Team Leader",
         email: email,
-        link: `https://crmapi.devcir.co/TeamLeader/${link}`,
+        link: `https://salez-up.vercel.app/TeamLeader/${link}`,
         password: password,
       };
 

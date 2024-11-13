@@ -300,7 +300,7 @@ const AddNewAgent = ({ set, setter }) => {
       const payloadMail = {
         role: "Sales Agent",
         email: email,
-        link: `https://crmapi.devcir.co/SalesAgent/${link}`,
+        link: `https://salez-up.vercel.app/SalesAgent/${link}`,
         password: password,
       };
   

@@ -235,7 +235,7 @@ const Head_of_sales_SignUp = () => {
           const payloadMail = {
             role: "Head Of Sales",
             email: email,
-            link: `https://crmapi.devcir.co/HeadofSales/${link}`,
+            link: `https://salez-up.vercel.app/HeadofSales/${link}`,
             password: password,
             managerId: managerId,
           };

@@ -270,7 +270,7 @@ const Senior_Ops_manager_SignUp = () => {
           const payloadMail = {
             role: "Senior Ops Manager",
             email: email,
-            link: `https://crmapi.devcir.co/SeniorOpsManager_SignIn/${link}`,
+            link: `https://salez-up.vercel.app/SeniorOpsManager_SignIn/${link}`,
             password: password,
             managerId: managerSecretId,
           };

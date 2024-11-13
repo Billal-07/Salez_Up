@@ -165,7 +165,7 @@ const My_Campaigns = ({ set, setter }) => {
         ]);
 
         const managerTeams = teamsResponse.filter(
-          team => team.manager_id == parseInt(userId)
+          team => parseInt(team.manager_id) == parseInt(userId)
         );
         const assignedTeamIds = assignmentsResponse.map(
           assignment => assignment.team_id
