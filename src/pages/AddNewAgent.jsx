@@ -512,7 +512,7 @@ const AddNewAgent = ({ set, setter }) => {
                     );
                     setTeamLeaderId(
                       selectedTeamData
-                        ? selectedTeamData.team_leader.first_name
+                        ? `${selectedTeamData.team_leader.first_name} ${selectedTeamData.team_leader.last_name}`
                         : "No Team Leader Assigned To This Team"
                     );
                     console.log("sada", selectedTeamData);
