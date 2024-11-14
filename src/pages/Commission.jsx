@@ -2129,441 +2129,446 @@ const Commission = () => {
                   ))}
               </div>
             </div>
-            {filteredTeams.map((team, index) => (
-              <div key={index} onClick={() => handleTeamClick(team)}>
-                <div className="flex items-center justify-between w-full">
-                  <div className="h-[110px] gap-[26px] flex justify-between items-center">
-                    <div className="w-[142px] h-[82px] mt-[26px]">
-                      <label
-                        htmlFor={`team-${index}`}
-                        className="text-[14px] font-normal leading-[21px] text-left"
-                      >
-                        Team
-                      </label>
-                      <div className="border-[1px] border-lGreen rounded-[6px] bg-white p-2 text-[14px] font-[500] h-[45px] flex items-center">
+            { filteredTeams.length > 0 ? (
+              filteredTeams.map((team, index) => (
+                <div key={index} onClick={() => handleTeamClick(team)}>
+                  <div className="flex items-center justify-between w-full">
+                    <div className="h-[110px] gap-[26px] flex justify-between items-center">
+                      <div className="w-[142px] h-[82px] mt-[26px]">
+                        <label
+                          htmlFor={`team-${index}`}
+                          className="text-[14px] font-normal leading-[21px] text-left"
+                        >
+                          Team
+                        </label>
+                        <div className="border-[1px] border-lGreen rounded-[6px] bg-white p-2 text-[14px] font-[500] h-[45px] flex items-center">
+                          <input
+                            type="text"
+                            id={`team-${index}`}
+                            value={team.team_name}
+                            readOnly
+                            className="[box-shadow:0px_4px_4px_0px_#40908417] cursor-pointer w-full rounded-[6px] bg-white p-2 text-[14px] font-[500] border-none h-[45px]"
+                          />
+                        </div>
+                      </div>
+                      <div className="w-[156px] h-[82px] mt-6">
+                        <label
+                          htmlFor="month"
+                          className="text-[14px] font-normal leading-[21px] text-left"
+                        >
+                          Month
+                        </label>
+                        <select
+                          id="month"
+                          value={teamData[team.id]?.month || ""}
+                          onChange={(e) =>
+                            handleSelectChange(team.id, "month", e.target.value)
+                          }
+                          className="[box-shadow:0px_4px_4px_0px_#40908417] cursor-pointer w-full rounded-[6px] bg-white p-2 text-[14px] font-[500] border-none h-[45px]"
+                        >
+                          <option value="">Select a month</option>
+                          <option value="January">January</option>
+                          <option value="February">February</option>
+                          <option value="March">March</option>
+                          <option value="April">April</option>
+                          <option value="May">May</option>
+                          <option value="June">June</option>
+                          <option value="July">July</option>
+                          <option value="August">August</option>
+                          <option value="September">September</option>
+                          <option value="October">October</option>
+                          <option value="November">November</option>
+                          <option value="December">December</option>
+                        </select>
+                      </div>
+                      <div className="w-[170px] h-[82px] flex-col flex mt-[30px]">
+                        <label
+                          htmlFor="frequency"
+                          className="text-[14px] font-normal leading-[21px] text-left"
+                        >
+                          Frequency
+                        </label>
+                        <select
+                          id="frequency"
+                          className="[box-shadow:0px_4px_4px_0px_#40908417] cursor-pointer w-full rounded-[6px] bg-white p-2 text-[14px] font-[500] border-none h-[45px]"
+                          value={teamData[team.id]?.frequency || ""}
+                          onChange={(e) =>
+                            handleSelectChange(
+                              team.id,
+                              "frequency",
+                              e.target.value
+                            )
+                          }
+                        >
+                          <option value="" disabled>
+                            Select Frequency
+                          </option>
+                          <option value="Weekly">Weekly</option>
+                          <option value="Monthly">Monthly</option>
+                          <option value="Quarterly">Quarterly</option>
+                        </select>
+                      </div>
+                      <div className="relative w-[144px] h-[82px] flex-col flex mt-[30px]">
+                        <label
+                          htmlFor="Opportunity"
+                          className="text-[14px] font-normal leading-[21px] text-left"
+                        >
+                          Opportunity
+                        </label>
+                        <select
+                          className="absolute mt-[23px] left-0 bg-transparent border-none text-[14px] font-[500] h-[45px] cursor-pointer"
+                          value={teamData[team.id]?.currency || ""}
+                          onChange={(e) =>
+                            handleSelectChange(
+                              team.id,
+                              "currency",
+                              e.target.value
+                            )
+                          }
+                          style={{ appearance: "none" }}
+                        >
+                          {currencies.map((cur) => (
+                            <option key={cur} value={cur}>
+                              {cur}
+                            </option>
+                          ))}
+                        </select>
                         <input
                           type="text"
-                          id={`team-${index}`}
-                          value={team.team_name}
-                          readOnly
-                          className="[box-shadow:0px_4px_4px_0px_#40908417] cursor-pointer w-full rounded-[6px] bg-white p-2 text-[14px] font-[500] border-none h-[45px]"
+                          id="Opportunity"
+                          className="w-full bg-[#F5FBFA] rounded-[6px] pl-16 placeholder:pl-2 p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                          placeholder="1000"
+                          value={teamData[team.id]?.opportunity || ""}
+                          onChange={(e) =>
+                            handleSelectChange1(
+                              team.id,
+                              "opportunity",
+                              e.target.value
+                            )
+                          }
                         />
                       </div>
                     </div>
-                    <div className="w-[156px] h-[82px] mt-6">
-                      <label
-                        htmlFor="month"
-                        className="text-[14px] font-normal leading-[21px] text-left"
+                    <div className="w-[261px] h-[36px] flex justify-between">
+                      <button
+                        className="bg-themeGreen w-[106px] mt-4 ml-2 h-full rounded-[10px] text-white tracking-[1%] font-[500] text-[16px]"
+                        onClick={() => handleSave(team.id)}
                       >
-                        Month
-                      </label>
-                      <select
-                        id="month"
-                        value={teamData[team.id]?.month || ""}
-                        onChange={(e) =>
-                          handleSelectChange(team.id, "month", e.target.value)
-                        }
-                        className="[box-shadow:0px_4px_4px_0px_#40908417] cursor-pointer w-full rounded-[6px] bg-white p-2 text-[14px] font-[500] border-none h-[45px]"
-                      >
-                        <option value="">Select a month</option>
-                        <option value="January">January</option>
-                        <option value="February">February</option>
-                        <option value="March">March</option>
-                        <option value="April">April</option>
-                        <option value="May">May</option>
-                        <option value="June">June</option>
-                        <option value="July">July</option>
-                        <option value="August">August</option>
-                        <option value="September">September</option>
-                        <option value="October">October</option>
-                        <option value="November">November</option>
-                        <option value="December">December</option>
-                      </select>
-                    </div>
-                    <div className="w-[170px] h-[82px] flex-col flex mt-[30px]">
-                      <label
-                        htmlFor="frequency"
-                        className="text-[14px] font-normal leading-[21px] text-left"
-                      >
-                        Frequency
-                      </label>
-                      <select
-                        id="frequency"
-                        className="[box-shadow:0px_4px_4px_0px_#40908417] cursor-pointer w-full rounded-[6px] bg-white p-2 text-[14px] font-[500] border-none h-[45px]"
-                        value={teamData[team.id]?.frequency || ""}
-                        onChange={(e) =>
-                          handleSelectChange(
-                            team.id,
-                            "frequency",
-                            e.target.value
-                          )
-                        }
-                      >
-                        <option value="" disabled>
-                          Select Frequency
-                        </option>
-                        <option value="Weekly">Weekly</option>
-                        <option value="Monthly">Monthly</option>
-                        <option value="Quarterly">Quarterly</option>
-                      </select>
-                    </div>
-                    <div className="relative w-[144px] h-[82px] flex-col flex mt-[30px]">
-                      <label
-                        htmlFor="Opportunity"
-                        className="text-[14px] font-normal leading-[21px] text-left"
-                      >
-                        Opportunity
-                      </label>
-                      <select
-                        className="absolute mt-[23px] left-0 bg-transparent border-none text-[14px] font-[500] h-[45px] cursor-pointer"
-                        value={teamData[team.id]?.currency || ""}
-                        onChange={(e) =>
-                          handleSelectChange(
-                            team.id,
-                            "currency",
-                            e.target.value
-                          )
-                        }
-                        style={{ appearance: "none" }}
-                      >
-                        {currencies.map((cur) => (
-                          <option key={cur} value={cur}>
-                            {cur}
-                          </option>
-                        ))}
-                      </select>
-                      <input
-                        type="text"
-                        id="Opportunity"
-                        className="w-full bg-[#F5FBFA] rounded-[6px] pl-16 placeholder:pl-2 p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
-                        placeholder="1000"
-                        value={teamData[team.id]?.opportunity || ""}
-                        onChange={(e) =>
-                          handleSelectChange1(
-                            team.id,
-                            "opportunity",
-                            e.target.value
-                          )
-                        }
-                      />
+                        Save
+                      </button>
                     </div>
                   </div>
-                  <div className="w-[261px] h-[36px] flex justify-between">
-                    <button
-                      className="bg-themeGreen w-[106px] mt-4 ml-2 h-full rounded-[10px] text-white tracking-[1%] font-[500] text-[16px]"
-                      onClick={() => handleSave(team.id)}
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div>
-                {kpiTableVisible[team.id] && kpisInTable > 0 && (
-                  <div className="pb-4 mt-4 [box-shadow:0px_4px_4px_0px_#40908417] rounded-[10px] ">
-                    <table className="table w-full">
-                      <thead>
-                        <tr className="text-xs ">
-                          <th className="p-2 border-b-2 border-r-2 border-[#dbd9d9] border-dashed text-[#1E8675] text-md font-semibold">
-                            KPI
-                          </th>
-                          <th className="p-2 border-b-2 border-r-2 border-[#dbd9d9] border-dashed text-[#1E8675] text-md font-semibold ">
-                            Target
-                          </th>
-                          <th className="p-2 border-b-2 border-r-2 border-[#dbd9d9] border-dashed text-[#1E8675] text-md font-semibold">
-                            Weighting
-                          </th>
-                          <th className="p-2 border-b-2 border-r-2 border-[#dbd9d9] border-dashed text-[#1E8675] text-md font-semibold">
-                            Opportunity
-                          </th>
-                          <th className="p-2 border-b-2 border-[#dbd9d9] border-dashed text-[#1E8675] text-md font-semibold">
-                            Gatekeeper
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {teamKpiData[team.id] &&
-                          teamKpiData[team.id].map((kpi, index) => (
-                            <tr key={index} className="text-center ">
-                              <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
-                                <div className="flex items-center justify-center">
-                                  <select
-                                    className={`bg-[#E9ECEB] placeholder-[#8fa59c] justify-center text-center border-none w-[109px] h-[30px] p-[3px] rounded-[6px] text-[10px] font-medium leading-[15px] mr-2`}
-                                    value={kpi.kpi_Name_ID || ""}
-                                    onChange={(event) =>
-                                      handleKpiChange(event, team.id, index)
-                                    }
-                                  >
-                                    <option value="">Select KPI</option>
-                                    {kpis
-                                      .filter(
-                                        (kpiOption) =>
-                                          !selectedKpis[team.id]?.[
-                                            kpiOption.id
-                                          ] ||
-                                          kpiOption.id.toString() ==
-                                            kpi.kpi_Name_ID
-                                      )
-                                      .map((kpiOption) => (
-                                        <option
-                                          key={kpiOption.id}
-                                          value={kpiOption.id.toString()}
-                                        >
-                                          {kpiOption.kpi_name}
-                                        </option>
-                                      ))}
-                                  </select>
-
-                                  {kpisWithSelectionBox[
-                                    `${team.id}-${index}`
-                                  ] && (
+                  {kpiTableVisible[team.id] && kpisInTable > 0 && (
+                    <div className="pb-4 mt-4 [box-shadow:0px_4px_4px_0px_#40908417] rounded-[10px] ">
+                      <table className="table w-full">
+                        <thead>
+                          <tr className="text-xs ">
+                            <th className="p-2 border-b-2 border-r-2 border-[#dbd9d9] border-dashed text-[#1E8675] text-md font-semibold">
+                              KPI
+                            </th>
+                            <th className="p-2 border-b-2 border-r-2 border-[#dbd9d9] border-dashed text-[#1E8675] text-md font-semibold ">
+                              Target
+                            </th>
+                            <th className="p-2 border-b-2 border-r-2 border-[#dbd9d9] border-dashed text-[#1E8675] text-md font-semibold">
+                              Weighting
+                            </th>
+                            <th className="p-2 border-b-2 border-r-2 border-[#dbd9d9] border-dashed text-[#1E8675] text-md font-semibold">
+                              Opportunity
+                            </th>
+                            <th className="p-2 border-b-2 border-[#dbd9d9] border-dashed text-[#1E8675] text-md font-semibold">
+                              Gatekeeper
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {teamKpiData[team.id] &&
+                            teamKpiData[team.id].map((kpi, index) => (
+                              <tr key={index} className="text-center ">
+                                <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
+                                  <div className="flex items-center justify-center">
                                     <select
-                                      className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[120px] h-[30px] rounded-[6px] text-[10px] font-medium leading-[15px] "
-                                      value={
-                                        selectedDialOptions[
-                                          `${team.id}-${index}`
-                                        ] || ""
+                                      className={`bg-[#E9ECEB] placeholder-[#8fa59c] justify-center text-center border-none w-[109px] h-[30px] p-[3px] rounded-[6px] text-[10px] font-medium leading-[15px] mr-2`}
+                                      value={kpi.kpi_Name_ID || ""}
+                                      onChange={(event) =>
+                                        handleKpiChange(event, team.id, index)
                                       }
+                                    >
+                                      <option value="">Select KPI</option>
+                                      {kpis
+                                        .filter(
+                                          (kpiOption) =>
+                                            !selectedKpis[team.id]?.[
+                                              kpiOption.id
+                                            ] ||
+                                            kpiOption.id.toString() ==
+                                              kpi.kpi_Name_ID
+                                        )
+                                        .map((kpiOption) => (
+                                          <option
+                                            key={kpiOption.id}
+                                            value={kpiOption.id.toString()}
+                                          >
+                                            {kpiOption.kpi_name}
+                                          </option>
+                                        ))}
+                                    </select>
+  
+                                    {kpisWithSelectionBox[
+                                      `${team.id}-${index}`
+                                    ] && (
+                                      <select
+                                        className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[120px] h-[30px] rounded-[6px] text-[10px] font-medium leading-[15px] "
+                                        value={
+                                          selectedDialOptions[
+                                            `${team.id}-${index}`
+                                          ] || ""
+                                        }
+                                        onChange={(e) =>
+                                          handleDialsValueChange(
+                                            team.id,
+                                            index,
+                                            e.target.value
+                                          )
+                                        }
+                                      >
+                                        <option value="" disabled>
+                                          Select value
+                                        </option>
+                                        <option value="Day">Day</option>
+                                        <option value="Week">Week</option>
+                                        <option value="Month">Month</option>
+                                      </select>
+                                    )}
+                                  </div>
+                                </td>
+  
+                                <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
+                                  <div className="relative">
+                                    <input
+                                      type="text"
+                                      className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[123px] h-[30px] p-[7px] rounded-[6px] text-black text-[10px] font-medium leading-[15px] placeholder:ml-10`}
+                                      value={kpi.target}
+                                      placeholder="Enter Target"
                                       onChange={(e) =>
-                                        handleDialsValueChange(
+                                        handleInputChange(
                                           team.id,
                                           index,
+                                          "target",
                                           e.target.value
                                         )
                                       }
-                                    >
-                                      <option value="" disabled>
-                                        Select value
-                                      </option>
-                                      <option value="Day">Day</option>
-                                      <option value="Week">Week</option>
-                                      <option value="Month">Month</option>
-                                    </select>
-                                  )}
-                                </div>
-                              </td>
-
-                              <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
-                                <div className="relative">
+                                      // style={{ color: '#8fa59c' }}
+                                    />
+                                    {kpisWithSelectionBox[
+                                      `${team.id}-${index}`
+                                    ] &&
+                                      selectedDialOptions[
+                                        `${team.id}-${index}`
+                                      ] && (
+                                        <span
+                                          className="absolute right-[37px] top-1/2 transform -translate-y-1/2 text-[10px] font-medium text-black/60 pr-1"
+                                          style={{ pointerEvents: "none" }}
+                                        >
+                                          /{" "}
+                                          {
+                                            selectedDialOptions[
+                                              `${team.id}-${index}`
+                                            ]
+                                          }
+                                        </span>
+                                      )}
+                                  </div>
+                                </td>
+  
+                                <td className="border-r-2 pt-4 border-[#dbd9d9] border-dashed">
+                                  <div className="relative">
+                                    <input
+                                      type="text"
+                                      className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
+                                      value={kpi.weighting}
+                                      placeholder="Enter Weighting"
+                                      onChange={(event) =>
+                                        handle_Add_KPI_Weighting_Change(
+                                          selectedTeam.id,
+                                          index,
+                                          "weighting",
+                                          event.target.value
+                                        )
+                                      }
+                                    />
+                                    {kpi.weighting && (
+                                      <span className="absolute right-[75px] top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[10px] font-medium pointer-events-none">
+                                        %
+                                      </span>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed ">
                                   <input
                                     type="text"
-                                    className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[123px] h-[30px] p-[7px] rounded-[6px] text-black text-[10px] font-medium leading-[15px] placeholder:ml-10`}
-                                    value={kpi.target}
-                                    placeholder="Enter Target"
+                                    className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
+                                    placeholder="Enter Opportunity"
                                     onChange={(e) =>
                                       handleInputChange(
                                         team.id,
                                         index,
-                                        "target",
+                                        "opportunity",
                                         e.target.value
                                       )
                                     }
-                                    // style={{ color: '#8fa59c' }}
+                                    readOnly
+                                    // value={parseFloat(((kpi.weighting / 100) * (teamData[team.id]?.opportunity || 0)).toFixed(2))}
+                                    value={`${
+                                      teamData[team.id]?.currency || "$"
+                                    } ${parseFloat(
+                                      (
+                                        (kpi.weighting / 100) *
+                                        (teamData[team.id]?.opportunity || 0)
+                                      ).toFixed(2)
+                                    )}`}
                                   />
-                                  {kpisWithSelectionBox[
-                                    `${team.id}-${index}`
-                                  ] &&
-                                    selectedDialOptions[
-                                      `${team.id}-${index}`
-                                    ] && (
-                                      <span
-                                        className="absolute right-[37px] top-1/2 transform -translate-y-1/2 text-[10px] font-medium text-black/60 pr-1"
-                                        style={{ pointerEvents: "none" }}
-                                      >
-                                        /{" "}
-                                        {
-                                          selectedDialOptions[
-                                            `${team.id}-${index}`
-                                          ]
-                                        }
-                                      </span>
-                                    )}
-                                </div>
-                              </td>
-
-                              <td className="border-r-2 pt-4 border-[#dbd9d9] border-dashed">
-                                <div className="relative">
+                                </td>
+                                <td className="pt-4">
                                   <input
                                     type="text"
                                     className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
-                                    value={kpi.weighting}
-                                    placeholder="Enter Weighting"
-                                    onChange={(event) =>
-                                      handle_Add_KPI_Weighting_Change(
-                                        selectedTeam.id,
-                                        index,
-                                        "weighting",
-                                        event.target.value
-                                      )
-                                    }
-                                  />
-                                  {kpi.weighting && (
-                                    <span className="absolute right-[75px] top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[10px] font-medium pointer-events-none">
-                                      %
-                                    </span>
-                                  )}
-                                </div>
-                              </td>
-                              <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed ">
-                                <input
-                                  type="text"
-                                  className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
-                                  placeholder="Enter Opportunity"
-                                  onChange={(e) =>
-                                    handleInputChange(
-                                      team.id,
-                                      index,
-                                      "opportunity",
-                                      e.target.value
-                                    )
-                                  }
-                                  readOnly
-                                  // value={parseFloat(((kpi.weighting / 100) * (teamData[team.id]?.opportunity || 0)).toFixed(2))}
-                                  value={`${
-                                    teamData[team.id]?.currency || "$"
-                                  } ${parseFloat(
-                                    (
-                                      (kpi.weighting / 100) *
-                                      (teamData[team.id]?.opportunity || 0)
-                                    ).toFixed(2)
-                                  )}`}
-                                />
-                              </td>
-                              <td className="pt-4">
-                                <input
-                                  type="text"
-                                  className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
-                                  value={kpi.gatekeeper}
-                                  onChange={(e) =>
-                                    handleInputChange(
-                                      team.id,
-                                      index,
-                                      "gatekeeper",
-                                      e.target.value
-                                    )
-                                  }
-                                  placeholder="N/A"
-                                  disabled={
-                                    gatekeeperSet[team.id] && !kpi.gatekeeper
-                                  }
-                                />
-                              </td>
-                            </tr>
-                          ))}
-
-                        {customKpiData[team.id] &&
-                          customKpiData[team.id].map((customKpi, index) => (
-                            <tr
-                              key={`custom-${team.id}-${index}`}
-                              className="text-center"
-                            >
-                              <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed ">
-                                <input
-                                  type="text"
-                                  className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
-                                  value={customKpi.Custom_KPI_Name}
-                                  placeholder="Custom KPI Name"
-                                  onChange={(e) =>
-                                    handleCustomKpiInputChange(
-                                      team.id,
-                                      index,
-                                      "Custom_KPI_Name",
-                                      e.target.value
-                                    )
-                                  }
-                                />
-                              </td>
-                              <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
-                                <input
-                                  type="text"
-                                  className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
-                                  value={customKpi.Custom_Target}
-                                  placeholder="Custom Target"
-                                  onChange={(e) =>
-                                    handleCustomKpiInputChange(
-                                      team.id,
-                                      index,
-                                      "Custom_Target",
-                                      e.target.value
-                                    )
-                                  }
-                                />
-                              </td>
-                              <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
-                                <div className="relative">
-                                  <input
-                                    type="text"
-                                    className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[7px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
-                                    value={customKpi.Custom_Weighting}
-                                    placeholder="Custom Weighting"
+                                    value={kpi.gatekeeper}
                                     onChange={(e) =>
-                                      handle_Custom_KPI_Weighting(
+                                      handleInputChange(
                                         team.id,
                                         index,
-                                        "Custom_Weighting",
+                                        "gatekeeper",
+                                        e.target.value
+                                      )
+                                    }
+                                    placeholder="N/A"
+                                    disabled={
+                                      gatekeeperSet[team.id] && !kpi.gatekeeper
+                                    }
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+  
+                          {customKpiData[team.id] &&
+                            customKpiData[team.id].map((customKpi, index) => (
+                              <tr
+                                key={`custom-${team.id}-${index}`}
+                                className="text-center"
+                              >
+                                <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed ">
+                                  <input
+                                    type="text"
+                                    className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
+                                    value={customKpi.Custom_KPI_Name}
+                                    placeholder="Custom KPI Name"
+                                    onChange={(e) =>
+                                      handleCustomKpiInputChange(
+                                        team.id,
+                                        index,
+                                        "Custom_KPI_Name",
                                         e.target.value
                                       )
                                     }
                                   />
-                                  {customKpi.Custom_Weighting && (
-                                    <span className="absolute right-[75px] top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[10px] font-medium pointer-events-none">
-                                      %
-                                    </span>
-                                  )}
-                                </div>
-                              </td>
-                              <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
-                                <input
-                                  type="text"
-                                  className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
-                                  value={`${
-                                    teamData[team.id]?.currency || "$"
-                                  } ${customKpi.Custom_Opportunity}`}
-                                  placeholder="Custom Opportunity"
-                                  readOnly
-                                />
-                              </td>
-                              <td className="pt-4">
-                                <input
-                                  type="text"
-                                  className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
-                                  value={customKpi.Custom_Gatekeeper}
-                                  placeholder="Custom Gatekeeper"
-                                  onChange={(e) =>
-                                    handleCustomKpiInputChange(
-                                      team.id,
-                                      index,
-                                      "Custom_Gatekeeper",
-                                      e.target.value
-                                    )
-                                  }
-                                  disabled={
-                                    gatekeeperSet[team.id] &&
-                                    !customKpi.Custom_Gatekeeper
-                                  }
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
+                                </td>
+                                <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
+                                  <input
+                                    type="text"
+                                    className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
+                                    value={customKpi.Custom_Target}
+                                    placeholder="Custom Target"
+                                    onChange={(e) =>
+                                      handleCustomKpiInputChange(
+                                        team.id,
+                                        index,
+                                        "Custom_Target",
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </td>
+                                <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
+                                  <div className="relative">
+                                    <input
+                                      type="text"
+                                      className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[7px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
+                                      value={customKpi.Custom_Weighting}
+                                      placeholder="Custom Weighting"
+                                      onChange={(e) =>
+                                        handle_Custom_KPI_Weighting(
+                                          team.id,
+                                          index,
+                                          "Custom_Weighting",
+                                          e.target.value
+                                        )
+                                      }
+                                    />
+                                    {customKpi.Custom_Weighting && (
+                                      <span className="absolute right-[75px] top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[10px] font-medium pointer-events-none">
+                                        %
+                                      </span>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
+                                  <input
+                                    type="text"
+                                    className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
+                                    value={`${
+                                      teamData[team.id]?.currency || "$"
+                                    } ${customKpi.Custom_Opportunity}`}
+                                    placeholder="Custom Opportunity"
+                                    readOnly
+                                  />
+                                </td>
+                                <td className="pt-4">
+                                  <input
+                                    type="text"
+                                    className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
+                                    value={customKpi.Custom_Gatekeeper}
+                                    placeholder="Custom Gatekeeper"
+                                    onChange={(e) =>
+                                      handleCustomKpiInputChange(
+                                        team.id,
+                                        index,
+                                        "Custom_Gatekeeper",
+                                        e.target.value
+                                      )
+                                    }
+                                    disabled={
+                                      gatekeeperSet[team.id] &&
+                                      !customKpi.Custom_Gatekeeper
+                                    }
+                                  />
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                  <div className="flex justify-end w-full mt-6">
+                    <button
+                      className=" tracking-[1%] [box-shadow:0px_4px_4px_0px_#40908417] bg-white flex justify-center items-center h-[50px] w-[157px] rounded-[10px] gap-[10px] text-black font-[600] text-[14px]"
+                      onClick={() => handleAddCustomKPI(team.id)}
+                    >
+                      <Plus className="text-[#1E8675]" /> Add KPI
+                    </button>
+                    <button
+                      className="tracking-[1%] [box-shadow:0px_4px_4px_0px_#40908417] bg-white text-black flex justify-center items-center h-[50px] w-[200px] rounded-[10px] gap-[10px] font-[600] text-[14px] ml-4"
+                      onClick={() => handleAddCustomKpiRow(team.id)}
+                    >
+                      <img src={logo} className="w-6 h-6" />
+                      Add Custom KPI
+                    </button>
                   </div>
-                )}
-                <div className="flex justify-end w-full mt-6">
-                  <button
-                    className=" tracking-[1%] [box-shadow:0px_4px_4px_0px_#40908417] bg-white flex justify-center items-center h-[50px] w-[157px] rounded-[10px] gap-[10px] text-black font-[600] text-[14px]"
-                    onClick={() => handleAddCustomKPI(team.id)}
-                  >
-                    <Plus className="text-[#1E8675]" /> Add KPI
-                  </button>
-                  <button
-                    className="tracking-[1%] [box-shadow:0px_4px_4px_0px_#40908417] bg-white text-black flex justify-center items-center h-[50px] w-[200px] rounded-[10px] gap-[10px] font-[600] text-[14px] ml-4"
-                    onClick={() => handleAddCustomKpiRow(team.id)}
-                  >
-                    <img src={logo} className="w-6 h-6" />
-                    Add Custom KPI
-                  </button>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <div className="text-center text-gray-500">Select Campaign To Assign Kpi</div>
+            )
+            }
           </div>
           <TeamLeaderKpiTable />
           <Teamleader_commission />

@@ -30,9 +30,13 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
   );
 
   const [admins, setAdmins] = useState([]);
-  const [selectedmanager, setSelectedmanager] = useState(
-    data.manager?.manager_name || ""
-  );
+  const [selectedmanager, setSelectedManager] = useState("");
+  useEffect(() => {
+    const userFName = localStorage.getItem("userFName");
+    if (userFName) {
+      setSelectedManager(userFName);
+    }
+  }, []);
 
   const [commissionName, setCommissionName] = useState(data.commission);
   const [lead_name, setLead_name] = useState(data.first_name);

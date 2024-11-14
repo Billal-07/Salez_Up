@@ -463,7 +463,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
             value={startDate}
             min={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            className="date-input w-full text-[#8fa59c] bg-lGreen p-2 text-[14px] font-[500] border-none h-[45px]"
+            className="date-input w-full bg-lGreen p-2 text-[14px] font-[500] border-none h-[45px]"
           />
         </div>
       </div>
