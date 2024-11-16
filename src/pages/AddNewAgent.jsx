@@ -508,7 +508,7 @@ const AddNewAgent = ({ set, setter }) => {
                   onChange={(e) => {
                     setSelectedTeam(e.target.value);
                     const selectedTeamData = teamLeaderData.find(
-                      (item) => item.team_id === parseInt(e.target.value)
+                      (item) => item.team_id == parseInt(e.target.value)
                     );
                     
                     let leaderName = "No Team Leader";
