@@ -79,17 +79,46 @@ const Campaign_table = () => {
   };
 
   // Update selected department head when junior head changes
+  // const handleJuniorHeadChange = (e) => {
+  //   const selectedJuniorHeadName = e.target.value;
+  //   const correspondingDepartmentHead = findDepartmentHeadByJuniorHead(
+  //     selectedJuniorHeadName
+  //   );
+  //   setEditedCampaign({
+  //     ...editedCampaign,
+  //     juniorDepartmentHead: selectedJuniorHeadName,
+  //     departmentHead: correspondingDepartmentHead,
+  //   });
+  // };
+
+
   const handleJuniorHeadChange = (e) => {
     const selectedJuniorHeadName = e.target.value;
+  
+    const isJuniorHeadAlreadyRegistered = campaigns.some(
+      (campaign) =>
+        campaign?.junior_department_head?.first_name === selectedJuniorHeadName &&
+        campaign.campaign_id == editedCampaign.campaignId
+    );
+  
+    if (isJuniorHeadAlreadyRegistered) {
+      alert(
+        "This junior head is already registered to this campaign. Please select a different junior head."
+      );
+      return;
+    }
+  
     const correspondingDepartmentHead = findDepartmentHeadByJuniorHead(
       selectedJuniorHeadName
     );
+  
     setEditedCampaign({
       ...editedCampaign,
       juniorDepartmentHead: selectedJuniorHeadName,
       departmentHead: correspondingDepartmentHead,
     });
   };
+  
 
   const removeDuplicateCampaigns = (campaigns) => {
     const uniqueCampaigns = {};
@@ -143,9 +172,8 @@ const Campaign_table = () => {
 
       return matchesSearch && matchesTeam;
     });
-
-    // Remove duplicates before returning
-    return removeDuplicateCampaigns(filtered);
+    console.log("Filtered", filtered)
+    return filtered;
   }, [campaigns, searchTerm, selectedTeam]);
 
   const fetchCampaignImage = async (campaignId) => {
@@ -163,7 +191,6 @@ const Campaign_table = () => {
     }
   };
 
-  // Handle opening edit modal with selected campaign data
   const handleEditClick = (campaign) => {
     setSelectedCampaignId(campaign.id);
     console.log("Selected Campaign ID:", campaign.campaign_id);
@@ -171,6 +198,7 @@ const Campaign_table = () => {
     fetchCampaignImage(campaign.campaign_id);
 
     setEditedCampaign({
+      id: campaign.id,
       campaignId: campaign.campaign_id || null,
       campaignName: campaign.campaign?.campaign_name || "Not Assigned",
       teamName: campaign.team?.team_name || "Not Assigned",
@@ -181,13 +209,11 @@ const Campaign_table = () => {
     setIsModalOpen(true);
   };
 
-  // Close modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
   const handleDeleteClick = async (id) => {
-    // Show confirmation dialog
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this campaign?"
     );
@@ -284,6 +310,7 @@ const Campaign_table = () => {
   };
 
   const handleSave = async () => {
+    console.log("Edited", editedCampaign)
     try {
       // Add image update function
       const updateImage = async () => {
@@ -364,7 +391,7 @@ const Campaign_table = () => {
       const updateTeam = async () => {
         if (editedCampaign.teamId != undefined) {
           await axios.put(
-            `https://crmapi.devcir.co/api/campaigns_and_teams_update-team/${editedCampaign.campaignId}`,
+            `https://crmapi.devcir.co/api/campaigns_and_teams_update/${editedCampaign.id}`,
             {
               team_id: editedCampaign.teamId || null,
             }
@@ -442,10 +469,10 @@ const Campaign_table = () => {
       setUploadedImage(null);
 
       // Refresh campaign data
-      const campaignsResponse = await axios.get(
-        "https://crmapi.devcir.co/api/campaigns_and_teams"
-      );
-      setCampaigns(campaignsResponse.data);
+      // const campaignsResponse = await axios.get(
+      //   "https://crmapi.devcir.co/api/campaigns_and_teams"
+      // );
+      // setCampaigns(campaignsResponse.data);
       setIsModalOpen(false);
 
       // Reload page to reflect changes
@@ -473,10 +500,10 @@ const Campaign_table = () => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setNewImageFile(file); // Store the actual file for upload
+      setNewImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setUploadedImage(reader.result); // Preview the image immediately
+        setUploadedImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -524,7 +551,7 @@ const Campaign_table = () => {
         </div>
 
         <table>
-          <thead className="text-themeGreen h-[30px]">
+          <thead className="text-themeGreen">
             <tr>
               <th className="px-4 sm:px-[10px] font-[500] min-w-[50px]">
                 Campaign
@@ -663,27 +690,36 @@ const Campaign_table = () => {
                 </label>
                 <select
                   name="teamName"
-                  value={editedCampaign.teamName || "No Team"} // Default to "No Team" if teamName is null or empty
+                  value={editedCampaign.teamName || "No Team"}
                   onChange={(e) => {
                     const selectedTeamName = e.target.value;
                     const selectedTeam = filteredTeams.find(
                       (team) => team.team_name == selectedTeamName
                     );
-                    const selectedTeamId = selectedTeam
-                      ? selectedTeam.id
-                      : null;
-
+                    const selectedTeamId = selectedTeam ? selectedTeam.id : null;
+                  
+                    // Check if the selected team ID and editedCampaign.campaignId already exist in campaigns
+                    const isTeamAlreadyRegistered = campaigns.some(
+                      (campaign) =>
+                        campaign.team_id == selectedTeamId &&
+                        campaign.campaign_id == editedCampaign.campaignId
+                    );
+                  
+                    if (isTeamAlreadyRegistered) {
+                      alert("This team is already registered to this campaign. Please select a different team.");
+                      return;
+                    }
+                  
                     setEditedCampaign({
                       ...editedCampaign,
-                      teamName:
-                        selectedTeamName == "No Team" ? "" : selectedTeamName,
+                      teamName: selectedTeamName == "No Team" ? "" : selectedTeamName,
                       teamId: selectedTeamId,
                     });
-
+                  
                     if (selectedTeamId) {
                       console.log("Selected Team ID:", selectedTeamId);
                     }
-                  }}
+                  }}                  
                   className="border border-gray-300 p-2 w-full rounded"
                 >
                   <option value="No Team">No Team</option> // Default option if
