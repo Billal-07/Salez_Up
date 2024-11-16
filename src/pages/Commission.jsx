@@ -168,7 +168,9 @@ const Commission = () => {
   useEffect(() => {
     const fetchKpis = async () => {
       try {
-        const response = await axios.get("https://crmapi.devcir.co/api/kpi_info");
+        const response = await axios.get(
+          "https://crmapi.devcir.co/api/kpi_info"
+        );
         setKpis(response.data);
       } catch (error) {
         console.error("Error fetching KPIs:", error);
@@ -180,11 +182,14 @@ const Commission = () => {
 
   const postKpiInfo = async (kpiName) => {
     try {
-      const response = await axios.post("https://crmapi.devcir.co/api/kpi_info", {
-        kpi_name: kpiName,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      });
+      const response = await axios.post(
+        "https://crmapi.devcir.co/api/kpi_info",
+        {
+          kpi_name: kpiName,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        }
+      );
       console.log(`KPI name ${kpiName} saved successfully.`);
       return response.data.id;
     } catch (error) {
@@ -561,7 +566,9 @@ const Commission = () => {
         const campaignResponse = await axios.get(
           "https://crmapi.devcir.co/api/campaigns"
         );
-        const teamResponse = await axios.get("https://crmapi.devcir.co/api/teams");
+        const teamResponse = await axios.get(
+          "https://crmapi.devcir.co/api/teams"
+        );
         const campaignsAndTeamsResponse = await axios.get(
           "https://crmapi.devcir.co/api/campaigns_and_teams"
         );
@@ -938,9 +945,12 @@ const Commission = () => {
 
         const salesAgentsData = await salesAgentsResponse.json();
         const teamLeaderData = await teamLeaderResponse.json();
-        const filteredTeams = salesAgentsData.filter((team) => team.manager_id == localStorage.getItem("id"))
-        const filtered = teamLeaderData.filter((team) => team.team.manager_id == localStorage.getItem("id"))
-
+        const filteredTeams = salesAgentsData.filter(
+          (team) => team.manager_id == localStorage.getItem("id")
+        );
+        const filtered = teamLeaderData.filter(
+          (team) => team.team.manager_id == localStorage.getItem("id")
+        );
 
         const combinedData = filteredTeams.map((agent) => {
           const teamLeaderInfo = filtered.find(
@@ -1325,7 +1335,13 @@ const Commission = () => {
                           </p>
                         </td>
                         <td className="px-[10px] w-[91px]">
-                          <p className={team.team_leader && team.team_leader.first_name ? "" : "text-xs"}>
+                          <p
+                            className={
+                              team.team_leader && team.team_leader.first_name
+                                ? ""
+                                : "text-xs"
+                            }
+                          >
                             {team.team_leader && team.team_leader.first_name
                               ? team.team_leader.first_name
                               : "(Not Assigned)"}
@@ -1458,6 +1474,7 @@ const Commission = () => {
                                           <label className="ml-8 text-xs font-bold">
                                             Target
                                           </label>
+                                          
                                           <input
                                             type="number"
                                             value={customKpi.target}
@@ -2129,7 +2146,7 @@ const Commission = () => {
                   ))}
               </div>
             </div>
-            { filteredTeams.length > 0 ? (
+            {filteredTeams.length > 0 ? (
               filteredTeams.map((team, index) => (
                 <div key={index} onClick={() => handleTeamClick(team)}>
                   <div className="flex items-center justify-between w-full">
@@ -2312,7 +2329,7 @@ const Commission = () => {
                                           </option>
                                         ))}
                                     </select>
-  
+
                                     {kpisWithSelectionBox[
                                       `${team.id}-${index}`
                                     ] && (
@@ -2341,8 +2358,8 @@ const Commission = () => {
                                     )}
                                   </div>
                                 </td>
-  
-                                <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
+
+                                {/* <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
                                   <div className="relative">
                                     <input
                                       type="text"
@@ -2378,8 +2395,49 @@ const Commission = () => {
                                         </span>
                                       )}
                                   </div>
+                                </td> */}
+
+                                <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed text-center">
+                                  <div className="relative w-[123px] h-[30px] flex items-center justify-center mx-auto">
+                                    <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[12px] font-medium">
+                                      {teamData[team.id]?.currency || "$"}
+                                    </div>
+                                    <input
+                                      type="text"
+                                      className={`bg-[#E9ECEB] placeholder-transparent text-center border-none w-full h-full pl-[25px] pr-[7px] rounded-[6px] text-black text-[12px] font-medium leading-[15px]`}
+                                      value={kpi.target}
+                                      placeholder="Enter Target"
+                                      onChange={(e) =>
+                                        handleInputChange(
+                                          team.id,
+                                          index,
+                                          "target",
+                                          e.target.value
+                                        )
+                                      }
+                                    />
+                                    {kpisWithSelectionBox[
+                                      `${team.id}-${index}`
+                                    ] &&
+                                      selectedDialOptions[
+                                        `${team.id}-${index}`
+                                      ] && (
+                                        <span
+                                          className="absolute right-[37px] top-1/2 transform -translate-y-1/2 text-[10px] font-medium text-black/60 pr-1"
+                                          style={{ pointerEvents: "none" }}
+                                        >
+                                          /{" "}
+                                          {
+                                            selectedDialOptions[
+                                              `${team.id}-${index}`
+                                            ]
+                                          }
+                                        </span>
+                                      )}
+                                      
+                                  </div>
                                 </td>
-  
+
                                 <td className="border-r-2 pt-4 border-[#dbd9d9] border-dashed">
                                   <div className="relative">
                                     <input
@@ -2449,7 +2507,7 @@ const Commission = () => {
                                 </td>
                               </tr>
                             ))}
-  
+
                           {customKpiData[team.id] &&
                             customKpiData[team.id].map((customKpi, index) => (
                               <tr
@@ -2473,20 +2531,25 @@ const Commission = () => {
                                   />
                                 </td>
                                 <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
-                                  <input
-                                    type="text"
-                                    className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
-                                    value={customKpi.Custom_Target}
-                                    placeholder="Custom Target"
-                                    onChange={(e) =>
-                                      handleCustomKpiInputChange(
-                                        team.id,
-                                        index,
-                                        "Custom_Target",
-                                        e.target.value
-                                      )
-                                    }
-                                  />
+                                  <div className="relative w-[123px] h-[30px] flex items-center justify-center mx-auto">
+                                    <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[12px] font-medium">
+                                      {teamData[team.id]?.currency || "$"}
+                                    </div>
+                                    <input
+                                      type="text"
+                                      className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
+                                      value={customKpi.Custom_Target}
+                                      placeholder="Custom Target"
+                                      onChange={(e) =>
+                                        handleCustomKpiInputChange(
+                                          team.id,
+                                          index,
+                                          "Custom_Target",
+                                          e.target.value
+                                        )
+                                      }
+                                    />
+                                  </div>
                                 </td>
                                 <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
                                   <div className="relative">
@@ -2566,9 +2629,10 @@ const Commission = () => {
                 </div>
               ))
             ) : (
-              <div className="text-center text-gray-500">Select Campaign To Assign Kpi</div>
-            )
-            }
+              <div className="text-center text-gray-500">
+                Select Campaign To Assign Kpi
+              </div>
+            )}
           </div>
           <TeamLeaderKpiTable />
           <Teamleader_commission />

@@ -13,7 +13,7 @@ import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import fallbackImage from '/public/images/image_not_1.jfif';
+import fallbackImage from "/public/images/image_not_1.jfif";
 
 const Teamleader_commission = () => {
   // ------------------------- Declerations-----------------------------------//
@@ -163,7 +163,9 @@ const Teamleader_commission = () => {
   useEffect(() => {
     const fetchKpis = async () => {
       try {
-        const response = await axios.get("https://crmapi.devcir.co/api/kpi_info");
+        const response = await axios.get(
+          "https://crmapi.devcir.co/api/kpi_info"
+        );
         setKpis(response.data);
       } catch (error) {
         console.error("Error fetching KPIs:", error);
@@ -175,11 +177,14 @@ const Teamleader_commission = () => {
 
   const postKpiInfo = async (kpiName) => {
     try {
-      const response = await axios.post("https://crmapi.devcir.co/api/kpi_info", {
-        kpi_name: kpiName,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      });
+      const response = await axios.post(
+        "https://crmapi.devcir.co/api/kpi_info",
+        {
+          kpi_name: kpiName,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        }
+      );
       console.log(`KPI name ${kpiName} saved successfully.`);
       return response.data.id;
     } catch (error) {
@@ -307,8 +312,12 @@ const Teamleader_commission = () => {
   // };
 
   const handleSave = async (teamId) => {
-    const matchingRecord = teamLeraderAndTeamsData.find((record) => record.team_id == teamId);
-    const matchingTeamLeaderId = matchingRecord ? matchingRecord.team_leader_id : null;
+    const matchingRecord = teamLeraderAndTeamsData.find(
+      (record) => record.team_id == teamId
+    );
+    const matchingTeamLeaderId = matchingRecord
+      ? matchingRecord.team_leader_id
+      : null;
     console.log("Matching team leader ID:", matchingTeamLeaderId);
 
     const regularKpiWeightings = (teamKpiData[teamId] || []).map(
@@ -366,7 +375,7 @@ const Teamleader_commission = () => {
       // team_leader_id: matchingTeamLeaderId,
       kpi_data: JSON.stringify(savedTeamData),
     };
-    
+
     try {
       const response = await fetch(
         `https://crmapi.devcir.co/api/kpiUpdate/${teamId}`,
@@ -398,7 +407,7 @@ const Teamleader_commission = () => {
       });
 
       // Optionally reload the page or update the state
-    //   window.location.reload();
+      //   window.location.reload();
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       alert("There was an error posting the data.");
@@ -539,7 +548,7 @@ const Teamleader_commission = () => {
     setSelectedCampaign(campaign);
 
     const filtered = campaignsAndTeamsData
-      .filter((item) => item.campaign_id == campaign.id) 
+      .filter((item) => item.campaign_id == campaign.id)
       .map((item) => parseInt(item.team_id));
 
     const filteredTeams = teams.filter((team) => filtered.includes(team.id));
@@ -666,55 +675,62 @@ const Teamleader_commission = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
-          const campaignResponse = await axios.get(
-            "https://crmapi.devcir.co/api/campaigns"
-          );
-          const teamResponse = await axios.get("https://crmapi.devcir.co/api/teams");
-          const campaignsAndTeamsResponse = await axios.get(
-            "https://crmapi.devcir.co/api/campaigns_and_teams"
-          );
-          const teamLeaderAndTeamsResponse = await axios.get(
-            "https://crmapi.devcir.co/api/team_and_team_leader"
-          );
-      
-          setTeamLeaderAndTeamsData(teamLeaderAndTeamsResponse.data);
-          setCampaignsAndTeamsData(campaignsAndTeamsResponse.data);
-      
-          const filteredTeams = teamResponse.data.filter(
-            (team) => team.manager_id == localStorage.getItem("id")
-          );
-      
-          const finalFilteredTeams = filteredTeams.filter((team) => {
-            const relatedCampaignTeam = campaignsAndTeamsResponse.data.find(
-              (campaignTeam) => campaignTeam.team_id == team.id
-            );
-            if (relatedCampaignTeam) {
-              const relatedTeamLeaderTeam = teamLeaderAndTeamsResponse.data.find(
-                (leaderTeam) => leaderTeam.team_id == team.id
-              );
-              return relatedTeamLeaderTeam && relatedTeamLeaderTeam.team_leader_id != null;
-            }
-            return false; 
-          });
-      
-          setTeams(finalFilteredTeams);
-      
-          const filteredCampaigns = campaignResponse.data.filter((campaign) => {
-            const relatedCampaignTeams = campaignsAndTeamsResponse.data.filter(
-              (campaignTeam) => campaignTeam.campaign_id == campaign.id
-            );
+      try {
+        const campaignResponse = await axios.get(
+          "https://crmapi.devcir.co/api/campaigns"
+        );
+        const teamResponse = await axios.get(
+          "https://crmapi.devcir.co/api/teams"
+        );
+        const campaignsAndTeamsResponse = await axios.get(
+          "https://crmapi.devcir.co/api/campaigns_and_teams"
+        );
+        const teamLeaderAndTeamsResponse = await axios.get(
+          "https://crmapi.devcir.co/api/team_and_team_leader"
+        );
 
-            const hasTeamsLeft = relatedCampaignTeams.some((campaignTeam) =>
-              finalFilteredTeams.some((team) => team.id == campaignTeam.team_id)
+        setTeamLeaderAndTeamsData(teamLeaderAndTeamsResponse.data);
+        setCampaignsAndTeamsData(campaignsAndTeamsResponse.data);
+
+        const filteredTeams = teamResponse.data.filter(
+          (team) => team.manager_id == localStorage.getItem("id")
+        );
+
+        const finalFilteredTeams = filteredTeams.filter((team) => {
+          const relatedCampaignTeam = campaignsAndTeamsResponse.data.find(
+            (campaignTeam) => campaignTeam.team_id == team.id
+          );
+          if (relatedCampaignTeam) {
+            const relatedTeamLeaderTeam = teamLeaderAndTeamsResponse.data.find(
+              (leaderTeam) => leaderTeam.team_id == team.id
             );
-            return campaign.manager_id == localStorage.getItem("id") && hasTeamsLeft;
-          });
-      
-          setCampaigns(filteredCampaigns);
-      
-          console.log("Campaigns", filteredCampaigns);
-          console.log("Teams", finalFilteredTeams);
+            return (
+              relatedTeamLeaderTeam &&
+              relatedTeamLeaderTeam.team_leader_id != null
+            );
+          }
+          return false;
+        });
+
+        setTeams(finalFilteredTeams);
+
+        const filteredCampaigns = campaignResponse.data.filter((campaign) => {
+          const relatedCampaignTeams = campaignsAndTeamsResponse.data.filter(
+            (campaignTeam) => campaignTeam.campaign_id == campaign.id
+          );
+
+          const hasTeamsLeft = relatedCampaignTeams.some((campaignTeam) =>
+            finalFilteredTeams.some((team) => team.id == campaignTeam.team_id)
+          );
+          return (
+            campaign.manager_id == localStorage.getItem("id") && hasTeamsLeft
+          );
+        });
+
+        setCampaigns(filteredCampaigns);
+
+        console.log("Campaigns", filteredCampaigns);
+        console.log("Teams", finalFilteredTeams);
 
         if (campaignResponse.data.length > 0) {
           // setSelectedCampaign(campaignResponse.data[0]);
@@ -811,7 +827,7 @@ const Teamleader_commission = () => {
       // Update kpisWithSelectionBox state
       setKpisWithSelectionBox((prevState) => ({
         ...prevState,
-        [`${teamId}-${index}`]: selectedId == "4", 
+        [`${teamId}-${index}`]: selectedId == "4",
       }));
 
       return { ...prevData, [teamId]: newTeamData };
@@ -1033,7 +1049,9 @@ const Teamleader_commission = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://crmapi.devcir.co/api/sales_agents");
+        const response = await fetch(
+          "https://crmapi.devcir.co/api/sales_agents"
+        );
         const data = await response.json();
         console.log(data);
         setDemoData(data);
@@ -2215,7 +2233,11 @@ const Teamleader_commission = () => {
                     placeholder="1000"
                     value={teamData[team.id]?.opportunity || ""}
                     onChange={(e) =>
-                      handleSelectChange1(team.id, "opportunity", e.target.value)
+                      handleSelectChange1(
+                        team.id,
+                        "opportunity",
+                        e.target.value
+                      )
                     }
                   />
                 </div>
@@ -2280,13 +2302,14 @@ const Teamleader_commission = () => {
                                     </option>
                                   ))}
                               </select>
-  
+
                               {kpisWithSelectionBox[`${team.id}-${index}`] && (
                                 <select
                                   className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[120px] h-[30px] rounded-[6px] text-[10px] font-medium leading-[15px] "
                                   value={
-                                    selectedDialOptions[`${team.id}-${index}`] ||
-                                    ""
+                                    selectedDialOptions[
+                                      `${team.id}-${index}`
+                                    ] || ""
                                   }
                                   onChange={(e) =>
                                     handleDialsValueChange(
@@ -2306,12 +2329,15 @@ const Teamleader_commission = () => {
                               )}
                             </div>
                           </td>
-  
-                          <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
-                            <div className="relative">
+
+                          <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed text-center">
+                            <div className="relative w-[123px] h-[30px] flex items-center justify-center mx-auto">
+                              <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[12px] font-medium">
+                                {teamData[team.id]?.currency || "$"}
+                              </div>
                               <input
                                 type="text"
-                                className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[123px] h-[30px] p-[7px] rounded-[6px] text-black text-[10px] font-medium leading-[15px] placeholder:ml-10`}
+                                className={`bg-[#E9ECEB] placeholder-transparent text-center border-none w-full h-full pl-[25px] pr-[7px] rounded-[6px] text-black text-[12px] font-medium leading-[15px]`}
                                 value={kpi.target}
                                 placeholder="Enter Target"
                                 onChange={(e) =>
@@ -2322,7 +2348,6 @@ const Teamleader_commission = () => {
                                     e.target.value
                                   )
                                 }
-                                // style={{ color: '#8fa59c' }}
                               />
                               {kpisWithSelectionBox[`${team.id}-${index}`] &&
                                 selectedDialOptions[`${team.id}-${index}`] && (
@@ -2330,12 +2355,13 @@ const Teamleader_commission = () => {
                                     className="absolute right-[37px] top-1/2 transform -translate-y-1/2 text-[10px] font-medium text-black/60 pr-1"
                                     style={{ pointerEvents: "none" }}
                                   >
-                                    / {selectedDialOptions[`${team.id}-${index}`]}
+                                    /{" "}
+                                    {selectedDialOptions[`${team.id}-${index}`]}
                                   </span>
                                 )}
                             </div>
                           </td>
-  
+
                           <td className="border-r-2 pt-4 border-[#dbd9d9] border-dashed">
                             <div className="relative">
                               <input
@@ -2398,12 +2424,14 @@ const Teamleader_commission = () => {
                                 )
                               }
                               placeholder="N/A"
-                              disabled={gatekeeperSet[team.id] && !kpi.gatekeeper}
+                              disabled={
+                                gatekeeperSet[team.id] && !kpi.gatekeeper
+                              }
                             />
                           </td>
                         </tr>
                       ))}
-  
+
                     {customKpiData[team.id] &&
                       customKpiData[team.id].map((customKpi, index) => (
                         <tr
@@ -2426,7 +2454,11 @@ const Teamleader_commission = () => {
                               }
                             />
                           </td>
-                          <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
+                          <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed text-center">
+                                  <div className="relative w-[123px] h-[30px] flex items-center justify-center mx-auto">
+                                    <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[12px] font-medium">
+                                      {teamData[team.id]?.currency || "$"}
+                                    </div>
                             <input
                               type="text"
                               className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
@@ -2440,7 +2472,8 @@ const Teamleader_commission = () => {
                                   e.target.value
                                 )
                               }
-                            />
+                              />
+                              </div>
                           </td>
                           <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
                             <div className="relative">
@@ -2519,11 +2552,11 @@ const Teamleader_commission = () => {
             </div>
           </div>
         ))
-      ) :
-      (
-        <div className="text-center text-gray-500">Select Campaign To Assign Kpi</div>
-      )
-    }
+      ) : (
+        <div className="text-center text-gray-500">
+          Select Campaign To Assign Kpi
+        </div>
+      )}
     </div>
   );
 };

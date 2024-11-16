@@ -4,170 +4,8 @@ import SideBar from '../components/SideBar';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList } from 'recharts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import './ManagerChart.css';
-
-const Current_Agent_Chart = () => {
-  const colors = ['#F40003', '#F1E031', '#E60000', '#648DFF'];
-  const [categories, setCategories] = useState([]);
-  const [salesAgents, setSalesAgents] = useState([]);
-
-  useEffect(() => {
-    const fetchSalesAgents = async () => {
-      try {
-        const response = await fetch('https://crmapi.devcir.co/api/sales_agents');
-        const data = await response.json();
-        setSalesAgents(data);
-      } catch (error) {
-        console.error('Error fetching Sales Agents:', error);
-      }
-    };
-
-    fetchSalesAgents();
-  }, []);
-
-
-  useEffect(() => {
-    const fetchCampaigns = async () => {
-      try {
-        const campaignsResponse = await fetch('https://crmapi.devcir.co/api/team_leaders');
-        const campaignsData = await campaignsResponse.json();
-        // console.log("Cap", campaignsData)
-        const loggedInManagerName = localStorage.getItem("userFName");
-        const loggedInManagerid = localStorage.getItem("id");
-        const matchingCampaigns = campaignsData.filter(campaign =>
-          campaign.manager && campaign.manager.first_name == loggedInManagerName &&
-          campaign.campaign_detail.manager == loggedInManagerid
-        );
-        // console.log("Matching", matchingCampaigns)
-        const formattedData = matchingCampaigns.map(campaign => {
-          const matchingSalesAgents = salesAgents
-            .filter(salesAgent =>
-              salesAgent.campaign_details.some(detail =>
-                detail.team_id == campaign.team.id &&
-                detail.team_leader_id == campaign.team.leader.id
-              )
-            )
-            .map(agent => ({
-              SalesAgentName: agent.name,
-              SalesAgentImage: agent.image_path
-            }));
-          return {
-            name: campaign.name,
-            companyLogo: campaign.campaign_detail.company_logo || 'https://example.com/default-logo.jpg',
-            teamName: campaign.team.team_name || 'null',
-            LeaderName: campaign.team.leader.name || 'null',
-            LeaderImg: campaign.team.leader.image_path || 'null',
-            SalesAgents: matchingSalesAgents.length > 0 ? matchingSalesAgents : [{ SalesAgentName: 'No Sales Agent', SalesAgentImage: 'No Image Available' }]
-          };
-        });
-        setCategories(formattedData);
-      } catch (error) {
-        console.error('Error fetching campaigns:', error);
-      }
-    };
-    fetchCampaigns();
-  }, [salesAgents]);
-
-
-  return (
-    <div className='flex flex-col w-full gap-6 p-8 pb-12 custom-card card'>
-      <div className="flex justify-between items-center py-2">
-        <h1 className="font-semibold leading-8 text-2xl text-[#269F8B]">My Team</h1>
-
-        <div className="flex flex-col items-center space-x-8 space-y-3">
-
-          <div className="flex items-center space-x-14">
-            <span className="text-[#1E8675] font-medium text-[14px]">Team Size :</span>
-            <span className="text-[#7B7B7B] font-semibold text-[16px]">{categories.length} FTE</span>
-          </div>
-
-          {/* Campaigns Section */}
-
-          <div className="flex items-center space-x-2">
-            <span className="text-[#1E8675] font-medium text-[14px]">Campaigns :</span>
-            {categories.length > 0 ? (
-              categories.map((campaign, index) => (
-                <img key={index} src={campaign.companyLogo} alt={campaign.name} className="w-6 h-6" />
-              ))
-            ) : (
-              <span>No campaigns available</span>
-            )}
-          </div>
-
-        </div>
-      </div>
-      <div className='overflow-x-auto max-w-[930px]'>
-        <div className="min-w-full custom-tree-container">
-          <div className="custom-tree">
-            <ul>
-              <li>
-                <div className="custom-family">
-                  <div className="custom-parent">
-                    {/* Manager Section */}
-                    <div className="flex flex-col items-center custom-person custom-manager">
-                      <div className='relative'>
-                        <div className="custom-name text-center absolute rounded-full right-[30px] top-[0px] bg-[#648DFF] h-[44px] w-[44px]"></div>
-                        <div className="custom-name text-center absolute rounded-full left-[48px] top-[45px] z-[2] bg-[#FFAAAB] h-[18px] w-[18px]"></div>
-                        <div className="custom-name text-center absolute rounded-full left-[55px] top-[22px] z-[2] bg-[#FFEE3C] h-[15px] w-[15px]"></div>
-                        <div className="custom-name text-center absolute rounded-full left-[30px] top-[60px] z-[2] bg-[#45D6FF] h-[10px] w-[10px]"></div>
-                        {/* Manager's Image */}
-                        <img className="custom-avatar w-[64px] h-[64px] rounded-full relative" src="https://img.freepik.com/premium-photo/young-handsome-man-with-beard-isolated-keeping-arms-crossed-frontal-position_1368-132662.jpg" alt="Manager" />
-                      </div>
-                      <h1 className="custom-name text-center font-semibold text-lg text-themeGreen mt-2">MANAGER</h1>
-                      <h1 className="custom-name text-center font-medium text-sm">{localStorage.getItem("userFName")}</h1>
-                    </div>
-
-                    {/* Team Leaders */}
-                    <ul>
-                      {categories.map((category, catIndex) => (
-                        <li key={catIndex}>
-                          <div className="custom-family">
-                            <div className="flex flex-col items-center custom-category">
-                              {/* Company Logo */}
-                              <img className="custom-avatar w-[54px] h-[54px] rounded-full mb-2" src={category.companyLogo} alt="Company Logo" />
-                              {/* Team Name */}
-                              <div className="custom-category-name border-2 border-[#1E8675] text-[#009245] text-[14px] min-w-[103px] min-h-[34px] rounded-full flex items-center justify-center mt-1">
-                                {category.teamName}
-                              </div>
-
-                              <div className="custom-vertical-line my-1"></div>
-
-                              {/* Team Leader Image */}
-                              <div className="relative">
-                                {/* <div className="custom-name text-center absolute rounded-full -left-[10px] top-[4px] bg-[#F40003] h-[44px] w-[44px]"></div> */}
-                                <div
-                                  className="custom-name text-center absolute rounded-full -left-[10px] top-[4px] h-[44px] w-[44px]"
-                                  style={{ backgroundColor: colors[catIndex % colors.length] }}
-                                ></div>
-                                <div className="custom-name text-center absolute rounded-full left-[45px] top-[45px] z-[2] bg-[#FFAAAB] h-[20px] w-[20px]"></div>
-                                <img className="custom-avatar w-[64px] h-[64px] rounded-full relative z-[1]" src={category.LeaderImg} alt="Team Leader" />
-                              </div>
-
-                              {/* Team Leader Name */}
-                              <div className="mt-1 text-sm text-center custom-name">Team Leader</div>
-                              <div className="mt-1 font-semibold text-center custom-name"><p>{category.LeaderName}</p></div>
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-};
-
-
-
-
-
-
+import fallbackImage from "/public/images/image_not_1.jfif";
 
 const Dashboard_manager = () => {
 
@@ -175,9 +13,7 @@ const Dashboard_manager = () => {
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [isOpen, setIsOpen] = useState(false);
-
   const years = Array.from({ length: 101 }, (_, i) => currentYear - i);
-
 
   const handleButtonClick = (buttonName) => {
     setSelectedButton(buttonName);
@@ -362,33 +198,8 @@ const Dashboard_manager = () => {
         const salesAgentsData = await fetch('https://crmapi.devcir.co/api/sales_agents');
         const salesAgentsList = await salesAgentsData.json();
         setSalesAgents(salesAgentsList);
-
-        // salesAgentsList.forEach(agent => {
-        //   const campaignData = JSON.parse(agent.campaign);
-        //   const campaignIds = Object.keys(campaignData);
-
-        //   campaignIds.forEach(campaignId => {
-        //     campaignsData.forEach(item => {
-        //       if (item.campaign_detail.id == Number(campaignId)) {
-        //         matchedAgentsMap[item.campaign_detail.id].push(agent.name);
-        //         commissionMap[item.campaign_detail.id] += Number(agent.commission || 0);
-        //       }
-        //     });
-        //   });
-        // });
-
         let totalCommission = 0;
         const individualCommissionAmounts = [];
-
-        // for (const [id, agents] of Object.entries(matchedAgentsMap)) {
-        //   console.log(`Team Leader Campaign ID = ${id} {`);
-        //   console.log(`  Matched Agents = ${agents.length > 0 ? agents.join(', ') : 'None'}`);
-        //   console.log(`  Total Commission = $${commissionMap[id].toFixed(2)}`);
-
-        //   totalCommission += commissionMap[id];
-        //   individualCommissionAmounts.push(commissionMap[id]);
-        // }
-
         setOverallTotalCommission(totalCommission);
         setCommissionAmounts(individualCommissionAmounts);
 
@@ -416,21 +227,6 @@ const Dashboard_manager = () => {
     return 'bg-red-100 text-red-800';
   };
 
-  const CustomYAxisTick = ({ x, y, payload }) => {
-    return (
-      <text
-        x={x - 20}
-        y={y + 16}
-        dy={3}
-        textAnchor="end"
-        fill="black"
-        fontSize={14}
-      >
-        ${payload.value}
-      </text>
-    );
-  };
-
   const contestants = [
     { name: 'Sarah Smith', level: 'Unicorn', points: 200, money: 150, avatar: '/images/dashboard_img1.png', badgeColor: '/images/unicorn.png' },
     { name: 'Anujaa Kumar', level: 'Platinum', points: 150, money: 100, avatar: '/images/dashboard_img2.png', badgeColor: '/images/platinium.png' },
@@ -449,7 +245,6 @@ const Dashboard_manager = () => {
   ];
 
   const [selectedFilter, setSelectedFilter] = useState('All');
-  const [selectedImage, setSelectedImage] = useState(null);
   const [activeButton, setActiveButton] = useState('Month');
   const [showDetails, setShowDetails] = useState(false);
 
@@ -476,6 +271,42 @@ const Dashboard_manager = () => {
 
     return () => clearTimeout(timer); // Clean up the timer
   }, [selectedFilter]);
+
+
+  const [campaigns, setCampaigns] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedCampaignId, setSelectedCampaignId] = useState(null);
+
+
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('https://crmapi.devcir.co/api/campaigns');
+        if (!response.ok) {
+          throw new Error('Failed to fetch campaigns');
+        }
+        const data = await response.json();
+        const fetchedTeams = data.filter(
+          (team) => team.manager_id == localStorage.getItem("id")
+        );
+        console.log('data', fetchedTeams)
+        setCampaigns(fetchedTeams);
+        if (fetchedTeams.length > 0) {
+          setSelectedCampaignId(fetchedTeams[0].id);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    fetchCampaigns();
+  }, []);
+
 
 
   return (
@@ -546,18 +377,35 @@ const Dashboard_manager = () => {
 
               <div className="flex-1 bg-white p-4 rounded-xl shadow-sm">
                 <h2 className="text-xl text-[#009245] mb-6">Commission Contribution</h2>
-                <div className="flex items-center space-x-16 ml-3">
+                {/* <div className="flex items-center space-x-16 ml-3">
                   {wajid.map((item, index) => (
                     <div key={index} className="flex flex-col items-center">
                       <div className="w-[42px] h-[42px] rounded-full mb-2 overflow-hidden">
                         <img src={item.image_path} alt={item.name} className="w-full h-full object-cover" />
                       </div>
                       <p className="text-base text-[#1E8675] font-semibold">
-                        ${commissionAmounts[index] != undefined ? commissionAmounts[index].toFixed(2) : '0.00'}
+                        ${commissionAmounts[index] !== undefined ? commissionAmounts[index].toFixed(2) : '0.00'}
                       </p>
                     </div>
                   ))}
-                </div>
+                </div> */}
+
+<div className="flex items-center space-x-16 ml-3">
+  {wajid.map((item, index) => (
+    <div key={index} className="flex flex-col items-center">
+      <div className="w-[42px] h-[42px] rounded-full mb-2 overflow-hidden">
+        <img
+          src={item.image_path || fallbackImage} // Use fallbackImage if image_path is missing
+          alt={item.name || "Default Image"}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <p className="text-base text-[#1E8675] font-semibold">
+        ${commissionAmounts[index] !== undefined ? commissionAmounts[index].toFixed(2) : '0.00'}
+      </p>
+    </div>
+  ))}
+</div>
               </div>
 
 
@@ -663,20 +511,26 @@ const Dashboard_manager = () => {
 
               </div>
 
-              <div className='flex justify-end'>
-                {images.map((image, index) => (
-                  <div
-                    key={index}
-                    className='w-10 h-10 bg-cover bg-center rounded-full ml-2'
-                    style={{
-                      backgroundImage: `url(${image})`,
-                      opacity: selectedImage == image ? 1 : 0.5,
-                      cursor: 'pointer'
-                    }}
-                    onClick={() => setSelectedImage(image)}
-                  />
-                ))}
-              </div>
+<div className="flex justify-end">
+    {isLoading ? (
+      <div className="text-sm text-gray-500">Loading campaigns...</div>
+    ) : error ? (
+      <div className="text-sm text-red-500">{error}</div>
+    ) : (
+      campaigns.map((campaign) => (
+        <div
+          key={campaign.id}
+          className="w-10 h-10 bg-cover bg-center rounded-full ml-2"
+          style={{
+            backgroundImage: `url(${campaign.image_path || fallbackImage})`,
+            opacity: selectedCampaignId == campaign.id ? 1 : 0.5,
+            cursor: 'pointer',
+          }}
+          onClick={() => setSelectedCampaignId(campaign.id)}
+        />
+      ))
+    )}
+  </div>
 
             </div>
 
