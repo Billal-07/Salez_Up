@@ -371,8 +371,6 @@ const Teamleader_commission = () => {
     alert("Sum of weightings: " + sumOfWeights);
 
     const dataToPost = {
-      // team_id : teamId,
-      // team_leader_id: matchingTeamLeaderId,
       kpi_data: JSON.stringify(savedTeamData),
     };
 
@@ -406,8 +404,6 @@ const Teamleader_commission = () => {
         theme: "light",
       });
 
-      // Optionally reload the page or update the state
-      //   window.location.reload();
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       alert("There was an error posting the data.");
@@ -533,17 +529,6 @@ const Teamleader_commission = () => {
     });
   };
 
-  //   const handleCampaignClick = (campaign) => {
-  //     setSelectedCampaign(campaign);
-  //     const filtered = teams.filter((team) => team.campaign == campaign.id);
-  //     setFilteredTeams(filtered);
-  //     console.log("The id of the campaign is: ", campaign.id);
-  //     console.log(
-  //       "The team id associated with the campaign is:",
-  //       campaign.team_id
-  //     );
-  //   };
-
   const handleCampaignClick = (campaign) => {
     setSelectedCampaign(campaign);
 
@@ -653,25 +638,6 @@ const Teamleader_commission = () => {
       [teamId]: true,
     }));
   };
-  // ------------------------------ UseEffect -------------------------------------//
-  // useEffect(() => {
-  //     const fetchData = async () => {
-  //         try {
-  //             const campaignResponse = await axios.get('https://crmapi.devcir.co/api/campaigns');
-  //             const teamResponse = await axios.get('https://crmapi.devcir.co/api/teams');
-  //             setCampaigns(campaignResponse.data);
-  //             setTeams(teamResponse.data);
-  //             if (campaignResponse.data.length > 0) {
-  //                 setSelectedCampaign(campaignResponse.data[0]);
-  //                 const initialFilteredTeams = teamResponse.data.filter(team => team.campaign == campaignResponse.data[0].id);
-  //                 setFilteredTeams(initialFilteredTeams);
-  //             }
-  //         } catch (error) {
-  //             console.error('Error fetching data:', error);
-  //         }
-  //     };
-  //     fetchData();
-  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -1065,33 +1031,6 @@ const Teamleader_commission = () => {
   const [singleCampaignTeams, setSingleCampaignTeams] = useState([]);
   const [multipleCampaignTeams, setMultipleCampaignTeams] = useState([]);
 
-  //   useEffect(() => {
-  //     axios
-  //       .get("https://crmapi.devcir.co/api/teams")
-  //       .then((response) => {
-  //         const allTeams = response.data;
-
-  //         const singleCampaignTeams = allTeams.filter((team) => {
-  //           return demoData.some(
-  //             (agent) =>
-  //               agent.campaign_details.length == 1 &&
-  //               agent.campaign_details[0].team_name == team.team_name
-  //           );
-  //         });
-  //         const multipleCampaignTeams = allTeams.filter((team) => {
-  //           return demoData.some(
-  //             (agent) =>
-  //               agent.campaign_details.length > 1 &&
-  //               agent.campaign_details.some(
-  //                 (detail) => detail.team_name == team.team_name
-  //               )
-  //           );
-  //         });
-  //         setSingleCampaignTeams(singleCampaignTeams);
-  //         setMultipleCampaignTeams(multipleCampaignTeams);
-  //       })
-  //       .catch((error) => console.error("Error fetching teams:", error));
-  //   }, [demoData]);
 
   useEffect(() => {
     const fetchTeamsAndCampaigns = async () => {
@@ -2399,7 +2338,6 @@ const Teamleader_commission = () => {
                                 )
                               }
                               readOnly
-                              // value={parseFloat(((kpi.weighting / 100) * (teamData[team.id]?.opportunity || 0)).toFixed(2))}
                               value={`${
                                 teamData[team.id]?.currency || "$"
                               } ${parseFloat(

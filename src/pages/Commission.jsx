@@ -1474,7 +1474,11 @@ const Commission = () => {
                                           <label className="ml-8 text-xs font-bold">
                                             Target
                                           </label>
-                                          
+                                          <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
+                                            <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
+                                              {selectedRow.kpi_data.teamInfo
+                                                .currency || ""}
+                                            </span>
                                           <input
                                             type="number"
                                             value={customKpi.target}
@@ -1495,6 +1499,7 @@ const Commission = () => {
                                             }}
                                             className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
                                           />
+                                        </div>
                                         </div>
                                         <div className="flex flex-col">
                                           <label className="ml-6 text-xs font-bold">
@@ -1707,6 +1712,11 @@ const Commission = () => {
                                           <label className="text-[10px] font-bold ml-3">
                                             Custom Target
                                           </label>
+                                          <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
+                                            <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
+                                              {selectedRow.kpi_data.teamInfo
+                                                .currency || ""}
+                                            </span>
                                           <input
                                             type="number"
                                             value={customKpi.Custom_Target}
@@ -1729,6 +1739,7 @@ const Commission = () => {
                                             }}
                                             className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
                                           />
+                                        </div>
                                         </div>
                                         <div className="flex flex-col">
                                           <label className="text-[10px] font-bold ml-1">

@@ -65,8 +65,9 @@ const TeamLeaderKpiTable = () => {
     axios
       .get("https://crmapi.devcir.co/api/teams")
       .then((response) => {
-
-        const allTeams = response.data.filter((team) => team.manager_id == localStorage.getItem("id"));
+        const allTeams = response.data.filter(
+          (team) => team.manager_id == localStorage.getItem("id")
+        );
 
         const singleCampaignTeams = allTeams.filter((team) => {
           return demoData.some((agent) => {
@@ -93,7 +94,9 @@ const TeamLeaderKpiTable = () => {
   useEffect(() => {
     const fetchKpis = async () => {
       try {
-        const response = await axios.get("https://crmapi.devcir.co/api/kpi_info");
+        const response = await axios.get(
+          "https://crmapi.devcir.co/api/kpi_info"
+        );
         setKpis(response.data);
       } catch (error) {
         console.error("Error fetching KPIs:", error);
@@ -110,11 +113,15 @@ const TeamLeaderKpiTable = () => {
           fetch("https://crmapi.devcir.co/api/team_leaders"),
           fetch("https://crmapi.devcir.co/api/team_and_team_leader"),
         ]);
-        
+
         const teamLeadersData = await teamLeadersResponse.json();
         const teamLeaderData = await teamLeaderResponse.json();
-        const filteredTeams = teamLeadersData.filter((team) => team.manager_id == localStorage.getItem("id"))
-        const filtered = teamLeaderData.filter((team) => team.team.manager_id == localStorage.getItem("id"))
+        const filteredTeams = teamLeadersData.filter(
+          (team) => team.manager_id == localStorage.getItem("id")
+        );
+        const filtered = teamLeaderData.filter(
+          (team) => team.team.manager_id == localStorage.getItem("id")
+        );
 
         const combinedData = filteredTeams.map((leader) => {
           const teamInfos = filtered.filter(
@@ -816,7 +823,9 @@ const TeamLeaderKpiTable = () => {
                               </h2> */}
                               <h2 className="mb-4 text-lg font-bold">
                                 Update Data for{" "}
-                                {singleCampaignTeams.find((team) => team.id == row.id)?.team_name || row.id}
+                                {singleCampaignTeams.find(
+                                  (team) => team.id == row.id
+                                )?.team_name || row.id}
                               </h2>
                               <button
                                 type="button"
@@ -891,33 +900,38 @@ const TeamLeaderKpiTable = () => {
                                         <label className="ml-8 text-xs font-bold">
                                           Target
                                         </label>
-                                        <input
-                                          type="text"
-                                          value={customKpi.target}
-                                          onChange={(e) => {
-                                            const newTarget = e.target.value;
-                                            setSelectedRow((prevRows) =>
-                                              prevRows.map((r, rIndex) =>
-                                                rIndex == rowIndex
-                                                  ? {
-                                                      ...r,
-                                                      kpiData: r.kpiData.map(
-                                                        (kpi, kpiIndex) =>
-                                                          kpiIndex == index
-                                                            ? {
-                                                                ...kpi,
-                                                                target:
-                                                                  newTarget,
-                                                              }
-                                                            : kpi
-                                                      ),
-                                                    }
-                                                  : r
-                                              )
-                                            );
-                                          }}
-                                          className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
-                                        />
+                                        <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
+                                          <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
+                                            {row.teamInfo.currency || ""}
+                                          </span>
+                                          <input
+                                            type="text"
+                                            value={customKpi.target}
+                                            onChange={(e) => {
+                                              const newTarget = e.target.value;
+                                              setSelectedRow((prevRows) =>
+                                                prevRows.map((r, rIndex) =>
+                                                  rIndex == rowIndex
+                                                    ? {
+                                                        ...r,
+                                                        kpiData: r.kpiData.map(
+                                                          (kpi, kpiIndex) =>
+                                                            kpiIndex == index
+                                                              ? {
+                                                                  ...kpi,
+                                                                  target:
+                                                                    newTarget,
+                                                                }
+                                                              : kpi
+                                                        ),
+                                                      }
+                                                    : r
+                                                )
+                                              );
+                                            }}
+                                            className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
+                                          />
+                                        </div>
                                       </div>
                                       <div className="flex flex-col">
                                         <label className="ml-6 text-xs font-bold">
@@ -1023,8 +1037,7 @@ const TeamLeaderKpiTable = () => {
                                               value ||
                                               row.kpiData.some(
                                                 (kpi, idx) =>
-                                                  idx != index &&
-                                                  kpi.gatekeeper
+                                                  idx != index && kpi.gatekeeper
                                               ) ||
                                               row.customKpiData.some(
                                                 (kpi) => kpi.Custom_Gatekeeper
@@ -1119,34 +1132,39 @@ const TeamLeaderKpiTable = () => {
                                         <label className="text-[10px] font-bold ml-3">
                                           Custom Target
                                         </label>
-                                        <input
-                                          type="number"
-                                          value={customKpi.Custom_Target}
-                                          onChange={(e) => {
-                                            const newTarget = e.target.value;
-                                            setSelectedRow((prevRows) =>
-                                              prevRows.map((r, rIndex) =>
-                                                rIndex == rowIndex
-                                                  ? {
-                                                      ...r,
-                                                      customKpiData:
-                                                        r.customKpiData.map(
-                                                          (kpi, kpiIndex) =>
-                                                            kpiIndex == index
-                                                              ? {
-                                                                  ...kpi,
-                                                                  Custom_Target:
-                                                                    newTarget,
-                                                                }
-                                                              : kpi
-                                                        ),
-                                                    }
-                                                  : r
-                                              )
-                                            );
-                                          }}
-                                          className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
-                                        />
+                                        <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
+                                          <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
+                                            {row.teamInfo.currency || ""}
+                                          </span>
+                                          <input
+                                            type="number"
+                                            value={customKpi.Custom_Target}
+                                            onChange={(e) => {
+                                              const newTarget = e.target.value;
+                                              setSelectedRow((prevRows) =>
+                                                prevRows.map((r, rIndex) =>
+                                                  rIndex == rowIndex
+                                                    ? {
+                                                        ...r,
+                                                        customKpiData:
+                                                          r.customKpiData.map(
+                                                            (kpi, kpiIndex) =>
+                                                              kpiIndex == index
+                                                                ? {
+                                                                    ...kpi,
+                                                                    Custom_Target:
+                                                                      newTarget,
+                                                                  }
+                                                                : kpi
+                                                          ),
+                                                      }
+                                                    : r
+                                                )
+                                              );
+                                            }}
+                                            className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
+                                          />
+                                        </div>
                                       </div>
 
                                       <div className="flex flex-col">
