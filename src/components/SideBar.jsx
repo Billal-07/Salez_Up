@@ -36,7 +36,7 @@ const SideBar = ({ name = "none" }) => {
     },
     {
       type: "header",
-      name: "Pilot Role",
+      name: "Company",
     },
     {
       name: "Team Leaders",
