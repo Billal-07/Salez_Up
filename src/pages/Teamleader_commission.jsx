@@ -1982,6 +1982,13 @@ const Teamleader_commission = () => {
           )}
         </div>
         <div className="flex justify-end mt-4">
+        <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage == 1}
+            className="px-3 py-1 mr-2 text-sm font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
+          >
+            Previous
+          </button>
           {Array.from(
             { length: Math.ceil(filteredAgents.length / agentsPerPage) },
             (_, i) => (
@@ -1998,13 +2005,6 @@ const Teamleader_commission = () => {
               </button>
             )
           )}
-          <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage == 1}
-            className="px-3 py-1 mr-2 text-sm font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
-          >
-            Previous
-          </button>
           <button
             onClick={() =>
               setCurrentPage((prev) =>

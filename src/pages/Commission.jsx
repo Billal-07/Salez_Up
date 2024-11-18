@@ -1114,8 +1114,8 @@ const Commission = () => {
             <p
               className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
                 selectedTeamName == "All Teams"
-                  ? "bg-themeGreen text-white font-[600]"
-                  : "bg-lGreen text-black font-[400]"
+                  ? "bg-lGreen text-black font-[400]"
+                  : "border-2 border-gray-300 text-gray-500 font-[400]"
               }`}
             >
               All Teams
@@ -1131,8 +1131,8 @@ const Commission = () => {
                   <p
                     className={`${
                       selectedTeamName == team.team_name
-                        ? "bg-themeGreen text-white font-[600]"
-                        : "bg-lGreen text-black font-[400]"
+                        ? "bg-lGreen text-black font-[400]"
+                        : "border-2 border-gray-300 text-gray-500 font-[400]"
                     } w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}
                   >
                     {team.team_name}
@@ -1148,8 +1148,8 @@ const Commission = () => {
                   <p
                     className={`${
                       selectedTeamName == team.team_name
-                        ? "bg-themeGreen text-white font-[600]"
-                        : "bg-lGreen text-black font-[400]"
+                        ? "bg-lGreen text-black font-[400]"
+                        : "border-2 border-gray-300 text-gray-500 font-[400]"
                     } w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}
                   >
                     {team.team_name}
@@ -1479,27 +1479,29 @@ const Commission = () => {
                                               {selectedRow.kpi_data.teamInfo
                                                 .currency || ""}
                                             </span>
-                                          <input
-                                            type="number"
-                                            value={customKpi.target}
-                                            onChange={(e) => {
-                                              const updatedCustomKpiData = [
-                                                ...selectedRow.kpi_data.kpiData,
-                                              ];
-                                              updatedCustomKpiData[
-                                                index
-                                              ].target = e.target.value;
-                                              setSelectedRow({
-                                                ...selectedRow,
-                                                kpi_data: {
-                                                  ...selectedRow.kpi_data,
-                                                  kpiData: updatedCustomKpiData,
-                                                },
-                                              });
-                                            }}
-                                            className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
-                                          />
-                                        </div>
+                                            <input
+                                              type="number"
+                                              value={customKpi.target}
+                                              onChange={(e) => {
+                                                const updatedCustomKpiData = [
+                                                  ...selectedRow.kpi_data
+                                                    .kpiData,
+                                                ];
+                                                updatedCustomKpiData[
+                                                  index
+                                                ].target = e.target.value;
+                                                setSelectedRow({
+                                                  ...selectedRow,
+                                                  kpi_data: {
+                                                    ...selectedRow.kpi_data,
+                                                    kpiData:
+                                                      updatedCustomKpiData,
+                                                  },
+                                                });
+                                              }}
+                                              className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
+                                            />
+                                          </div>
                                         </div>
                                         <div className="flex flex-col">
                                           <label className="ml-6 text-xs font-bold">
@@ -1717,29 +1719,30 @@ const Commission = () => {
                                               {selectedRow.kpi_data.teamInfo
                                                 .currency || ""}
                                             </span>
-                                          <input
-                                            type="number"
-                                            value={customKpi.Custom_Target}
-                                            onChange={(e) => {
-                                              const updatedCustomKpiData = [
-                                                ...selectedRow.kpi_data
-                                                  .customKpiData,
-                                              ];
-                                              updatedCustomKpiData[
-                                                index
-                                              ].Custom_Target = e.target.value;
-                                              setSelectedRow({
-                                                ...selectedRow,
-                                                kpi_data: {
-                                                  ...selectedRow.kpi_data,
-                                                  customKpiData:
-                                                    updatedCustomKpiData,
-                                                },
-                                              });
-                                            }}
-                                            className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
-                                          />
-                                        </div>
+                                            <input
+                                              type="number"
+                                              value={customKpi.Custom_Target}
+                                              onChange={(e) => {
+                                                const updatedCustomKpiData = [
+                                                  ...selectedRow.kpi_data
+                                                    .customKpiData,
+                                                ];
+                                                updatedCustomKpiData[
+                                                  index
+                                                ].Custom_Target =
+                                                  e.target.value;
+                                                setSelectedRow({
+                                                  ...selectedRow,
+                                                  kpi_data: {
+                                                    ...selectedRow.kpi_data,
+                                                    customKpiData:
+                                                      updatedCustomKpiData,
+                                                  },
+                                                });
+                                              }}
+                                              className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
+                                            />
+                                          </div>
                                         </div>
                                         <div className="flex flex-col">
                                           <label className="text-[10px] font-bold ml-1">
@@ -2046,6 +2049,13 @@ const Commission = () => {
         </div>
 
         <div className="flex justify-end mt-4">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage == 1}
+            className="px-3 py-1 mr-2 text-lg font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
+          >
+            {`<`}
+          </button>
           {Array.from(
             { length: Math.ceil(filteredAgents.length / agentsPerPage) },
             (_, i) => (
@@ -2063,13 +2073,6 @@ const Commission = () => {
             )
           )}
           <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage == 1}
-            className="px-3 py-1 mr-2 text-sm font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
-          >
-            Previous
-          </button>
-          <button
             onClick={() =>
               setCurrentPage((prev) =>
                 Math.min(
@@ -2081,9 +2084,9 @@ const Commission = () => {
             disabled={
               currentPage == Math.ceil(filteredAgents.length / agentsPerPage)
             }
-            className="px-3 py-1 ml-2 text-sm font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
+            className="px-3 py-1 ml-2 text-lg font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
           >
-            Next
+            {`>`}
           </button>
         </div>
       </>

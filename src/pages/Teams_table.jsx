@@ -96,8 +96,8 @@ const Teams_table = () => {
           <p
             className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
               selectedTeam == "All Teams"
-                ? "bg-themeGreen text-white font-[600]"
-                : "bg-lGreen text-black font-[400]"
+                ? "bg-lGreen text-black font-[400]"
+                : "border-2 border-gray-300 text-gray-500 font-[400]"
             }`}
           >
             All Teams
@@ -115,8 +115,8 @@ const Teams_table = () => {
             <p
               className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
                 selectedTeam == teamName
-                  ? "bg-themeGreen text-white font-[600]"
-                  : "bg-lGreen text-black font-[400]"
+                ? "bg-lGreen text-black font-[400]"
+                : "border-2 border-gray-300 text-gray-500 font-[400]"
               }`}
             >
               {teamName}
@@ -390,6 +390,19 @@ const Teams_table = () => {
       <div className="flex justify-end mt-4">
         <nav>
           <ul className="flex list-none items-center">
+          <li className="mx-1">
+              <button
+                onClick={prevPage}
+                disabled={currentPage == 1}
+                className={`px-3 py-1 rounded-lg text-themeGreen  ${
+                  currentPage == 1
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300 shadow-md"
+                }`}
+              >
+                {`<`}
+              </button>
+            </li>
             {pageNumbers.map((number) => (
               <li key={number} className="mx-1">
                 <button
@@ -406,19 +419,6 @@ const Teams_table = () => {
             ))}
             <li className="mx-1">
               <button
-                onClick={prevPage}
-                disabled={currentPage == 1}
-                className={`px-3 py-1 rounded-lg text-themeGreen  ${
-                  currentPage == 1
-                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                    : "bg-gray-200 text-gray-700 hover:bg-gray-300 shadow-md"
-                }`}
-              >
-                Previous
-              </button>
-            </li>
-            <li className="mx-1">
-              <button
                 onClick={nextPage}
                 disabled={currentPage == Math.ceil(teams.length / teamsPerPage)}
                 className={`px-3 py-1 rounded text-themeGreen ${
@@ -427,7 +427,7 @@ const Teams_table = () => {
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300 shadow-md"
                 }`}
               >
-                Next
+                {`>`}
               </button>
             </li>
           </ul>

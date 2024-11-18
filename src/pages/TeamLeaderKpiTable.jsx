@@ -481,8 +481,8 @@ const TeamLeaderKpiTable = () => {
           <p
             className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
               selectedTeamName == "All Teams"
-                ? "bg-themeGreen text-white font-[600]"
-                : "bg-lGreen text-black font-[400]"
+                ? "bg-lGreen text-black font-[400]"
+                : "border-2 border-gray-300 text-gray-500 font-[400]"
             }`}
           >
             All Teams
@@ -498,8 +498,8 @@ const TeamLeaderKpiTable = () => {
                 <p
                   className={`${
                     selectedTeamName == team.team_name
-                      ? "bg-themeGreen text-white font-[600]"
-                      : "bg-lGreen text-black font-[400]"
+                ? "bg-lGreen text-black font-[400]"
+                : "border-2 border-gray-300 text-gray-500 font-[400]"
                   } w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}
                 >
                   {team.team_name}
@@ -515,8 +515,8 @@ const TeamLeaderKpiTable = () => {
                 <p
                   className={`${
                     selectedTeamName == team.team_name
-                      ? "bg-themeGreen text-white font-[600]"
-                      : "bg-lGreen text-black font-[400]"
+                ? "bg-lGreen text-black font-[400]"
+                : "border-2 border-gray-300 text-gray-500 font-[400]"
                   } w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}
                 >
                   {team.team_name}
@@ -1389,6 +1389,13 @@ const TeamLeaderKpiTable = () => {
       </div>
 
       <div className="flex justify-end mt-4">
+      <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage == 1}
+          className="px-3 py-1 mr-2 text-lg font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
+        >
+          {`<`}
+        </button>
         {Array.from(
           { length: Math.ceil(filteredAgents.length / agentsPerPage) },
           (_, i) => (
@@ -1406,13 +1413,6 @@ const TeamLeaderKpiTable = () => {
           )
         )}
         <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage == 1}
-          className="px-3 py-1 mr-2 text-sm font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
-        >
-          Previous
-        </button>
-        <button
           onClick={() =>
             setCurrentPage((prev) =>
               Math.min(
@@ -1424,9 +1424,9 @@ const TeamLeaderKpiTable = () => {
           disabled={
             currentPage == Math.ceil(filteredAgents.length / agentsPerPage)
           }
-          className="px-3 py-1 ml-2 text-sm font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
+          className="px-3 py-1 ml-2 text-lg font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
         >
-          Next
+          {`>`}
         </button>
       </div>
     </>

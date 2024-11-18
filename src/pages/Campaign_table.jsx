@@ -274,8 +274,8 @@ const Campaign_table = () => {
           <p
             className={`w-[100px] h-[44px] flex items-center justify-center rounded-[10px] ${
               selectedTeam == "All Teams"
-                ? "bg-themeGreen text-white font-[600]"
-                : "bg-lGreen text-black font-[400]"
+                ? "bg-lGreen text-black font-[400]"
+                : "border-2 border-gray-300 text-gray-500 font-[400]"
             }`}
           >
             All Teams
@@ -290,8 +290,8 @@ const Campaign_table = () => {
             <p
               className={`w-[100px] h-[44px] flex items-center justify-center rounded-[10px] ${
                 selectedTeam == teamName
-                  ? "bg-themeGreen text-white font-[600]"
-                  : "bg-lGreen text-black font-[400]"
+                ? "bg-lGreen text-black font-[400]"
+                : "border-2 border-gray-300 text-gray-500 font-[400]"
               }`}
             >
               {teamName}

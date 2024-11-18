@@ -773,7 +773,7 @@ const JuniorHeadOfDepartment = () => {
 
 
             {renderTable()}
-            {renderPagination(agents.length)}
+            {/* {renderPagination(agents.length)} */}
           </div>
           <AddNewJuniorHeadOfDepartment setIsCreated={setIsCreated} />
           <ToastContainer />

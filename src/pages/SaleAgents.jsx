@@ -95,7 +95,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
       .catch((error) => {
         console.error("Error fetching the teams:", error);
       });
-  }, []);   
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -429,9 +429,8 @@ const SalesAgents = () => {
 
       if (filteredAgents.length == 0) {
         toast.warning("No sales agent, so first add any sales agent.");
-        return; 
+        return;
       }
-
 
       const headers = [
         "Name",
@@ -442,7 +441,6 @@ const SalesAgents = () => {
         "KPI",
       ];
 
-      
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet("Sales Agents");
       worksheet.addRow(headers);
@@ -613,8 +611,8 @@ const SalesAgents = () => {
             {/* Pagination UI */}
             <div className="pagination-container flex justify-center mt-4">
               <ReactPaginate
-                previousLabel={"Previous"}
-                nextLabel={"Next"}
+                previousLabel={"<"}
+                nextLabel={">"}
                 pageCount={pageCount}
                 onPageChange={handlePageClick}
                 containerClassName={"pagination flex gap-2 ml-[660px]"}
@@ -662,8 +660,8 @@ const SalesAgents = () => {
           <p
             className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
               selectedTeam == "All Teams"
-                ? "bg-themeGreen text-white font-[600]"
-                : "bg-lGreen text-black font-[400]"
+                ? "bg-lGreen text-black font-[400]"
+                : "border-2 border-gray-300 text-gray-500 font-[400]"
             }`}
           >
             All Teams
@@ -681,8 +679,8 @@ const SalesAgents = () => {
             <p
               className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
                 selectedTeam == teamName
-                  ? "bg-themeGreen text-white font-[600]"
-                  : "bg-lGreen text-black font-[400]"
+                  ? "bg-lGreen text-black font-[400]"
+                  : "border-2 border-gray-300 text-gray-500 font-[400]"
               }`}
             >
               {teamName}
@@ -735,8 +733,6 @@ const SalesAgents = () => {
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                   </span>
                 </div>
-
-
               </div>
             </div>
             {renderTable()}

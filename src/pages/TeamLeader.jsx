@@ -112,7 +112,6 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
       });
   }, []);
 
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
@@ -128,14 +127,16 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
         const reader = new FileReader();
 
         reader.onloadend = () => {
-          setImageFile(reader.result); 
-          setNewImageFile(file); 
+          setImageFile(reader.result);
+          setNewImageFile(file);
         };
 
-        reader.readAsDataURL(file); 
+        reader.readAsDataURL(file);
       } else {
         // alert("Please select a valid image file (JPEG, PNG, GIF, or WebP)");
-        toast.error("Please select a valid image file (JPEG, PNG, GIF, or WebP)");
+        toast.error(
+          "Please select a valid image file (JPEG, PNG, GIF, or WebP)"
+        );
         e.target.value = null;
       }
     }
@@ -238,10 +239,9 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
       };
 
       toast.success("Team Leader successfully updated");
-      
+
       onUpdateSuccess(updatedTeamLeader);
       onClose();
-      
     } catch (error) {
       toast.error("Error Updating Data");
       console.error("Error updating team leader:", error);
@@ -456,7 +456,6 @@ const TeamLeader = () => {
     );
   };
 
-
   const extractManagerIds = (managerData) => {
     setManagerIds((prevIds) => [...prevIds, managerData.id]);
     return managerData.first_name;
@@ -472,7 +471,6 @@ const TeamLeader = () => {
     return campaignData.name;
   };
 
-
   const handlemyDelete = async (team) => {
     const confirmed = window.confirm(
       `Are you sure you want to delete ${team.first_name}?`
@@ -481,9 +479,12 @@ const TeamLeader = () => {
 
     try {
       // Remove team assignments
-      await fetch(`https://crmapi.devcir.co/api/team_leader_update/${team.id}`, {
-        method: "PUT",
-      });
+      await fetch(
+        `https://crmapi.devcir.co/api/team_leader_update/${team.id}`,
+        {
+          method: "PUT",
+        }
+      );
 
       // Delete team leader
       await fetch(`https://crmapi.devcir.co/api/team_leaders/${team.id}`, {
@@ -562,7 +563,11 @@ const TeamLeader = () => {
     );
 
     if (searchedTeams.length == 0) {
-      return <p className="text-center text-lg font-semibold text-gray-500">No Team Leader is available</p>;
+      return (
+        <p className="text-center text-lg font-semibold text-gray-500">
+          No Team Leader is available
+        </p>
+      );
     }
 
     const indexOfLastTeam = currentPage * teamsPerPage;
@@ -611,7 +616,7 @@ const TeamLeader = () => {
                   <td className="w-[91px] text-mm">
                     <p>{formatDate(team.start_date)}</p>
                   </td>
-               
+
                   <td className="px-[10px] w-[120px] text-mm">
                     <p
                       style={
@@ -663,6 +668,21 @@ const TeamLeader = () => {
         <div className="flex justify-end mt-4">
           <nav>
             <ul className="flex list-none items-center">
+              <li className="mx-1">
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage == 1}
+                  className={`px-3 py-1 rounded-lg text-themeGreen ${
+                    currentPage == 1
+                      ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300 shadow-md"
+                  }`}
+                >
+                  {`<`}
+                </button>
+              </li>
               {[...Array(Math.ceil(searchedTeams.length / teamsPerPage))].map(
                 (_, i) => (
                   <li key={i} className="mx-1">
@@ -679,21 +699,6 @@ const TeamLeader = () => {
                   </li>
                 )
               )}
-              <li className="mx-1">
-                <button
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.max(prev - 1, 1))
-                  }
-                  disabled={currentPage == 1}
-                  className={`px-3 py-1 rounded-lg text-themeGreen ${
-                    currentPage == 1
-                      ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300 shadow-md"
-                  }`}
-                >
-                  Previous
-                </button>
-              </li>
               <li className="mx-1">
                 <button
                   onClick={() =>
@@ -715,7 +720,7 @@ const TeamLeader = () => {
                       : "bg-gray-200 text-gray-700 hover:bg-gray-300 shadow-md"
                   }`}
                 >
-                  Next
+                  {`>`}
                 </button>
               </li>
             </ul>
@@ -735,7 +740,7 @@ const TeamLeader = () => {
   };
 
   const handleTeamLeaderAdded = (newTeamLeader) => {
-    setTeams(prevTeams => [...prevTeams, newTeamLeader]);
+    setTeams((prevTeams) => [...prevTeams, newTeamLeader]);
     setCurrentPage(1);
   };
 
@@ -765,8 +770,8 @@ const TeamLeader = () => {
                 <p
                   className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
                     selectedTeam == "All Teams"
-                      ? "bg-themeGreen text-white font-[600]"
-                      : "bg-lGreen text-black font-[400]"
+                      ? "bg-lGreen text-black font-[400]"
+                      : "border-2 border-gray-300 text-gray-500 font-[400]"
                   }`}
                 >
                   All Teams
@@ -794,15 +799,15 @@ const TeamLeader = () => {
                     <p
                       className={`${
                         selectedTeam == teamName
-                          ? "bg-themeGreen text-white font-[600]"
-                          : "bg-lGreen text-black font-[400]"
+                          ? "bg-lGreen text-black font-[400]"
+                          : "border-2 border-gray-300 text-gray-500 font-[400]"
                       } w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}
                     >
                       {teamName}
                     </p>
                   </div>
                 ))}
-                
+
               {/* <div className="relative flex-grow ml-[140px]">
                 <input
                   type="text"
@@ -816,22 +821,20 @@ const TeamLeader = () => {
                 </span>
               </div> */}
 
-
-{teams.length > 0 && (
-  <div className="relative flex-grow ml-[140px]">
-    <input
-      type="text"
-      placeholder="Search Team Leader"
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      className="border border-themeGreen p-2 pl-10 mr-2 rounded-lg bg-gray-100"
-    />
-    <span className="ml-[-32px] text-themeGreen">
-      <FontAwesomeIcon icon={faMagnifyingGlass} />
-    </span>
-  </div>
-)}
-
+              {teams.length > 0 && (
+                <div className="relative flex-grow ml-[140px]">
+                  <input
+                    type="text"
+                    placeholder="Search Team Leader"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="border border-themeGreen p-2 pl-10 mr-2 rounded-lg bg-gray-100"
+                  />
+                  <span className="ml-[-32px] text-themeGreen">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                  </span>
+                </div>
+              )}
             </div>
             {renderTable()}
           </div>
