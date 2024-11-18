@@ -1973,7 +1973,7 @@ const Commission = () => {
           {isModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
               <div className="flex flex-col justify-center w-1/6 p-6 bg-white rounded-lg shadow-lg">
-                <h2 className="mb-4 text-lg font-bold">Modal Title</h2>
+                <h2 className="mb-4 text-lg font-bold">Edit Commission</h2>
                 {selectedRow && (
                   <div className="flex flex-col items-center justify-center mb-6">
                     <label className="text-xs font-bold">Commission</label>
@@ -1997,11 +1997,6 @@ const Commission = () => {
 
                         if (!Number.isInteger(numValue) || numValue < 0) {
                           alert("Please enter a positive integer!");
-                          return;
-                        }
-
-                        if (numValue > 100) {
-                          alert("Value should always be between 1 and 100!");
                           return;
                         }
 
