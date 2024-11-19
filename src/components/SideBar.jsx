@@ -2,190 +2,161 @@ import React, { useState, useMemo, useEffect } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { Dot } from "lucide-react";
 import { FaArrowRight } from "react-icons/fa";
-import { useScrollContext } from "../contexts/scrollContext";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const SideBar = ({ name = "none" }) => {
-  const {
-    currentCampaignRef,
-    addNewCampaignRef,
-    currentTeamsRef,
-    addNewTeamRef,
-    orgChartRef,
-    teamLeaderRef,
-    addNewTeamLeaderRef,
-  } = useScrollContext();
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isCompanyExpanded, setIsCompanyExpanded] = useState(false);
+  const [isModulesExpanded, setIsModulesExpanded] = useState(false);
+  const [isOthersExpanded, setIsOthersExpanded] = useState(false);
+
 
   const links = [
     {
       name: "Dashboard",
       icon: (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M10.687 6.41221V0H19.2366V6.41221H10.687ZM0 10.687V0H8.54962V10.687H0ZM10.687 19.2366V8.54962H19.2366V19.2366H10.687ZM0 19.2366V12.8244H8.54962V19.2366H0Z"
-            fill="#626E70"
-          />
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.687 6.41221V0H19.2366V6.41221H10.687ZM0 10.687V0H8.54962V10.687H0ZM10.687 19.2366V8.54962H19.2366V19.2366H10.687ZM0 19.2366V12.8244H8.54962V19.2366H0Z" fill="currentColor"/>
         </svg>
       ),
-      link: "/dashboard",
-    },
+      link: "/dashboard"
+    }
+  ];
+
+  const companyLinks = [
     {
-      type: "header",
-      name: "Company",
+      name: "Sale Agents",
+      icon: (
+        <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16.0818 12.5422C16.4185 11.6419 16.6012 10.678 16.6012 9.61872C16.6012 8.85607 16.4954 8.12519 16.3127 7.44727C15.6875 7.60616 15.0334 7.6909 14.3505 7.6909C12.952 7.69255 11.5736 7.3239 10.3315 6.616C9.08949 5.90811 8.02017 4.88174 7.21374 3.62341C6.3519 5.92275 4.72425 7.77209 2.66427 8.79251C2.6258 9.05732 2.6258 9.34332 2.6258 9.61872C2.6258 10.63 2.80667 11.6314 3.15808 12.5656C3.50948 13.4999 4.02455 14.3489 4.67386 15.0639C5.98521 16.5081 7.76379 17.3194 9.61832 17.3194C10.6282 17.3194 11.5997 17.0758 12.475 16.6415C13.0232 17.7961 13.2733 18.3681 13.254 18.3681C11.6766 18.9506 10.4551 19.2366 9.61832 19.2366C7.29069 19.2366 5.06886 18.2304 3.43374 16.4191C2.43829 15.328 1.69886 13.9865 1.27924 12.5105H0V7.6909H1.0484C1.36603 5.98818 2.09631 4.41192 3.16172 3.12937C4.22714 1.84682 5.58796 0.905826 7.09979 0.406236C8.61162 -0.0933545 10.2181 -0.132904 11.7486 0.291783C13.2792 0.71647 14.6769 1.58955 15.7933 2.81839C17.005 4.14835 17.8317 5.84388 18.169 7.6909H19.2366V12.5105H19.1789L15.7548 15.9742L10.6571 15.3386V13.5697H15.3027L16.0818 12.5422ZM6.99252 9.3751C7.28107 9.3751 7.56 9.5022 7.76198 9.73524C7.96498 9.96061 8.07888 10.2652 8.07888 10.5826C8.07888 10.9001 7.96498 11.2047 7.76198 11.43C7.56 11.6525 7.28107 11.7796 6.99252 11.7796C6.38657 11.7796 5.89603 11.25 5.89603 10.5826C5.89603 9.91531 6.38657 9.3751 6.99252 9.3751ZM12.2345 9.3751C12.8405 9.3751 13.3214 9.91531 13.3214 10.5826C13.3214 11.25 12.8405 11.7796 12.2345 11.7796C11.6285 11.7796 11.138 11.25 11.138 10.5826C11.138 10.2624 11.2535 9.95523 11.4592 9.72878C11.6648 9.50232 11.9437 9.3751 12.2345 9.3751Z"
+                    fill="currentColor"
+                  />
+                </svg>
+      ),
+      link: "/salesagent"
     },
     {
       name: "Team Leaders",
       icon: (
         <svg
-          width="20"
-          height="18"
-          viewBox="0 0 20 18"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M7.51178 7.07824C7.91088 7.07824 8.30608 6.99964 8.6748 6.8469C9.04352 6.69417 9.37855 6.47031 9.66076 6.18811C9.94297 5.9059 10.1668 5.57087 10.3196 5.20214C10.4723 4.83342 10.5509 4.43823 10.5509 4.03912C10.5509 3.64002 10.4723 3.24482 10.3196 2.8761C10.1668 2.50738 9.94297 2.17235 9.66076 1.89014C9.37855 1.60793 9.04352 1.38407 8.6748 1.23134C8.30608 1.07861 7.91088 1 7.51178 1C6.70575 1 5.93274 1.32019 5.36279 1.89014C4.79285 2.46008 4.47266 3.2331 4.47266 4.03912C4.47266 4.84515 4.79285 5.61816 5.36279 6.18811C5.93274 6.75805 6.70575 7.07824 7.51178 7.07824Z"
-            fill="#626E70"
-            stroke="#626E70"
-            stroke-width="1.73664"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M13.1562 7.07835L15.7612 4.47339L18.3662 7.07835"
-            stroke="#626E70"
-            stroke-width="1.73664"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <path
-            d="M1 16.1086V16.6296H14.0248V16.1086C14.0248 14.1636 14.0248 13.1911 13.6462 12.4478C13.3132 11.7943 12.7819 11.263 12.1284 10.93C11.3851 10.5514 10.4126 10.5514 8.46756 10.5514H6.55725C4.61221 10.5514 3.63969 10.5514 2.89641 10.93C2.2429 11.263 1.71158 11.7943 1.37859 12.4478C1 13.1911 1 14.1636 1 16.1086Z"
-            fill="#626E70"
-            stroke="#626E70"
-            stroke-width="1.73664"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+                  width="20"
+                  height="18"
+                  viewBox="0 0 20 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.51178 7.07824C7.91088 7.07824 8.30608 6.99964 8.6748 6.8469C9.04352 6.69417 9.37855 6.47031 9.66076 6.18811C9.94297 5.9059 10.1668 5.57087 10.3196 5.20214C10.4723 4.83342 10.5509 4.43823 10.5509 4.03912C10.5509 3.64002 10.4723 3.24482 10.3196 2.8761C10.1668 2.50738 9.94297 2.17235 9.66076 1.89014C9.37855 1.60793 9.04352 1.38407 8.6748 1.23134C8.30608 1.07861 7.91088 1 7.51178 1C6.70575 1 5.93274 1.32019 5.36279 1.89014C4.79285 2.46008 4.47266 3.2331 4.47266 4.03912C4.47266 4.84515 4.79285 5.61816 5.36279 6.18811C5.93274 6.75805 6.70575 7.07824 7.51178 7.07824Z"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    strokeWidth="1.73664"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M13.1562 7.07835L15.7612 4.47339L18.3662 7.07835"
+                    stroke="currentColor"
+                    strokeWidth="1.73664"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M1 16.1086V16.6296H14.0248V16.1086C14.0248 14.1636 14.0248 13.1911 13.6462 12.4478C13.3132 11.7943 12.7819 11.263 12.1284 10.93C11.3851 10.5514 10.4126 10.5514 8.46756 10.5514H6.55725C4.61221 10.5514 3.63969 10.5514 2.89641 10.93C2.2429 11.263 1.71158 11.7943 1.37859 12.4478C1 13.1911 1 14.1636 1 16.1086Z"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    strokeWidth="1.73664"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
       ),
-      link: "/teamLeader/#currentTeamLeaders",
-    //   children: [
-    //     // { name: "ORG Chart", link: "/teamLeader/#orgChart", ref: orgChartRef },
-    //     {
-    //       name: "Team Leader",
-    //       link: "/teamLeader/#currentTeamLeaders",
-    //       ref: teamLeaderRef,
-    //     },
-    //     {
-    //       name: "Add New Team Leader",
-    //       link: "/teamLeader/#addNewTeamLeader",
-    //       ref: addNewTeamLeaderRef,
-    //     },
-    //   ],
+      link: "/teamleader"
     },
-
-    {
-      name: "Sales Agent",
-      icon: (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M16.0818 12.5422C16.4185 11.6419 16.6012 10.678 16.6012 9.61872C16.6012 8.85607 16.4954 8.12519 16.3127 7.44727C15.6875 7.60616 15.0334 7.6909 14.3505 7.6909C12.952 7.69255 11.5736 7.3239 10.3315 6.616C9.08949 5.90811 8.02017 4.88174 7.21374 3.62341C6.3519 5.92275 4.72425 7.77209 2.66427 8.79251C2.6258 9.05732 2.6258 9.34332 2.6258 9.61872C2.6258 10.63 2.80667 11.6314 3.15808 12.5656C3.50948 13.4999 4.02455 14.3489 4.67386 15.0639C5.98521 16.5081 7.76379 17.3194 9.61832 17.3194C10.6282 17.3194 11.5997 17.0758 12.475 16.6415C13.0232 17.7961 13.2733 18.3681 13.254 18.3681C11.6766 18.9506 10.4551 19.2366 9.61832 19.2366C7.29069 19.2366 5.06886 18.2304 3.43374 16.4191C2.43829 15.328 1.69886 13.9865 1.27924 12.5105H0V7.6909H1.0484C1.36603 5.98818 2.09631 4.41192 3.16172 3.12937C4.22714 1.84682 5.58796 0.905826 7.09979 0.406236C8.61162 -0.0933545 10.2181 -0.132904 11.7486 0.291783C13.2792 0.71647 14.6769 1.58955 15.7933 2.81839C17.005 4.14835 17.8317 5.84388 18.169 7.6909H19.2366V12.5105H19.1789L15.7548 15.9742L10.6571 15.3386V13.5697H15.3027L16.0818 12.5422ZM6.99252 9.3751C7.28107 9.3751 7.56 9.5022 7.76198 9.73524C7.96498 9.96061 8.07888 10.2652 8.07888 10.5826C8.07888 10.9001 7.96498 11.2047 7.76198 11.43C7.56 11.6525 7.28107 11.7796 6.99252 11.7796C6.38657 11.7796 5.89603 11.25 5.89603 10.5826C5.89603 9.91531 6.38657 9.3751 6.99252 9.3751ZM12.2345 9.3751C12.8405 9.3751 13.3214 9.91531 13.3214 10.5826C13.3214 11.25 12.8405 11.7796 12.2345 11.7796C11.6285 11.7796 11.138 11.25 11.138 10.5826C11.138 10.2624 11.2535 9.95523 11.4592 9.72878C11.6648 9.50232 11.9437 9.3751 12.2345 9.3751Z"
-            fill="#626E70"
-          />
-        </svg>
-      ),
-      link: "/salesagent/#current_agent",
-    //   children: [
-    //     {
-    //       name: "Sales Agent",
-    //       link: "/salesagent/#current_agent",
-    //       ref: teamLeaderRef,
-    //     },
-    //     {
-    //       name: "Add New Sales Agent",
-    //       link: "/salesagent/#addNewAgent",
-    //       ref: addNewTeamLeaderRef,
-    //     },
-    //   ],
-    },
-
-    {
-      name: "Head Of Department",
-      icon: (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M16.0818 12.5422C16.4185 11.6419 16.6012 10.678 16.6012 9.61872C16.6012 8.85607 16.4954 8.12519 16.3127 7.44727C15.6875 7.60616 15.0334 7.6909 14.3505 7.6909C12.952 7.69255 11.5736 7.3239 10.3315 6.616C9.08949 5.90811 8.02017 4.88174 7.21374 3.62341C6.3519 5.92275 4.72425 7.77209 2.66427 8.79251C2.6258 9.05732 2.6258 9.34332 2.6258 9.61872C2.6258 10.63 2.80667 11.6314 3.15808 12.5656C3.50948 13.4999 4.02455 14.3489 4.67386 15.0639C5.98521 16.5081 7.76379 17.3194 9.61832 17.3194C10.6282 17.3194 11.5997 17.0758 12.475 16.6415C13.0232 17.7961 13.2733 18.3681 13.254 18.3681C11.6766 18.9506 10.4551 19.2366 9.61832 19.2366C7.29069 19.2366 5.06886 18.2304 3.43374 16.4191C2.43829 15.328 1.69886 13.9865 1.27924 12.5105H0V7.6909H1.0484C1.36603 5.98818 2.09631 4.41192 3.16172 3.12937C4.22714 1.84682 5.58796 0.905826 7.09979 0.406236C8.61162 -0.0933545 10.2181 -0.132904 11.7486 0.291783C13.2792 0.71647 14.6769 1.58955 15.7933 2.81839C17.005 4.14835 17.8317 5.84388 18.169 7.6909H19.2366V12.5105H19.1789L15.7548 15.9742L10.6571 15.3386V13.5697H15.3027L16.0818 12.5422ZM6.99252 9.3751C7.28107 9.3751 7.56 9.5022 7.76198 9.73524C7.96498 9.96061 8.07888 10.2652 8.07888 10.5826C8.07888 10.9001 7.96498 11.2047 7.76198 11.43C7.56 11.6525 7.28107 11.7796 6.99252 11.7796C6.38657 11.7796 5.89603 11.25 5.89603 10.5826C5.89603 9.91531 6.38657 9.3751 6.99252 9.3751ZM12.2345 9.3751C12.8405 9.3751 13.3214 9.91531 13.3214 10.5826C13.3214 11.25 12.8405 11.7796 12.2345 11.7796C11.6285 11.7796 11.138 11.25 11.138 10.5826C11.138 10.2624 11.2535 9.95523 11.4592 9.72878C11.6648 9.50232 11.9437 9.3751 12.2345 9.3751Z"
-            fill="#626E70"
-          />
-        </svg>
-      ),
-      // link: "",
-      link: "/HeadOfDepartment/#CurrentHeadOfDepartment"
-    //   children: [
-    //     {
-    //       name: "Head Of Department",
-    //       link: "/HeadOfDepartment/#CurrentHeadOfDepartment",
-    //       ref: teamLeaderRef,
-    //     },
-    //     {
-    //       name: "Add New Head Of Department",
-    //       link: "/HeadOfDepartment/#AddHeadOfDepartment",
-    //       ref: addNewTeamLeaderRef,
-    //     },
-    //   ],
-    },
-
     {
       name: "Junior Head Of Department",
       icon: (
         <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M16.0818 12.5422C16.4185 11.6419 16.6012 10.678 16.6012 9.61872C16.6012 8.85607 16.4954 8.12519 16.3127 7.44727C15.6875 7.60616 15.0334 7.6909 14.3505 7.6909C12.952 7.69255 11.5736 7.3239 10.3315 6.616C9.08949 5.90811 8.02017 4.88174 7.21374 3.62341C6.3519 5.92275 4.72425 7.77209 2.66427 8.79251C2.6258 9.05732 2.6258 9.34332 2.6258 9.61872C2.6258 10.63 2.80667 11.6314 3.15808 12.5656C3.50948 13.4999 4.02455 14.3489 4.67386 15.0639C5.98521 16.5081 7.76379 17.3194 9.61832 17.3194C10.6282 17.3194 11.5997 17.0758 12.475 16.6415C13.0232 17.7961 13.2733 18.3681 13.254 18.3681C11.6766 18.9506 10.4551 19.2366 9.61832 19.2366C7.29069 19.2366 5.06886 18.2304 3.43374 16.4191C2.43829 15.328 1.69886 13.9865 1.27924 12.5105H0V7.6909H1.0484C1.36603 5.98818 2.09631 4.41192 3.16172 3.12937C4.22714 1.84682 5.58796 0.905826 7.09979 0.406236C8.61162 -0.0933545 10.2181 -0.132904 11.7486 0.291783C13.2792 0.71647 14.6769 1.58955 15.7933 2.81839C17.005 4.14835 17.8317 5.84388 18.169 7.6909H19.2366V12.5105H19.1789L15.7548 15.9742L10.6571 15.3386V13.5697H15.3027L16.0818 12.5422ZM6.99252 9.3751C7.28107 9.3751 7.56 9.5022 7.76198 9.73524C7.96498 9.96061 8.07888 10.2652 8.07888 10.5826C8.07888 10.9001 7.96498 11.2047 7.76198 11.43C7.56 11.6525 7.28107 11.7796 6.99252 11.7796C6.38657 11.7796 5.89603 11.25 5.89603 10.5826C5.89603 9.91531 6.38657 9.3751 6.99252 9.3751ZM12.2345 9.3751C12.8405 9.3751 13.3214 9.91531 13.3214 10.5826C13.3214 11.25 12.8405 11.7796 12.2345 11.7796C11.6285 11.7796 11.138 11.25 11.138 10.5826C11.138 10.2624 11.2535 9.95523 11.4592 9.72878C11.6648 9.50232 11.9437 9.3751 12.2345 9.3751Z"
-            fill="#626E70"
-          />
-        </svg>
+                  width="20"
+                  height="18"
+                  viewBox="0 0 20 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.51178 7.07824C7.91088 7.07824 8.30608 6.99964 8.6748 6.8469C9.04352 6.69417 9.37855 6.47031 9.66076 6.18811C9.94297 5.9059 10.1668 5.57087 10.3196 5.20214C10.4723 4.83342 10.5509 4.43823 10.5509 4.03912C10.5509 3.64002 10.4723 3.24482 10.3196 2.8761C10.1668 2.50738 9.94297 2.17235 9.66076 1.89014C9.37855 1.60793 9.04352 1.38407 8.6748 1.23134C8.30608 1.07861 7.91088 1 7.51178 1C6.70575 1 5.93274 1.32019 5.36279 1.89014C4.79285 2.46008 4.47266 3.2331 4.47266 4.03912C4.47266 4.84515 4.79285 5.61816 5.36279 6.18811C5.93274 6.75805 6.70575 7.07824 7.51178 7.07824Z"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    strokeWidth="1.73664"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M13.1562 7.07835L15.7612 4.47339L18.3662 7.07835"
+                    stroke="currentColor"
+                    strokeWidth="1.73664"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M1 16.1086V16.6296H14.0248V16.1086C14.0248 14.1636 14.0248 13.1911 13.6462 12.4478C13.3132 11.7943 12.7819 11.263 12.1284 10.93C11.3851 10.5514 10.4126 10.5514 8.46756 10.5514H6.55725C4.61221 10.5514 3.63969 10.5514 2.89641 10.93C2.2429 11.263 1.71158 11.7943 1.37859 12.4478C1 13.1911 1 14.1636 1 16.1086Z"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    strokeWidth="1.73664"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
       ),
-      link: "/JuniorHeadOfDepartment/#CurrentJuniorHeadOfDepartment"
-    //   children: [
-    //     {
-    //       name: "Junior Head Of Department",
-    //       link: "/JuniorHeadOfDepartment/#CurrentJuniorHeadOfDepartment",
-    //       ref: teamLeaderRef,
-    //     },
-    //     {
-    //       name: "Add New Junior Head Of Department",
-    //       link: "/JuniorHeadOfDepartment/#AddJuniorHeadOfDepartment",
-    //       ref: addNewTeamLeaderRef,
-    //     },
-    //   ],
+      link: "/juniorheadofdepartment"
     },
     {
-      type: "header",
-      name: "Modules",
-    },
+      name: "Head Of Department",
+      icon: (
+        <svg
+                  width="20"
+                  height="18"
+                  viewBox="0 0 20 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.51178 7.07824C7.91088 7.07824 8.30608 6.99964 8.6748 6.8469C9.04352 6.69417 9.37855 6.47031 9.66076 6.18811C9.94297 5.9059 10.1668 5.57087 10.3196 5.20214C10.4723 4.83342 10.5509 4.43823 10.5509 4.03912C10.5509 3.64002 10.4723 3.24482 10.3196 2.8761C10.1668 2.50738 9.94297 2.17235 9.66076 1.89014C9.37855 1.60793 9.04352 1.38407 8.6748 1.23134C8.30608 1.07861 7.91088 1 7.51178 1C6.70575 1 5.93274 1.32019 5.36279 1.89014C4.79285 2.46008 4.47266 3.2331 4.47266 4.03912C4.47266 4.84515 4.79285 5.61816 5.36279 6.18811C5.93274 6.75805 6.70575 7.07824 7.51178 7.07824Z"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    strokeWidth="1.73664"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M13.1562 7.07835L15.7612 4.47339L18.3662 7.07835"
+                    stroke="currentColor"
+                    strokeWidth="1.73664"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M1 16.1086V16.6296H14.0248V16.1086C14.0248 14.1636 14.0248 13.1911 13.6462 12.4478C13.3132 11.7943 12.7819 11.263 12.1284 10.93C11.3851 10.5514 10.4126 10.5514 8.46756 10.5514H6.55725C4.61221 10.5514 3.63969 10.5514 2.89641 10.93C2.2429 11.263 1.71158 11.7943 1.37859 12.4478C1 13.1911 1 14.1636 1 16.1086Z"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    strokeWidth="1.73664"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+      ),
+      link: "/headofdepartment"
+    }
+  ];
+
+  const moduleLinks = [
     {
       name: "Teams",
       icon: (
@@ -203,19 +174,6 @@ const SideBar = ({ name = "none" }) => {
         </svg>
       ),
       link: "/teams/#currentTeams"
-      // link: "",
-    //   children: [
-    //     {
-    //       name: "Current Teams",
-    //       link: "/teams/#currentTeams",
-    //       ref: currentTeamsRef,
-    //     },
-    //     {
-    //       name: "Add new Team",
-    //       link: "/teams/#addNewTeams",
-    //       ref: addNewTeamRef,
-    //     },
-    //   ],
     },
     {
       name: "Campaigns",
@@ -229,26 +187,14 @@ const SideBar = ({ name = "none" }) => {
         >
           <path
             d="M17.2336 9.3749V7.31177H21.3598V9.3749H17.2336ZM18.4714 16.5959L15.1704 14.1201L16.4083 12.4696L19.7093 14.9454L18.4714 16.5959ZM16.4083 4.21708L15.1704 2.56658L18.4714 0.0908203L19.7093 1.74132L16.4083 4.21708ZM3.82321 15.5643V11.438H2.79165C2.22428 11.438 1.73876 11.2362 1.33508 10.8325C0.93139 10.4288 0.729203 9.94295 0.728516 9.3749V7.31177C0.728516 6.74441 0.930702 6.25889 1.33508 5.85521C1.73945 5.45152 2.22497 5.24933 2.79165 5.24864H6.91791L12.0757 2.15395V14.5327L6.91791 11.438H5.88634V15.5643H3.82321ZM13.1073 11.7991V4.8876C13.5715 5.30022 13.9456 5.80328 14.2296 6.39678C14.5137 6.99027 14.6553 7.63912 14.6546 8.34334C14.654 9.04755 14.5119 9.69675 14.2286 10.2909C13.9453 10.8851 13.5715 11.3878 13.1073 11.7991Z"
-            fill="#269F8B"
+            fill="#626E70"
           />
         </svg>
       ),
       link: "/campaigns/#currentCampaigns"
-    //   children: [
-    //     {
-    //       name: "Current Campaign",
-    //       link: "/campaigns/#currentCampaigns",
-    //       ref: currentCampaignRef,
-    //     },
-    //     {
-    //       name: "Add new Campaign",
-    //       link: "/campaigns/#addNewCampaign",
-    //       ref: addNewCampaignRef,
-    //     },
-    //   ],
     },
     {
-      name: "Set Contest",
+      name: "Contests",
       icon: (
         <svg
           width="20"
@@ -263,13 +209,7 @@ const SideBar = ({ name = "none" }) => {
           />
         </svg>
       ),
-      // link: "/set-contest",
       link: "/set-contest"
-    //   children: [{ name: "Set Contest", link: "/set-contest" }],
-    },
-    {
-      type: "header",
-      name: "Others",
     },
     {
       name: "Commission",
@@ -299,14 +239,13 @@ const SideBar = ({ name = "none" }) => {
           />
         </svg>
       ),
-      // link: "/commission",
       link: "/commission/#currentMonth"
-    //   children: [
-    //     { name: "Current Month", link: "/commission/#currentMonth" },
-    //     { name: "Set Target", link: "/commission/#setTarget" },
-    //     { name: "Set Commission", link: "/commission/#setCommission" },
-    //   ],
-    },
+    }
+  ];
+
+
+  const otherLinks = [
+
     {
       name: "Prizes",
       icon: (
@@ -324,9 +263,8 @@ const SideBar = ({ name = "none" }) => {
         </svg>
       ),
       link: "/prizes"
-      // link: "/prizes",
-    //   children: [{ name: "Prizes", link: "/prizes" }],
     },
+
     {
       name: "TV Screen",
       icon: (
@@ -344,7 +282,6 @@ const SideBar = ({ name = "none" }) => {
         </svg>
       ),
       link: "/tv-screen"
-    //   children: [{ name: "TV Screen", link: "/tv-screen" }],
     },
     {
       name: "Help",
@@ -362,10 +299,8 @@ const SideBar = ({ name = "none" }) => {
           />
         </svg>
       ),
-      // link: "/help",
       link: "/help"
-    //   children: [{ name: "Help", link: "/help" }],
-    },
+    }
   ];
 
   function toCamelCase(str) {
@@ -381,32 +316,19 @@ const SideBar = ({ name = "none" }) => {
       })
       .join(""); // Join the words back together
   }
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-//   React.useEffect(() => {
-//     const handleResize = () => {
-//       if (window.innerWidth >= 480) {
-//         setIsSidebarOpen(true);
-//       } else {
-//         setIsSidebarOpen(false);
-//       }
-//     };
-//     handleResize();
-//     window.addEventListener("resize", handleResize);
-//     return () => window.removeEventListener("resize", handleResize);
-//   }, []);
-useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 480) {
-        setIsSidebarOpen(true);
-      } else {
-        setIsSidebarOpen(false);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  useEffect(() => {
+  const handleResize = () => {
+    if (window.innerWidth >= 480) {
+      setIsSidebarOpen(true);
+    } else {
+      setIsSidebarOpen(false);
+    }
+  };
+  handleResize();
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
 
   const [isLinkExpanded, setIsLinkExpanded] = useState({
     Dashboard: false,
@@ -437,6 +359,7 @@ useEffect(() => {
     tvscreen: false,
     help: false,
   });
+  
   const setActiveLink = (linkName, itsRef = "") => {
     const newLinkState = Object.keys(linkState).reduce((acc, key) => {
       acc[key] = false;
@@ -553,6 +476,16 @@ useEffect(() => {
     setIsLinkExpanded(newLinkExpanded);
   }, [location]);
 
+  // if (!isSidebarOpen)
+  //   return (
+  //     <div
+  //       className="fixed z-50 flex items-center p-3 my-3 text-2xl text-white cursor-pointer bg-themeGreen w-fit rounded-tr-md rounded-br-md"
+  //       onClick={() => setIsSidebarOpen((prev) => !prev)}
+  //     >
+  //       <FaArrowRight className="inline my-auto" />
+  //     </div>
+  //   );
+
   if (!isSidebarOpen)
     return (
       <div
@@ -564,144 +497,123 @@ useEffect(() => {
     );
 
   return (
-    <main className="duration-100 pl-[40px]">
-      <div className="antialiased text-themeGray hover:text-themeGreen">
-        <div className="flex flex-col w-[243px] h-full">
-          <div className="overflow-x-hidden overflow-y-auto text-themeGray">
+
+    <main className="duration-100 pl-[10px]">
+      <div className="antialiased text-gray-600">
+        <div className="flex flex-col w-[264px] h-full">
+          <div className="overflow-x-hidden overflow-y-auto">
             <ul className="flex flex-col py-4 space-y-1">
-              {/* {links.map((link, index) => (
-                <li
-                  key={index}
-                  className="py-1 border-b-[0.8px] border-b-[#3333334D]"
-                >
-                  {link.type == "header" ? (
-                    <div className="text-[18px] font-bold text-[#269F8B] mb-2 mt-4 pl-2">
-                      {link.name}
-                    </div>
-                  ) : (
-                    <div
-                      className="flex flex-row group items-center cursor-pointer icon-parent h-[56px] px-2 gap-[14px] text-themeGray hover:text-[#269F8B]"
-                      onClick={() => {
-                        if (link.name == "Dashboard") {
-                          window.location.href = link.link;
-                        } else {
-                          setIsLinkExpanded({
-                            ...isLinkExpanded,
-                            [link.name]: !isLinkExpanded[link.name],
-                          });
-                        }
-                      }}
-                    >
-                      <div
-                        className={`w-[20px] h-[20px] default-icon group-hover:hovered-icon ${
-                          isLinkExpanded[link.name] ? "hovered-icon" : ""
-                        }`}
-                      >
-                        {link.icon}
-                      </div>
-                      <div
-                        className={`text-[14px] font-[500] tracking-wide flex flex-row items-center justify-between w-full ${
-                          isLinkExpanded[link.name] ? "text-[#269F8B]" : ""
-                        }`}
-                      >
-                        {link.name}
-                        {link.children && (
-                          <img
-                            src="/icons/selectDropdown.png"
-                            className={`inline w-[20px] h-[20px] ${
-                              isLinkExpanded[link.name] ? "rotate-180" : ""
-                            }`}
-                            alt=""
-                          />
-                        )}
-                      </div>
-                    </div>
-                  )}
-                  {link.children && (
-                    <div
-                      className={`${
-                        isLinkExpanded[link.name]
-                          ? "py-[10px] pl-[5px] border-t-[0.8px] border-t-[#3333334D]"
-                          : ""
-                      }`}
-                    >
-                      {link.children.map((sublink, subIndex) => (
-                        <div
-                          key={subIndex}
-                          className={`${
-                            isLinkExpanded[link.name] ? "block" : "hidden"
-                          } hover:text-[#269F8B]`}
-                          onClick={() => {
-                            setActiveLink(sublink.name, sublink.ref);
-                          }}
-                        >
-                          <NavLink
-                            to={sublink.link}
-                            className={`
-                                                    flex cursor-pointer font-semibold gap-[10px] my-[6px] flex-row group items-center 
-                                                    ${
-                                                      linkState[
-                                                        sublink.name
-                                                          .toLowerCase()
-                                                          .replace(/\s+/g, "")
-                                                      ]
-                                                        ? "text-[#269F8B]"
-                                                        : "text-themeGray"
-                                                    }
-                                                `}
-                          >
-                            <Dot
-                              className={`
-                                                        group-hover:text-[#269F8B] w-[28px] h-[28px] hover:text-[#269F8B]} 
-                                                        ${
-                                                          linkState[
-                                                            sublink.name
-                                                              .toLowerCase()
-                                                              .replace(
-                                                                /\s+/g,
-                                                                ""
-                                                              )
-                                                          ]
-                                                            ? "text-[#269F8B]"
-                                                            : "text-[#D9D9D9]"
-                                                        }
-                                                    `}
-                              strokeWidth={5}
-                            />
-                            <span className="text-[16px] tracking-wide font-[500]">
-                              {sublink.name}
-                            </span>
-                          </NavLink>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </li>
-              ))} */}
-               {links.map((link, index) => (
-                <li
-                  key={index}
-                  className="py-1 border-b-[0.8px] border-b-[#3333334D]"
-                >
-                  {link.type == "header" ? (
-                    <div className="text-[18px] font-bold text-[#269F8B] mb-2 mt-4 pl-2">
-                      {link.name}
-                    </div>
-                  ) : (
-                    <NavLink
-                      to={link.link}
-                      className="flex flex-row group items-center cursor-pointer icon-parent h-[56px] px-2 gap-[14px] text-themeGray hover:text-[#269F8B]"
-                    >
-                      <div className="w-[20px] h-[20px] default-icon group-hover:hovered-icon">
-                        {link.icon}
-                      </div>
-                      <div className="text-[14px] font-[500] tracking-wide">
-                        {link.name}
-                      </div>
-                    </NavLink>
-                  )}
+              {/* Dashboard Link */}
+              {links.map((link, index) => (
+                <li key={index} className="py-1 border-b-[0.8px] border-b-[#3333334D]">
+                  <NavLink
+                    to={link.link}
+                    className="flex flex-row items-center h-[56px] px-2 gap-[14px] text-gray-600 hover:text-[#269F8B]"
+                  >
+                    <div className="w-[20px] h-[20px]">{link.icon}</div>
+                    <span className="text-[14px] font-[500] tracking-wide">{link.name}</span>
+                  </NavLink>
                 </li>
               ))}
+
+<li className="py-2">
+  <div
+    onClick={() => setIsCompanyExpanded(!isCompanyExpanded)}
+    className="flex flex-row items-center shadow-md justify-between cursor-pointer h-[56px] px-2 text-gray-600 hover:text-[#269F8B]"
+  >
+    <span className="text-[18px] font-semibold text-[#269F8B]">Company</span>
+    {isCompanyExpanded ? (
+      <ChevronUp className="w-5 h-5 text-[#269F8B]" />
+    ) : (
+      <ChevronDown className="w-5 h-5 text-[#269F8B]" />
+    )}
+  </div>
+
+  {/* Dropdown Content */}
+  {isCompanyExpanded && (
+    <div className="pl-2 mt-2">
+      {companyLinks.map((link, index) => (
+        <NavLink
+          key={index}
+          to={link.link}
+          className={`flex flex-row items-center h-[64px] px-2 gap-[14px] bg-lGreen text-gray-600 hover:text-[#269F8B] py-6 ${
+            index !== companyLinks.length - 1 ? "border-b-2 bg-lGreen border-gray-300 " : ""
+          }`}
+        >
+          <div className="w-[20px] h-[20px]">{link.icon}</div>
+          <span className="text-[14px] font-[500]  tracking-wide whitespace-nowrap overflow-hidden text-ellipsis">{link.name}</span>
+        </NavLink>
+      ))}
+    </div>
+  )}
+</li>
+
+
+<li className="py-2">
+  <div
+    onClick={() => setIsModulesExpanded(!isModulesExpanded)}
+    className="flex flex-row items-center shadow-md justify-between cursor-pointer h-[56px] px-2 text-gray-600 hover:text-[#269F8B]"
+  >
+    <span className="text-[18px] font-semibold text-[#269F8B]">Modules</span>
+    {isModulesExpanded ? (
+      <ChevronUp className="w-5 h-5 text-[#269F8B]" />
+    ) : (
+      <ChevronDown className="w-5 h-5 text-[#269F8B]" />
+    )}
+  </div>
+
+  {/* Modules Dropdown Content */}
+  {isModulesExpanded && (
+    <div className="pl-2 mt-2">
+      {moduleLinks.map((link, index) => (
+        <NavLink
+          key={index}
+          to={link.link}
+          className={`flex flex-row items-center h-[64px] px-2 gap-[14px] bg-lGreen text-gray-600 hover:text-[#269F8B] ${
+            index !== moduleLinks.length - 1 ? "border-b-2 bg-lGreen border-gray-300" : ""
+          }`}
+        >
+          <div className="w-[20px] h-[20px]">{link.icon}</div>
+          <span className="text-[14px] font-[500] tracking-wide">{link.name}</span>
+        </NavLink>
+      ))}
+    </div>
+  )}
+</li>
+
+
+
+<li className="py-2">
+  <div
+    onClick={() => setIsOthersExpanded(!isOthersExpanded)}
+    className="flex flex-row items-center shadow-md justify-between cursor-pointer h-[56px] px-2 text-gray-600 hover:text-[#269F8B]"
+  >
+    <span className="text-[18px] font-semibold text-[#269F8B]">Others</span>
+    {isOthersExpanded ? (
+      <ChevronUp className="w-5 h-5 text-[#269F8B]" />
+    ) : (
+      <ChevronDown className="w-5 h-5 text-[#269F8B]" />
+    )}
+  </div>
+
+  {/* Others Dropdown Content */}
+  {isOthersExpanded && (
+    <div className="pl-2 mt-2">
+      {otherLinks.map((link, index) => (
+        <NavLink
+          key={index}
+          to={link.link}
+          className={`flex flex-row items-center h-[64px] px-2 gap-[14px] bg-lGreen text-gray-600 hover:text-[#269F8B] ${
+            index !== otherLinks.length - 1 ? "border-b-2 bg-lGreen border-gray-300" : ""
+          }`}
+        >
+          <div className="w-[20px] h-[20px]">{link.icon}</div>
+          <span className="text-[14px] font-[500] tracking-wide">{link.name}</span>
+        </NavLink>
+      ))}
+    </div>
+  )}
+</li>
             </ul>
           </div>
         </div>

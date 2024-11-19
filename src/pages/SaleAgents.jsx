@@ -676,13 +676,13 @@ const SalesAgents = () => {
               setCurrentPage(0);
             }}
           >
-            <p
-              className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-                selectedTeam == teamName
-                  ? "bg-lGreen text-black font-[400]"
-                  : "border-2 border-gray-300 text-gray-500 font-[400]"
-              }`}
-            >
+             <p
+      className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
+        selectedTeam == teamName
+          ? "bg-lGreen text-black font-[400] p-4"
+          : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
+      }`}
+    >
               {teamName}
             </p>
           </div>
@@ -705,6 +705,9 @@ const SalesAgents = () => {
             className="flex flex-col w-full gap-6 p-8 pb-12 card"
             id="currentAgent"
           >
+
+{/* Export to Excel ______________________________________________________________________________________________________ */}
+
             <div className="flex items-center justify-between w-full">
               <h1 className="font-[500] leading-[33px] text-[22px] text-[#269F8B]">
                 Current Agents
@@ -717,9 +720,14 @@ const SalesAgents = () => {
               </button>
             </div>
 
+{/* Export to Excel ______________________________________________________________________________________________________ */}
+
             <div className="relative flex justify-between items-center mb-4">
               <div className="flex items-center">
                 <div className="flex flex-col ml-4">{renderTeamOptions()}</div>
+
+
+{/* Search functionality __________________________________________________________________________________________________________ */}
 
                 <div className="ml-[325px]">
                   <input
@@ -733,6 +741,9 @@ const SalesAgents = () => {
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                   </span>
                 </div>
+
+{/* Search functionality __________________________________________________________________________________________________________ */}
+
               </div>
             </div>
             {renderTable()}

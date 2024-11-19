@@ -30,7 +30,7 @@ const Navbar = () => {
     <>
       <nav className="flex md:flex-row flex-col items-center justify-between py-[20px] px-[30px]">
         <div>
-          <img src="/images/logo.png" alt="" className="w-[197px] h-[40px]" />
+          <img src="/images/logo.png" alt="" className="w-[197px] h-[40px] ml-[-20px]" />
         </div>
         <div className="flex gap-[20px] flex-col sm:flex-row items-center">
           <div className="flex items-center">

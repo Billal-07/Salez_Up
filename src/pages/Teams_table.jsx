@@ -113,12 +113,12 @@ const Teams_table = () => {
             }}
           >
             <p
-              className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-                selectedTeam == teamName
-                ? "bg-lGreen text-black font-[400]"
-                : "border-2 border-gray-300 text-gray-500 font-[400]"
-              }`}
-            >
+      className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
+        selectedTeam == teamName
+          ? "bg-lGreen text-black font-[400] p-4"
+          : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
+      }`}
+    >
               {teamName}
             </p>
           </div>
