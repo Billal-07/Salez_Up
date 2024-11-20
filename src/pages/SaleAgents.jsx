@@ -6,7 +6,14 @@ import axios from "axios";
 import Current_Agent from "./Current_Agent";
 import AddNewAgent from "./AddNewAgent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch as faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+// import { faSearch as faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+
+import {
+  faSearch as faMagnifyingGlass,
+  faPlus,
+  faDownload,
+} from "@fortawesome/free-solid-svg-icons";
+
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ReactPaginate from "react-paginate";
@@ -16,7 +23,7 @@ import fallbackImage from "/public/images/image_not_1.jfif";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import ExcelJS from "exceljs";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
+// import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 const UpdateModal = ({ isOpen, onClose, data }) => {
   const [manager, setManager] = useState(null);
@@ -386,6 +393,19 @@ const SalesAgents = () => {
   const agentsPerPage = 9;
   const [selectedData, setSelectedData] = useState({});
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isDownloadClicked, setIsDownloadClicked] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
+
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
     const storedManagerFName = localStorage.getItem("userFName");
@@ -468,6 +488,15 @@ const SalesAgents = () => {
     }
   };
 
+  const handleDownloadClick = () => {
+    handleStoreCSV();
+    setIsDownloadClicked(true);
+
+    setTimeout(() => {
+      setIsDownloadClicked(false);
+    }, 500);
+  };
+
   const handleUpdate = (data) => {
     console.log(data);
     setIsUpdateModalOpen(true);
@@ -505,6 +534,10 @@ const SalesAgents = () => {
         console.error("Error deleting the Sales Agent:", error);
         return;
       });
+  };
+
+  const handleSearchToggle = () => {
+    setIsSearchOpen(!isSearchOpen);
   };
 
   const renderTable = () => {
@@ -676,13 +709,13 @@ const SalesAgents = () => {
               setCurrentPage(0);
             }}
           >
-             <p
-      className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
-        selectedTeam == teamName
-          ? "bg-lGreen text-black font-[400] p-4"
-          : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
-      }`}
-    >
+            <p
+              className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
+                selectedTeam == teamName
+                  ? "bg-lGreen text-black font-[400] p-4"
+                  : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
+              }`}
+            >
               {teamName}
             </p>
           </div>
@@ -705,50 +738,95 @@ const SalesAgents = () => {
             className="flex flex-col w-full gap-6 p-8 pb-12 card"
             id="currentAgent"
           >
-
-{/* Export to Excel ______________________________________________________________________________________________________ */}
+            {/* Export to Excel ______________________________________________________________________________________________________ */}
 
             <div className="flex items-center justify-between w-full">
               <h1 className="font-[500] leading-[33px] text-[22px] text-[#269F8B]">
                 Current Agents
               </h1>
-              <button
+              {/* <button
                 onClick={handleStoreCSV}
                 className="bg-themeGreen text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 ml-[-20px]"
               >
                 Export to Excel
-              </button>
+              </button> */}
             </div>
 
-{/* Export to Excel ______________________________________________________________________________________________________ */}
+            {/* Export to Excel ______________________________________________________________________________________________________ */}
 
-            <div className="relative flex justify-between items-center mb-4">
+            <div className="relative flex justify-between items-center mb-4 px-4 py-2">
               <div className="flex items-center">
-                <div className="flex flex-col ml-4">{renderTeamOptions()}</div>
+                <div className="flex flex-col">{renderTeamOptions()}</div>
+              </div>
 
+              <div className="flex items-center space-x-3">
+                <div className="relative flex items-center flex-row-reverse space-x-reverse space-x-2">
+                  <div
+                    className="flex justify-center items-center w-10 h-10 rounded-full bg-gray-300 cursor-pointer"
+                    onClick={handleSearchToggle}
+                  >
+                    <FontAwesomeIcon
+                      icon={faMagnifyingGlass}
+                      className="text-mm text-gray-500"
+                    />
+                  </div>
 
-{/* Search functionality __________________________________________________________________________________________________________ */}
-
-                <div className="ml-[325px]">
-                  <input
-                    type="text"
-                    placeholder="Search Agent"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="border border-themeGreen p-2 rounded-lg pl-10 mr-2  focus:outline-none bg-gray-100"
-                  />
-                  <span className="text-themeGreen ml-[-40px]">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                  </span>
+                  {isSearchOpen && (
+                    <input
+                      type="text"
+                      placeholder="Search Agent"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="border border-themeGreen p-2 rounded-lg pl-10 mr-2 focus:outline-none bg-gray-100"
+                    />
+                  )}
                 </div>
 
-{/* Search functionality __________________________________________________________________________________________________________ */}
+                <div
+                  className="flex justify-center items-center w-10 h-10 rounded-full bg-gray-300 cursor-pointer"
+                  onClick={openModal}
+                >
+                  <FontAwesomeIcon
+                    icon={faPlus}
+                    className="text-mm text-gray-500"
+                  />
+                </div>
 
+                {/* <div className="flex justify-center items-center w-10 h-10 rounded-full bg-gray-300">
+      <FontAwesomeIcon icon={faDownload} className="text-mm text-gray-500" />
+    </div> */}
+
+                <div
+                  className={`flex justify-center items-center w-10 h-10 rounded-full bg-gray-300 cursor-pointer ${
+                    isDownloadClicked ? "scale-95" : ""
+                  }`}
+                  onClick={handleDownloadClick}
+                >
+                  <FontAwesomeIcon
+                    icon={faDownload}
+                    className={`text-mm text-gray-500 ${
+                      isDownloadClicked ? "text-green-500" : ""
+                    }`}
+                  />
+                </div>
               </div>
             </div>
             {renderTable()}
           </div>
-          <AddNewAgent />
+          {/* <AddNewAgent /> */}
+          {isModalOpen && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" onClick={handleBackdropClick}>
+              <div className="bg-white rounded-lg shadow-lg relative" onClick={(e) => e.stopPropagation()}>
+                <button
+                  onClick={closeModal}
+                  className="absolute top-4 right-4 text-red-400 hover:text-red-700"
+                >
+                  ✖
+                </button>
+                <AddNewAgent />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

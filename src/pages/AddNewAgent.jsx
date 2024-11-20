@@ -357,28 +357,28 @@ const AddNewAgent = ({ set, setter }) => {
     }
   };
 
-  // Input field remains the same
-  <div className="w-full ml-[190px] mt-[-140px]">
-    <label
-      htmlFor="email"
-      className="font-medium text-[14px] text-dGreen mb-2 block"
-    >
-      Email
-    </label>
-    <input
-      type="email"
-      id="email"
-      className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
-      placeholder="abcd@xyz.com"
-      onChange={(e) => {
-        setEmail(e.target.value);
-      }}
-    />
-  </div>;
+  // // Input field remains the same
+  // <div className="w-full ml-[190px] mt-[-140px]">
+  //   <label
+  //     htmlFor="email"
+  //     className="font-medium text-[14px] text-dGreen mb-2 block"
+  //   >
+  //     Email
+  //   </label>
+  //   <input
+  //     type="email"
+  //     id="email"
+  //     className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+  //     placeholder="abcd@xyz.com"
+  //     onChange={(e) => {
+  //       setEmail(e.target.value);
+  //     }}
+  //   />
+  // </div>;
 
   return (
     <form>
-      <div className="flex flex-col w-full gap-12 p-8 pb-14 card">
+      <div className="flex flex-col w-full gap-12 p-8 pb-14 card bg-white">
         <h1 className="font-semibold text-[24px] text-[#269F8B]">
           Add New Sales Agent
         </h1>
@@ -588,7 +588,6 @@ const AddNewAgent = ({ set, setter }) => {
                   className="w-full h-full object-cover "
                 />
               ) : (
-                // <img className="w-42 h-42 m-auto rounded-full shadow cursor-pointer " />
                 <p className="font-[400] text-[14px] text-dGreen">
                   No image uploaded
                 </p>
