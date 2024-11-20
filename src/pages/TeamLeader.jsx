@@ -598,7 +598,7 @@ const TeamLeader = () => {
               {currentTeams.map((team, index) => (
                 <tr
                   key={index}
-                  className="bg-[#F8FEFD] my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center"
+                  className="my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center"
                 >
                   <td className="px-[10px]">
                     <img

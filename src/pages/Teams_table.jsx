@@ -345,7 +345,7 @@ const Teams_table = () => {
           </thead>
           <tbody className="font-[400] bg-white space-y-10">
             {currentTeams.map((team) => (
-              <tr key={team.team_id} className="bg-[#F8FEFD] text-center">
+              <tr key={team.team_id} className="text-center">
                 <td className="px-2 sm:px-[10px]">{team.team.team_name}</td>
                 <td className="px-2 sm:px-[10px]">
                   {team.team_leader ? (

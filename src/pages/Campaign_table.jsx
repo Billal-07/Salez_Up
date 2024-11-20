@@ -574,7 +574,7 @@ const Campaign_table = () => {
               filteredCampaigns.map((campaign) => (
                 <tr
                   key={campaign.campaign_id}
-                  className="bg-[#F8FEFD] text-center"
+                  className="text-center"
                 >
                   <td className="px-4 sm:px-[10px]">
                     {campaign.campaign.campaign_name}

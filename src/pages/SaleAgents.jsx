@@ -403,7 +403,6 @@ const SalesAgents = () => {
     }
   };
 
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
@@ -580,7 +579,7 @@ const SalesAgents = () => {
                   {paginatedAgents.map((agent, index) => (
                     <tr
                       key={index}
-                      className="bg-[#F8FEFD] my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center"
+                      className="my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center"
                     >
                       <td className="px-[10px]">
                         <img
@@ -730,9 +729,14 @@ const SalesAgents = () => {
       <div className="flex gap-3">
         <SideBar />
         <div className="w-full mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4">
-          <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6">
-            Sales Agent
-          </h1>
+          <div className="w-full flex flex-col space-y-5">
+            <p className="text-[18px] leading-[42px] -mb-6">
+              <span className="text-gray-400 font-medium">Dashboard/Company/</span><span className="text-gray-600 font-semibold">Sales Agents</span>
+            </p>
+            <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6">
+              Sales Agent
+            </h1>
+          </div>
           <Current_Agent id="orgChart" />
           <div
             className="flex flex-col w-full gap-6 p-8 pb-12 card"
@@ -815,8 +819,14 @@ const SalesAgents = () => {
           </div>
           {/* <AddNewAgent /> */}
           {isModalOpen && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" onClick={handleBackdropClick}>
-              <div className="bg-white rounded-lg shadow-lg relative" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+              onClick={handleBackdropClick}
+            >
+              <div
+                className="bg-white rounded-lg shadow-lg relative"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <button
                   onClick={closeModal}
                   className="absolute top-4 right-4 text-red-400 hover:text-red-700"

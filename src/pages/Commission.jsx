@@ -1128,13 +1128,21 @@ const Commission = () => {
                   className="cursor-pointer"
                   onClick={() => setSelectedTeamName(team.team_name)}
                 >
-                  <p
+                  {/* <p
                     className={`${
                       selectedTeamName == team.team_name
                         ? "bg-lGreen text-black font-[400]"
                         : "border-2 border-gray-300 text-gray-500 font-[400]"
                     } w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}
-                  >
+                  > */}
+
+<p
+      className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
+        selectedTeamName == team.team_name
+          ? "bg-lGreen text-black font-[400] p-4"
+          : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
+      }`}
+    >
                     {team.team_name}
                   </p>
                 </div>
@@ -1212,7 +1220,7 @@ const Commission = () => {
                 return (
                   <React.Fragment key={index}>
                     {campaignView == "multiple" ? (
-                      <tr className="bg-[#F8FEFD] my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center">
+                      <tr className="my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center">
                         <td className="px-[10px]">
                           <img
                             src={team.image_path}
@@ -1304,7 +1312,7 @@ const Commission = () => {
                         </td>
                       </tr>
                     ) : (
-                      <tr className="bg-[#F8FEFD] my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center">
+                      <tr className="my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center">
                         <td className="px-[10px]">
                           <img
                             src={

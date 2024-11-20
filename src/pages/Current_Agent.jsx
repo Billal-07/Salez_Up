@@ -80,7 +80,7 @@ export default function Current_Agent() {
   }, []);
 
   return (
-    <div className="flex items-center justify-center w-full mt-8">
+    <div className="flex flex-col w-full gap-6 p-8 pb-12 card">
       <Tree
         lineWidth="2px"
         lineColor="green"

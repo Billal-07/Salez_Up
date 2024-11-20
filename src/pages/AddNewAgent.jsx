@@ -357,35 +357,35 @@ const AddNewAgent = ({ set, setter }) => {
     }
   };
 
-  // // Input field remains the same
-  // <div className="w-full ml-[190px] mt-[-140px]">
-  //   <label
-  //     htmlFor="email"
-  //     className="font-medium text-[14px] text-dGreen mb-2 block"
-  //   >
-  //     Email
-  //   </label>
-  //   <input
-  //     type="email"
-  //     id="email"
-  //     className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
-  //     placeholder="abcd@xyz.com"
-  //     onChange={(e) => {
-  //       setEmail(e.target.value);
-  //     }}
-  //   />
-  // </div>;
+  // Input field remains the same
+  <div className="w-full ml-[190px] mt-[-140px]">
+    <label
+      htmlFor="email"
+      className="font-medium text-[14px] text-dGreen mb-2 block"
+    >
+      Email
+    </label>
+    <input
+      type="email"
+      id="email"
+      className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+      placeholder="abcd@xyz.com"
+      onChange={(e) => {
+        setEmail(e.target.value);
+      }}
+    />
+  </div>;
 
   return (
     <form>
-      <div className="flex flex-col w-full gap-12 p-8 pb-14 card bg-white">
+      <div className="flex flex-col w-full gap-6 p-6 pb-10 card">
         <h1 className="font-semibold text-[24px] text-[#269F8B]">
           Add New Sales Agent
         </h1>
 
         <div className="flex space-x-9">
           <div className="flex flex-col justify-center items-center">
-            <label class="flex flex-col items-center justify-center w-[160px] h-[148px] rounded-[20px] bg-lGreen cursor-pointer">
+            <label class="flex flex-col items-center justify-center w-[160px] h-[148px] rounded-[0px] bg-lGreen cursor-pointer">
               <div className=" overflow-hidden border-black rounded-xl block w-32 h-32 items-center justify-center">
                 {imagePath ? (
                   <img
@@ -431,7 +431,7 @@ const AddNewAgent = ({ set, setter }) => {
                 <input
                   type="text"
                   id="fname"
-                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  className="w-4/5 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
                   placeholder="Enter first name"
                   onChange={(e) => {
                     setFirstName(e.target.value);
@@ -449,7 +449,7 @@ const AddNewAgent = ({ set, setter }) => {
                 <input
                   type="text"
                   id="lname"
-                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  className="w-full bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
                   placeholder="Enter last name"
                   onChange={(e) => {
                     setSurName(e.target.value);
@@ -469,7 +469,7 @@ const AddNewAgent = ({ set, setter }) => {
                 <input
                   type="email"
                   id="email"
-                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  className="w-4/5 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
                   placeholder="abcd@xyz.com"
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -488,7 +488,7 @@ const AddNewAgent = ({ set, setter }) => {
                   type="text"
                   readOnly
                   value={managerName}
-                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  className="w-full bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
                 />
               </div>
             </div>
@@ -503,7 +503,7 @@ const AddNewAgent = ({ set, setter }) => {
                 </label>
                 <select
                   id="team"
-                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  className="w-4/5 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
                   value={selectedTeam}
                   onChange={(e) => {
                     setSelectedTeam(e.target.value);
@@ -572,14 +572,14 @@ const AddNewAgent = ({ set, setter }) => {
                   id="teamLeader"
                   value={teamLeaderId}
                   readOnly
-                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  className="w-4/5 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
                 />
               </div>
             </div>
           </div>
 
           <div className="flex flex-col justify-center items-center">
-            <p className="font-[400] text-[14px] text-dGreen">Preview Upload</p>
+            {/* <p className="font-[400] text-[14px] text-dGreen">Preview Upload</p> */}
             <div class="flex flex-col items-center justify-center w-[159px] h-[148px] rounded-[20px] bg-lGreen cursor-pointer">
               {imagePath ? (
                 <img
@@ -588,6 +588,7 @@ const AddNewAgent = ({ set, setter }) => {
                   className="w-full h-full object-cover "
                 />
               ) : (
+                // <img className="w-42 h-42 m-auto rounded-full shadow cursor-pointer " />
                 <p className="font-[400] text-[14px] text-dGreen">
                   No image uploaded
                 </p>
