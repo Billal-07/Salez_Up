@@ -523,7 +523,7 @@ const AddNewAgent = ({ set, setter }) => {
                   }}
                 >
                   <option value="" disabled>
-                    Select a team
+                    Select team
                   </option>
                   {teams.map((team) => (
                     <option key={team.id} value={team.id}>

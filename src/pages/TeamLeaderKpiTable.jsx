@@ -451,7 +451,9 @@ const TeamLeaderKpiTable = () => {
           </button>
         </div>
       )}
+      
       <div className="font-[500] leading-[33px] text-[22px] text-[#269F8B] flex justify-between items-center">
+        
         <div className="flex items-center w-1/2 ">
           Current Month
           <select
@@ -1392,7 +1394,7 @@ const TeamLeaderKpiTable = () => {
       <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage == 1}
-          className="px-3 py-1 mr-2 text-lg font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
+          className="px-3 py-1 mr-2 text-lg font-medium text-[#072D20] rounded-md bg-white border-2 border-gray-300 text-gray-500"
         >
           {`<`}
         </button>
@@ -1404,8 +1406,8 @@ const TeamLeaderKpiTable = () => {
               onClick={() => paginate(i + 1)}
               className={`px-4 py-2 mx-1 text-sm font-medium ${
                 currentPage == i + 1
-                  ? "bg-[#1E8675] text-white "
-                  : "bg-[#F8FDFC] text-[#072D20]"
+                  ? "bg-lGreen text-black"
+                  : "bg-lGreen text-black hover:text-black"
               } rounded-md`}
             >
               {i + 1}
@@ -1424,7 +1426,7 @@ const TeamLeaderKpiTable = () => {
           disabled={
             currentPage == Math.ceil(filteredAgents.length / agentsPerPage)
           }
-          className="px-3 py-1 ml-2 text-lg font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
+          className="px-3 py-1 ml-2 text-lg font-medium text-[#072D20] rounded-md bg-white border-2 border-gray-300 text-gray-500"
         >
           {`>`}
         </button>

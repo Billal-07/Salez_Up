@@ -562,26 +562,25 @@ const SalesAgents = () => {
         ) : (
           <>
             <div className="overflow-x-auto">
-              <table className="min-w-full text-[14px] bg-white">
+              {/* <table className="min-w-full text-[14px] bg-white">
                 <thead className="text-themeGreen h-[30px]">
                   <tr className="flex flex-row items-center justify-between w-full text-center custom flex-nowrap">
-                    <th className="px-[10px] font-[500] w-[42px]"></th>
-                    <th className="px-[10px] font-[500] w-[84px]">Name</th>
-                    <th className="px-[10px] font-[500] w-[84px]">Surname</th>
-                    <th className="px-[10px] font-[500] w-[84px]">StartDate</th>
-                    <th className="px-[10px] font-[500] w-[84px]">Manager</th>
-                    <th className="px-[10px] font-[500] w-[84px]">Team</th>
-                    {/* <th className="px-[10px] font-[500] w-[84px]">KPI</th> */}
-                    <th className="px-[10px] font-[500] w-[71px]"></th>
+                    <th className="px-[10px] font-[500] whitespace-nowrap"></th>
+                    <th className="px-[10px] font-[500] whitespace-nowrap">Name</th>
+                    <th className="px-[10px] font-[500] whitespace-nowrap">Surname</th>
+                    <th className="px-[10px] font-[500] whitespace-nowrap">StartDate</th>
+                    <th className="px-[10px] font-[500] whitespace-nowrap">Manager</th>
+                    <th className="px-[10px] font-[500] whitespace-nowrap">Team</th>
+                    <th className="px-[10px] font-[500] whitespace-nowrap"></th>
                   </tr>
                 </thead>
-                <tbody className="font-[400] bg-white">
+                <tbody className="font-[400] bg-pink-400">
                   {paginatedAgents.map((agent, index) => (
                     <tr
                       key={index}
-                      className="my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center"
+                      className=" text-center w-full justify-between flex flex-row bg-yellow-500  items-center"
                     >
-                      <td className="px-[10px]">
+                      <td className="bg-yellow-500">
                         <img
                           src={
                             agent.image_path ? agent.image_path : fallbackImage
@@ -589,29 +588,26 @@ const SalesAgents = () => {
                           className="w-[40px] h-[40px] rounded-full m-auto"
                         />
                       </td>
-                      <td className="px-[10px] w-[91px] text-mm">
+                      <td className=" text-md whitespace-nowrap">
                         <p>{agent.first_name}</p>
                       </td>
-                      <td className="px-[10px] w-[91px] text-mm">
+                      <td className=" text-md whitespace-nowrap">
                         <p>{agent.last_name}</p>
                       </td>
-                      <td className="w-[91px] text-mm">
+                      <td className=" text-md whitespace-nowrap">
                         <p>{agent.start_date}</p>
                       </td>
-                      <td className="px-[10px] w-[91px] text-mm">
+                      <td className=" text-md whitespace-nowrap">
                         <p>{managerFName}</p>
                       </td>
-                      <td className="px-[10px] w-[91px] text-mm">
+                      <td className=" text-md whitespace-nowrap ">
                         <p>
                           {agent.team_id && agent.team && agent.team.team_name
                             ? agent.team.team_name
                             : "(No Team Assigned)"}
                         </p>
                       </td>
-                      {/* <td className="px-[10px] w-[91px] text-xs">
-                        <p>(Kpi not assigned)</p>
-                      </td> */}
-                      <td className="px-4 sm:px-[10px] py-[10px]">
+                      <td className="">
                         <span
                           className="mx-1 cursor-pointer"
                           onClick={() => {
@@ -638,29 +634,93 @@ const SalesAgents = () => {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table> */}
+
+
+<table className="min-w-full text-[14px] bg-white table-auto">
+  <thead className="text-themeGreen h-[40px]">
+    <tr>
+      <th className="px-4 py-2 font-[500] text-center whitespace-nowrap"></th>
+      <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Name</th>
+      <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Surname</th>
+      <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">StartDate</th>
+      <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Manager</th>
+      <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Team</th>
+      <th className="px-4 py-2 font-[500] text-center whitespace-nowrap"></th>
+    </tr>
+  </thead>
+  <tbody className="font-[400] bg-white text-center">
+    {paginatedAgents.map((agent, index) => (
+      <tr key={index} className="h-[50px]">
+        <td className="px-4 py-2">
+          <img
+            src={agent.image_path ? agent.image_path : fallbackImage}
+            className="w-[40px] h-[40px] rounded-full mx-auto"
+            alt="Profile"
+          />
+        </td>
+        <td className="px-4 py-2 whitespace-nowrap">{agent.first_name}</td>
+        <td className="px-4 py-2 whitespace-nowrap">{agent.last_name}</td>
+        <td className="px-4 py-2 whitespace-nowrap">{agent.start_date}</td>
+        <td className="px-4 py-2 whitespace-nowrap">{managerFName}</td>
+        <td className="px-4 py-2 whitespace-nowrap">
+          {agent.team_id && agent.team && agent.team.team_name
+            ? agent.team.team_name
+            : "(No Team Assigned)"}
+        </td>
+        <td className="px-4 py-2 flex flex-row space-x-2 mt-2">
+          <span
+            className="mx-2 cursor-pointer"
+            onClick={() => handleUpdate(agent)}
+          >
+            <img
+              src="../images/edit.png"
+              className="inline h-[18px] w-[18px]"
+              alt="Edit"
+            />
+          </span>
+          <span
+            className="mx-2 cursor-pointer"
+            onClick={() => handlemyDelete(agent)}
+          >
+            <img
+              src="../images/delete.png"
+              className="inline h-[18px] w-[18px]"
+              alt="Delete"
+            />
+          </span>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+
+
+
             </div>
             {/* Pagination UI */}
-            <div className="pagination-container flex justify-center mt-4">
-              <ReactPaginate
-                previousLabel={"<"}
-                nextLabel={">"}
-                pageCount={pageCount}
-                onPageChange={handlePageClick}
-                containerClassName={"pagination flex gap-2 ml-[660px]"}
-                pageClassName={
-                  "page py-2 px-3 rounded-lg bg-gray-200 text-center text-themeGreen cursor-pointer hover:bg-themeGreen hover:text-black w-[40px]"
-                }
-                activeClassName={"active bg-themeGreen text-white"}
-                previousClassName={
-                  "previous py-2 px-3 rounded-lg bg-gray-200 text-themeGreen cursor-pointer hover:bg-gray-300 hover:text-black shadow-md"
-                }
-                nextClassName={
-                  "next py-2 px-3 rounded-lg bg-gray-200 text-themeGreen cursor-pointer hover:bg-gray-300 hover:text-black shadow-md"
-                }
-                disabledClassName={"disabled  pointer-events-none"}
-              />
-            </div>
+
+<div className="pagination-container flex justify-end mt-4">
+  <ReactPaginate
+    previousLabel={"<"}
+    nextLabel={">"}
+    pageCount={pageCount}
+    onPageChange={handlePageClick}
+    containerClassName={"pagination flex gap-2"}
+    pageClassName={
+      "page py-2 px-3 rounded-lg bg-lGreen text-center text-black cursor-pointer hover:text-black w-[40px]"
+    }
+    activeClassName={"active bg-lGreen text-black"}
+    previousClassName={
+      "previous py-2 px-3 rounded-lg bg-white border-2 border-gray-300 text-gray-500 cursor-pointer hover:text-black shadow-md"
+    }
+    nextClassName={
+      "next py-2 px-3 rounded-lg bg-white border-2 border-gray-300 text-gray-500 cursor-pointer hover:text-black shadow-md"
+    }
+    disabledClassName={"disabled  pointer-events-none"}
+  />
+</div>
           </>
         )}
 
@@ -733,9 +793,9 @@ const SalesAgents = () => {
             <p className="text-[18px] leading-[42px] -mb-6">
               <span className="text-gray-400 font-medium">Dashboard/Company/</span><span className="text-gray-600 font-semibold">Sales Agents</span>
             </p>
-            <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6">
+            {/* <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6">
               Sales Agent
-            </h1>
+            </h1> */}
           </div>
           <Current_Agent id="orgChart" />
           <div
@@ -766,7 +826,7 @@ const SalesAgents = () => {
               <div className="flex items-center space-x-3">
                 <div className="relative flex items-center flex-row-reverse space-x-reverse space-x-2">
                   <div
-                    className="flex justify-center items-center w-10 h-10 rounded-full bg-gray-300 cursor-pointer"
+                    className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
                     onClick={handleSearchToggle}
                   >
                     <FontAwesomeIcon
@@ -787,7 +847,7 @@ const SalesAgents = () => {
                 </div>
 
                 <div
-                  className="flex justify-center items-center w-10 h-10 rounded-full bg-gray-300 cursor-pointer"
+                  className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
                   onClick={openModal}
                 >
                   <FontAwesomeIcon
@@ -796,12 +856,8 @@ const SalesAgents = () => {
                   />
                 </div>
 
-                {/* <div className="flex justify-center items-center w-10 h-10 rounded-full bg-gray-300">
-      <FontAwesomeIcon icon={faDownload} className="text-mm text-gray-500" />
-    </div> */}
-
                 <div
-                  className={`flex justify-center items-center w-10 h-10 rounded-full bg-gray-300 cursor-pointer ${
+                  className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer ${
                     isDownloadClicked ? "scale-95" : ""
                   }`}
                   onClick={handleDownloadClick}

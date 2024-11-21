@@ -394,10 +394,10 @@ const Teams_table = () => {
               <button
                 onClick={prevPage}
                 disabled={currentPage == 1}
-                className={`px-3 py-1 rounded-lg text-themeGreen  ${
+                className={`px-3 py-1 rounded-lg text-black  ${
                   currentPage == 1
-                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                    : "bg-gray-200 text-gray-700 hover:bg-gray-300 shadow-md"
+                    ? "bg-white border-2 border-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-white border-2 border-gray-300 text-gray-500 shadow-md"
                 }`}
               >
                 {`<`}
@@ -409,8 +409,8 @@ const Teams_table = () => {
                   onClick={() => paginate(number)}
                   className={`px-3 py-1 rounded-lg w-[40px] ${
                     currentPage == number
-                      ? "bg-themeGreen text-white"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                      ? "bg-lGreen text-black"
+                      : "bg-lGreen text-black hover:text-black"
                   }`}
                 >
                   {number}
@@ -421,10 +421,10 @@ const Teams_table = () => {
               <button
                 onClick={nextPage}
                 disabled={currentPage == Math.ceil(teams.length / teamsPerPage)}
-                className={`px-3 py-1 rounded text-themeGreen ${
+                className={`px-3 py-1 rounded text-black ${
                   currentPage == Math.ceil(teams.length / teamsPerPage)
-                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                    : "bg-gray-200 text-gray-700 hover:bg-gray-300 shadow-md"
+                    ? "bg-white border-2 border-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-white border-2 border-gray-300 text-gray-500 shadow-md"
                 }`}
               >
                 {`>`}

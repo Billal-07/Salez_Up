@@ -556,46 +556,46 @@ const JuniorHeadOfDepartment = () => {
           <p className="mt-4 text-center text-lg font-semibold text-gray-500">No Junior Department Head available</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full text-[14px] bg-white">
-              <thead className="text-themeGreen h-[30px]">
-                <tr className="flex flex-row items-center justify-between w-full text-center custom flex-nowrap">
-                  <th className="px-[10px] font-[500] w-[55px]"></th>
-                  <th className="px-[10px] font-[500] w-[84px]">Name</th>
-                  <th className="px-[10px] font-[500] w-[84px]">Surname</th>
-                  <th className="px-[10px] font-[500] w-[84px]">StartDate</th>
-                  <th className="px-[10px] font-[500] w-[84px]">Manager</th>
-                  <th className="px-[10px] font-[500] w-[84px]">
+            <table className="min-w-full text-[14px] bg-white table-auto">
+              <thead className="text-themeGreen h-[40px]">
+                <tr>
+                  <th className="px-4 py-2 font-[500] text-center whitespace-nowrap"></th>
+                  <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Name</th>
+                  <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Surname</th>
+                  <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">StartDate</th>
+                  <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Manager</th>
+                  <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">
                     Department Head
                   </th>
                   {/* <th className="px-[10px] font-[500] w-[84px]">Commission</th> */}
-                  <th className="px-[10px] font-[500] w-[71px]"></th>
+                  <th className="px-4 py-2"></th>
                 </tr>
               </thead>
-              <tbody className="font-[400] bg-white">
+              <tbody className="font-[400] bg-white text-center">
                 {currentAgents.map((agent, index) => (
                   <tr
                     key={index}
-                    className="my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center"
+                    className="h-[50px]"
                   >
-                    <td className="px-[10px]">
+                    <td className="px-4 py-2">
                       <img
                         src={agent.image_path ? agent.image_path : fallbackImage}
                         className="w-[40px] h-[40px] rounded-full m-auto"
                       />
                     </td>
-                    <td className="px-[10px] w-[91px] text-mm">
+                    <td className="px-4 py-2 whitespace-nowrap">
                       <p>{agent.first_name}</p>
                     </td>
-                    <td className="px-[10px] w-[91px] text-mm">
+                    <td className="px-4 py-2 whitespace-nowrap">
                       <p>{agent.last_name}</p>
                     </td>
-                    <td className="w-[91px] text-mm">
+                    <td className="px-4 py-2 whitespace-nowrap">
                       <p>{agent.start_date}</p>
                     </td>
-                    <td className="px-[10px] w-[91px] text-mm">
+                    <td className="px-4 py-2 whitespace-nowrap">
                       <p>{managerFName}</p>{" "}
                     </td>
-                    <td className="px-[10px] w-[91px] text-mm">
+                    <td className="px-4 py-2 whitespace-nowrap">
                       {agent.dept_head ? 
                       <p>{agent.dept_head ? agent.dept_head.first_name : ""}  </p>
                       :
@@ -606,12 +606,12 @@ const JuniorHeadOfDepartment = () => {
                     {/* <td className="px-[10px] w-[91px] text-xs">
                       <p>{agent.commission ? agent.commission : "0"}</p>
                     </td> */}
-                    <td className="px-4 sm:px-[10px] py-[10px]">
+                    <td className="px-4 py-2 flex flex-row space-x-2 mt-2">
                       <span
                         onClick={() => {
                           handleUpdate(agent);
                         }}
-                        className="mx-1 cursor-pointer"
+                        className="mx-2 cursor-pointer"
                       >
                         <img
                           src="../images/edit.png"
@@ -621,7 +621,7 @@ const JuniorHeadOfDepartment = () => {
                       </span>
                       <span
                         onClick={() => handlemyDelete(agent)}
-                        className="mx-1 cursor-pointer"
+                        className="mx-2 cursor-pointer"
                       >
                         <img
                           src="../images/delete.png"

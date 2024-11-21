@@ -2060,7 +2060,7 @@ const Commission = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage == 1}
-            className="px-3 py-1 mr-2 text-lg font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
+            className="px-3 py-1 mr-2 text-lg font-medium rounded-md bg-white border-2 border-gray-300 text-gray-500"
           >
             {`<`}
           </button>
@@ -2072,8 +2072,8 @@ const Commission = () => {
                 onClick={() => paginate(i + 1)}
                 className={`px-4 py-2 mx-1 text-sm font-medium ${
                   currentPage == i + 1
-                    ? "bg-[#1E8675] text-white "
-                    : "bg-[#F8FDFC] text-[#072D20]"
+                    ? "bg-lGreen text-black"
+                    : "bg-lGreen text-black hover:text-black"
                 } rounded-md`}
               >
                 {i + 1}
@@ -2092,7 +2092,7 @@ const Commission = () => {
             disabled={
               currentPage == Math.ceil(filteredAgents.length / agentsPerPage)
             }
-            className="px-3 py-1 ml-2 text-lg font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
+            className="px-3 py-1 ml-2 text-lg font-medium rounded-md bg-white border-2 border-gray-300 text-gray-500"
           >
             {`>`}
           </button>

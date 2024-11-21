@@ -577,47 +577,47 @@ const TeamLeader = () => {
     return (
       <>
         <div className="overflow-x-auto">
-          <table className="min-w-full text-[14px] bg-white">
-            <thead className="text-themeGreen h-[30px]">
-              <tr className="flex flex-row items-center justify-between w-full text-center custom flex-nowrap">
-                <th className="px-[10px] font-[500] w-[42px]"></th>
-                <th className="px-[10px] font-[500] w-[84px]">Name</th>
-                <th className="px-[10px] font-[500] w-[84px]">Surname</th>
-                <th className="px-[5px] font-[500]">Start Date</th>
+          <table className="min-w-full text-[14px] bg-white table-auto">
+            <thead className="text-themeGreen h-[40px]">
+              <tr>
+                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap"></th>
+                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Name</th>
+                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Surname</th>
+                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Start Date</th>
                 {/* <th className="px-[10px] font-[500] w-[84px]">Campaign</th> */}
-                <th className="px-[10px] font-[500] w-[84px]">Team</th>
-                <th className="px-[10px] font-[500] w-[84px]">Manager</th>
+                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Team</th>
+                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Manager</th>
                 {/* <th className="px-[10px] font-[500] w-[84px]">Commission</th>
                 <th className="px-[10px] font-[500] w-[84px]">Target</th>
                 <th className="px-[10px] font-[500] w-[84px]">Frequency</th> */}
-                <th className="px-[10px] font-[500] w-[71px]"></th>
+                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap"></th>
               </tr>
             </thead>
 
-            <tbody className="font-[400] bg-white ">
+            <tbody className="font-[400] bg-white text-center">
               {currentTeams.map((team, index) => (
                 <tr
                   key={index}
-                  className="my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center"
+                  className="h-[50px]"
                 >
-                  <td className="px-[10px]">
+                  <td className="px-4 py-2">
                     <img
                       src={team.image_path ? team.image_path : fallbackImage}
                       className="w-[40px] h-[40px] rounded-full m-auto"
                       alt=""
                     />
                   </td>
-                  <td className="px-[10px] w-[91px] text-mm">
+                  <td className="px-4 py-2 whitespace-nowrap">
                     <p>{team.first_name}</p>
                   </td>
-                  <td className="px-[10px] w-[91px] text-mm">
+                  <td className="px-4 py-2 whitespace-nowrap">
                     <p>{team.last_name}</p>
                   </td>
-                  <td className="w-[91px] text-mm">
+                  <td className="px-4 py-2 whitespace-nowrap">
                     <p>{formatDate(team.start_date)}</p>
                   </td>
 
-                  <td className="px-[10px] w-[120px] text-mm">
+                  <td className="px-4 py-2 whitespace-nowrap">
                     <p
                       style={
                         team.teams && team.teams.length > 0
@@ -633,13 +633,13 @@ const TeamLeader = () => {
                         : "(Team Not Assigned)"}
                     </p>
                   </td>
-                  <td className="px-[10px] w-[91px] text-mm">
+                  <td className="px-4 py-2 whitespace-nowrap">
                     <p>{team.manager.manager_name}</p>
                   </td>
 
-                  <td className="px-[10px] py-[10px] w-[76px]">
+                  <td className="px-4 py-2 flex flex-row space-x-2 mt-2">
                     <span
-                      className="mx-1 cursor-pointer"
+                      className="mx-2 cursor-pointer"
                       onClick={() => handleUpdate(team)}
                     >
                       <img
@@ -649,7 +649,7 @@ const TeamLeader = () => {
                       />
                     </span>
                     <span
-                      className="mx-1 cursor-pointer"
+                      className="mx-2 cursor-pointer"
                       onClick={() => handlemyDelete(team)}
                     >
                       <img
@@ -674,10 +674,10 @@ const TeamLeader = () => {
                     setCurrentPage((prev) => Math.max(prev - 1, 1))
                   }
                   disabled={currentPage == 1}
-                  className={`px-3 py-1 rounded-lg text-themeGreen ${
+                  className={`px-3 py-1 rounded-lg text-black ${
                     currentPage == 1
-                      ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300 shadow-md"
+                      ? "bg-white border-2 border-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-white border-2 border-gray-300 text-gray-500 shadow-md"
                   }`}
                 >
                   {`<`}
@@ -690,8 +690,8 @@ const TeamLeader = () => {
                       onClick={() => setCurrentPage(i + 1)}
                       className={`px-3 py-1 rounded-lg w-[40px] ${
                         currentPage == i + 1
-                          ? "bg-themeGreen text-white"
-                          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                          ? "bg-lGreen text-black"
+                          : "bg-lGreen text-black hover:text-black"
                       }`}
                     >
                       {i + 1}
@@ -713,11 +713,11 @@ const TeamLeader = () => {
                     currentPage ==
                     Math.ceil(searchedTeams.length / teamsPerPage)
                   }
-                  className={`px-3 py-1 rounded-lg text-themeGreen ${
+                  className={`px-3 py-1 rounded-lg text-black ${
                     currentPage ==
                     Math.ceil(searchedTeams.length / teamsPerPage)
-                      ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300 shadow-md"
+                      ? "bg-white border-2 border-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-white border-2 border-gray-300 text-gray-500 shadow-md"
                   }`}
                 >
                   {`>`}
