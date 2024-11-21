@@ -86,7 +86,7 @@ function App() {
             <Route path="/individual" element={<Set_Contest_Individual />} />
             <Route path="/combined" element={<Set_Contest_Combined />} />
 
-
+{/* <sda */}
             <Route path="/prizes" element={<Prizes />} />
             <Route path="/tv-screen" element={<TVScreen />} />
             <Route path="/help" element={<Help />} />
