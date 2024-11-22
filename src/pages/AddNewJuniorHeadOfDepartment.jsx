@@ -235,7 +235,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
 
   return (
     <form>
-      <div className="flex flex-col w-full gap-12 p-8 pb-14 card">
+      <div className="flex flex-col w-full gap-12 p-8 pb-14">
         <h1 className="font-semibold text-[24px] text-[#269F8B]">
           Add New Junior Department Head
         </h1>
@@ -292,7 +292,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
                 <input
                   type="text"
                   id="fname"
-                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  className="w-4/5 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
                   placeholder="Enter first name"
                   onChange={(e) => {
                     setFirstName(e.target.value);
@@ -310,7 +310,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
                 <input
                   type="text"
                   id="lname"
-                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  className="w-4/5 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
                   placeholder="Enter last name"
                   onChange={(e) => {
                     setSurName(e.target.value);
@@ -330,7 +330,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
                 <input
                   type="email"
                   id="email"
-                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  className="w-4/5 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
                   placeholder="abcd@xyz.com"
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -349,7 +349,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
                   type="text"
                   readOnly
                   value={managerName}
-                  className="w-3/4 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
+                  className="w-4/5 bg-lGreen text-left p-2 text-[14px] placeholder-[#8fa59c] font-[500] border-none h-[45px]"
                 />
               </div>
             </div>
@@ -368,7 +368,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
                   onChange={(e) => setSelectedTeam(e.target.value)}
                 >
                   <option value="" disabled>
-                    Select a Department Head
+                    Select JDH
                   </option>
                   {teams.map((team) => (
                     <option key={team.id} value={team.id}>
@@ -377,7 +377,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
                   ))}
                 </select>
               </div>
-              <div className="w-1/3">
+              <div className="w-1/3 ml-[-24px]">
                 <label
                   htmlFor="date"
                   className="font-medium text-[14px] text-dGreen mb-2 block"

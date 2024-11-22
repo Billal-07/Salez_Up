@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import fallbackImage from "/public/images/image_not_1.jfif";
-
+import {
+  faSearch as faMagnifyingGlass,
+  faPlus,
+  faDownload,
+} from "@fortawesome/free-solid-svg-icons";
+import Add_New_Campaign from "./Add_New_Campaign";
 
 const Campaign_table = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -22,6 +26,22 @@ const Campaign_table = () => {
   const [campaignImage, setCampaignImage] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [newImageFile, setNewImageFile] = useState(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isAddModal, setIsAddModal] = useState(false);
+
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal(); 
+    }
+  };
+
+  
+  const handleSearchToggle = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
+
+  const openModal = () => setIsAddModal(true);
+  const closeModal = () => setIsAddModal(false);
 
   // Fetch campaigns and team data
   useEffect(() => {
@@ -38,7 +58,9 @@ const Campaign_table = () => {
           axios.get("https://crmapi.devcir.co/api/junior-department-heads"),
           axios.get("https://crmapi.devcir.co/api/department-heads"),
         ]);
-        const filtered = campaignsResponse.data.filter((team) => team.campaign.manager_id == localStorage.getItem("id"))
+        const filtered = campaignsResponse.data.filter(
+          (team) => team.campaign.manager_id == localStorage.getItem("id")
+        );
         setCampaigns(filtered);
         setOriginalTeams(filtered);
         setTeams(teamsResponse.data);
@@ -51,7 +73,6 @@ const Campaign_table = () => {
 
     fetchAllData();
   }, []);
-
 
   // Filter teams and junior heads by manager ID
   useEffect(() => {
@@ -78,107 +99,80 @@ const Campaign_table = () => {
     return "";
   };
 
-  // Update selected department head when junior head changes
-  // const handleJuniorHeadChange = (e) => {
-  //   const selectedJuniorHeadName = e.target.value;
-  //   const correspondingDepartmentHead = findDepartmentHeadByJuniorHead(
-  //     selectedJuniorHeadName
-  //   );
-  //   setEditedCampaign({
-  //     ...editedCampaign,
-  //     juniorDepartmentHead: selectedJuniorHeadName,
-  //     departmentHead: correspondingDepartmentHead,
-  //   });
-  // };
-
-
   const handleJuniorHeadChange = (e) => {
     const selectedJuniorHeadName = e.target.value;
-  
+
     const isJuniorHeadAlreadyRegistered = campaigns.some(
       (campaign) =>
-        campaign?.junior_department_head?.first_name === selectedJuniorHeadName &&
+        campaign?.junior_department_head?.first_name ===
+          selectedJuniorHeadName &&
         campaign.campaign_id == editedCampaign.campaignId
     );
-  
+
     if (isJuniorHeadAlreadyRegistered) {
       alert(
         "This junior head is already registered to this campaign. Please select a different junior head."
       );
       return;
     }
-  
+
     const correspondingDepartmentHead = findDepartmentHeadByJuniorHead(
       selectedJuniorHeadName
     );
-  
+
     setEditedCampaign({
       ...editedCampaign,
       juniorDepartmentHead: selectedJuniorHeadName,
       departmentHead: correspondingDepartmentHead,
     });
   };
-  
 
   const removeDuplicateCampaigns = (campaigns) => {
     const uniqueCampaigns = {};
-    campaigns.forEach(campaign => {
-      if (!uniqueCampaigns[campaign.campaign_id] || 
-          (campaign.team && !uniqueCampaigns[campaign.campaign_id].team)) {
+    campaigns.forEach((campaign) => {
+      if (
+        !uniqueCampaigns[campaign.campaign_id] ||
+        (campaign.team && !uniqueCampaigns[campaign.campaign_id].team)
+      ) {
         uniqueCampaigns[campaign.campaign_id] = campaign;
       }
     });
     return Object.values(uniqueCampaigns);
   };
 
-  // Filter campaigns based on search and selected team
-  // const filteredCampaigns = campaigns.filter((campaign) => {
-  //   const campaignName = campaign.campaign?.campaign_name || "Not Assigned";
-  //   const teamName = campaign.team?.team_name || "";
-  //   const deptHeadName = campaign.department_head?.first_name || "";
-  //   const juniorDeptHeadName =
-  //     campaign.junior_department_head?.first_name || "";
-
-  //   const matchesSearch =
-  //     searchTerm == "" ||
-  //     campaignName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     teamName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     deptHeadName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     juniorDeptHeadName.toLowerCase().includes(searchTerm.toLowerCase());
-
-  //   const matchesTeam =
-  //     selectedTeam == "All Teams" || teamName == selectedTeam;
-
-  //   return matchesSearch && matchesTeam;
-  // });
-
   const filteredCampaigns = React.useMemo(() => {
     const filtered = campaigns.filter((campaign) => {
-      const campaignName = campaign.campaign?.campaign_name?.toLowerCase() || "";
+      const campaignName =
+        campaign.campaign?.campaign_name?.toLowerCase() || "";
       const teamName = campaign.team?.team_name?.toLowerCase() || "";
-      const deptHeadName = campaign.department_head?.first_name?.toLowerCase() || "";
-      const juniorDeptHeadName = campaign.junior_department_head?.first_name?.toLowerCase() || "";
-      
+      const deptHeadName =
+        campaign.department_head?.first_name?.toLowerCase() || "";
+      const juniorDeptHeadName =
+        campaign.junior_department_head?.first_name?.toLowerCase() || "";
+
       const searchLower = searchTerm.toLowerCase();
-      
-      const matchesSearch = searchTerm == "" || 
+
+      const matchesSearch =
+        searchTerm == "" ||
         campaignName.includes(searchLower) ||
         teamName.includes(searchLower) ||
         deptHeadName.includes(searchLower) ||
         juniorDeptHeadName.includes(searchLower);
 
-      const matchesTeam = selectedTeam == "All Teams" || 
-        campaign.team?.team_name == selectedTeam;
+      const matchesTeam =
+        selectedTeam == "All Teams" || campaign.team?.team_name == selectedTeam;
 
       return matchesSearch && matchesTeam;
     });
-    console.log("Filtered", filtered)
+    console.log("Filtered", filtered);
     return filtered;
   }, [campaigns, searchTerm, selectedTeam]);
 
   const fetchCampaignImage = async (campaignId) => {
     try {
-      const response = await axios.get("https://crmapi.devcir.co/api/campaigns");
+      const response = await axios.get(
+        "https://crmapi.devcir.co/api/campaigns"
+      );
       const campaign = response.data.find((camp) => camp.id == campaignId);
       if (campaign && campaign.image_path) {
         setCampaignImage(campaign.image_path);
@@ -288,10 +282,10 @@ const Campaign_table = () => {
             onClick={() => setSelectedTeam(teamName)}
           >
             <p
-              className={`w-[100px] h-[44px] flex items-center justify-center rounded-[10px] ${
+              className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
                 selectedTeam == teamName
-                ? "bg-lGreen text-black font-[400]"
-                : "border-2 border-gray-300 text-gray-500 font-[400]"
+                  ? "bg-lGreen text-black font-[400] p-4"
+                  : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
               }`}
             >
               {teamName}
@@ -310,7 +304,7 @@ const Campaign_table = () => {
   };
 
   const handleSave = async () => {
-    console.log("Edited", editedCampaign)
+    console.log("Edited", editedCampaign);
     try {
       // Add image update function
       const updateImage = async () => {
@@ -362,8 +356,7 @@ const Campaign_table = () => {
           if (juniorDepartmentHeadId || departmentHeadId) {
             const conflictingCampaign = campaigns.find(
               (campaign) =>
-                (campaign.junior_department_head_id ==
-                  juniorDepartmentHeadId ||
+                (campaign.junior_department_head_id == juniorDepartmentHeadId ||
                   campaign.department_head_id == departmentHeadId) &&
                 campaign.campaign_id != editedCampaign.campaignId
             );
@@ -467,12 +460,6 @@ const Campaign_table = () => {
       // Reset image states
       setNewImageFile(null);
       setUploadedImage(null);
-
-      // Refresh campaign data
-      // const campaignsResponse = await axios.get(
-      //   "https://crmapi.devcir.co/api/campaigns_and_teams"
-      // );
-      // setCampaigns(campaignsResponse.data);
       setIsModalOpen(false);
 
       // Reload page to reflect changes
@@ -517,23 +504,59 @@ const Campaign_table = () => {
             {renderTeamOptions()}
           </div>
 
-{/* {campaigns.length > 0 && (
-  <div className="relative">
-    <input
-      type="text"
-      placeholder="Search Campaign"
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      className="border border-themeGreen p-2 rounded-lg pl-10 bg-gray-100"
-    />
-    <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-themeGreen">
-      <FontAwesomeIcon icon={faMagnifyingGlass} />
-    </span>
-  </div>
-)} */}
+          <div className="flex items-center space-x-3">
+            <div className="relative flex items-center flex-row-reverse space-x-reverse space-x-2">
+              <div
+                className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+                onClick={handleSearchToggle}
+              >
+                <FontAwesomeIcon
+                  icon={faMagnifyingGlass}
+                  className="text-mm text-gray-500"
+                />
+              </div>
 
+              {isSearchOpen && (
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search Campaign"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="border border-themeGreen p-2 rounded-lg pl-10 bg-gray-100"
+                  />
+                  {/* <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-themeGreen">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                  </span> */}
+                </div>
+              )}
+            </div>
 
-{campaigns.length > 0 && (
+            <div
+              className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+              onClick={openModal}
+            >
+              <FontAwesomeIcon
+                icon={faPlus}
+                className="text-mm text-gray-500"
+              />
+            </div>
+
+            {/* <div
+              className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer ${
+                isDownloadClicked ? "scale-95" : ""
+              }`}
+              onClick={handleDownloadClick}
+            >
+              <FontAwesomeIcon
+                icon={faDownload}
+                className={`text-mm text-gray-500 ${
+                  isDownloadClicked ? "text-green-500" : ""
+                }`}
+              />
+            </div> */}
+          </div>
+          {/* {campaigns.length > 0 && (
             <div className="relative">
               <input
                 type="text"
@@ -546,8 +569,7 @@ const Campaign_table = () => {
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </span>
             </div>
-          )}
-
+          )} */}
         </div>
 
         <table>
@@ -565,17 +587,14 @@ const Campaign_table = () => {
               <th className="px-4 sm:px-[10px] font-[500] min-w-[50px]">
                 Junior Department Head
               </th>
-              <th className="px-4 sm:px-[10px] min-w-[50px]">Actions</th>
+              <th className="px-4 sm:px-[10px] font-[500] min-w-[50px]">Actions</th>
             </tr>
           </thead>
 
           <tbody className="font-[400] bg-white space-y-10">
             {filteredCampaigns.length > 0 ? (
               filteredCampaigns.map((campaign) => (
-                <tr
-                  key={campaign.campaign_id}
-                  className="text-center"
-                >
+                <tr key={campaign.campaign_id} className="text-center">
                   <td className="px-4 sm:px-[10px]">
                     {campaign.campaign.campaign_name}
                   </td>
@@ -589,20 +608,40 @@ const Campaign_table = () => {
                     )}
                   </td>
 
-                  <td className="px-4 sm:px-[10px]">
+                  {/* <td className="px-4 sm:px-[10px]">
                     {campaign.department_head?.first_name ? (
                       campaign.department_head.first_name
                     ) : (
                       <span style={{ fontSize: "12px" }}>Not Assigned</span>
                     )}
-                  </td>
-                  <td className="px-4 sm:px-[10px]">
+                  </td> */}
+
+<td className="px-4 sm:px-[10px]">
+  {campaign.department_head?.first_name || campaign.department_head?.last_name ? (
+    `${campaign.department_head.first_name || ''} ${campaign.department_head.last_name || ''}`.trim()
+  ) : (
+    <span style={{ fontSize: "12px" }}>Not Assigned</span>
+  )}
+</td>
+
+
+
+                  {/* <td className="px-4 sm:px-[10px]">
                     {campaign.junior_department_head?.first_name ? (
                       campaign.junior_department_head.first_name
                     ) : (
                       <span style={{ fontSize: "12px" }}>Not Assigned</span>
                     )}
-                  </td>
+                  </td> */}
+
+<td className="px-4 sm:px-[10px]">
+  {campaign.junior_department_head?.first_name || campaign.junior_department_head?.last_name ? (
+    `${campaign.junior_department_head.first_name || ''} ${campaign.junior_department_head.last_name || ''}`.trim()
+  ) : (
+    <span style={{ fontSize: "12px" }}>Not Assigned</span>
+  )}
+</td>
+
 
                   <td className="px-4 sm:px-[10px] py-[10px]">
                     <span
@@ -631,8 +670,11 @@ const Campaign_table = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center text-lg font-semibold text-gray-500 py-12">
-                No campaign available
+                <td
+                  colSpan="5"
+                  className="text-center text-lg font-semibold text-gray-500 py-12"
+                >
+                  No campaign available
                 </td>
               </tr>
             )}
@@ -696,30 +738,35 @@ const Campaign_table = () => {
                     const selectedTeam = filteredTeams.find(
                       (team) => team.team_name == selectedTeamName
                     );
-                    const selectedTeamId = selectedTeam ? selectedTeam.id : null;
-                  
+                    const selectedTeamId = selectedTeam
+                      ? selectedTeam.id
+                      : null;
+
                     // Check if the selected team ID and editedCampaign.campaignId already exist in campaigns
                     const isTeamAlreadyRegistered = campaigns.some(
                       (campaign) =>
                         campaign.team_id == selectedTeamId &&
                         campaign.campaign_id == editedCampaign.campaignId
                     );
-                  
+
                     if (isTeamAlreadyRegistered) {
-                      alert("This team is already registered to this campaign. Please select a different team.");
+                      alert(
+                        "This team is already registered to this campaign. Please select a different team."
+                      );
                       return;
                     }
-                  
+
                     setEditedCampaign({
                       ...editedCampaign,
-                      teamName: selectedTeamName == "No Team" ? "" : selectedTeamName,
+                      teamName:
+                        selectedTeamName == "No Team" ? "" : selectedTeamName,
                       teamId: selectedTeamId,
                     });
-                  
+
                     if (selectedTeamId) {
                       console.log("Selected Team ID:", selectedTeamId);
                     }
-                  }}                  
+                  }}
                   className="border border-gray-300 p-2 w-full rounded"
                 >
                   <option value="No Team">No Team</option> // Default option if
@@ -780,6 +827,27 @@ const Campaign_table = () => {
           </div>
         )}
       </div>
+      {isAddModal && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+          onClick={handleBackdropClick}
+        >
+          <div
+            className="bg-white rounded-lg shadow-lg relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-red-400 hover:text-red-700"
+            >
+              ✖
+            </button>
+            <Add_New_Campaign
+              className="mt-60"
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 };

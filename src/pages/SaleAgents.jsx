@@ -831,7 +831,7 @@ const SalesAgents = () => {
                   >
                     <FontAwesomeIcon
                       icon={faMagnifyingGlass}
-                      className="text-mm text-gray-500"
+                      className="text-base text-gray-500"
                     />
                   </div>
 
@@ -852,7 +852,7 @@ const SalesAgents = () => {
                 >
                   <FontAwesomeIcon
                     icon={faPlus}
-                    className="text-mm text-gray-500"
+                    className="text-base text-gray-500"
                   />
                 </div>
 
@@ -864,7 +864,7 @@ const SalesAgents = () => {
                 >
                   <FontAwesomeIcon
                     icon={faDownload}
-                    className={`text-mm text-gray-500 ${
+                    className={`text-base text-gray-500 ${
                       isDownloadClicked ? "text-green-500" : ""
                     }`}
                   />

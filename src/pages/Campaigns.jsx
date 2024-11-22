@@ -35,9 +35,12 @@ const Campaigns = () => {
       <div className="flex">
         <SideBar />
         <div className="w-full mt-8 mr-5 md:ml-12">
-          <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500]">
+          {/* <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500]">
             Campaigns
-          </h1>
+          </h1> */}
+          <p className="text-[18px] leading-[42px] -mb-6">
+              <span className="text-gray-400 font-medium">Dashboard/Modules/</span><span className="text-gray-600 font-semibold">Campaigns</span>
+            </p>
           <div className="w-full flex-col flex gap-[32px]">
             <div
               className="flex flex-col w-full gap-10 p-5 pb-12 mt-3 card"
@@ -47,15 +50,6 @@ const Campaigns = () => {
               <h1 className="font-[500] leading-[33px] text-[22px] text-[#269F8B]">
                 Current Campaigns
               </h1>
-
-              {/* <div className='flex flex-wrap items-center justify-around'>
-                {currentCampaigns.map((campaign, index) => (
-                  <div className='flex flex-col items-center gap-4' key={index}>
-                    <img src={campaign.img ? campaign.img : fallbackImage}  className='w-[80px] h-[80px] rounded-full ' />
-                    <p className='w-[124px] h-[35px] flex items-center justify-center text-[14px] leading-[25px] font-[400] rounded-[192px] bg-themeGreen text-white text-center'>{campaign.name}</p>
-                  </div>
-                ))}
-              </div> */}
 
               <div className="flex flex-wrap items-center justify-around">
                 {currentCampaigns.length == 0 ? (
@@ -72,8 +66,11 @@ const Campaigns = () => {
                         src={campaign.img ? campaign.img : fallbackImage}
                         className="w-[80px] h-[80px] rounded-full "
                       />
-                      <p className="w-[124px] h-[35px] flex items-center justify-center text-[14px] leading-[25px] font-[400] rounded-[192px] bg-themeGreen text-white text-center">
+                      {/* <p className="w-[154px] h-[35px] flex items-center justify-center text-[14px] leading-[25px] font-[400] rounded-[192px] bg-themeGreen text-white text-center whitespace-nowrap overflow-hidden">
                         {campaign.name}
+                      </p> */}
+                      <p className="h-[35px] px-4 flex items-center justify-center text-[14px] leading-[25px] font-[400] rounded-[192px] bg-lGreen text-black text-center whitespace-nowrap overflow-hidden">
+                      {campaign.name}
                       </p>
                     </div>
                   ))
@@ -81,12 +78,12 @@ const Campaigns = () => {
               </div>
             </div>
             <Campaign_table />
-            <Add_New_Campaign
+            {/* <Add_New_Campaign
               className="mt-60"
               set={isCreated}
               setter={setIsCreated}
               ref={addNewCampaignRef}
-            />
+            /> */}
           </div>
         </div>
       </div>

@@ -4,11 +4,15 @@ import axios from "axios";
 import { saveAs } from "file-saver";
 import * as XLSX from "xlsx";
 import ExcelJS from "exceljs";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import fallbackImage from "/public/images/image_not_1.jfif";
+import {
+  faSearch as faMagnifyingGlass,
+  faPlus,
+  faDownload,
+} from "@fortawesome/free-solid-svg-icons";
 
 const TeamLeaderKpiTable = () => {
   const [demoData, setDemoData] = useState([]);
@@ -23,6 +27,7 @@ const TeamLeaderKpiTable = () => {
   const [gatekeeperSet, setGatekeeperSet] = useState({});
   const [kpis, setKpis] = useState([]);
   const [selectedDialOptions, setSelectedDialOptions] = useState({});
+  const [isDownloadClicked, setIsDownloadClicked] = useState(false);
 
   const handleEditCommissionOpportunity = (rowIndex) => {
     setUpdateCommission(rowIndex);
@@ -468,12 +473,26 @@ const TeamLeaderKpiTable = () => {
             ))}
           </select>
         </div>
-        <button
+        {/* <button
           onClick={handleStoreCSV}
           className="bg-themeGreen w-[150px] p-2 h-full rounded-[10px] text-white tracking-[1%] font-[500] text-[15px]"
         >
           Export Data <FontAwesomeIcon icon={faDownload} className="ml-2" />
-        </button>
+        </button> */}
+
+<button
+  onClick={handleStoreCSV}
+  className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+>
+  <FontAwesomeIcon
+    icon={faDownload}
+    className={`text-base text-gray-500 ${
+      isDownloadClicked ? "text-green-500" : ""
+    }`}
+  />
+</button>
+
+
       </div>
       <div className="flex flex-wrap items-center gap-[10px] justify-between lg:justify-start">
         <div

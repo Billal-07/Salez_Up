@@ -6,7 +6,12 @@ import axios from "axios";
 import Current_Agent from "./Current_Agent";
 import AddNewAgent from "./AddNewAgent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch as faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+// import { faSearch as faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSearch as faMagnifyingGlass,
+  faPlus,
+  faDownload,
+} from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddNewHeadOfDepartment from "./AddNewHeadOfDepartment";
@@ -110,7 +115,6 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
         window.location.reload();
         // onUpdateSuccess(updatedDepartmentHead);
         // onClose();
-       
       })
       .catch((error) => {
         toast.error("Error Updating Data");
@@ -118,7 +122,6 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
         return;
       });
   };
-
 
   if (!isOpen) return null;
 
@@ -228,8 +231,7 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
               />
             </div>
 
-            <div className="flex-1">
-            </div>
+            <div className="flex-1"></div>
           </div>
 
           <div className="flex flex-row-reverse justify-between gap-1 mt-5">
@@ -261,9 +263,25 @@ const HeadOfDepartment = () => {
   const [managerFName, setManagerFName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTeam, setSelectedTeam] = useState("All Teams");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedData, setSelectedData] = useState({});
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
+
+  const handleSearchToggle = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const handleUpdateSuccess = (updatedDepartmentHead) => {
     setdepartmentHead((prevTeams) =>
@@ -274,10 +292,10 @@ const HeadOfDepartment = () => {
   };
 
   const handleDepartmentHead = (newDepartmentHead) => {
-    setdepartmentHead(prevTeams => [...prevTeams, newDepartmentHead]);
+    setdepartmentHead((prevTeams) => [...prevTeams, newDepartmentHead]);
     setCurrentPage(1);
   };
-  
+
   useEffect(() => {
     const storedManagerFName = localStorage.getItem("userFName");
     if (storedManagerFName) {
@@ -296,11 +314,14 @@ const HeadOfDepartment = () => {
       });
   }, []);
 
-  const filterdepartmentHeadByTeam = (departmentHead, selectedTeam, searchQuery) => {
+  const filterdepartmentHeadByTeam = (
+    departmentHead,
+    selectedTeam,
+    searchQuery
+  ) => {
     return departmentHead.filter(
       (agent) =>
-        (selectedTeam == "All Teams" ||
-          agent.team.team_name == selectedTeam) &&
+        (selectedTeam == "All Teams" || agent.team.team_name == selectedTeam) &&
         agent.first_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
@@ -383,27 +404,29 @@ const HeadOfDepartment = () => {
     return (
       <>
         {noDataAvailable ? (
-          <p className="mt-4 text-center text-lg font-semibold text-gray-500">No Head of Department available</p>
+          <p className="mt-4 text-center text-lg font-semibold text-gray-500">
+            No Head of Department available
+          </p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="min-w-full text-[14px] bg-white">
-              <thead className="text-themeGreen h-[30px]">
-                <tr className="flex flex-row items-center justify-between w-full text-center custom flex-nowrap">
-                  <th className="px-[10px] font-[500] w-[55px]"></th>
-                  <th className="px-[10px] font-[500] w-[84px]">Name</th>
-                  <th className="px-[10px] font-[500] w-[84px]">Surname</th>
-                  <th className="px-[10px] font-[500] w-[84px]">StartDate</th>
-                  <th className="px-[10px] font-[500] w-[84px]">Manager</th>
-                  <th className="px-[10px] font-[500] w-[71px]"></th>
+            <table className="min-w-full text-[14px] bg-white table-auto">
+              <thead className="text-themeGreen h-[40px]">
+                <tr>
+                  <th className="px-4 py-2 font-[500] text-center whitespace-nowrap"></th>
+                  <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Name</th>
+                  <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Surname</th>
+                  <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">StartDate</th>
+                  <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Manager</th>
+                  <th className="px-4 py-2 font-[500] text-center whitespace-nowrap"></th>
                 </tr>
               </thead>
-              <tbody className="font-[400] bg-white">
+              <tbody className="font-[400] bg-white text-center">
                 {currentdepartmentHead.map((agent, index) => (
                   <tr
                     key={index}
-                    className="my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center"
+                    className="h-[50px]"
                   >
-                    <td className="px-[10px]">
+                    <td className="px-4 py-2">
                       <img
                         src={
                           agent.image_path ? agent.image_path : fallbackImage
@@ -411,24 +434,24 @@ const HeadOfDepartment = () => {
                         className="w-[40px] h-[40px] rounded-full m-auto"
                       />
                     </td>
-                    <td className="px-[10px] w-[91px] text-mm">
+                    <td className="px-4 py-2 whitespace-nowrap">
                       <p>{agent.first_name}</p>
                     </td>
-                    <td className="px-[10px] w-[91px] text-mm">
+                    <td className="px-4 py-2 whitespace-nowrap">
                       <p>{agent.last_name}</p>
                     </td>
-                    <td className="w-[91px] text-mm">
+                    <td className="px-4 py-2 whitespace-nowrap">
                       <p>{agent.start_date}</p>
                     </td>
-                    <td className="px-[10px] w-[91px] text-mm">
+                    <td className="px-4 py-2 whitespace-nowrap">
                       <p>{managerFName}</p>{" "}
                     </td>
-                    <td className="px-4 sm:px-[10px] py-[10px]">
+                    <td className="px-4 py-2 flex flex-row space-x-2 mt-2">
                       <span
                         onClick={() => {
                           handleUpdate(agent);
                         }}
-                        className="mx-1 cursor-pointer"
+                        className="mx-2 cursor-pointer"
                       >
                         <img
                           src="../images/edit.png"
@@ -438,7 +461,7 @@ const HeadOfDepartment = () => {
                       </span>
                       <span
                         onClick={() => handlemyDelete(agent)}
-                        className="mx-1 cursor-pointer"
+                        className="mx-2 cursor-pointer"
                       >
                         <img
                           src="../images/delete.png"
@@ -490,19 +513,22 @@ const HeadOfDepartment = () => {
   //   );
   // };
 
-
   const renderPagination = (totaldepartmentHead) => {
     // Only proceed if there are department heads
     if (totaldepartmentHead == 0) return null;
-  
+
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(totaldepartmentHead / departmentHeadPerPage); i++) {
+    for (
+      let i = 1;
+      i <= Math.ceil(totaldepartmentHead / departmentHeadPerPage);
+      i++
+    ) {
       pageNumbers.push(i);
     }
-  
+
     // Only render pagination if there are multiple pages
     if (pageNumbers.length <= 1) return null;
-  
+
     return (
       <div className="bg-themeGreen p-4 rounded-sm w-[10px] h-[10px] ml-[860px]">
         <div className="pagination mt-[-10px] flex justify-center">
@@ -522,7 +548,9 @@ const HeadOfDepartment = () => {
 
   // Function to render team options
   const renderTeamOptions = () => {
-    const teamNames = [...new Set(departmentHead.map((agent) => agent.team.team_name))];
+    const teamNames = [
+      ...new Set(departmentHead.map((agent) => agent.team.team_name)),
+    ];
     return (
       <div className="flex space-x-2">
         {" "}
@@ -568,58 +596,120 @@ const HeadOfDepartment = () => {
       <div className="flex gap-3">
         <SideBar />
         <div className="w-full mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4">
-          <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6">
+          {/* <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6">
             Department Heads
-          </h1>
+          </h1> */}
+          <p className="text-[18px] leading-[42px] -mb-6">
+              <span className="text-gray-400 font-medium">Dashboard/Company/</span><span className="text-gray-600 font-semibold">Department Heads</span>
+            </p>
           <div
             className="flex flex-col w-full gap-6 p-8 pb-12 card"
             id="currentAgent"
           >
-            <h1 className="font-[500] leading-[33px] text-[22px] text-[#269F8B]">
-              Current Department Heads
-            </h1>
-            <div className="relative flex justify-end items-center mb-4">
-              <div className="flex items-center">
-                
-                {/* <div className="ml-[190px]">
-                  <input
-                    type="text"
-                    placeholder="Search Head"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="border border-themeGreen p-2 rounded-lg pl-10 mr-2 w-[240px] focus:outline-none"
+            <div className="flex justify-between">
+              <h1 className="font-[500] leading-[33px] text-[22px] text-[#269F8B]">
+                Current Department Heads
+              </h1>
+              <div className="relative flex justify-end items-center mb-4">
+                <div className="flex items-center">
+                  <div className="relative flex justify-end items-center mb-4">
+                    <div className="flex items-center">
+                      <div className="flex items-center space-x-3">
+                        <div className="relative flex items-center flex-row-reverse space-x-reverse space-x-2">
+                          <div
+                            className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+                            onClick={handleSearchToggle}
+                          >
+                            <FontAwesomeIcon
+                              icon={faMagnifyingGlass}
+                              className="text-base text-gray-500"
+                            />
+                          </div>
+                          {isSearchOpen && (
+                            <div className="ml-[190px]">
+                              <input
+                                type="text"
+                                placeholder="Search Head"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="border border-themeGreen p-2 rounded-lg pl-10 mr-5 w-[240px] focus:outline-none"
+                              />
+                              {/* <span className="text-themeGreen ml-[-40px]">
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                              </span> */}
+                            </div>
+                          )}
+                        </div>
+
+                        <div
+                          className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+                          onClick={openModal}
+                        >
+                          <FontAwesomeIcon
+                            icon={faPlus}
+                            className="text-base text-gray-500"
+                          />
+                        </div>
+
+                        {/* <div
+                  className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer ${
+                    "isDownloadClicked" ? "scale-95" : ""
+                  }`}
+                  // onClick={handleDownloadClick}
+                >
+                  <FontAwesomeIcon
+                    icon={faDownload}
+                    className={`text-base text-gray-500 ${
+                      "isDownloadClicked" ? "text-green-500" : ""
+                    }`}
                   />
-                  <span className="text-themeGreen ml-[-40px]">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                  </span>
                 </div> */}
-
-<div className="relative flex justify-end items-center mb-4">
-  <div className="flex items-center">
-    {departmentHead.length > 0 && (
-      <div className="ml-[190px]">
-        <input
-          type="text"
-          placeholder="Search Head"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="border border-themeGreen p-2 rounded-lg pl-10 mr-2 w-[240px] focus:outline-none"
-        />
-        <span className="text-themeGreen ml-[-40px]">
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-        </span>
-      </div>
-    )}
-  </div>
-</div>
-
+                      </div>
+                      {/* {departmentHead.length > 0 && (
+                      <div className="ml-[190px]">
+                        <input
+                          type="text"
+                          placeholder="Search Head"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          className="border border-themeGreen p-2 rounded-lg pl-10 mr-2 w-[240px] focus:outline-none"
+                        />
+                        <span className="text-themeGreen ml-[-40px]">
+                          <FontAwesomeIcon icon={faMagnifyingGlass} />
+                        </span>
+                      </div>
+                    )} */}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             {renderTable()}
             {renderPagination(departmentHead.length)}
           </div>
-          <AddNewHeadOfDepartment setIsCreated={setIsCreated} onDepartmentHead={handleDepartmentHead} />
+          {isModalOpen && (
+            <div
+              className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+              onClick={handleBackdropClick}
+            >
+              <div
+                className="bg-white w-3/4 rounded-lg shadow-lg relative"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  onClick={closeModal}
+                  className="absolute top-4 right-4 text-red-400 hover:text-red-700"
+                >
+                  ✖
+                </button>
+                <AddNewHeadOfDepartment
+                  setIsCreated={setIsCreated}
+                  onDepartmentHead={handleDepartmentHead}
+                />
+              </div>
+            </div>
+          )}
           <ToastContainer />
         </div>
       </div>

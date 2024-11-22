@@ -116,7 +116,10 @@ const screensData = [
       <div className='flex gap-3'>
         <SideBar />
         <div className='w-full mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4'>
-          <h1 className='text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6'>TV Screen</h1>
+          {/* <h1 className='text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6'>TV Screen</h1> */}
+          <p className="text-[18px] leading-[42px] -mb-6">
+              <span className="text-gray-400 font-medium">Dashboard/Others/</span><span className="text-gray-600 font-semibold">TV Screen</span>
+            </p>
           <div className='flex flex-col w-full gap-6 p-8 pb-12 card' id='currentTeamLeaders'>
             <h1 className='font-[500] leading-[33px] text-[22px] text-[#269F8B]'>Current TV Screens</h1>
             <div className='flex flex-wrap items-center gap-[10px] justify-start mx-5'>

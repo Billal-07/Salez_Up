@@ -8,8 +8,13 @@ import AddNewTeamLeader from "./AddNewTeamLeader";
 import { toast, ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+// import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import fallbackImage from "/public/images/image_not_1.jfif";
+import {
+  faSearch as faMagnifyingGlass,
+  faPlus,
+  faDownload,
+} from "@fortawesome/free-solid-svg-icons";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -446,7 +451,9 @@ const TeamLeader = () => {
   const [isCreated, setIsCreated] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [teamsPerPage] = useState(9);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleUpdateSuccess = (updatedTeamLeader) => {
     setTeams((prevTeams) =>
@@ -455,6 +462,19 @@ const TeamLeader = () => {
       )
     );
   };
+
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal();
+    }
+  };
+
+  const handleSearchToggle = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const extractManagerIds = (managerData) => {
     setManagerIds((prevIds) => [...prevIds, managerData.id]);
@@ -581,12 +601,22 @@ const TeamLeader = () => {
             <thead className="text-themeGreen h-[40px]">
               <tr>
                 <th className="px-4 py-2 font-[500] text-center whitespace-nowrap"></th>
-                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Name</th>
-                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Surname</th>
-                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Start Date</th>
+                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">
+                  Name
+                </th>
+                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">
+                  Surname
+                </th>
+                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">
+                  Start Date
+                </th>
                 {/* <th className="px-[10px] font-[500] w-[84px]">Campaign</th> */}
-                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Team</th>
-                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Manager</th>
+                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">
+                  Team
+                </th>
+                <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">
+                  Manager
+                </th>
                 {/* <th className="px-[10px] font-[500] w-[84px]">Commission</th>
                 <th className="px-[10px] font-[500] w-[84px]">Target</th>
                 <th className="px-[10px] font-[500] w-[84px]">Frequency</th> */}
@@ -596,10 +626,7 @@ const TeamLeader = () => {
 
             <tbody className="font-[400] bg-white text-center">
               {currentTeams.map((team, index) => (
-                <tr
-                  key={index}
-                  className="h-[50px]"
-                >
+                <tr key={index} className="h-[50px]">
                   <td className="px-4 py-2">
                     <img
                       src={team.image_path ? team.image_path : fallbackImage}
@@ -750,9 +777,12 @@ const TeamLeader = () => {
       <div className="flex gap-3">
         <SideBar />
         <div className="w-full mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4">
-          <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6">
+          {/* <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6">
             Team Leaders
-          </h1>
+          </h1> */}
+          <p className="text-[18px] leading-[42px] -mb-6">
+              <span className="text-gray-400 font-medium">Dashboard/Company/</span><span className="text-gray-600 font-semibold">Team Leaders</span>
+            </p>
           <Current_Team_Leader id="orgChart" />
           <div
             className="flex flex-col w-full gap-6 p-8 pb-12 card"
@@ -761,67 +791,105 @@ const TeamLeader = () => {
             <h1 className="font-[500] leading-[33px] text-[22px] text-[#269F8B]">
               Current Team Leaders
             </h1>
-            <div className="flex items-center gap-[10px] mb-4">
-              {/* Team Name Selection */}
-              <div
-                className="cursor-pointer"
-                onClick={() => setSelectedTeam("All Teams")}
-              >
-                <p
-                  className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-                    selectedTeam == "All Teams"
-                      ? "bg-lGreen text-black font-[400]"
-                      : "border-2 border-gray-300 text-gray-500 font-[400]"
-                  }`}
+            <div className="flex justify-between items-center gap-[10px] mb-4">
+              <div className="flex items-center gap-[10px] mb-4">
+                <div
+                  className="cursor-pointer"
+                  onClick={() => setSelectedTeam("All Teams")}
                 >
-                  All Teams
-                </p>
+                  <p
+                    className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
+                      selectedTeam == "All Teams"
+                        ? "bg-lGreen text-black font-[400]"
+                        : "border-2 border-gray-300 text-gray-500 font-[400]"
+                    }`}
+                  >
+                    All Teams
+                  </p>
+                </div>
+
+                {[
+                  ...new Set(
+                    teams.flatMap((leader) =>
+                      leader.teams.map((team) => team.team_name)
+                    )
+                  ),
+                ]
+                  .filter(Boolean)
+                  .map((teamName, index) => (
+                    <div
+                      key={index}
+                      className="cursor-pointer"
+                      onClick={() => {
+                        setSelectedTeam(teamName);
+                        setCurrentPage(1);
+                      }}
+                    >
+                      <p
+                        className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
+                          selectedTeam == teamName
+                            ? "bg-lGreen text-black font-[400] p-4"
+                            : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
+                        }`}
+                      >
+                        {teamName}
+                      </p>
+                    </div>
+                  ))}
               </div>
 
-              {/* Dynamic Team Name Options */}
-              {[
-                ...new Set(
-                  teams.flatMap((leader) =>
-                    leader.teams.map((team) => team.team_name)
-                  )
-                ),
-              ]
-                .filter(Boolean)
-                .map((teamName, index) => (
+              <div className="flex items-center space-x-3">
+                <div className="relative flex items-center flex-row-reverse space-x-reverse space-x-2">
                   <div
-                    key={index}
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setSelectedTeam(teamName);
-                      setCurrentPage(1);
-                    }}
+                    className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+                    onClick={handleSearchToggle}
                   >
-                    <p
-      className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
-        selectedTeam == teamName
-          ? "bg-lGreen text-black font-[400] p-4"
-          : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
-      }`}
-    >
-                      {teamName}
-                    </p>
+                    <FontAwesomeIcon
+                      icon={faMagnifyingGlass}
+                      className="text-base text-gray-500"
+                    />
                   </div>
-                ))}
+                  {isSearchOpen && (
+                    <div className="relative flex-grow ml-[130px]">
+                      <input
+                        type="text"
+                        placeholder="Search Team Leader"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="border border-themeGreen p-2 pl-10 mr-5 rounded-lg bg-gray-100"
+                      />
+                      {/* <span className="ml-[-42px] text-themeGreen">
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
+                      </span> */}
+                    </div>
+                  )}
+                </div>
 
-              {/* <div className="relative flex-grow ml-[140px]">
-                <input
-                  type="text"
-                  placeholder="Search Team Leader"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="border border-themeGreen p-2 pl-10 mr-2 rounded-lg bg-gray-100"
-                />
-                <span className="ml-[-32px]  text-themeGreen">
-                  <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </span>
-              </div> */}
+                <div
+                  className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+                  onClick={openModal}
+                >
+                  <FontAwesomeIcon
+                    icon={faPlus}
+                    className="text-base text-gray-500"
+                  />
+                </div>
 
-              {teams.length > 0 && (
+                {/* <div
+                  className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer ${
+                    "isDownloadClicked" ? "scale-95" : ""
+                  }`}
+                  // onClick={handleDownloadClick}
+                >
+                  <FontAwesomeIcon
+                    icon={faDownload}
+                    className={`text-base text-gray-500 ${
+                      "isDownloadClicked" ? "text-green-500" : ""
+                    }`}
+                  />
+                </div> */}
+              </div>
+              {/* {teams.length > 0 && (
                 <div className="relative flex-grow ml-[140px]">
                   <input
                     type="text"
@@ -834,19 +902,37 @@ const TeamLeader = () => {
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                   </span>
                 </div>
-              )}
+              )} */}
             </div>
             {renderTable()}
           </div>
-          <AddNewTeamLeader
-            id="addNewTeamLeader"
-            set={isCreated}
-            setter={setIsCreated}
-            onTeamLeaderAdded={handleTeamLeaderAdded}
-          />
+
+          {isModalOpen && (
+            <div
+              className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+              onClick={handleBackdropClick}
+            >
+              <div
+                className="bg-white w-3/4 rounded-lg shadow-lg relative"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  onClick={closeModal}
+                  className="absolute top-4 right-4 text-red-400 hover:text-red-700"
+                >
+                  ✖
+                </button>
+                <AddNewTeamLeader
+                  id="addNewTeamLeader"
+                  set={isCreated}
+                  setter={setIsCreated}
+                  onTeamLeaderAdded={handleTeamLeaderAdded}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
-      {/* <ToastContainer /> */}
     </div>
   );
 };
