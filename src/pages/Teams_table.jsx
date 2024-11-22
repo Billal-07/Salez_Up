@@ -393,9 +393,9 @@ const Teams_table = () => {
                   )}
                 </td>
 
-                <td className="px-4 py-2 flex flex-row space-x-2 mt-2">
+                <td className="">
                   <span
-                    className="mx-2 cursor-pointer"
+                    className="mx-1 cursor-pointer"
                     onClick={() => handleEditClick(team)}
                   >
                     <img
@@ -405,7 +405,7 @@ const Teams_table = () => {
                     />
                   </span>
                   <span
-                    className="mx-2 cursor-pointer"
+                    className="mx-1 cursor-pointer"
                     onClick={() => handleDelete(team.id, team.team_id)}
                   >
                     <img
