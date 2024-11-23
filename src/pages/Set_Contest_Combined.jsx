@@ -1133,13 +1133,26 @@ const Set_Contest_Combined = () => {
               <div className='flex flex-col justify-between gap-4 sm:flex-row'>
                 <h1 className='font-[500] leading-[33px] text-[22px] text-[#269F8B]'>Select Agents</h1>
                 <div className='flex gap-[10px] flex-wrap'>
-                  <button
+                  {/* <button
                     className={` w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${selectedTeam == 'All Agents' ? 'text-white bg-themeGreen font-[600]' : 'text-[#269F8B] bg-lGreen '} ${teams.length == 0 ? 'rounded-full' : 'rounded-l-full'} ${isAnyAgentSelected && selectedTeam != 'All Agents' ? ' text-gray-700' : ''}`}
                     onClick={handleAllAgentsClick}
                     disabled={isAnyAgentSelected && selectedTeam != 'All Agents'}
                   >
                     All Agents
-                  </button>
+                  </button> */}
+
+<button
+  className={`
+    w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] 
+    ${selectedTeam === 'All Agents' ? 'bg-lGreen text-black font-[400]' : 'border-2 border-gray-300 text-gray-500 font-[400]'} 
+    ${teams.length === 0 ? 'rounded-full' : 'rounded-l-full'} 
+    ${isAnyAgentSelected && selectedTeam !== 'All Agents' ? 'text-gray-700' : ''}
+  `}
+  onClick={handleAllAgentsClick}
+  disabled={isAnyAgentSelected && selectedTeam !== 'All Agents'}
+>
+  All Agents
+</button>
 
                   {teams
                     .filter(team => {
@@ -1148,13 +1161,25 @@ const Set_Contest_Combined = () => {
                     })
                     .map((team, index, filteredTeams) => (
                       <div key={team.id} className='cursor-pointer' onClick={() => setSelectedTeam(team)}>
-                        <button
+                        {/* <button
                           onClick={() => handleTeamClick(team, team.id)}
                           disabled={isAnyAgentSelected && selectedTeam != team.team_name}
                           className={`${selectedTeam && selectedTeam.team_name == team.team_name ? "bg-themeGreen text-white font-[600]" : "bg-lGreen text-[#269F8B] font-[400]"} ${index == filteredTeams.length - 1 ? 'rounded-r-full' : ''} w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${isAnyAgentSelected && selectedTeam != team.team_name ? 'text-gray-700' : ''} `}
                         >
                           {team.team_name}
-                        </button>
+                        </button> */}
+                        <button
+  onClick={() => handleTeamClick(team, team.id)}
+  disabled={isAnyAgentSelected && selectedTeam != team.team_name}
+  className={`
+    h-[34px] px-4 flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] 
+    ${selectedTeam && selectedTeam.team_name === team.team_name ? 'bg-lGreen text-black font-[400]' : 'border-2 border-gray-300 text-gray-500 font-[400]'} 
+    ${index === filteredTeams.length - 1 ? 'rounded-r-full' : ''} 
+    ${isAnyAgentSelected && selectedTeam !== team.team_name ? 'text-gray-700' : ''} 
+  `}
+>
+  {team.team_name}
+</button>
                       </div>
                     ))
                   }

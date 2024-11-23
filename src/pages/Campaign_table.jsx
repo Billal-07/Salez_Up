@@ -9,6 +9,12 @@ import {
   faDownload,
 } from "@fortawesome/free-solid-svg-icons";
 import Add_New_Campaign from "./Add_New_Campaign";
+import {
+  faSearch as faMagnifyingGlass,
+  faPlus,
+  faDownload,
+} from "@fortawesome/free-solid-svg-icons";
+import Add_New_Campaign from "./Add_New_Campaign";
 
 const Campaign_table = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -525,9 +531,9 @@ const Campaign_table = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="border border-themeGreen p-2 rounded-lg pl-10 bg-gray-100"
                   />
-                  <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-themeGreen">
+                  {/* <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-themeGreen">
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
-                  </span>
+                  </span> */}
                 </div>
               )}
             </div>
@@ -587,7 +593,7 @@ const Campaign_table = () => {
               <th className="px-4 sm:px-[10px] font-[500] min-w-[50px]">
                 Junior Department Head
               </th>
-              <th className="px-4 sm:px-[10px] min-w-[50px]">Actions</th>
+              <th className="px-4 sm:px-[10px] font-[500] min-w-[50px]">Actions</th>
             </tr>
           </thead>
 
@@ -608,20 +614,40 @@ const Campaign_table = () => {
                     )}
                   </td>
 
-                  <td className="px-4 sm:px-[10px]">
+                  {/* <td className="px-4 sm:px-[10px]">
                     {campaign.department_head?.first_name ? (
                       campaign.department_head.first_name
                     ) : (
                       <span style={{ fontSize: "12px" }}>Not Assigned</span>
                     )}
-                  </td>
-                  <td className="px-4 sm:px-[10px]">
+                  </td> */}
+
+<td className="px-4 sm:px-[10px]">
+  {campaign.department_head?.first_name || campaign.department_head?.last_name ? (
+    `${campaign.department_head.first_name || ''} ${campaign.department_head.last_name || ''}`.trim()
+  ) : (
+    <span style={{ fontSize: "12px" }}>Not Assigned</span>
+  )}
+</td>
+
+
+
+                  {/* <td className="px-4 sm:px-[10px]">
                     {campaign.junior_department_head?.first_name ? (
                       campaign.junior_department_head.first_name
                     ) : (
                       <span style={{ fontSize: "12px" }}>Not Assigned</span>
                     )}
-                  </td>
+                  </td> */}
+
+<td className="px-4 sm:px-[10px]">
+  {campaign.junior_department_head?.first_name || campaign.junior_department_head?.last_name ? (
+    `${campaign.junior_department_head.first_name || ''} ${campaign.junior_department_head.last_name || ''}`.trim()
+  ) : (
+    <span style={{ fontSize: "12px" }}>Not Assigned</span>
+  )}
+</td>
+
 
                   <td className="px-4 sm:px-[10px] py-[10px]">
                     <span

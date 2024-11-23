@@ -1,17 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
-import Select from "react-select";
 import axios from "axios";
-import Current_Agent from "./Current_Agent";
-import AddNewAgent from "./AddNewAgent";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch as faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AddNewHeadOfDepartment from "./AddNewHeadOfDepartment";
 import AddNewJuniorHeadOfDepartment from "./AddNewJuniorHeadOfDepartment";
 import fallbackImage from '/public/images/image_not_1.jfif';
+
+import {
+  faSearch as faMagnifyingGlass,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const UpdateModal = ({ isOpen, onClose, data }) => {
   const [manager, setManager] = useState(null);
@@ -434,15 +434,17 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
 };
 
 const JuniorHeadOfDepartment = () => {
-  const [agents, setAgents] = useState([]);
+  const [juniordepthead, setjuniordepthead] = useState([]);
   const [isCreated, setIsCreated] = useState(false);
-  const [agentsPerPage] = useState(9);
+  const [juniordeptheadPerPage] = useState(9);
   const [managerFName, setManagerFName] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTeam, setSelectedTeam] = useState("All Teams");
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedData, setSelectedData] = useState({});
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   useEffect(() => {
     const storedManagerFName = localStorage.getItem("userFName");
@@ -450,22 +452,22 @@ const JuniorHeadOfDepartment = () => {
       setManagerFName(storedManagerFName);
     }
 
-    // Fetch agents from API
+    // Fetch juniordepthead from API
     axios
       .get("https://crmapi.devcir.co/api/junior-department-heads")
       .then((response) => {
         const fetchedTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
         );
-        setAgents(fetchedTeams);
+        setjuniordepthead(fetchedTeams);
       })
       .catch((error) => {
-        console.error("Error fetching sales agents:", error);
+        console.error("Error fetching sales juniordepthead:", error);
       });
   }, []);
 
-  const filterAgentsByTeam = (agents, selectedTeam, searchQuery) => {
-    return agents.filter(
+  const filterjuniordeptheadByTeam = (juniordepthead, selectedTeam, searchQuery) => {
+    return juniordepthead.filter(
       (agent) =>
         (selectedTeam == "All Teams" ||
           agent.team.team_name == selectedTeam) &&
@@ -534,21 +536,30 @@ const JuniorHeadOfDepartment = () => {
       });
   };
 
+
+  const handleAddModalOpen = () => {
+    setIsAddModalOpen(true);
+  };
+
+  const handleAddModalClose = () => {
+    setIsAddModalOpen(false);
+  };
+
   const renderTable = () => {
-    const filteredAgents = filterAgentsByTeam(
-      agents,
+    const filteredjuniordepthead = filterjuniordeptheadByTeam(
+      juniordepthead,
       selectedTeam,
       searchQuery
     );
     
 
-    const indexOfLastAgent = currentPage * agentsPerPage;
-    const indexOfFirstAgent = indexOfLastAgent - agentsPerPage;
-    const currentAgents = filteredAgents.slice(
+    const indexOfLastAgent = currentPage * juniordeptheadPerPage;
+    const indexOfFirstAgent = indexOfLastAgent - juniordeptheadPerPage;
+    const currentjuniordepthead = filteredjuniordepthead.slice(
       indexOfFirstAgent,
       indexOfLastAgent
     );
-    const noDataAvailable = filteredAgents.length == 0;
+    const noDataAvailable = filteredjuniordepthead.length == 0;
 
     return (
       <>
@@ -572,7 +583,7 @@ const JuniorHeadOfDepartment = () => {
                 </tr>
               </thead>
               <tbody className="font-[400] bg-white text-center">
-                {currentAgents.map((agent, index) => (
+                {currentjuniordepthead.map((agent, index) => (
                   <tr
                     key={index}
                     className="h-[50px]"
@@ -595,14 +606,24 @@ const JuniorHeadOfDepartment = () => {
                     <td className="px-4 py-2 whitespace-nowrap">
                       <p>{managerFName}</p>{" "}
                     </td>
-                    <td className="px-4 py-2 whitespace-nowrap">
+                    {/* <td className="px-4 py-2 whitespace-nowrap">
                       {agent.dept_head ? 
                       <p>{agent.dept_head ? agent.dept_head.first_name : ""}  </p>
                       :
-                      <p className="text-xs">Not Assiged</p>
+                      <p className="text-xs">Not Assigned</p>
                       }
                       
+                    </td> */}
+                    <td className="px-4 py-2 whitespace-nowrap">
+                    {agent.dept_head ? 
+                    <p>
+                    {agent.dept_head.first_name || ""} {agent.dept_head.last_name || ""}
+                    </p>
+                     :
+                    <p className="text-xs">Not Assigned</p>
+                    }
                     </td>
+
                     {/* <td className="px-[10px] w-[91px] text-xs">
                       <p>{agent.commission ? agent.commission : "0"}</p>
                     </td> */}
@@ -649,9 +670,9 @@ const JuniorHeadOfDepartment = () => {
   };
 
   // Pagination function (optional)
-  const renderPagination = (totalAgents) => {
+  const renderPagination = (totaljuniordepthead) => {
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(totalAgents / agentsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(totaljuniordepthead / juniordeptheadPerPage); i++) {
       pageNumbers.push(i);
     }
 
@@ -674,7 +695,7 @@ const JuniorHeadOfDepartment = () => {
 
   // Function to render team options
   const renderTeamOptions = () => {
-    const teamNames = [...new Set(agents.map((agent) => agent.team.team_name))];
+    const teamNames = [...new Set(juniordepthead.map((agent) => agent.team.team_name))];
     return (
       <div className="flex space-x-2">
         {" "}
@@ -720,10 +741,9 @@ const JuniorHeadOfDepartment = () => {
       <div className="flex gap-3">
         <SideBar />
         <div className="w-full mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4">
-          <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6">
-            Junior Department Heads
-          </h1>
-          {/* <Current_Agent id="orgChart" /> */}
+          <p className="text-[18px] leading-[42px] -mb-6">
+              <span className="text-gray-400 font-medium">Dashboard/Company/</span><span className="text-gray-600 font-semibold">Junior Department Heads</span>
+            </p>
           <div
             className="flex flex-col w-full gap-6 p-8 pb-12 card"
             id="currentAgent"
@@ -732,53 +752,70 @@ const JuniorHeadOfDepartment = () => {
               Current Junior Department Heads
             </h1>
 
-            {/* <div className="relative flex justify-end items-center mb-4">
-              <div className="flex items-center">
-                <div className="ml-[190px]">
-                  <input
-                    type="text"
-                    placeholder="Search Head"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="border border-themeGreen p-2 rounded-lg pl-10 mr-2 w-[240px] focus:outline-none"
-                  />
-                  <span className="text-themeGreen ml-[-40px]">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                  </span>
-                </div>
-
-              </div>
-            </div> */}
-
-
-{agents.length > 0 && (
-  <div className="relative flex justify-end items-center mb-4">
-    <div className="flex items-center">
-      <div className="ml-[190px]">
-        <input
-          type="text"
-          placeholder="Search Head"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="border border-themeGreen p-2 rounded-lg pl-10 mr-2 w-[240px] focus:outline-none"
-        />
-        <span className="text-themeGreen ml-[-40px]">
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-        </span>
-      </div>
+{juniordepthead.length > 0 && (
+  <div className="relative flex justify-end items-center mb-4 space-x-4">
+  {/* Search Field (conditionally rendered) */}
+  {isSearchVisible && (
+    <div className="relative">
+      <input
+        type="text"
+        placeholder="Search Junior head"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="border border-themeGreen p-2 rounded-lg pl-10 w-[240px] focus:outline-none"
+      />
+      {/* <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-themeGreen">
+        <FontAwesomeIcon icon={faMagnifyingGlass} />
+      </span> */}
     </div>
+  )}
+
+  {/* Search Icon */}
+  <div
+    className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+    onClick={() => setIsSearchVisible(!isSearchVisible)} // Toggle visibility
+  >
+    <FontAwesomeIcon
+      icon={faMagnifyingGlass}
+      className="text-base text-gray-500"
+    />
   </div>
-)}
+<div
+                className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+                onClick={handleAddModalOpen}
+              >
+                <FontAwesomeIcon icon={faPlus} className="text-base text-gray-500" />
+              </div>
 
 
-
+</div>
+      )}
             {renderTable()}
-            {/* {renderPagination(agents.length)} */}
           </div>
-          <AddNewJuniorHeadOfDepartment setIsCreated={setIsCreated} />
           <ToastContainer />
         </div>
       </div>
+
+      {isAddModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div
+            className="fixed inset-0 bg-gray-800 bg-opacity-75"
+            onClick={handleAddModalClose}
+          ></div>
+          <div className="relative bg-white">
+            <button
+              className="absolute top-2 right-4 text-red-300 hover:text-red-600 font-bold"
+              onClick={handleAddModalClose}
+            >
+              X
+            </button>
+            <AddNewJuniorHeadOfDepartment
+              set={isAddModalOpen}
+              setter={setIsAddModalOpen}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

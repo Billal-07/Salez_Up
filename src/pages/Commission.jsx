@@ -4,29 +4,27 @@ import SideBar from "../components/SideBar";
 import axios from "axios";
 import { Plus, FilePenLine } from "lucide-react";
 import logo from "../../public/icons/Editing.png";
-import { json } from "react-router-dom";
 import Teamleader_commission from "./Teamleader_commission";
 import fallbackImage from "/public/images/image_not_1.jfif";
 
 // --------------------------- Saving Data ------------------------------//
 
 import { saveAs } from "file-saver";
-import * as XLSX from "xlsx";
 import ExcelJS from "exceljs";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import {faDownload} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TeamLeaderKpiTable from "./TeamLeaderKpiTable";
 
 const Commission = () => {
-  // ------------------------- Declerations-----------------------------------//
+
   const [kpiTableVisible, setKpiTableVisible] = useState({});
-  const [isCreated, setIsCreated] = useState(false);
+  // const [isCreated, setIsCreated] = useState(false);
   const [teams, setTeams] = useState([]);
   const [campaignsAndTeamsData, setCampaignsAndTeamsData] = useState([]);
-  const [teamLeraderAndTeamsData, setTeamLeaderAndTeamsData] = useState([]);
-  const [count, setCount] = useState(0);
+  // const [teamLeraderAndTeamsData, setTeamLeaderAndTeamsData] = useState([]);
+  // const [count, setCount] = useState(0);
   const [selectedTeam, setSelectedTeam] = useState();
   const [selectedTeamName, setSelectedTeamName] = useState("All Teams");
   const [teamData, setTeamData] = useState({});
@@ -36,7 +34,7 @@ const Commission = () => {
   const [opportunity_main, setOpportunity_main] = useState("");
   const currencies = ["$", "£", "€", "¥", "₹", "R"];
   const [kpis, setKpis] = useState([]);
-  const [selectedKpiId, setSelectedKpiId] = useState(null);
+  // const [selectedKpiId, setSelectedKpiId] = useState(null);
   const [kpiData, setKpiData] = useState([]);
   const [countData, setCountData] = useState(0);
   const [kpisInTable, setKpisInTable] = useState(0);
@@ -44,53 +42,13 @@ const Commission = () => {
   const [customKpiData, setCustomKpiData] = useState({});
   const [selectedKpiNames, setSelectedKpiNames] = useState({});
   const [selectedKpis, setSelectedKpis] = useState({});
-  // const [selectedMonth, setSelectedMonth] = useState(getCurrentMonthYear());
   const [selectedMonth, setSelectedMonth] = useState("All Agents");
-
-  // ------------------------------ Gatekeeper logic -------------------------------------//
-
+  const [isDownloadClicked, setIsDownloadClicked] = useState(false);
   const [gatekeeperSet, setGatekeeperSet] = useState({});
-
-  // const [gatekeeperSet, setGatekeeperSet] = useState(false);
-
   ////----------------------------------------- Pagination ------------------------------------------------//
   const [currentPage, setCurrentPage] = useState(1);
   const [agentsPerPage] = useState(9);
-  const Pagination = ({
-    agentsPerPage,
-    totalAgents,
-    paginate,
-    currentPage,
-  }) => {
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(totalAgents / agentsPerPage); i++) {
-      pageNumbers.push(i);
-    }
-    return (
-      <nav>
-        <ul className="flex justify-center mt-4">
-          {pageNumbers.map((number) => (
-            <li key={number} className="mx-1">
-              <button
-                onClick={() => paginate(number)}
-                className={`px-3 py-1 rounded ${
-                  currentPage == number
-                    ? "bg-themeGreen text-white"
-                    : "bg-gray-200"
-                }`}
-              >
-                {number}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    );
-  };
-  function getCurrentMonthYear() {
-    const date = new Date();
-    return date.toLocaleString("default", { month: "short", year: "numeric" });
-  }
+
   function generateMonthOptions() {
     const options = ["All Agents"];
     for (let year = 2021; year <= 2030; year++) {
@@ -166,6 +124,7 @@ const Commission = () => {
       };
     });
   };
+
 
   useEffect(() => {
     const fetchKpis = async () => {
@@ -258,7 +217,6 @@ const Commission = () => {
     });
 
     const teamIdArray = Array.isArray(teamId) ? teamId : [teamId];
-    console.log("TeamId Array: ", teamIdArray);
 
     const dataToPost = {
       ids: teamIdArray,
@@ -271,36 +229,6 @@ const Commission = () => {
       kpi_count: TotalKpiCount,
     };
 
-    // try {
-    //   const response = await fetch(
-    //     `https://crmapi.devcir.co/api/teams/${teamId}`,
-    //     {
-    //       method: "PUT",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(dataToPostToTeams),
-    //     }
-    //   );
-    //   if (!response.ok) {
-    //     throw new Error("Network response was not ok");
-    //   }
-    //   const responseData = await response.json();
-    //   console.log("Response from API:", responseData);
-    //   toast.success("Data Updated successfully In Teams!", {
-    //     position: "bottom-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    // } catch (error) {
-    //   console.error("There was a problem with the fetch operation:", error);
-    //   alert("There was an error posting the data.");
-    // }
     try {
       const response = await fetch(
         `https://crmapi.devcir.co/api/sales_agents_teams`,
@@ -317,7 +245,7 @@ const Commission = () => {
       }
       const responseData = await response.json();
       console.log("Response from API:", responseData);
-      // Show success alert
+
       toast.success("Data posted successfully!", {
         position: "bottom-right",
         autoClose: 5000,
@@ -497,7 +425,7 @@ const Commission = () => {
       alert("Opportunity Field can not be null !!");
       return;
     }
-    // Check if all available KPIs have been added
+
     const unusedKpis = kpis.filter(
       (kpi) =>
         !currentTeamKpis.some(
@@ -619,7 +547,6 @@ const Commission = () => {
           const initialFilteredTeams = teamResponse.data.filter((team) =>
             relevantTeams.includes(team.id)
           );
-          // setFilteredTeams(initialFilteredTeams);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -701,7 +628,6 @@ const Commission = () => {
         return newSelected;
       });
 
-      // Update kpisWithSelectionBox state
       setKpisWithSelectionBox((prevState) => ({
         ...prevState,
         [`${teamId}-${index}`]: selectedId == "4",
@@ -736,6 +662,7 @@ const Commission = () => {
       return { ...prevData, [teamId]: newTeamData };
     });
   };
+
   const handle_Custom_KPI_Weighting = (teamId, index, field, value) => {
     const digitOnlyRegex = /^[0-9\s]*$/;
     if (!digitOnlyRegex.test(value)) {
@@ -756,6 +683,10 @@ const Commission = () => {
       return { ...prevData, [teamId]: newTeamData };
     });
   };
+
+  useEffect(() => {
+    console.log("Updated teamKpiData:", teamKpiData);
+  }, [teamKpiData]);
 
   useEffect(() => {
     setCustomKpiData((prevData) => {
@@ -797,7 +728,6 @@ const Commission = () => {
   const handleSaveKpi = async (updatedTeam) => {
     console.log("Saved data:", updatedTeam);
     const dataToPost = {
-      //   commission: updatedTeam.commission,
       kpi_data: JSON.stringify(updatedTeam.kpi_data),
     };
     console.log("Updated Data: ", dataToPost);
@@ -817,7 +747,6 @@ const Commission = () => {
       }
       const responseData = await response.json();
       console.log("Response from API:", responseData);
-      // Show success alert
       toast.success("Data Updated successfully!", {
         position: "bottom-right",
         autoClose: 5000,
@@ -918,44 +847,6 @@ const Commission = () => {
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const [salesAgentsResponse, teamLeaderResponse] = await Promise.all([
-  //         fetch("https://crmapi.devcir.co/api/sales_agents"),
-  //         fetch("https://crmapi.devcir.co/api/team_and_team_leader"),
-  //       ]);
-
-  //       const salesAgentsData = await salesAgentsResponse.json();
-  //       const teamLeaderData = await teamLeaderResponse.json();
-  //       const filteredTeams = salesAgentsData.filter(
-  //         (team) => team.manager_id == localStorage.getItem("id")
-  //       );
-  //       const filtered = teamLeaderData.filter(
-  //         (team) => team.team.manager_id == localStorage.getItem("id")
-  //       );
-
-  //       const combinedData = filteredTeams.map((agent) => {
-  //         const teamLeaderInfo = filtered.find(
-  //           (team) => agent.team && team.team_id == agent.team.id
-  //         );
-
-  //         return {
-  //           ...agent,
-  //           team_leader: teamLeaderInfo ? teamLeaderInfo.team_leader : null,
-  //         };
-  //       });
-  //       console.log("FilTER KRNA WALA DATA ",campaignsAndTeamsData)
-  //       console.log("combined AGENTS DATA ",combinedData)
-  //       setDemoData(combinedData);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -1138,12 +1029,27 @@ const Commission = () => {
               ))}
             </select>
           </div>
-          <button
+
+          {/* <button
             onClick={handleStoreCSV}
             className="bg-themeGreen w-[150px] p-2 h-full rounded-[10px] text-white tracking-[1%] font-[500] text-[15px]"
           >
             Export Data <FontAwesomeIcon icon={faDownload} className="ml-2" />
-          </button>
+          </button> */}
+
+
+<button
+  onClick={handleStoreCSV}
+  className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+>
+  <FontAwesomeIcon
+    icon={faDownload}
+    className={`text-base text-gray-500 ${
+      isDownloadClicked ? "text-green-500" : ""
+    }`}
+  />
+</button>
+
         </div>
         <div className="flex flex-wrap items-center gap-[10px] justify-between lg:justify-start">
           <div
@@ -1167,21 +1073,13 @@ const Commission = () => {
                   className="cursor-pointer"
                   onClick={() => setSelectedTeamName(team.team_name)}
                 >
-                  {/* <p
-                    className={`${
-                      selectedTeamName == team.team_name
-                        ? "bg-lGreen text-black font-[400]"
-                        : "border-2 border-gray-300 text-gray-500 font-[400]"
-                    } w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}
-                  > */}
-
-                  <p
-                    className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
-                      selectedTeamName == team.team_name
-                        ? "bg-lGreen text-black font-[400] p-4"
-                        : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
-                    }`}
-                  >
+<p
+      className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
+        selectedTeamName == team.team_name
+          ? "bg-lGreen text-black font-[400] p-4"
+          : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
+      }`}
+    >
                     {team.team_name}
                   </p>
                 </div>
@@ -1236,6 +1134,7 @@ const Commission = () => {
                 </tr>
               )}
             </thead>
+
             <tbody className="font-[400] bg-white">
               {currentAgents.map((team, index) => {
                 console.log("Agent", team);
@@ -1259,60 +1158,60 @@ const Commission = () => {
                 return (
                   <React.Fragment key={index}>
                     {campaignView == "multiple" ? (
-                      <tr className="my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center">
-                        <td className="px-[10px]">
+                      <tr className="my-2 text-center custom w-full flex flex-row flex-nowrap items-center overflow-x-auto">
+                        <td className="px-2 whitespace-nowrap">
                           <img
                             src={team.image_path}
                             className="w-[40px] h-[40px] rounded-full m-auto"
                             alt=""
                           />
                         </td>
-                        <td className="px-[10px] w-[91px]">
+                        <td className="px-2 whitespace-nowrap">
                           <p>{team.first_name}</p>
                         </td>
-                        <td className="px-[10px] w-[91px]">
+                        <td className="px-2 whitespace-nowrap">
                           <p>{team.last_name}</p>
                         </td>
-                        <td className="px-[10px] w-[91px]">
+                        <td className="px-2 whitespace-nowrap">
                           <p>{`${
                             parsedKpiData.teamInfo
                               ? parsedKpiData.teamInfo.currency
                               : ""
                           } ${team.commission}`}</p>
                         </td>
-                        <td className="w-[55px]">
+                        <td className="px-2 whitespace-nowrap">
                           <p>{parsedKpiData ? parsedKpiData.TotalCount : 0}</p>
                         </td>
-                        <td className="px-[10px] w-[91px]">
+                        <td className="px-2 whitespace-nowrap">
                           <p>{hasGatekeeperValue ? "Yes" : "No"}</p>
                         </td>
-                        <td className="px-2 sm:px-[20px]">
-                          <table className="text-[8px] table-fixed border-collapse">
+                        <td className="px-2 whitespace-nowrap">
+                          <table className="text-xs table-fixed border-collapse">
                             <thead>
                               <tr>
-                                <th className="px-[3px] border-2">
+                                <th className="px-1 border border-gray-200 whitespace-nowrap">
                                   Campaign Name
                                 </th>
-                                <th className="px-[3px] border-2">Team Name</th>
-                                <th className="px-[3px] border-2">
+                                <th className="px-1 border border-gray-200 whitespace-nowrap">Team Name</th>
+                                <th className="px-1 border border-gray-200 whitespace-nowrap">
                                   Team Leader
                                 </th>
-                                <th className="px-[3px] border-2">Partition</th>
+                                {/* <th className="px-[3px] border-2">Partition</th> */}
                               </tr>
                             </thead>
                             <tbody>
                               {team.campaign_details.map((campaign, i) => (
                                 <tr key={i}>
-                                  <td className="px-[3px] border-2">
+                                  <td className="px-1 border border-gray-200 whitespace-nowrap">
                                     {campaign.campaign_name}
                                   </td>
-                                  <td className="px-[3px] border-2">
+                                  <td className="px-1 border border-gray-200 whitespace-nowrap">
                                     {campaign.team_name}
                                   </td>
-                                  <td className="px-[3px] border-2">
+                                  <td className="px-1 border border-gray-200 whitespace-nowrap">
                                     {campaign.team_leader_name}
                                   </td>
-                                  <td className="px-[3px] border-2">
+                                  <td className="px-1 border border-gray-200 whitespace-nowrap">
                                     {campaign.Partition}
                                   </td>
                                 </tr>
@@ -1320,7 +1219,7 @@ const Commission = () => {
                             </tbody>
                           </table>
                         </td>
-                        <td className="px-[10px] py-[10px] w-[76px]">
+                        <td className="px-2 py-2 whitespace-nowrap">
                           <span
                             className="mx-1 cursor-pointer"
                             onClick={() => handleUpdate(team)}
@@ -1370,10 +1269,7 @@ const Commission = () => {
                         </td>
                         <td className="px-[10px] w-[91px]">
                           <p>{team.last_name}</p>
-                        </td>
-                        {/* <td className="px-[10px] w-[91px]">
-                          {/* <p>{team.campaign_details[0].campaign_name}</p> 
-                        </td> */}
+                        </td>                        
                         <td className="px-[10px] w-[91px]">
                           <p>
                             {team.team && team.team.team_name ? (
@@ -2027,6 +1923,8 @@ const Commission = () => {
                 );
               })}
             </tbody>
+
+
           </table>
           {isModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -2167,9 +2065,9 @@ const Commission = () => {
       <div className="flex gap-3">
         <SideBar />
         <div className="w-full mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4">
-          <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6">
-            Commission
-          </h1>
+          <p className="text-[18px] leading-[42px] -mb-6">
+              <span className="text-gray-400 font-medium">Dashboard/Modules/</span><span className="text-gray-600 font-semibold">Commission</span>
+            </p>
           <div
             className="flex flex-col w-full gap-6 p-8 pb-12 card"
             id="currentTeamLeaders"
@@ -2423,44 +2321,6 @@ const Commission = () => {
                                   </div>
                                 </td>
 
-                                {/* <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
-                                  <div className="relative">
-                                    <input
-                                      type="text"
-                                      className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[123px] h-[30px] p-[7px] rounded-[6px] text-black text-[10px] font-medium leading-[15px] placeholder:ml-10`}
-                                      value={kpi.target}
-                                      placeholder="Enter Target"
-                                      onChange={(e) =>
-                                        handleInputChange(
-                                          team.id,
-                                          index,
-                                          "target",
-                                          e.target.value
-                                        )
-                                      }
-                                      // style={{ color: '#8fa59c' }}
-                                    />
-                                    {kpisWithSelectionBox[
-                                      `${team.id}-${index}`
-                                    ] &&
-                                      selectedDialOptions[
-                                        `${team.id}-${index}`
-                                      ] && (
-                                        <span
-                                          className="absolute right-[37px] top-1/2 transform -translate-y-1/2 text-[10px] font-medium text-black/60 pr-1"
-                                          style={{ pointerEvents: "none" }}
-                                        >
-                                          /{" "}
-                                          {
-                                            selectedDialOptions[
-                                              `${team.id}-${index}`
-                                            ]
-                                          }
-                                        </span>
-                                      )}
-                                  </div>
-                                </td> */}
-
                                 <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed text-center">
                                   <div className="relative w-[123px] h-[30px] flex items-center justify-center mx-auto">
                                     <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[12px] font-medium">
@@ -2539,7 +2399,6 @@ const Commission = () => {
                                       )
                                     }
                                     readOnly
-                                    // value={parseFloat(((kpi.weighting / 100) * (teamData[team.id]?.opportunity || 0)).toFixed(2))}
                                     value={`${
                                       teamData[team.id]?.currency || "$"
                                     } ${parseFloat(

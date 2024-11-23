@@ -777,9 +777,12 @@ const TeamLeader = () => {
       <div className="flex gap-3">
         <SideBar />
         <div className="w-full mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4">
-          <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6">
+          {/* <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6">
             Team Leaders
-          </h1>
+          </h1> */}
+          <p className="text-[18px] leading-[42px] -mb-6">
+              <span className="text-gray-400 font-medium">Dashboard/Company/</span><span className="text-gray-600 font-semibold">Team Leaders</span>
+            </p>
           <Current_Team_Leader id="orgChart" />
           <div
             className="flex flex-col w-full gap-6 p-8 pb-12 card"
@@ -843,7 +846,7 @@ const TeamLeader = () => {
                   >
                     <FontAwesomeIcon
                       icon={faMagnifyingGlass}
-                      className="text-mm text-gray-500"
+                      className="text-base text-gray-500"
                     />
                   </div>
                   {isSearchOpen && (
@@ -855,9 +858,9 @@ const TeamLeader = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="border border-themeGreen p-2 pl-10 mr-5 rounded-lg bg-gray-100"
                       />
-                      <span className="ml-[-42px] text-themeGreen">
+                      {/* <span className="ml-[-42px] text-themeGreen">
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
-                      </span>
+                      </span> */}
                     </div>
                   )}
                 </div>
@@ -868,7 +871,7 @@ const TeamLeader = () => {
                 >
                   <FontAwesomeIcon
                     icon={faPlus}
-                    className="text-mm text-gray-500"
+                    className="text-base text-gray-500"
                   />
                 </div>
 
@@ -880,7 +883,7 @@ const TeamLeader = () => {
                 >
                   <FontAwesomeIcon
                     icon={faDownload}
-                    className={`text-mm text-gray-500 ${
+                    className={`text-base text-gray-500 ${
                       "isDownloadClicked" ? "text-green-500" : ""
                     }`}
                   />

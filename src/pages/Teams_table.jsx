@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTeams } from '../contexts/TeamsContext';
+import Add_New_Teams from "./Add_New_Teams";
+
+import {
+  faSearch as faMagnifyingGlass,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Teams_table = () => {
   const { refreshTrigger } = useTeams();
@@ -17,10 +22,13 @@ const Teams_table = () => {
   });
   const [uniqueTeamLeaders, setUniqueTeamLeaders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [originalTeams, setOriginalTeams] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [teamsPerPage] = useState(9);
   const [selectedTeam, setSelectedTeam] = useState("All Teams");
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
 
   const fetchTeamLeaders = async () => {
     try {
@@ -125,6 +133,23 @@ const Teams_table = () => {
         ))}
       </div>
     );
+  };
+
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
+  };
+
+  const toggleAddTeamModal = () => {
+    setIsAddModalOpen(!isAddModalOpen);
+  };
+
+
+  const handleAddModalOpen = () => {
+    setIsAddModalOpen(true);
+  };
+
+  const handleAddModalClose = () => {
+    setIsAddModalOpen(false);
   };
 
   const handleEditClick = (team) => {
@@ -294,60 +319,72 @@ const Teams_table = () => {
 
   return (
     <div className="flex flex-col w-full gap-10 p-5 pb-12 mt-3 card">
-      <div className="relative flex items-center justify-between mb-4 gap-6">
-        <div className="w-[140px] h-[44px]  text-[14px] leading-[21px] rounded-[10px] mt-[10px]">
-          {renderTeamOptions()}
-        </div>
 
-        {/* <div className="relative ml-[10px]">
-          <input
-            type="text"
-            placeholder="Search  Data"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="border border-themeGreen p-2 rounded-lg pl-10  bg-gray-100"
-          />
-          <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-themeGreen">
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
-          </span>
-        </div> */}
+<div className="relative flex items-center justify-between mb-4 gap-6">
+  {/* Render Team Options */}
+  <div className="w-[140px] h-[44px] text-[14px] leading-[21px] rounded-[10px] mt-[10px]">
+    {renderTeamOptions()}
+  </div>
 
-{originalTeams.length > 0 && (
-    <div className="relative ml-[10px]">
-      <input
-        type="text"
-        placeholder="Search Team Data"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="border border-themeGreen p-2 rounded-lg pl-10  bg-gray-100"
-      />
-      <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-themeGreen">
-        <FontAwesomeIcon icon={faMagnifyingGlass} />
-      </span>
-    </div>
-  )}
-
-
+  {/* Icons in Circular Divs */}
+  {originalTeams.length > 0 && (
+    <div className="relative flex items-center gap-4">
+    {/* Conditional Search Field */}
+    {isSearchOpen && (
+      <div className="relative">
+        <input
+          type="text"
+          placeholder="Search Team Data"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="border border-themeGreen p-2 rounded-lg pl-3 bg-gray-100"
+        />
       </div>
+    )}
+
+    {/* Magnifying Glass Icon */}
+    <div
+      className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+      onClick={toggleSearch}
+    >
+      <FontAwesomeIcon icon={faMagnifyingGlass} className="text-base text-gray-500"/>
+    </div>
+
+    {/* <div className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer">
+        <FontAwesomeIcon icon={faPlus} className="text-base text-gray-500"/>
+      </div> */}
+
+            <div
+            className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+            onClick={toggleAddTeamModal}
+          >
+            <FontAwesomeIcon icon={faPlus} className="text-base text-gray-500" />
+          </div>
+
+  </div>
+  )}
+</div>
+
 
       {currentTeams.length > 0 ? (
-        <table>
-          <thead className="text-themeGreen h-[30px]">
+        <table className="min-w-full text-[14px] bg-white table-auto">
+          <thead className="text-themeGreen h-[40px]">
             <tr>
-              <th className="px-4 sm:px-[10px] font-[500] min-w-[50px]">
+              <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">
                 Team Name
               </th>
-              <th className="px-4 sm:px-[10px] font-[500] min-w-[50px]">
+              <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">
                 Team Leader Name
               </th>
-              <th className="px-4 sm:px-[10px] min-w-[50px]">Actions</th>
+              <th className="px-4 py-2 font-[500] text-center whitespace-nowrap">Actions</th>
             </tr>
           </thead>
-          <tbody className="font-[400] bg-white space-y-10">
+          <tbody className="font-[400] bg-white text-center">
             {currentTeams.map((team) => (
-              <tr key={team.team_id} className="text-center">
-                <td className="px-2 sm:px-[10px]">{team.team.team_name}</td>
-                <td className="px-2 sm:px-[10px]">
+              <tr key={team.team_id} className="h-[50px]">
+                <td className="px-4 py-2 whitespace-nowrap">{team.team.team_name}</td>
+
+                {/* <td className="px-4 py-2 whitespace-nowrap">
                   {team.team_leader ? (
                     team.team_leader.first_name
                   ) : (
@@ -355,9 +392,20 @@ const Teams_table = () => {
                       (leader not assigned)
                     </span>
                   )}
-                </td>
+                </td> */}
 
-                <td className="px-4 sm:px-[10px] py-[10px]">
+<td className="px-4 py-2 whitespace-nowrap">
+  {team.team_leader ? (
+    `${team.team_leader.first_name} ${team.team_leader.last_name}`
+  ) : (
+    <span style={{ fontSize: "12px" }}>
+      (leader not assigned)
+    </span>
+  )}
+</td>
+
+
+                <td className="">
                   <span
                     className="mx-1 cursor-pointer"
                     onClick={() => handleEditClick(team)}
@@ -490,6 +538,29 @@ const Teams_table = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+{isAddModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Modal Background Overlay */}
+          <div
+            className="fixed inset-0 bg-gray-800 bg-opacity-75"
+            onClick={handleAddModalClose}
+          ></div>
+          
+          {/* Modal Content */}
+          <div className="relative bg-white p-4 rounded-lg shadow-xl max-w-2xl w-full h-auto">
+            <button
+              className="absolute top-2 right-4 text-red-300 hover:text-red-600 font-bold text-lg"
+              onClick={handleAddModalClose}
+            >
+              X
+            </button>
+            
+            {/* <h2 className="text-xl font-semibold mb-4">Add New Team</h2> */}
+            <Add_New_Teams onClose={handleAddModalClose} />
           </div>
         </div>
       )}

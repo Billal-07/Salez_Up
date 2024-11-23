@@ -35,9 +35,12 @@ const Campaigns = () => {
       <div className="flex">
         <SideBar />
         <div className="w-full mt-8 mr-5 md:ml-12">
-          <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500]">
+          {/* <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500]">
             Campaigns
-          </h1>
+          </h1> */}
+          <p className="text-[18px] leading-[42px] -mb-6">
+              <span className="text-gray-400 font-medium">Dashboard/Modules/</span><span className="text-gray-600 font-semibold">Campaigns</span>
+            </p>
           <div className="w-full flex-col flex gap-[32px]">
             <div
               className="flex flex-col w-full gap-10 p-5 pb-12 mt-3 card"
@@ -66,7 +69,7 @@ const Campaigns = () => {
                       {/* <p className="w-[154px] h-[35px] flex items-center justify-center text-[14px] leading-[25px] font-[400] rounded-[192px] bg-themeGreen text-white text-center whitespace-nowrap overflow-hidden">
                         {campaign.name}
                       </p> */}
-                      <p className="h-[35px] px-4 flex items-center justify-center text-[14px] leading-[25px] font-[400] rounded-[192px] bg-themeGreen text-white text-center whitespace-nowrap overflow-hidden">
+                      <p className="h-[35px] px-4 flex items-center justify-center text-[14px] leading-[25px] font-[400] rounded-[192px] bg-lGreen text-black text-center whitespace-nowrap overflow-hidden">
                       {campaign.name}
                       </p>
                     </div>
