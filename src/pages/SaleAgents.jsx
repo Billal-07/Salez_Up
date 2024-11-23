@@ -7,13 +7,11 @@ import Current_Agent from "./Current_Agent";
 import AddNewAgent from "./AddNewAgent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faSearch as faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-
 import {
   faSearch as faMagnifyingGlass,
   faPlus,
   faDownload,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ReactPaginate from "react-paginate";

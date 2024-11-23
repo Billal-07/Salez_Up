@@ -63,7 +63,7 @@ const TeamLeaderKpiTable = () => {
 
   useEffect(() => {
     axios
-      .get("https://crmapi.devcir.co/api/teams")
+      .get("http://127.0.0.1:8000/api/teams")
       .then((response) => {
         const allTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -94,9 +94,7 @@ const TeamLeaderKpiTable = () => {
   useEffect(() => {
     const fetchKpis = async () => {
       try {
-        const response = await axios.get(
-          "https://crmapi.devcir.co/api/kpi_info"
-        );
+        const response = await axios.get("http://127.0.0.1:8000/api/kpi_info");
         setKpis(response.data);
       } catch (error) {
         console.error("Error fetching KPIs:", error);
@@ -110,8 +108,8 @@ const TeamLeaderKpiTable = () => {
     const fetchData = async () => {
       try {
         const [teamLeadersResponse, teamLeaderResponse] = await Promise.all([
-          fetch("https://crmapi.devcir.co/api/team_leaders"),
-          fetch("https://crmapi.devcir.co/api/team_and_team_leader"),
+          fetch("http://127.0.0.1:8000/api/team_leaders"),
+          fetch("http://127.0.0.1:8000/api/team_and_team_leader"),
         ]);
 
         const teamLeadersData = await teamLeadersResponse.json();
@@ -231,7 +229,7 @@ const TeamLeaderKpiTable = () => {
     console.log("Updated Data: ", dataToPost);
     try {
       const response = await fetch(
-        `https://crmapi.devcir.co/api/kpiUpdate/${row.id}`,
+        `http://127.0.0.1:8000/api/kpiUpdate/${row.id}`,
         {
           method: "PUT",
           headers: {
@@ -269,47 +267,47 @@ const TeamLeaderKpiTable = () => {
     const deletedTeam = team;
     console.log(`delete team = ${deletedTeam}`);
 
-    const responses = await fetch(
-      `https://crmapi.devcir.co/api/team_leader_update/${deletedTeam}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    // const responses = await fetch(
+    //   `http://127.0.0.1:8000/api/team_leader_update/${deletedTeam}`,
+    //   {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   }
+    // );
 
-    try {
-      const response = await fetch(
-        `https://crmapi.devcir.co/api/team_leaders/${deletedTeam}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    // try {
+    //   const response = await fetch(
+    //     `http://127.0.0.1:8000/api/team_leader_update/${deletedTeam}`,
+    //     {
+    //       method: "PUT",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
 
-      if (!response.ok) {
-        toast.error("Error Deleting Team Leader");
-        return;
-        throw new Error("Failed to delete");
-      }
+    //   if (!response.ok) {
+    //     toast.error("Error Deleting Team Leader");
+    //     return;
+    //     throw new Error("Failed to delete");
+    //   }
 
-      toast.success("Item deleted successfully!", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      window.location.reload();
-    } catch (err) {
-      setError(err.message);
-    }
+    //   toast.success("Item deleted successfully!", {
+    //     position: "bottom-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //   });
+    //   window.location.reload();
+    // } catch (err) {
+    //   setError(err.message);
+    // }
   };
 
   const handleCustomKpiChange = (rowIndex, kpiIndex, field, value) => {
@@ -451,9 +449,8 @@ const TeamLeaderKpiTable = () => {
           </button>
         </div>
       )}
-      
+
       <div className="font-[500] leading-[33px] text-[22px] text-[#269F8B] flex justify-between items-center">
-        
         <div className="flex items-center w-1/2 ">
           Current Month
           <select
@@ -498,12 +495,12 @@ const TeamLeaderKpiTable = () => {
                 onClick={() => setSelectedTeamName(team.team_name)}
               >
                 <p
-      className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
-        selectedTeamName == team.team_name
-          ? "bg-lGreen text-black font-[400] p-4"
-          : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
-      }`}
-    >
+                  className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
+                    selectedTeamName == team.team_name
+                      ? "bg-lGreen text-black font-[400] p-4"
+                      : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
+                  }`}
+                >
                   {team.team_name}
                 </p>
               </div>
@@ -517,8 +514,8 @@ const TeamLeaderKpiTable = () => {
                 <p
                   className={`${
                     selectedTeamName == team.team_name
-                ? "bg-lGreen text-black font-[400]"
-                : "border-2 border-gray-300 text-gray-500 font-[400]"
+                      ? "bg-lGreen text-black font-[400]"
+                      : "border-2 border-gray-300 text-gray-500 font-[400]"
                   } w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}
                 >
                   {team.team_name}
@@ -560,14 +557,21 @@ const TeamLeaderKpiTable = () => {
           </thead>
           <tbody className="font-[400] bg-white">
             {currentAgents.map((team, index) => {
+              // console.log("Cr Agents: ", currentAgents)
               let hasGatekeeperValue = false;
               let parsedKpiDataArray = [];
+              let kpiIds = [];
+
               if (team.kpi_data && Array.isArray(team.kpi_data.kpi_data)) {
                 team.kpi_data.kpi_data.forEach((kpiEntry) => {
                   const parsedKpiEntry =
                     kpiEntry && typeof kpiEntry == "string"
                       ? JSON.parse(kpiEntry)
                       : kpiEntry;
+
+                  if (parsedKpiEntry.id) {
+                    kpiIds.push(parsedKpiEntry.id);
+                  }
 
                   if (parsedKpiEntry) {
                     parsedKpiDataArray.push(parsedKpiEntry);
@@ -671,7 +675,7 @@ const TeamLeaderKpiTable = () => {
                               "Are you sure you want to update?"
                             );
                             if (isConfirmed) {
-                              handleDelete(team.id);
+                              handleDelete(parsedKpiDataArray.id);
                             }
                           }}
                         >
@@ -793,13 +797,43 @@ const TeamLeaderKpiTable = () => {
                             alt=""
                           />
                         </span>
-                        <span
+                        {/* <span
                           className="cursor-pointer"
                           onClick={() => {
                             const isConfirmed = window.confirm(
                               `Are you sure you want to Delete ${team.first_name} ${team.last_name} ?`
                             );
                             if (isConfirmed) {
+                              console.log(team)
+                              handleDelete(team.id);
+                            }
+                          }}
+                        >
+                          <img
+                            src="../images/delete.png"
+                            className="inline h-[18px] w-[18px]"
+                            alt=""
+                          />
+                        </span> */}
+                        <span
+                          className="cursor-pointer"
+                          onClick={() => {
+                            const isConfirmed = window.confirm(
+                              `Are you sure you want to delete ${team.first_name} ${team.last_name}?`
+                            );
+                            console.log(team)
+                            if (isConfirmed) {
+                              if (
+                                team.kpi_data &&
+                                team.kpi_data.kpi_data.length > 0
+                              ) {
+                                const kpiIds = team.kpi_data.kpi_data.map(
+                                  (kpi) => kpi.id
+                                );
+                                console.log("Selected KPI IDs:", kpiIds);
+                              } else {
+                                console.log("No KPI data found.");
+                              }
                               handleDelete(team.id);
                             }
                           }}
@@ -1391,10 +1425,10 @@ const TeamLeaderKpiTable = () => {
       </div>
 
       <div className="flex justify-end mt-4">
-      <button
+        <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage == 1}
-          className="px-3 py-1 mr-2 text-lg font-medium text-[#072D20] rounded-md bg-white border-2 border-gray-300 text-gray-500"
+          className="px-3 py-1 mr-2 text-lg font-medium text-[#072D20] rounded-md bg-white border-2 border-gray-300"
         >
           {`<`}
         </button>
@@ -1426,7 +1460,7 @@ const TeamLeaderKpiTable = () => {
           disabled={
             currentPage == Math.ceil(filteredAgents.length / agentsPerPage)
           }
-          className="px-3 py-1 ml-2 text-lg font-medium text-[#072D20] rounded-md bg-white border-2 border-gray-300 text-gray-500"
+          className="px-3 py-1 ml-2 text-lg font-medium text-[#072D20] rounded-md bg-white border-2 border-gray-300"
         >
           {`>`}
         </button>

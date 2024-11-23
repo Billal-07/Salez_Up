@@ -164,7 +164,7 @@ const Teamleader_commission = () => {
     const fetchKpis = async () => {
       try {
         const response = await axios.get(
-          "https://crmapi.devcir.co/api/kpi_info"
+          "http://127.0.0.1:8000/api/kpi_info"
         );
         setKpis(response.data);
       } catch (error) {
@@ -178,7 +178,7 @@ const Teamleader_commission = () => {
   const postKpiInfo = async (kpiName) => {
     try {
       const response = await axios.post(
-        "https://crmapi.devcir.co/api/kpi_info",
+        "http://127.0.0.1:8000/api/kpi_info",
         {
           kpi_name: kpiName,
           created_at: new Date().toISOString(),
@@ -194,121 +194,102 @@ const Teamleader_commission = () => {
   };
 
   // const handleSave = async (teamId) => {
-  //     const regularKpiWeightings = (teamKpiData[teamId] || [])
-  //         .map(kpi => parseFloat(kpi.weighting) || 0);
-  //     const customKpiWeightings = (customKpiData[teamId] || [])
-  //         .map(kpi => parseFloat(kpi.Custom_Weighting) || 0);
-  //     const sumOfWeights = [...regularKpiWeightings, ...customKpiWeightings]
-  //         .reduce((sum, weight) => sum + weight, 0);
-  //     if (sumOfWeights > 100) {
-  //         alert("The sum of weightings is greater than 100. Please adjust your weightings.");
-  //         return;
-  //     }
-  //     const regularKpiCount = teamKpiData[teamId]?.length || 0;
-  //     const customKpiCount = customKpiData[teamId]?.length || 0;
-  //     let savedTeamData = {
-  //         id: teamId,
-  //         regularKpiCount: regularKpiCount,
-  //         customKpiCount: customKpiCount,
-  //         TotalCount: regularKpiCount + customKpiCount,
-  //         kpiData: teamKpiData[teamId] || [],
-  //         customKpiData: customKpiData[teamId] || [],
-  //         teamInfo: {
-  //             month: teamData[teamId]?.month || '',
-  //             frequency: teamData[teamId]?.frequency || '',
-  //             currency: teamData[teamId]?.currency || '$',
-  //             opportunity: teamData[teamId]?.opportunity || ''
-  //         },
-  //         sumOfWeights: sumOfWeights,
-  //     };
-  //     for (let i = 0; i < savedTeamData.customKpiData.length; i++) {
-  //         const kpi = savedTeamData.customKpiData[i];
-  //         const newKpiId = await postKpiInfo(kpi.Custom_KPI_Name);
-  //         if (newKpiId) {
-  //             savedTeamData.customKpiData[i].Custom_KPI_ID = newKpiId;
-  //         }
-  //     }
-  //     console.log(`Count of regular KPIs added: ${regularKpiCount}`);
-  //     console.log(`Count of custom KPIs added: ${customKpiCount}`);
-  //     console.log(JSON.stringify(savedTeamData, null, 2));
-  //     alert("Sum of weightings: " + sumOfWeights);
+  //   const matchingRecord = teamLeraderAndTeamsData.find(
+  //     (record) => record.team_id == teamId
+  //   );
+  //   const matchingTeamLeaderId = matchingRecord
+  //     ? matchingRecord.team_leader_id
+  //     : null;
+  //   console.log("Matching team leader ID:", matchingTeamLeaderId);
 
-  //     toast.success('Data saved successfully', {
-  //         position: "bottom-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //         theme: "light",
+  //   const regularKpiWeightings = (teamKpiData[teamId] || []).map(
+  //     (kpi) => parseFloat(kpi.weighting) || 0
+  //   );
+  //   const customKpiWeightings = (customKpiData[teamId] || []).map(
+  //     (kpi) => parseFloat(kpi.Custom_Weighting) || 0
+  //   );
+  //   const sumOfWeights = [
+  //     ...regularKpiWeightings,
+  //     ...customKpiWeightings,
+  //   ].reduce((sum, weight) => sum + weight, 0);
+
+  //   if (sumOfWeights > 100) {
+  //     alert(
+  //       "The sum of weightings is greater than 100. Please adjust your weightings."
+  //     );
+  //     return;
+  //   }
+
+  //   const regularKpiCount = teamKpiData[teamId]?.length || 0;
+  //   const customKpiCount = customKpiData[teamId]?.length || 0;
+
+  //   let savedTeamData = {
+  //     id: teamId,
+  //     regularKpiCount: regularKpiCount,
+  //     customKpiCount: customKpiCount,
+  //     TotalCount: regularKpiCount + customKpiCount,
+  //     kpiData: teamKpiData[teamId] || [],
+  //     customKpiData: customKpiData[teamId] || [],
+  //     teamInfo: {
+  //       month: teamData[teamId]?.month || "",
+  //       frequency: teamData[teamId]?.frequency || "",
+  //       currency: teamData[teamId]?.currency || "$",
+  //       opportunity: teamData[teamId]?.opportunity || "",
+  //     },
+  //     sumOfWeights: sumOfWeights,
+  //   };
+
+  //   for (let i = 0; i < savedTeamData.customKpiData.length; i++) {
+  //     const kpi = savedTeamData.customKpiData[i];
+  //     const newKpiId = await postKpiInfo(kpi.Custom_KPI_Name);
+  //     if (newKpiId) {
+  //       savedTeamData.customKpiData[i].Custom_KPI_ID = newKpiId;
+  //     }
+  //   }
+
+  //   console.log(`Count of regular KPIs added: ${regularKpiCount}`);
+  //   console.log(`Count of custom KPIs added: ${customKpiCount}`);
+  //   console.log(JSON.stringify(savedTeamData, null, 2));
+  //   alert("Sum of weightings: " + sumOfWeights);
+
+  //   const dataToPost = {
+  //     kpi_data: JSON.stringify(savedTeamData),
+  //   };
+
+  //   try {
+  //     const response = await fetch(
+  //       `http://127.0.0.1:8000/api/kpiUpdate/${teamId}`,
+  //       {
+  //         method: "PUT",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(dataToPost),
+  //       }
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
+
+  //     const responseData = await response.json();
+  //     console.log("Response from API:", responseData);
+
+  //     toast.success("Team Leader data updated successfully!", {
+  //       position: "bottom-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "light",
   //     });
 
-  //     const dataToPost = {
-  //         kpi_data: JSON.stringify(savedTeamData),
-  //         commission: savedTeamData.teamInfo.opportunity
-  //     };
-  //     const TotalKpiCount = savedTeamData.regularKpiCount + savedTeamData.customKpiCount;
-  //     const dataToPostToTeams = {
-  //         kpi_count: TotalKpiCount
-  //     };
-  //     try {
-  //         const response = await fetch(`https://crmapi.devcir.co/api/teams/${teamId}`, {
-  //             method: 'PUT',
-  //             headers: {
-  //                 'Content-Type': 'application/json'
-  //             },
-  //             body: JSON.stringify(dataToPostToTeams)
-  //         });
-  //         if (!response.ok) {
-  //             throw new Error('Network response was not ok');
-  //         }
-  //         const responseData = await response.json();
-  //         console.log('Response from API:', responseData);
-  //         // Show success alert
-  //         toast.success('Data Updated successfully In Teams!', {
-  //             position: "bottom-right",
-  //             autoClose: 5000,
-  //             hideProgressBar: false,
-  //             closeOnClick: true,
-  //             pauseOnHover: true,
-  //             draggable: true,
-  //             progress: undefined,
-  //             theme: "light",
-  //         });
-  //     } catch (error) {
-  //         console.error('There was a problem with the fetch operation:', error);
-  //         alert("There was an error posting the data.");
-  //     }
-  //     try {
-  //         const response = await fetch(`https://crmapi.devcir.co/api/sales-agents/team/${teamId}`, {
-  //             method: 'PUT',
-  //             headers: {
-  //                 'Content-Type': 'application/json'
-  //             },
-  //             body: JSON.stringify(dataToPost)
-  //         });
-  //         if (!response.ok) {
-  //             throw new Error('Network response was not ok');
-  //         }
-  //         const responseData = await response.json();
-  //         console.log('Response from API:', responseData);
-  //         // Show success alert
-  //         toast.success('Data posted successfully!', {
-  //             position: "bottom-right",
-  //             autoClose: 5000,
-  //             hideProgressBar: false,
-  //             closeOnClick: true,
-  //             pauseOnHover: true,
-  //             draggable: true,
-  //             progress: undefined,
-  //             theme: "light",
-  //         });
-  //         window.location.reload()
-  //     } catch (error) {
-  //         console.error('There was a problem with the fetch operation:', error);
-  //         alert("There was an error posting the data.");
-  //     }
+  //   } catch (error) {
+  //     console.error("There was a problem with the fetch operation:", error);
+  //     alert("There was an error posting the data.");
+  //   }
   // };
 
   const handleSave = async (teamId) => {
@@ -319,7 +300,7 @@ const Teamleader_commission = () => {
       ? matchingRecord.team_leader_id
       : null;
     console.log("Matching team leader ID:", matchingTeamLeaderId);
-
+  
     const regularKpiWeightings = (teamKpiData[teamId] || []).map(
       (kpi) => parseFloat(kpi.weighting) || 0
     );
@@ -330,17 +311,17 @@ const Teamleader_commission = () => {
       ...regularKpiWeightings,
       ...customKpiWeightings,
     ].reduce((sum, weight) => sum + weight, 0);
-
+  
     if (sumOfWeights > 100) {
       alert(
         "The sum of weightings is greater than 100. Please adjust your weightings."
       );
       return;
     }
-
+  
     const regularKpiCount = teamKpiData[teamId]?.length || 0;
     const customKpiCount = customKpiData[teamId]?.length || 0;
-
+  
     let savedTeamData = {
       id: teamId,
       regularKpiCount: regularKpiCount,
@@ -356,7 +337,29 @@ const Teamleader_commission = () => {
       },
       sumOfWeights: sumOfWeights,
     };
-
+  
+    // Validate all required fields
+    const requiredFields = [
+      savedTeamData.teamInfo.month,
+      savedTeamData.teamInfo.frequency,
+      savedTeamData.teamInfo.currency,
+      savedTeamData.teamInfo.opportunity,
+    ];
+  
+    if (requiredFields.some((field) => field === "")) {
+      toast.warn("Please fill all required fields!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return;
+    }
+  
     for (let i = 0; i < savedTeamData.customKpiData.length; i++) {
       const kpi = savedTeamData.customKpiData[i];
       const newKpiId = await postKpiInfo(kpi.Custom_KPI_Name);
@@ -364,19 +367,19 @@ const Teamleader_commission = () => {
         savedTeamData.customKpiData[i].Custom_KPI_ID = newKpiId;
       }
     }
-
+  
     console.log(`Count of regular KPIs added: ${regularKpiCount}`);
     console.log(`Count of custom KPIs added: ${customKpiCount}`);
     console.log(JSON.stringify(savedTeamData, null, 2));
     alert("Sum of weightings: " + sumOfWeights);
-
+  
     const dataToPost = {
       kpi_data: JSON.stringify(savedTeamData),
     };
-
+  
     try {
       const response = await fetch(
-        `https://crmapi.devcir.co/api/kpiUpdate/${teamId}`,
+        `http://127.0.0.1:8000/api/kpiUpdate/${teamId}`,
         {
           method: "PUT",
           headers: {
@@ -385,14 +388,14 @@ const Teamleader_commission = () => {
           body: JSON.stringify(dataToPost),
         }
       );
-
+  
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
+  
       const responseData = await response.json();
       console.log("Response from API:", responseData);
-
+  
       toast.success("Team Leader data updated successfully!", {
         position: "bottom-right",
         autoClose: 5000,
@@ -403,13 +406,14 @@ const Teamleader_commission = () => {
         progress: undefined,
         theme: "light",
       });
-
+  
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       alert("There was an error posting the data.");
     }
   };
 
+  
   const handleKpiSelectChange = (teamId, field, value) => {
     console.log(`Updating ${field} for team ${teamId} to ${value}`);
     setTeamData((prevData) => {
@@ -643,16 +647,16 @@ const Teamleader_commission = () => {
     const fetchData = async () => {
       try {
         const campaignResponse = await axios.get(
-          "https://crmapi.devcir.co/api/campaigns"
+          "http://127.0.0.1:8000/api/campaigns"
         );
         const teamResponse = await axios.get(
-          "https://crmapi.devcir.co/api/teams"
+          "http://127.0.0.1:8000/api/teams"
         );
         const campaignsAndTeamsResponse = await axios.get(
-          "https://crmapi.devcir.co/api/campaigns_and_teams"
+          "http://127.0.0.1:8000/api/campaigns_and_teams"
         );
         const teamLeaderAndTeamsResponse = await axios.get(
-          "https://crmapi.devcir.co/api/team_and_team_leader"
+          "http://127.0.0.1:8000/api/team_and_team_leader"
         );
 
         setTeamLeaderAndTeamsData(teamLeaderAndTeamsResponse.data);
@@ -741,7 +745,7 @@ const Teamleader_commission = () => {
 
   useEffect(() => {
     axios
-      .get("https://crmapi.devcir.co/api/kpi_info")
+      .get("http://127.0.0.1:8000/api/kpi_info")
       .then((response) => {
         const kpis = response.data;
         setKpis(kpis);
@@ -893,7 +897,7 @@ const Teamleader_commission = () => {
     };
     try {
       const response = await fetch(
-        `https://crmapi.devcir.co/api/sales_agents_update/${updatedTeam.id}`,
+        `http://127.0.0.1:8000/api/sales_agents_update/${updatedTeam.id}`,
         {
           method: "PUT",
           headers: {
@@ -980,7 +984,7 @@ const Teamleader_commission = () => {
     console.log(`delete team = ${deletedTeam}`);
     try {
       const response = await fetch(
-        `https://crmapi.devcir.co/api/sales_agents_delete/${deletedTeam}`,
+        `http://127.0.0.1:8000/api/sales_agents_delete/${deletedTeam}`,
         {
           method: "DELETE",
           headers: {
@@ -1016,7 +1020,7 @@ const Teamleader_commission = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://crmapi.devcir.co/api/sales_agents"
+          "http://127.0.0.1:8000/api/sales_agents"
         );
         const data = await response.json();
         console.log(data);
@@ -1036,10 +1040,10 @@ const Teamleader_commission = () => {
     const fetchTeamsAndCampaigns = async () => {
       try {
         const teamsResponse = await axios.get(
-          "https://crmapi.devcir.co/api/teams"
+          "http://127.0.0.1:8000/api/teams"
         );
         const campaignsAndTeamsResponse = await axios.get(
-          "https://crmapi.devcir.co/api/campaigns_and_teams"
+          "http://127.0.0.1:8000/api/campaigns_and_teams"
         );
 
         const allTeams = teamsResponse.data;
@@ -2029,7 +2033,6 @@ const Teamleader_commission = () => {
   // ---------------------------------------------- Select Boxes Dial -------------------------------------//
 
   const [kpisWithSelectionBox, setKpisWithSelectionBox] = useState({});
-  // const [selectedDialOption, setSelectedDialOption] = useState('');
   const [selectedDialOptions, setSelectedDialOptions] = useState({});
 
   const handleDialsValueChange = (teamId, index, value) => {

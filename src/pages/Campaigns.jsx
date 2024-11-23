@@ -48,15 +48,6 @@ const Campaigns = () => {
                 Current Campaigns
               </h1>
 
-              {/* <div className='flex flex-wrap items-center justify-around'>
-                {currentCampaigns.map((campaign, index) => (
-                  <div className='flex flex-col items-center gap-4' key={index}>
-                    <img src={campaign.img ? campaign.img : fallbackImage}  className='w-[80px] h-[80px] rounded-full ' />
-                    <p className='w-[124px] h-[35px] flex items-center justify-center text-[14px] leading-[25px] font-[400] rounded-[192px] bg-themeGreen text-white text-center'>{campaign.name}</p>
-                  </div>
-                ))}
-              </div> */}
-
               <div className="flex flex-wrap items-center justify-around">
                 {currentCampaigns.length == 0 ? (
                   <p className="text-center text-lg font-semibold text-gray-500">
@@ -72,8 +63,11 @@ const Campaigns = () => {
                         src={campaign.img ? campaign.img : fallbackImage}
                         className="w-[80px] h-[80px] rounded-full "
                       />
-                      <p className="w-[124px] h-[35px] flex items-center justify-center text-[14px] leading-[25px] font-[400] rounded-[192px] bg-themeGreen text-white text-center">
+                      {/* <p className="w-[154px] h-[35px] flex items-center justify-center text-[14px] leading-[25px] font-[400] rounded-[192px] bg-themeGreen text-white text-center whitespace-nowrap overflow-hidden">
                         {campaign.name}
+                      </p> */}
+                      <p className="h-[35px] px-4 flex items-center justify-center text-[14px] leading-[25px] font-[400] rounded-[192px] bg-themeGreen text-white text-center whitespace-nowrap overflow-hidden">
+                      {campaign.name}
                       </p>
                     </div>
                   ))
@@ -81,12 +75,12 @@ const Campaigns = () => {
               </div>
             </div>
             <Campaign_table />
-            <Add_New_Campaign
+            {/* <Add_New_Campaign
               className="mt-60"
               set={isCreated}
               setter={setIsCreated}
               ref={addNewCampaignRef}
-            />
+            /> */}
           </div>
         </div>
       </div>

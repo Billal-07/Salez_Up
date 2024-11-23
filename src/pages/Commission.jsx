@@ -140,6 +140,7 @@ const Commission = () => {
   useEffect(() => {
     console.log("Updated customKpiData:", customKpiData);
   }, [customKpiData]);
+
   const handleCustomKpiChange = (index, field, value) => {
     setSelectedRow((prevState) => {
       const newCustomKpiData = [...prevState.kpi_data.customKpiData];
@@ -165,6 +166,7 @@ const Commission = () => {
       };
     });
   };
+
   useEffect(() => {
     const fetchKpis = async () => {
       try {
@@ -559,6 +561,7 @@ const Commission = () => {
       [teamId]: true,
     }));
   };
+
   // ------------------------------ UseEffect -------------------------------------//
   useEffect(() => {
     const fetchData = async () => {
@@ -628,6 +631,7 @@ const Commission = () => {
   useEffect(() => {
     console.log("Value in Opportunity: ", opportunity_main);
   }, [kpiData]);
+
   useEffect(() => {
     setTeamKpiData((prevData) => {
       const newData = { ...prevData };
@@ -659,6 +663,7 @@ const Commission = () => {
         console.error("There was an error fetching the KPI data!", error);
       });
   }, []);
+
   const handleTeamClick = (team) => {
     setSelectedTeam(team);
   };
@@ -751,9 +756,6 @@ const Commission = () => {
       return { ...prevData, [teamId]: newTeamData };
     });
   };
-  useEffect(() => {
-    console.log("Updated teamKpiData:", teamKpiData);
-  }, [teamKpiData]);
 
   useEffect(() => {
     setCustomKpiData((prevData) => {
@@ -887,24 +889,18 @@ const Commission = () => {
     const deletedTeam = team;
     console.log(`delete team = ${deletedTeam}`);
     try {
-      const response = await fetch(
+      const response = await axios.put(
         `https://crmapi.devcir.co/api/sales_agents/${deletedTeam}`,
+        { kpi_data: null },
         {
-          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
 
-      if (!response.ok) {
-        toast.error("Error deleting Sales Agent");
-        throw new Error("Failed to delete");
-        return;
-      }
-
       // Handle successful deletion
-      toast.success("Item deleted successfully!", {
+      toast.success("Kpi Removed successfully!", {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -916,44 +912,77 @@ const Commission = () => {
       });
       window.location.reload();
     } catch (err) {
-      setError(err.message);
+      toast.error("Error removing Kpi for Sales Agent");
+      console.log(err.message);
     }
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       try {
-  //         const response = await fetch("https://crmapi.devcir.co/api/sales_agents");
-  //         const data = await response.json();
-  //         setDemoData(data);
-  //       } catch (error) {
-  //         console.error("Error fetching data:", error);
-  //       }
-  //     };
-  //     fetchData();
-  //   }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const [salesAgentsResponse, teamLeaderResponse] = await Promise.all([
+  //         fetch("https://crmapi.devcir.co/api/sales_agents"),
+  //         fetch("https://crmapi.devcir.co/api/team_and_team_leader"),
+  //       ]);
+
+  //       const salesAgentsData = await salesAgentsResponse.json();
+  //       const teamLeaderData = await teamLeaderResponse.json();
+  //       const filteredTeams = salesAgentsData.filter(
+  //         (team) => team.manager_id == localStorage.getItem("id")
+  //       );
+  //       const filtered = teamLeaderData.filter(
+  //         (team) => team.team.manager_id == localStorage.getItem("id")
+  //       );
+
+  //       const combinedData = filteredTeams.map((agent) => {
+  //         const teamLeaderInfo = filtered.find(
+  //           (team) => agent.team && team.team_id == agent.team.id
+  //         );
+
+  //         return {
+  //           ...agent,
+  //           team_leader: teamLeaderInfo ? teamLeaderInfo.team_leader : null,
+  //         };
+  //       });
+  //       console.log("FilTER KRNA WALA DATA ",campaignsAndTeamsData)
+  //       console.log("combined AGENTS DATA ",combinedData)
+  //       setDemoData(combinedData);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [salesAgentsResponse, teamLeaderResponse] = await Promise.all([
+        const [
+          salesAgentsResponse,
+          teamLeaderResponse,
+          campaignsAndTeamsResponse,
+        ] = await Promise.all([
           fetch("https://crmapi.devcir.co/api/sales_agents"),
           fetch("https://crmapi.devcir.co/api/team_and_team_leader"),
+          fetch("https://crmapi.devcir.co/api/campaigns_and_teams"),
         ]);
 
         const salesAgentsData = await salesAgentsResponse.json();
         const teamLeaderData = await teamLeaderResponse.json();
+        const campaignsAndTeamsData = await campaignsAndTeamsResponse.json();
+
         const filteredTeams = salesAgentsData.filter(
           (team) => team.manager_id == localStorage.getItem("id")
         );
-        const filtered = teamLeaderData.filter(
+        const filteredTeamLeaders = teamLeaderData.filter(
           (team) => team.team.manager_id == localStorage.getItem("id")
         );
 
         const combinedData = filteredTeams.map((agent) => {
-          const teamLeaderInfo = filtered.find(
+          const teamLeaderInfo = filteredTeamLeaders.find(
             (team) => agent.team && team.team_id == agent.team.id
           );
 
@@ -962,8 +991,18 @@ const Commission = () => {
             team_leader: teamLeaderInfo ? teamLeaderInfo.team_leader : null,
           };
         });
-        console.log("DATA COMBINED", demoData);
-        setDemoData(combinedData);
+
+        // Filter combinedData based on team_id from campaignsAndTeamsData
+        const campaignTeamIds = campaignsAndTeamsData.map(
+          (campaign) => campaign.team_id
+        );
+
+        console.log("CampIds")
+        const filteredCombinedData = combinedData.filter((data) =>
+          campaignTeamIds.includes(data.team_id)
+        );
+
+        setDemoData(filteredCombinedData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -1136,13 +1175,13 @@ const Commission = () => {
                     } w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}
                   > */}
 
-<p
-      className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
-        selectedTeamName == team.team_name
-          ? "bg-lGreen text-black font-[400] p-4"
-          : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
-      }`}
-    >
+                  <p
+                    className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
+                      selectedTeamName == team.team_name
+                        ? "bg-lGreen text-black font-[400] p-4"
+                        : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
+                    }`}
+                  >
                     {team.team_name}
                   </p>
                 </div>
@@ -1295,6 +1334,10 @@ const Commission = () => {
                           <span
                             className="cursor-pointer"
                             onClick={() => {
+                              if (!team.kpi_data) {
+                                alert("No KPI added");
+                                return;
+                              }
                               const isConfirmed = window.confirm(
                                 "Are you sure you want to Delete?"
                               );
@@ -1387,8 +1430,12 @@ const Commission = () => {
                           <span
                             className="cursor-pointer"
                             onClick={() => {
+                              if (!team.kpi_data) {
+                                alert("No KPI added");
+                                return;
+                              }
                               const isConfirmed = window.confirm(
-                                `Are you sure you want to Delete ${team.first_name} ${team.last_name}? `
+                                `Are you sure you want to Remove Kpi for ${team.first_name} ${team.last_name}? `
                               );
                               if (isConfirmed) {
                                 handleDelete(team.id);
@@ -2651,8 +2698,8 @@ const Commission = () => {
               </div>
             )}
           </div>
-          <TeamLeaderKpiTable />
-          <Teamleader_commission />
+          {/* <TeamLeaderKpiTable />
+          <Teamleader_commission /> */}
         </div>
       </div>
       <ToastContainer />
