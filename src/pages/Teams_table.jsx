@@ -383,7 +383,8 @@ const Teams_table = () => {
             {currentTeams.map((team) => (
               <tr key={team.team_id} className="h-[50px]">
                 <td className="px-4 py-2 whitespace-nowrap">{team.team.team_name}</td>
-                <td className="px-4 py-2 whitespace-nowrap">
+
+                {/* <td className="px-4 py-2 whitespace-nowrap">
                   {team.team_leader ? (
                     team.team_leader.first_name
                   ) : (
@@ -391,7 +392,18 @@ const Teams_table = () => {
                       (leader not assigned)
                     </span>
                   )}
-                </td>
+                </td> */}
+
+<td className="px-4 py-2 whitespace-nowrap">
+  {team.team_leader ? (
+    `${team.team_leader.first_name} ${team.team_leader.last_name}`
+  ) : (
+    <span style={{ fontSize: "12px" }}>
+      (leader not assigned)
+    </span>
+  )}
+</td>
+
 
                 <td className="">
                   <span
