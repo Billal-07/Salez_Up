@@ -320,11 +320,11 @@ const TeamLeaderKpiTable = () => {
       prevRows.map((row, rIndex) =>
         rIndex == rowIndex
           ? {
-              ...row,
-              kpiData: row.kpiData.map((kpi, kIndex) =>
-                kIndex == kpiIndex ? { ...kpi, [field]: value } : kpi
-              ),
-            }
+            ...row,
+            kpiData: row.kpiData.map((kpi, kIndex) =>
+              kIndex == kpiIndex ? { ...kpi, [field]: value } : kpi
+            ),
+          }
           : row
       )
     );
@@ -424,31 +424,28 @@ const TeamLeaderKpiTable = () => {
         <div className="flex justify-center gap-4 mb-4">
           <button
             onClick={() => setCampaignView("single")}
-            className={`px-4 py-2 rounded-[10px] ${
-              campaignView == "single"
-                ? "bg-themeGreen text-white"
-                : "bg-lGreen text-black"
-            }`}
+            className={`px-4 py-2 rounded-[10px] ${campaignView == "single"
+              ? "bg-themeGreen text-white"
+              : "bg-lGreen text-black"
+              }`}
           >
             Single Campaign
           </button>
           <button
             onClick={() => setCampaignView("multiple")}
-            className={`px-4 py-2 rounded-[10px] ${
-              campaignView == "multiple"
-                ? "bg-themeGreen text-white"
-                : "bg-lGreen text-black"
-            }`}
+            className={`px-4 py-2 rounded-[10px] ${campaignView == "multiple"
+              ? "bg-themeGreen text-white"
+              : "bg-lGreen text-black"
+              }`}
           >
             Multiple Campaigns
           </button>
           <button
             onClick={() => setCampaignView("multiple")}
-            className={`px-4 py-2 rounded-[10px] ${
-              campaignView == "multiple"
-                ? "bg-themeGreen text-white"
-                : "bg-lGreen text-black"
-            }`}
+            className={`px-4 py-2 rounded-[10px] ${campaignView == "multiple"
+              ? "bg-themeGreen text-white"
+              : "bg-lGreen text-black"
+              }`}
           >
             Multiple Campaigns
           </button>
@@ -477,17 +474,16 @@ const TeamLeaderKpiTable = () => {
           Export Data <FontAwesomeIcon icon={faDownload} className="ml-2" />
         </button> */}
 
-<button
-  onClick={handleStoreCSV}
-  className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
->
-  <FontAwesomeIcon
-    icon={faDownload}
-    className={`text-base text-gray-500 ${
-      isDownloadClicked ? "text-green-500" : ""
-    }`}
-  />
-</button>
+        {/* <button
+          onClick={handleStoreCSV}
+          className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+        >
+          <FontAwesomeIcon
+            icon={faDownload}
+            className={`text-base text-gray-500 ${isDownloadClicked ? "text-green-500" : ""
+              }`}
+          />
+        </button> */}
 
 
       </div>
@@ -497,50 +493,47 @@ const TeamLeaderKpiTable = () => {
           onClick={() => setSelectedTeamName("All Teams")}
         >
           <p
-            className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-              selectedTeamName == "All Teams"
-                ? "bg-lGreen text-black font-[400]"
-                : "border-2 border-gray-300 text-gray-500 font-[400]"
-            }`}
+            className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${selectedTeamName == "All Teams"
+              ? "bg-lGreen text-black font-[400]"
+              : "border-2 border-gray-300 text-gray-500 font-[400]"
+              }`}
           >
             All Teams
           </p>
         </div>
         {campaignView == "single"
           ? singleCampaignTeams.map((team, index) => (
-              <div
-                key={index}
-                className="cursor-pointer"
-                onClick={() => setSelectedTeamName(team.team_name)}
-              >
-                <p
-                  className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
-                    selectedTeamName == team.team_name
-                      ? "bg-lGreen text-black font-[400] p-4"
-                      : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
+            <div
+              key={index}
+              className="cursor-pointer"
+              onClick={() => setSelectedTeamName(team.team_name)}
+            >
+              <p
+                className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${selectedTeamName == team.team_name
+                  ? "bg-lGreen text-black font-[400] p-4"
+                  : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
                   }`}
-                >
-                  {team.team_name}
-                </p>
-              </div>
-            ))
-          : multipleCampaignTeams.map((team, index) => (
-              <div
-                key={index}
-                className="cursor-pointer"
-                onClick={() => setSelectedTeamName(team.team_name)}
               >
-                <p
-                  className={`${
-                    selectedTeamName == team.team_name
-                      ? "bg-lGreen text-black font-[400]"
-                      : "border-2 border-gray-300 text-gray-500 font-[400]"
+                {team.team_name}
+              </p>
+            </div>
+          ))
+          : multipleCampaignTeams.map((team, index) => (
+            <div
+              key={index}
+              className="cursor-pointer"
+              onClick={() => setSelectedTeamName(team.team_name)}
+            >
+              <p
+                className={`${selectedTeamName == team.team_name
+                  ? "bg-lGreen text-black font-[400]"
+                  : "border-2 border-gray-300 text-gray-500 font-[400]"
                   } w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}
-                >
-                  {team.team_name}
-                </p>
-              </div>
-            ))}
+              >
+                {team.team_name}
+              </p>
+            </div>
+          ))}
       </div>
 
       <div className="overflow-x-auto">
@@ -632,11 +625,10 @@ const TeamLeaderKpiTable = () => {
                         <p>{team.last_name}</p>
                       </td>
                       <td className="px-[10px] w-[91px]">
-                        <p>{`${
-                          parsedKpiData.teamInfo
-                            ? parsedKpiData.teamInfo.currency
-                            : ""
-                        } ${team.commission}`}</p>
+                        <p>{`${parsedKpiData.teamInfo
+                          ? parsedKpiData.teamInfo.currency
+                          : ""
+                          } ${team.commission}`}</p>
                       </td>
                       <td className="w-[55px]">
                         <p>{parsedKpiData ? parsedKpiData.TotalCount : 0}</p>
@@ -749,19 +741,19 @@ const TeamLeaderKpiTable = () => {
                           }
                         >
                           {team.team &&
-                          Array.isArray(team.team) &&
-                          team.team.length > 0
+                            Array.isArray(team.team) &&
+                            team.team.length > 0
                             ? selectedTeamName == "All Teams"
                               ? team.team.map((kpiEntry, index) => (
-                                  <span key={index}>
-                                    {kpiEntry.team_name || "(No Team Assigned)"}
-                                    {index < team.team.length - 1 && <br />}
-                                  </span>
-                                ))
+                                <span key={index}>
+                                  {kpiEntry.team_name || "(No Team Assigned)"}
+                                  {index < team.team.length - 1 && <br />}
+                                </span>
+                              ))
                               : team.team.find(
-                                  (kpiEntry) =>
-                                    kpiEntry.team_name == selectedTeamName
-                                )?.team_name || "(No Team Assigned)"
+                                (kpiEntry) =>
+                                  kpiEntry.team_name == selectedTeamName
+                              )?.team_name || "(No Team Assigned)"
                             : "(No Team Assigned)"}
                         </p>
                       </td>
@@ -769,19 +761,19 @@ const TeamLeaderKpiTable = () => {
                         <p>
                           {parsedKpiDataArray && parsedKpiDataArray.length > 0
                             ? parsedKpiDataArray.map((kpiEntry, index) => (
-                                <span key={index}>
-                                  {kpiEntry.teamInfo
-                                    ? kpiEntry.teamInfo.currency
-                                    : ""}{" "}
-                                  {kpiEntry.teamInfo &&
+                              <span key={index}>
+                                {kpiEntry.teamInfo
+                                  ? kpiEntry.teamInfo.currency
+                                  : ""}{" "}
+                                {kpiEntry.teamInfo &&
                                   kpiEntry.teamInfo.opportunity
-                                    ? kpiEntry.teamInfo.opportunity
-                                    : 0}
-                                  {index < parsedKpiDataArray.length - 1 && (
-                                    <br />
-                                  )}
-                                </span>
-                              ))
+                                  ? kpiEntry.teamInfo.opportunity
+                                  : 0}
+                                {index < parsedKpiDataArray.length - 1 && (
+                                  <br />
+                                )}
+                              </span>
+                            ))
                             : 0}
                         </p>
                       </td>
@@ -789,13 +781,13 @@ const TeamLeaderKpiTable = () => {
                         <p>
                           {parsedKpiDataArray && parsedKpiDataArray.length > 0
                             ? parsedKpiDataArray.map((kpiEntry, index) => (
-                                <span key={index}>
-                                  {kpiEntry.TotalCount || 0}{" "}
-                                  {index < parsedKpiDataArray.length - 1 && (
-                                    <br />
-                                  )}{" "}
-                                </span>
-                              ))
+                              <span key={index}>
+                                {kpiEntry.TotalCount || 0}{" "}
+                                {index < parsedKpiDataArray.length - 1 && (
+                                  <br />
+                                )}{" "}
+                              </span>
+                            ))
                             : 0}
                         </p>
                       </td>
@@ -873,9 +865,6 @@ const TeamLeaderKpiTable = () => {
                         <td colSpan="10">
                           <div className="p-6 bg-white rounded-lg shadow-lg">
                             <div className="flex justify-between">
-                              {/* <h2 className="mb-4 text-lg font-bold">   
-                                Update Data for {row.id}
-                              </h2> */}
                               <h2 className="mb-4 text-lg font-bold">
                                 Update Data for{" "}
                                 {singleCampaignTeams.find(
@@ -901,7 +890,10 @@ const TeamLeaderKpiTable = () => {
                                       key={index}
                                       className="grid grid-cols-5 gap-4 mt-4"
                                     >
-                                      <div className="flex flex-col">
+                                      <div className={`flex flex-col border-r-2 ${row.kpiData.length === 1 || index !== row.kpiData.length - 1
+                                        ? "border-b-2"
+                                        : ""
+                                        } border-[#dbd9d9] border-dashed`}>
                                         <label className="ml-10 text-xs font-bold">
                                           KPI
                                         </label>
@@ -932,7 +924,7 @@ const TeamLeaderKpiTable = () => {
                                               newValue
                                             );
                                           }}
-                                          className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[119px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[10px]"
+                                          className="bg-[#E9ECEB] mb-3 placeholder-[#8fa59c] text-center border-none w-[119px] h-[30px] p-[3px] rounded-[6px] text-[10px] font-medium leading-[12px]"
                                         >
                                           <option value="">Select KPI</option>
                                           {getFilteredKpiOptions(
@@ -951,11 +943,14 @@ const TeamLeaderKpiTable = () => {
                                           ))}
                                         </select>
                                       </div>
-                                      <div className="flex flex-col">
+                                      <div className={`flex flex-col border-r-2 ${row.kpiData.length === 1 || index !== row.kpiData.length - 1
+                                        ? "border-b-2"
+                                        : ""
+                                        } border-[#dbd9d9] border-dashed`}>
                                         <label className="ml-8 text-xs font-bold">
                                           Target
                                         </label>
-                                        <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
+                                        <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-cente">
                                           <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
                                             {row.teamInfo.currency || ""}
                                           </span>
@@ -968,18 +963,18 @@ const TeamLeaderKpiTable = () => {
                                                 prevRows.map((r, rIndex) =>
                                                   rIndex == rowIndex
                                                     ? {
-                                                        ...r,
-                                                        kpiData: r.kpiData.map(
-                                                          (kpi, kpiIndex) =>
-                                                            kpiIndex == index
-                                                              ? {
-                                                                  ...kpi,
-                                                                  target:
-                                                                    newTarget,
-                                                                }
-                                                              : kpi
-                                                        ),
-                                                      }
+                                                      ...r,
+                                                      kpiData: r.kpiData.map(
+                                                        (kpi, kpiIndex) =>
+                                                          kpiIndex == index
+                                                            ? {
+                                                              ...kpi,
+                                                              target:
+                                                                newTarget,
+                                                            }
+                                                            : kpi
+                                                      ),
+                                                    }
                                                     : r
                                                 )
                                               );
@@ -988,7 +983,10 @@ const TeamLeaderKpiTable = () => {
                                           />
                                         </div>
                                       </div>
-                                      <div className="flex flex-col">
+                                      <div className={`flex flex-col border-r-2 ${row.kpiData.length === 1 || index !== row.kpiData.length - 1
+                                        ? "border-b-2"
+                                        : ""
+                                        } border-[#dbd9d9] border-dashed`}>
                                         <label className="ml-6 text-xs font-bold">
                                           Weighting
                                         </label>
@@ -1003,18 +1001,18 @@ const TeamLeaderKpiTable = () => {
                                                 prevRows.map((r, rIndex) =>
                                                   rIndex == rowIndex
                                                     ? {
-                                                        ...r,
-                                                        kpiData: r.kpiData.map(
-                                                          (kpi, kpiIndex) =>
-                                                            kpiIndex == index
-                                                              ? {
-                                                                  ...kpi,
-                                                                  weighting:
-                                                                    newWeighting,
-                                                                }
-                                                              : kpi
-                                                        ),
-                                                      }
+                                                      ...r,
+                                                      kpiData: r.kpiData.map(
+                                                        (kpi, kpiIndex) =>
+                                                          kpiIndex == index
+                                                            ? {
+                                                              ...kpi,
+                                                              weighting:
+                                                                newWeighting,
+                                                            }
+                                                            : kpi
+                                                      ),
+                                                    }
                                                     : r
                                                 )
                                               );
@@ -1029,8 +1027,11 @@ const TeamLeaderKpiTable = () => {
                                         </div>
                                       </div>
 
-                                      <div className="flex flex-col">
-                                        <label className="ml-3 text-xs font-bold">
+                                      <div className={`flex flex-col border-r-2 ${row.kpiData.length === 1 || index !== row.kpiData.length - 1
+                                        ? "border-b-2"
+                                        : ""
+                                        } border-[#dbd9d9] border-dashed`}>
+                                        <label className="ml-2 text-xs font-bold">
                                           Opportunity
                                         </label>
                                         <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
@@ -1043,13 +1044,16 @@ const TeamLeaderKpiTable = () => {
                                             readOnly
                                             value={parseFloat(
                                               (customKpi.weighting / 100) *
-                                                row.teamInfo.opportunity
+                                              row.teamInfo.opportunity
                                             ).toFixed(2)}
                                           />
                                         </div>
                                       </div>
 
-                                      <div className="flex flex-col">
+                                      <div className={`flex flex-col ${row.kpiData.length === 1 || index !== row.kpiData.length - 1
+                                          ? "border-b-2"
+                                          : ""
+                                        } border-[#dbd9d9] border-dashed`}>
                                         <label className="ml-4 text-xs font-bold">
                                           Gatekeeper
                                         </label>
@@ -1073,18 +1077,18 @@ const TeamLeaderKpiTable = () => {
                                               prevRows.map((r, rIndex) =>
                                                 rIndex == rowIndex
                                                   ? {
-                                                      ...r,
-                                                      kpiData: r.kpiData.map(
-                                                        (kpi, kpiIndex) =>
-                                                          kpiIndex == index
-                                                            ? {
-                                                                ...kpi,
-                                                                gatekeeper:
-                                                                  value,
-                                                              }
-                                                            : kpi
-                                                      ),
-                                                    }
+                                                    ...r,
+                                                    kpiData: r.kpiData.map(
+                                                      (kpi, kpiIndex) =>
+                                                        kpiIndex == index
+                                                          ? {
+                                                            ...kpi,
+                                                            gatekeeper:
+                                                              value,
+                                                          }
+                                                          : kpi
+                                                    ),
+                                                  }
                                                   : r
                                               )
                                             );
@@ -1113,7 +1117,10 @@ const TeamLeaderKpiTable = () => {
                                       key={index}
                                       className="grid grid-cols-5 gap-4 mt-4"
                                     >
-                                      <div className="flex flex-col">
+                                      <div className={`flex flex-col border-r-2 ${index === row.customKpiData.length - 1
+                                        ? ""
+                                        : "border-b-2"
+                                        } border-[#dbd9d9] border-dashed`}>
                                         <label className="text-[10px] font-bold ml-2">
                                           Custom KPI Name
                                         </label>
@@ -1164,7 +1171,7 @@ const TeamLeaderKpiTable = () => {
 
                                             setSelectedRow(updatedRows);
                                           }}
-                                          className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[119px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[10px]"
+                                          className="bg-[#E9ECEB] mb-3 placeholder-[#8fa59c] text-center border-none w-[119px] h-[30px] p-[3px] rounded-[6px] text-[10px] font-medium leading-[12px]"
                                         >
                                           <option value="">Select KPI</option>
                                           {getFilteredKpiOptions(
@@ -1183,7 +1190,10 @@ const TeamLeaderKpiTable = () => {
                                           ))}
                                         </select>
                                       </div>
-                                      <div className="flex flex-col">
+                                      <div className={`flex flex-col border-r-2 ${index === row.customKpiData.length - 1
+                                        ? ""
+                                        : "border-b-2"
+                                        } border-[#dbd9d9] border-dashed`}>
                                         <label className="text-[10px] font-bold ml-3">
                                           Custom Target
                                         </label>
@@ -1200,19 +1210,19 @@ const TeamLeaderKpiTable = () => {
                                                 prevRows.map((r, rIndex) =>
                                                   rIndex == rowIndex
                                                     ? {
-                                                        ...r,
-                                                        customKpiData:
-                                                          r.customKpiData.map(
-                                                            (kpi, kpiIndex) =>
-                                                              kpiIndex == index
-                                                                ? {
-                                                                    ...kpi,
-                                                                    Custom_Target:
-                                                                      newTarget,
-                                                                  }
-                                                                : kpi
-                                                          ),
-                                                      }
+                                                      ...r,
+                                                      customKpiData:
+                                                        r.customKpiData.map(
+                                                          (kpi, kpiIndex) =>
+                                                            kpiIndex == index
+                                                              ? {
+                                                                ...kpi,
+                                                                Custom_Target:
+                                                                  newTarget,
+                                                              }
+                                                              : kpi
+                                                        ),
+                                                    }
                                                     : r
                                                 )
                                               );
@@ -1222,7 +1232,10 @@ const TeamLeaderKpiTable = () => {
                                         </div>
                                       </div>
 
-                                      <div className="flex flex-col">
+                                      <div className={`flex flex-col border-r-2 ${index === row.customKpiData.length - 1
+                                        ? ""
+                                        : "border-b-2"
+                                        } border-[#dbd9d9] border-dashed`}>
                                         <label className="text-[10px] font-bold ml-1">
                                           Custom Weighting
                                         </label>
@@ -1237,19 +1250,19 @@ const TeamLeaderKpiTable = () => {
                                                 prevRows.map((r, rIndex) =>
                                                   rIndex == rowIndex
                                                     ? {
-                                                        ...r,
-                                                        customKpiData:
-                                                          r.customKpiData.map(
-                                                            (kpi, kpiIndex) =>
-                                                              kpiIndex == index
-                                                                ? {
-                                                                    ...kpi,
-                                                                    Custom_Weighting:
-                                                                      newWeighting,
-                                                                  }
-                                                                : kpi
-                                                          ),
-                                                      }
+                                                      ...r,
+                                                      customKpiData:
+                                                        r.customKpiData.map(
+                                                          (kpi, kpiIndex) =>
+                                                            kpiIndex == index
+                                                              ? {
+                                                                ...kpi,
+                                                                Custom_Weighting:
+                                                                  newWeighting,
+                                                              }
+                                                              : kpi
+                                                        ),
+                                                    }
                                                     : r
                                                 )
                                               );
@@ -1264,7 +1277,10 @@ const TeamLeaderKpiTable = () => {
                                         </div>
                                       </div>
 
-                                      <div className="flex flex-col">
+                                      <div className={`flex flex-col border-r-2 ${index === row.customKpiData.length - 1
+                                        ? ""
+                                        : "border-b-2"
+                                        } border-[#dbd9d9] border-dashed`}>
                                         <label className="text-[10px] font-bold ml-5">
                                           Opportunity
                                         </label>
@@ -1279,13 +1295,16 @@ const TeamLeaderKpiTable = () => {
                                             value={parseFloat(
                                               (customKpi.Custom_Weighting /
                                                 100) *
-                                                row.teamInfo.opportunity
+                                              row.teamInfo.opportunity
                                             ).toFixed(2)}
                                           />
                                         </div>
                                       </div>
 
-                                      <div className="flex flex-col">
+                                      <div className={`flex flex-col ${index === row.customKpiData.length - 1
+                                        ? ""
+                                        : "border-b-2"
+                                        } border-[#dbd9d9] border-dashed`}>
                                         <label className="text-[10px] font-bold">
                                           Custom Gatekeeper
                                         </label>
@@ -1457,11 +1476,10 @@ const TeamLeaderKpiTable = () => {
             <button
               key={i}
               onClick={() => paginate(i + 1)}
-              className={`px-4 py-2 mx-1 text-sm font-medium ${
-                currentPage == i + 1
-                  ? "bg-lGreen text-black"
-                  : "bg-lGreen text-black hover:text-black"
-              } rounded-md`}
+              className={`px-4 py-2 mx-1 text-sm font-medium ${currentPage == i + 1
+                ? "bg-lGreen text-black"
+                : "bg-lGreen text-black hover:text-black"
+                } rounded-md`}
             >
               {i + 1}
             </button>

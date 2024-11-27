@@ -4,10 +4,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTeams } from '../contexts/TeamsContext';
 import Add_New_Teams from "./Add_New_Teams";
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 
 import {
   faSearch as faMagnifyingGlass,
   faPlus,
+  faDownload,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -28,6 +31,7 @@ const Teams_table = () => {
   const [teamsPerPage] = useState(9);
   const [selectedTeam, setSelectedTeam] = useState("All Teams");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDownloadClicked, setIsDownloadClicked] = useState(false);
 
 
   const fetchTeamLeaders = async () => {
@@ -133,6 +137,36 @@ const Teams_table = () => {
         ))}
       </div>
     );
+  };
+
+  const handleDownload = () => {
+    setIsDownloadClicked(true);
+
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Teams Data');
+
+    worksheet.columns = [
+      { header: 'Team Name', key: 'team_name', width: 30 },
+      { header: 'Team Leader', key: 'team_leader', width: 30 },
+    ];
+
+    // Add data rows
+    teams.forEach((team) => {
+      const manager = team.team.manager_id; 
+      const teamLeader = team.team_leader ? `${team.team_leader.first_name} ${team.team_leader.last_name}` : 'No Leader Assigned';
+
+      worksheet.addRow({
+        team_name: team.team.team_name,
+        team_leader: teamLeader
+      });
+    });
+
+    // Save the file as an Excel file
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      const file = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      saveAs(file, 'teams_data.xlsx');
+      setIsDownloadClicked(false);
+    });
   };
 
   const toggleSearch = () => {
@@ -341,8 +375,6 @@ const Teams_table = () => {
         />
       </div>
     )}
-
-    {/* Magnifying Glass Icon */}
     <div
       className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
       onClick={toggleSearch}
@@ -350,16 +382,24 @@ const Teams_table = () => {
       <FontAwesomeIcon icon={faMagnifyingGlass} className="text-base text-gray-500"/>
     </div>
 
-    {/* <div className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer">
-        <FontAwesomeIcon icon={faPlus} className="text-base text-gray-500"/>
-      </div> */}
-
             <div
             className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
             onClick={toggleAddTeamModal}
           >
             <FontAwesomeIcon icon={faPlus} className="text-base text-gray-500" />
           </div>
+
+          <div
+                  className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer ${
+                    "isDownloadClicked" ? "scale-95" : ""
+                  }`}onClick={handleDownload}>
+                  <FontAwesomeIcon
+                    icon={faDownload}
+                    className={`text-base text-gray-500 ${
+                      "isDownloadClicked" ? "text-base text-gray-500" : ""
+                    }`}
+                  />
+                </div>
 
   </div>
   )}
@@ -384,16 +424,6 @@ const Teams_table = () => {
               <tr key={team.team_id} className="h-[50px]">
                 <td className="px-4 py-2 whitespace-nowrap">{team.team.team_name}</td>
 
-                {/* <td className="px-4 py-2 whitespace-nowrap">
-                  {team.team_leader ? (
-                    team.team_leader.first_name
-                  ) : (
-                    <span style={{ fontSize: "12px" }}>
-                      (leader not assigned)
-                    </span>
-                  )}
-                </td> */}
-
 <td className="px-4 py-2 whitespace-nowrap">
   {team.team_leader ? (
     `${team.team_leader.first_name} ${team.team_leader.last_name}`
@@ -403,8 +433,6 @@ const Teams_table = () => {
     </span>
   )}
 </td>
-
-
                 <td className="">
                   <span
                     className="mx-1 cursor-pointer"

@@ -1035,7 +1035,7 @@ const Commission = () => {
           </button> */}
 
 
-          <button
+          {/* <button
             onClick={handleStoreCSV}
             className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
           >
@@ -1044,7 +1044,7 @@ const Commission = () => {
               className={`text-base text-gray-500 ${isDownloadClicked ? "text-green-500" : ""
                 }`}
             />
-          </button>
+          </button> */}
 
         </div>
         <div className="flex flex-wrap items-center gap-[10px] justify-between lg:justify-start">
@@ -1811,216 +1811,97 @@ const Commission = () => {
                                     {selectedRow.kpi_data.customKpiData.map(
                                       (customKpi, index) => (
                                         <React.Fragment key={index}>
-                                            <div className={`flex flex-col border-r-2 border-[#dbd9d9] border-dashed`}>
-                                              <label className="ml-2 text-xs font-bold">
-                                                Custom KPI Name
-                                              </label>
-                                              <select
-                                                value={
-                                                  customKpi.Custom_KPI_ID || ""
-                                                }
-                                                onChange={(e) =>
-                                                  handleCustomKpiChange(
-                                                    index,
-                                                    "Custom_KPI_ID",
-                                                    e.target.value
-                                                  )
-                                                }
-                                                className="bg-[#E9ECEB] mb-3 placeholder-[#8fa59c] text-center border-none w-[119px] h-[30px] p-[3px] rounded-[6px] text-[10px] font-medium leading-[12px]"
-                                              >
-                                                <option value="">Select KPI</option>
-                                                {getFilteredKpiOptions(
-                                                  team.id,
-                                                  "customKpiData",
-                                                  index
-                                                ).map((kpiOption) => (
-                                                  <option
-                                                    key={kpiOption.id}
-                                                    value={kpiOption.id.toString()}
-                                                  >
-                                                    {kpiOption.kpi_name}
-                                                  </option>
-                                                ))}
-                                              </select>
-                                            </div>
-                                            <div className="flex flex-col border-r-2 border-[#dbd9d9] border-dashed">
-                                              <label className="ml-2 text-xs font-bold">
-                                                Custom Target
-                                              </label>
-                                              <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
-                                                <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
-                                                  {selectedRow.kpi_data.teamInfo
-                                                    .currency || ""}
-                                                </span>
-                                                <input
-                                                  type="number"
-                                                  value={customKpi.Custom_Target}
-                                                  onChange={(e) => {
-                                                    const updatedCustomKpiData = [
-                                                      ...selectedRow.kpi_data
-                                                        .customKpiData,
-                                                    ];
-                                                    updatedCustomKpiData[
-                                                      index
-                                                    ].Custom_Target =
-                                                      e.target.value;
-                                                    setSelectedRow({
-                                                      ...selectedRow,
-                                                      kpi_data: {
-                                                        ...selectedRow.kpi_data,
-                                                        customKpiData:
-                                                          updatedCustomKpiData,
-                                                      },
-                                                    });
-                                                  }}
-                                                  className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
-                                                />
-                                              </div>
-                                            </div>
-                                            <div className="flex flex-col border-r-2 border-[#dbd9d9] border-dashed">
-                                              <label className="ml-2 text-xs font-bold">
-                                                Custom Weighting
-                                              </label>
-                                              <div className="relative">
-                                                <input
-                                                  type="number"
-                                                  value={customKpi.Custom_Weighting}
-                                                  onChange={(e) => {
-                                                    const value = e.target.value;
-
-                                                    if (
-                                                      value < 0 ||
-                                                      !Number.isInteger(
-                                                        Number(value)
-                                                      )
-                                                    ) {
-                                                      alert(
-                                                        "Please enter a positive integer!"
-                                                      );
-                                                      return;
-                                                    }
-                                                    if (value > 100) {
-                                                      alert(
-                                                        "Weightage should always be between 1 and 100 !!"
-                                                      );
-                                                      return;
-                                                    }
-
-                                                    const updatedCustomKpiData = [
-                                                      ...selectedRow.kpi_data
-                                                        .customKpiData,
-                                                    ];
-                                                    updatedCustomKpiData[
-                                                      index
-                                                    ].Custom_Weighting =
-                                                      parseInt(value);
-
-                                                    setSelectedRow({
-                                                      ...selectedRow,
-                                                      kpi_data: {
-                                                        ...selectedRow.kpi_data,
-                                                        customKpiData:
-                                                          updatedCustomKpiData,
-                                                      },
-                                                    });
-                                                  }}
-                                                  className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
-                                                />
-
-                                                {customKpi.Custom_Weighting && (
-                                                  <span className="absolute right-[105px] top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[10px] font-medium pointer-events-none">
-                                                    %
-                                                  </span>
-                                                )}
-                                              </div>
-                                            </div>
-                                            <div className="flex flex-col border-r-2 border-[#dbd9d9] border-dashed">
-                                              <label className="ml-2 text-xs font-bold">
-                                                Opportunity
-                                              </label>
-                                              <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
-                                                <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
-                                                  {selectedRow.kpi_data.teamInfo
-                                                    .currency || ""}
-                                                </span>
-                                                <input
-                                                  type="text"
-                                                  className="w-full h-full pl-10 pr-2 text-center bg-transparent border-none placeholder-[#8fa59c] text-[10px] font-medium leading-[15px]"
-                                                  readOnly
-                                                  value={parseFloat(
-                                                    (customKpi.Custom_Weighting /
-                                                      100) *
-                                                    team.commission
-                                                  ).toFixed(2)}
-                                                  onChange={(e) => {
-                                                    const updatedCustomKpiData = [
-                                                      ...selectedRow.kpi_data
-                                                        .customKpiData,
-                                                    ];
-                                                    updatedCustomKpiData[
-                                                      index
-                                                    ].Custom_Opportunity =
-                                                      e.target.value;
-                                                    setSelectedRow({
-                                                      ...selectedRow,
-                                                      kpi_data: {
-                                                        ...selectedRow.kpi_data,
-                                                        customKpiData:
-                                                          updatedCustomKpiData,
-                                                      },
-                                                    });
-                                                  }}
-                                                />
-                                              </div>
-                                            </div>
-                                            <div className="flex flex-col">
-                                              <label className="text-[10px] font-bold">
-                                                Custom Gatekeeper
-                                              </label>
+                                          <div className={`flex flex-col border-r-2 border-[#dbd9d9] border-dashed`}>
+                                            <label className="ml-2 text-xs font-bold">
+                                              Custom KPI Name
+                                            </label>
+                                            <select
+                                              value={
+                                                customKpi.Custom_KPI_ID || ""
+                                              }
+                                              onChange={(e) =>
+                                                handleCustomKpiChange(
+                                                  index,
+                                                  "Custom_KPI_ID",
+                                                  e.target.value
+                                                )
+                                              }
+                                              className="bg-[#E9ECEB] mb-3 placeholder-[#8fa59c] text-center border-none w-[119px] h-[30px] p-[3px] rounded-[6px] text-[10px] font-medium leading-[12px]"
+                                            >
+                                              <option value="">Select KPI</option>
+                                              {getFilteredKpiOptions(
+                                                team.id,
+                                                "customKpiData",
+                                                index
+                                              ).map((kpiOption) => (
+                                                <option
+                                                  key={kpiOption.id}
+                                                  value={kpiOption.id.toString()}
+                                                >
+                                                  {kpiOption.kpi_name}
+                                                </option>
+                                              ))}
+                                            </select>
+                                          </div>
+                                          <div className="flex flex-col border-r-2 border-[#dbd9d9] border-dashed">
+                                            <label className="ml-2 text-xs font-bold">
+                                              Custom Target
+                                            </label>
+                                            <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
+                                              <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
+                                                {selectedRow.kpi_data.teamInfo
+                                                  .currency || ""}
+                                              </span>
                                               <input
-                                                type="text"
-                                                value={customKpi.Custom_Gatekeeper}
-                                                disabled={
-                                                  gatekeeperSet[selectedRow.id] &&
-                                                  !customKpi.Custom_Gatekeeper
-                                                }
-                                                onKeyDown={(e) => {
-                                                  // Prevent +, -, e, and other special characters
-                                                  if (
-                                                    e.key == "e" ||
-                                                    e.key == "+" ||
-                                                    e.key == "-" ||
-                                                    e.key == "." ||
-                                                    e.key == "," ||
-                                                    (!/^\d$/.test(e.key) &&
-                                                      e.key != "Backspace" &&
-                                                      e.key != "Delete" &&
-                                                      e.key != "ArrowLeft" &&
-                                                      e.key != "ArrowRight")
-                                                  ) {
-                                                    e.preventDefault();
-                                                  }
-                                                }}
+                                                type="number"
+                                                value={customKpi.Custom_Target}
                                                 onChange={(e) => {
-                                                  let newValue = e.target.value;
+                                                  const updatedCustomKpiData = [
+                                                    ...selectedRow.kpi_data
+                                                      .customKpiData,
+                                                  ];
+                                                  updatedCustomKpiData[
+                                                    index
+                                                  ].Custom_Target =
+                                                    e.target.value;
+                                                  setSelectedRow({
+                                                    ...selectedRow,
+                                                    kpi_data: {
+                                                      ...selectedRow.kpi_data,
+                                                      customKpiData:
+                                                        updatedCustomKpiData,
+                                                    },
+                                                  });
+                                                }}
+                                                className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
+                                              />
+                                            </div>
+                                          </div>
+                                          <div className="flex flex-col border-r-2 border-[#dbd9d9] border-dashed">
+                                            <label className="ml-2 text-xs font-bold">
+                                              Custom Weighting
+                                            </label>
+                                            <div className="relative">
+                                              <input
+                                                type="number"
+                                                value={customKpi.Custom_Weighting}
+                                                onChange={(e) => {
+                                                  const value = e.target.value;
 
-                                                  // Only proceed if input is empty or a positive integer
                                                   if (
-                                                    newValue != "" &&
-                                                    (!Number.isInteger(
-                                                      Number(newValue)
-                                                    ) ||
-                                                      Number(newValue) <= 0)
+                                                    value < 0 ||
+                                                    !Number.isInteger(
+                                                      Number(value)
+                                                    )
                                                   ) {
                                                     alert(
                                                       "Please enter a positive integer!"
                                                     );
                                                     return;
                                                   }
-
-                                                  if (Number(newValue) > 100) {
+                                                  if (value > 100) {
                                                     alert(
-                                                      "Value should always be between 1 and 100!"
+                                                      "Weightage should always be between 1 and 100 !!"
                                                     );
                                                     return;
                                                   }
@@ -2031,7 +1912,8 @@ const Commission = () => {
                                                   ];
                                                   updatedCustomKpiData[
                                                     index
-                                                  ].Custom_Gatekeeper = newValue;
+                                                  ].Custom_Weighting =
+                                                    parseInt(value);
 
                                                   setSelectedRow({
                                                     ...selectedRow,
@@ -2041,38 +1923,156 @@ const Commission = () => {
                                                         updatedCustomKpiData,
                                                     },
                                                   });
-
-                                                  // Update gatekeeperSet
-                                                  if (
-                                                    newValue &&
-                                                    !gatekeeperSet[selectedRow.id]
-                                                  ) {
-                                                    setGatekeeperSet((prev) => ({
-                                                      ...prev,
-                                                      [selectedRow.id]: true,
-                                                    }));
-                                                  } else if (
-                                                    !newValue &&
-                                                    gatekeeperSet[selectedRow.id]
-                                                  ) {
-                                                    // Check if there are any other gatekeepers set
-                                                    const otherGatekeepers =
-                                                      updatedCustomKpiData.some(
-                                                        (kpi, i) =>
-                                                          i != index &&
-                                                          kpi.Custom_Gatekeeper
-                                                      );
-                                                    if (!otherGatekeepers) {
-                                                      setGatekeeperSet((prev) => ({
-                                                        ...prev,
-                                                        [selectedRow.id]: false,
-                                                      }));
-                                                    }
-                                                  }
                                                 }}
                                                 className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
                                               />
+
+                                              {customKpi.Custom_Weighting && (
+                                                <span className="absolute right-[105px] top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[10px] font-medium pointer-events-none">
+                                                  %
+                                                </span>
+                                              )}
                                             </div>
+                                          </div>
+                                          <div className="flex flex-col border-r-2 border-[#dbd9d9] border-dashed">
+                                            <label className="ml-2 text-xs font-bold">
+                                              Opportunity
+                                            </label>
+                                            <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
+                                              <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
+                                                {selectedRow.kpi_data.teamInfo
+                                                  .currency || ""}
+                                              </span>
+                                              <input
+                                                type="text"
+                                                className="w-full h-full pl-10 pr-2 text-center bg-transparent border-none placeholder-[#8fa59c] text-[10px] font-medium leading-[15px]"
+                                                readOnly
+                                                value={parseFloat(
+                                                  (customKpi.Custom_Weighting /
+                                                    100) *
+                                                  team.commission
+                                                ).toFixed(2)}
+                                                onChange={(e) => {
+                                                  const updatedCustomKpiData = [
+                                                    ...selectedRow.kpi_data
+                                                      .customKpiData,
+                                                  ];
+                                                  updatedCustomKpiData[
+                                                    index
+                                                  ].Custom_Opportunity =
+                                                    e.target.value;
+                                                  setSelectedRow({
+                                                    ...selectedRow,
+                                                    kpi_data: {
+                                                      ...selectedRow.kpi_data,
+                                                      customKpiData:
+                                                        updatedCustomKpiData,
+                                                    },
+                                                  });
+                                                }}
+                                              />
+                                            </div>
+                                          </div>
+                                          <div className="flex flex-col">
+                                            <label className="text-[10px] font-bold">
+                                              Custom Gatekeeper
+                                            </label>
+                                            <input
+                                              type="text"
+                                              value={customKpi.Custom_Gatekeeper}
+                                              disabled={
+                                                gatekeeperSet[selectedRow.id] &&
+                                                !customKpi.Custom_Gatekeeper
+                                              }
+                                              onKeyDown={(e) => {
+                                                // Prevent +, -, e, and other special characters
+                                                if (
+                                                  e.key == "e" ||
+                                                  e.key == "+" ||
+                                                  e.key == "-" ||
+                                                  e.key == "." ||
+                                                  e.key == "," ||
+                                                  (!/^\d$/.test(e.key) &&
+                                                    e.key != "Backspace" &&
+                                                    e.key != "Delete" &&
+                                                    e.key != "ArrowLeft" &&
+                                                    e.key != "ArrowRight")
+                                                ) {
+                                                  e.preventDefault();
+                                                }
+                                              }}
+                                              onChange={(e) => {
+                                                let newValue = e.target.value;
+
+                                                // Only proceed if input is empty or a positive integer
+                                                if (
+                                                  newValue != "" &&
+                                                  (!Number.isInteger(
+                                                    Number(newValue)
+                                                  ) ||
+                                                    Number(newValue) <= 0)
+                                                ) {
+                                                  alert(
+                                                    "Please enter a positive integer!"
+                                                  );
+                                                  return;
+                                                }
+
+                                                if (Number(newValue) > 100) {
+                                                  alert(
+                                                    "Value should always be between 1 and 100!"
+                                                  );
+                                                  return;
+                                                }
+
+                                                const updatedCustomKpiData = [
+                                                  ...selectedRow.kpi_data
+                                                    .customKpiData,
+                                                ];
+                                                updatedCustomKpiData[
+                                                  index
+                                                ].Custom_Gatekeeper = newValue;
+
+                                                setSelectedRow({
+                                                  ...selectedRow,
+                                                  kpi_data: {
+                                                    ...selectedRow.kpi_data,
+                                                    customKpiData:
+                                                      updatedCustomKpiData,
+                                                  },
+                                                });
+
+                                                // Update gatekeeperSet
+                                                if (
+                                                  newValue &&
+                                                  !gatekeeperSet[selectedRow.id]
+                                                ) {
+                                                  setGatekeeperSet((prev) => ({
+                                                    ...prev,
+                                                    [selectedRow.id]: true,
+                                                  }));
+                                                } else if (
+                                                  !newValue &&
+                                                  gatekeeperSet[selectedRow.id]
+                                                ) {
+                                                  // Check if there are any other gatekeepers set
+                                                  const otherGatekeepers =
+                                                    updatedCustomKpiData.some(
+                                                      (kpi, i) =>
+                                                        i != index &&
+                                                        kpi.Custom_Gatekeeper
+                                                    );
+                                                  if (!otherGatekeepers) {
+                                                    setGatekeeperSet((prev) => ({
+                                                      ...prev,
+                                                      [selectedRow.id]: false,
+                                                    }));
+                                                  }
+                                                }
+                                              }}
+                                              className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
+                                            />
+                                          </div>
                                         </React.Fragment>
                                       )
                                     )}
@@ -2737,7 +2737,7 @@ const Commission = () => {
             )}
           </div>
           <TeamLeaderKpiTable />
-           {/*<Teamleader_commission /> */}
+          <Teamleader_commission />
         </div>
       </div>
       <ToastContainer />

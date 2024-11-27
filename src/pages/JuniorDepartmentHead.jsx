@@ -6,10 +6,12 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddNewJuniorHeadOfDepartment from "./AddNewJuniorHeadOfDepartment";
 import fallbackImage from '/public/images/image_not_1.jfif';
-
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 import {
   faSearch as faMagnifyingGlass,
   faPlus,
+  faDownload,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -435,6 +437,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
 
 const JuniorHeadOfDepartment = () => {
   const [juniordepthead, setjuniordepthead] = useState([]);
+  const [isDownloadClicked, setIsDownloadClicked] = useState(false);
   const [isCreated, setIsCreated] = useState(false);
   const [juniordeptheadPerPage] = useState(9);
   const [managerFName, setManagerFName] = useState("");
@@ -445,6 +448,8 @@ const JuniorHeadOfDepartment = () => {
   const [selectedData, setSelectedData] = useState({});
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+
 
   useEffect(() => {
     const storedManagerFName = localStorage.getItem("userFName");
@@ -473,6 +478,46 @@ const JuniorHeadOfDepartment = () => {
           agent.team.team_name == selectedTeam) &&
         agent.first_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
+  };
+
+  const handleDownloadCSV = async () => {
+    try {
+      const filteredData = filterjuniordeptheadByTeam(juniordepthead, selectedTeam, searchQuery);
+      if (filteredData.length === 0) {
+        toast.warning("No Junior Department Heads found.");
+        return;
+      }
+
+      const headers = [
+        "Name", "Surname", "Start Date", "Manager", "Department Head First Name", 
+        "Department Head Surname"
+      ];
+
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Junior Department Heads");
+      worksheet.addRow(headers);
+      worksheet.getRow(1).font = { bold: true };
+
+      filteredData.forEach((agent) => {
+        const deptHead = agent.dept_head || {}; 
+        const rowData = [
+          agent.first_name,
+          agent.last_name,
+          agent.start_date,
+          managerFName,
+          deptHead.first_name || "Not Assigned",  
+          deptHead.last_name || "Not Assigned",   
+        ];
+        worksheet.addRow(rowData);
+      });
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+      saveAs(blob, "Junior_Department_Heads.xlsx");
+
+    } catch (error) {
+      console.error("Error generating CSV:", error);
+    }
   };
 
   const handleUpdate = (data) => {
@@ -754,7 +799,6 @@ const JuniorHeadOfDepartment = () => {
 
 {juniordepthead.length > 0 && (
   <div className="relative flex justify-end items-center mb-4 space-x-4">
-  {/* Search Field (conditionally rendered) */}
   {isSearchVisible && (
     <div className="relative">
       <input
@@ -764,16 +808,11 @@ const JuniorHeadOfDepartment = () => {
         onChange={(e) => setSearchQuery(e.target.value)}
         className="border border-themeGreen p-2 rounded-lg pl-10 w-[240px] focus:outline-none"
       />
-      {/* <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-themeGreen">
-        <FontAwesomeIcon icon={faMagnifyingGlass} />
-      </span> */}
     </div>
   )}
-
-  {/* Search Icon */}
   <div
     className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
-    onClick={() => setIsSearchVisible(!isSearchVisible)} // Toggle visibility
+    onClick={() => setIsSearchVisible(!isSearchVisible)} 
   >
     <FontAwesomeIcon
       icon={faMagnifyingGlass}
@@ -787,7 +826,17 @@ const JuniorHeadOfDepartment = () => {
                 <FontAwesomeIcon icon={faPlus} className="text-base text-gray-500" />
               </div>
 
-
+              <div
+                  className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer ${
+                    "isDownloadClicked" ? "scale-95" : ""
+                  }`}onClick={handleDownloadCSV}>
+                  <FontAwesomeIcon
+                    icon={faDownload}
+                    className={`text-base text-gray-500 ${
+                      "isDownloadClicked" ? "text-base text-gray-500" : ""
+                    }`}
+                  />
+                </div>
 </div>
       )}
             {renderTable()}

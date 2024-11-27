@@ -6,7 +6,6 @@ import axios from "axios";
 import Current_Agent from "./Current_Agent";
 import AddNewAgent from "./AddNewAgent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faSearch as faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import {
   faSearch as faMagnifyingGlass,
   faPlus,
@@ -16,6 +15,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddNewHeadOfDepartment from "./AddNewHeadOfDepartment";
 import fallbackImage from "/public/images/image_not_1.jfif";
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 
 const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
   const [selectedmanager, setSelectedmanager] = useState(
@@ -258,6 +259,7 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
 
 const HeadOfDepartment = () => {
   const [departmentHead, setdepartmentHead] = useState([]);
+  const [isDownloadClicked, setIsDownloadClicked] = useState(false);
   const [isCreated, setIsCreated] = useState(false);
   const [departmentHeadPerPage] = useState(9);
   const [managerFName, setManagerFName] = useState("");
@@ -269,12 +271,11 @@ const HeadOfDepartment = () => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
-  };                                              
+  };
 
   const handleSearchToggle = () => {
     setIsSearchOpen(!isSearchOpen);
@@ -434,16 +435,16 @@ const HeadOfDepartment = () => {
                         className="w-[40px] h-[40px] rounded-full m-auto"
                       />
                     </td>
-                    <td className="px-[10px] w-[91px] text-mm">
+                    <td className="px-[10px] w-[91px] text-base">
                       <p>{agent.first_name}</p>
                     </td>
-                    <td className="px-[10px] w-[91px] text-mm">
+                    <td className="px-[10px] w-[91px] text-base">
                       <p>{agent.last_name}</p>
                     </td>
-                    <td className="w-[91px] text-mm">
+                    <td className="w-[91px] text-base">
                       <p>{agent.start_date}</p>
                     </td>
-                    <td className="px-[10px] w-[91px] text-mm">
+                    <td className="px-[10px] w-[91px] text-base">
                       <p>{managerFName}</p>{" "}
                     </td>
                     <td className="px-4 sm:px-[10px] py-[10px]">
@@ -489,30 +490,6 @@ const HeadOfDepartment = () => {
     );
   };
 
-  // Pagination function (optional)
-  // const renderPagination = (totaldepartmentHead) => {
-  //   const pageNumbers = [];
-  //   for (let i = 1; i <= Math.ceil(totaldepartmentHead / departmentHeadPerPage); i++) {
-  //     pageNumbers.push(i);
-  //   }
-
-  //   return (
-  //     <div className="bg-themeGreen p-4 rounded-sm w-[10px] h-[10px] ml-[860px]">
-  //       <div className="pagination mt-[-10px] flex justify-center">
-  //         {pageNumbers.map((number) => (
-  //           <span
-  //             key={number}
-  //             onClick={() => setCurrentPage(number)}
-  //             className="cursor-pointer text-white mx-2" // Added styling for better appearance
-  //           >
-  //             {number}
-  //           </span>
-  //         ))}
-  //       </div>
-  //     </div>
-  //   );
-  // };
-
   const renderPagination = (totaldepartmentHead) => {
     // Only proceed if there are department heads
     if (totaldepartmentHead == 0) return null;
@@ -526,7 +503,6 @@ const HeadOfDepartment = () => {
       pageNumbers.push(i);
     }
 
-    // Only render pagination if there are multiple pages
     if (pageNumbers.length <= 1) return null;
 
     return (
@@ -560,11 +536,10 @@ const HeadOfDepartment = () => {
           onClick={() => setSelectedTeam("All Teams")}
         >
           <p
-            className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-              selectedTeam == "All Teams"
+            className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${selectedTeam == "All Teams"
                 ? "bg-themeGreen text-white font-[600]"
                 : "bg-lGreen text-black font-[400]"
-            }`}
+              }`}
           >
             All Teams
           </p>
@@ -576,11 +551,10 @@ const HeadOfDepartment = () => {
             onClick={() => setSelectedTeam(teamName)}
           >
             <p
-              className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-                selectedTeam == teamName
+              className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${selectedTeam == teamName
                   ? "bg-themeGreen text-white font-[600]"
                   : "bg-lGreen text-black font-[400]"
-              }`}
+                }`}
             >
               {teamName}
             </p>
@@ -589,6 +563,60 @@ const HeadOfDepartment = () => {
       </div>
     );
   };
+
+  const handleDownloadClick = () => {
+    handleStoreCSV();
+    setIsDownloadClicked(true);
+    setTimeout(() => {
+      setIsDownloadClicked(false);
+    }, 500);
+  };
+
+  const handleStoreCSV = async () => {
+    try {
+      const filteredDepartmentHeads = filterdepartmentHeadByTeam(
+        departmentHead,
+        selectedTeam,
+        searchQuery
+      );
+
+      if (filteredDepartmentHeads.length === 0) {
+        toast.warning("No Department Heads found.");
+        return;
+      }
+
+      const headers = [
+        "Name",
+        "Surname",
+        "Start Date",
+        "Manager",
+      ];
+
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Department Heads");
+      worksheet.addRow(headers);
+      worksheet.getRow(1).font = { bold: true };
+
+      filteredDepartmentHeads.forEach((agent) => {
+        const rowData = [
+          agent.first_name,
+          agent.last_name,
+          agent.start_date,
+          managerFName,
+        ];
+        worksheet.addRow(rowData);
+      });
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      });
+      saveAs(blob, "Department_Heads_Data.xlsx");
+    } catch (error) {
+      console.error("Error generating CSV:", error);
+    }
+  };
+
 
   return (
     <div className="mx-2">
@@ -611,6 +639,7 @@ const HeadOfDepartment = () => {
                 <div className="flex items-center">
                   <div className="relative flex justify-end items-center mb-4">
                     <div className="flex items-center">
+
                       <div className="flex items-center space-x-3">
                         <div className="relative flex items-center flex-row-reverse space-x-reverse space-x-2">
                           <div
@@ -619,7 +648,7 @@ const HeadOfDepartment = () => {
                           >
                             <FontAwesomeIcon
                               icon={faMagnifyingGlass}
-                              className="text-mm text-gray-500"
+                              className="text-base text-gray-500"
                             />
                           </div>
                           {isSearchOpen && (
@@ -644,38 +673,20 @@ const HeadOfDepartment = () => {
                         >
                           <FontAwesomeIcon
                             icon={faPlus}
-                            className="text-mm text-gray-500"
+                            className="text-base text-gray-500"
                           />
                         </div>
 
-                        {/* <div
-                  className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer ${
-                    "isDownloadClicked" ? "scale-95" : ""
-                  }`}
-                  // onClick={handleDownloadClick}
-                >
-                  <FontAwesomeIcon
-                    icon={faDownload}
-                    className={`text-mm text-gray-500 ${
-                      "isDownloadClicked" ? "text-green-500" : ""
-                    }`}
-                  />
-                </div> */}
+                        <div
+                          className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer ${"isDownloadClicked" ? "scale-95" : ""
+                            }`} onClick={handleDownloadClick}>
+                          <FontAwesomeIcon
+                            icon={faDownload}
+                            className={`text-base text-gray-500 ${"isDownloadClicked" ? "text-base text-gray-500" : ""
+                              }`}
+                          />
+                        </div>
                       </div>
-                      {/* {departmentHead.length > 0 && (
-                      <div className="ml-[190px]">
-                        <input
-                          type="text"
-                          placeholder="Search Head"
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          className="border border-themeGreen p-2 rounded-lg pl-10 mr-2 w-[240px] focus:outline-none"
-                        />
-                        <span className="text-themeGreen ml-[-40px]">
-                          <FontAwesomeIcon icon={faMagnifyingGlass} />
-                        </span>
-                      </div>
-                    )} */}
                     </div>
                   </div>
                 </div>

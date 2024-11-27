@@ -15,6 +15,7 @@ import {
   faPlus,
   faDownload,
 } from "@fortawesome/free-solid-svg-icons";
+import ExcelJS from "exceljs";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -374,7 +375,7 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
                         (teamLeaderEntry) =>
                           teamLeaderEntry.team_id == teamId &&
                           teamLeaderEntry.team_leader_id ==
-                            selectedTeam.team_leader_id
+                          selectedTeam.team_leader_id
                       )
                   );
                   const conflictingTeams = newlyAddedTeams.filter((teamId) => {
@@ -573,8 +574,8 @@ const TeamLeader = () => {
       selectedTeam == "All Teams"
         ? teams
         : teams.filter((leader) =>
-            leader.teams.some((team) => team.team_name == selectedTeam)
-          );
+          leader.teams.some((team) => team.team_name == selectedTeam)
+        );
 
     const searchedTeams = filteredTeams.filter((leader) =>
       `${leader.first_name} ${leader.last_name}`
@@ -656,7 +657,7 @@ const TeamLeader = () => {
                         ? selectedTeam == "All Teams"
                           ? team.teams.map((t) => t.team_name).join(", ")
                           : team.teams.find((t) => t.team_name == selectedTeam)
-                              ?.team_name || "N/A"
+                            ?.team_name || "N/A"
                         : "(Team Not Assigned)"}
                     </p>
                   </td>
@@ -701,11 +702,10 @@ const TeamLeader = () => {
                     setCurrentPage((prev) => Math.max(prev - 1, 1))
                   }
                   disabled={currentPage == 1}
-                  className={`px-3 py-1 rounded-lg text-black ${
-                    currentPage == 1
-                      ? "bg-white border-2 border-gray-300 text-gray-500 cursor-not-allowed"
-                      : "bg-white border-2 border-gray-300 text-gray-500 shadow-md"
-                  }`}
+                  className={`px-3 py-1 rounded-lg text-black ${currentPage == 1
+                    ? "bg-white border-2 border-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-white border-2 border-gray-300 text-gray-500 shadow-md"
+                    }`}
                 >
                   {`<`}
                 </button>
@@ -715,11 +715,10 @@ const TeamLeader = () => {
                   <li key={i} className="mx-1">
                     <button
                       onClick={() => setCurrentPage(i + 1)}
-                      className={`px-3 py-1 rounded-lg w-[40px] ${
-                        currentPage == i + 1
-                          ? "bg-lGreen text-black"
-                          : "bg-lGreen text-black hover:text-black"
-                      }`}
+                      className={`px-3 py-1 rounded-lg w-[40px] ${currentPage == i + 1
+                        ? "bg-lGreen text-black"
+                        : "bg-lGreen text-black hover:text-black"
+                        }`}
                     >
                       {i + 1}
                     </button>
@@ -740,12 +739,11 @@ const TeamLeader = () => {
                     currentPage ==
                     Math.ceil(searchedTeams.length / teamsPerPage)
                   }
-                  className={`px-3 py-1 rounded-lg text-black ${
-                    currentPage ==
+                  className={`px-3 py-1 rounded-lg text-black ${currentPage ==
                     Math.ceil(searchedTeams.length / teamsPerPage)
-                      ? "bg-white border-2 border-gray-300 text-gray-500 cursor-not-allowed"
-                      : "bg-white border-2 border-gray-300 text-gray-500 shadow-md"
-                  }`}
+                    ? "bg-white border-2 border-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-white border-2 border-gray-300 text-gray-500 shadow-md"
+                    }`}
                 >
                   {`>`}
                 </button>
@@ -766,6 +764,45 @@ const TeamLeader = () => {
     );
   };
 
+  const handleDownloadClick = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Team Leaders");
+
+    // Define the headers
+    worksheet.columns = [
+      { header: "Name", key: "first_name", width: 20 },
+      { header: "Surname", key: "last_name", width: 20 },
+      { header: "Start Date", key: "start_date", width: 15 },
+      { header: "Team", key: "team", width: 30 },
+      { header: "Manager", key: "manager", width: 20 },
+    ];
+
+    // Add rows
+    teams.forEach((team) => {
+      worksheet.addRow({
+        first_name: team.first_name,
+        last_name: team.last_name,
+        start_date: new Date(team.start_date).toLocaleDateString('en-US', {
+          month: '2-digit',
+          day: '2-digit',
+          year: 'numeric'
+        }),
+        team: team.teams.map((t) => t.team_name).join("; "),
+        manager: team.manager.manager_name,
+      });
+    });
+
+    // Create a buffer and download the file
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "team_leaders.xlsx";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleTeamLeaderAdded = (newTeamLeader) => {
     setTeams((prevTeams) => [...prevTeams, newTeamLeader]);
     setCurrentPage(1);
@@ -781,8 +818,8 @@ const TeamLeader = () => {
             Team Leaders
           </h1> */}
           <p className="text-[18px] leading-[42px] -mb-6">
-              <span className="text-gray-400 font-medium">Dashboard/Company/</span><span className="text-gray-600 font-semibold">Team Leaders</span>
-            </p>
+            <span className="text-gray-400 font-medium">Dashboard/Company/</span><span className="text-gray-600 font-semibold">Team Leaders</span>
+          </p>
           <Current_Team_Leader id="orgChart" />
           <div
             className="flex flex-col w-full gap-6 p-8 pb-12 card"
@@ -798,11 +835,10 @@ const TeamLeader = () => {
                   onClick={() => setSelectedTeam("All Teams")}
                 >
                   <p
-                    className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-                      selectedTeam == "All Teams"
-                        ? "bg-lGreen text-black font-[400]"
-                        : "border-2 border-gray-300 text-gray-500 font-[400]"
-                    }`}
+                    className={`w-[100px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${selectedTeam == "All Teams"
+                      ? "bg-lGreen text-black font-[400]"
+                      : "border-2 border-gray-300 text-gray-500 font-[400]"
+                      }`}
                   >
                     All Teams
                   </p>
@@ -826,11 +862,10 @@ const TeamLeader = () => {
                       }}
                     >
                       <p
-                        className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
-                          selectedTeam == teamName
-                            ? "bg-lGreen text-black font-[400] p-4"
-                            : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
-                        }`}
+                        className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${selectedTeam == teamName
+                          ? "bg-lGreen text-black font-[400] p-4"
+                          : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
+                          }`}
                       >
                         {teamName}
                       </p>
@@ -858,9 +893,6 @@ const TeamLeader = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="border border-themeGreen p-2 pl-10 mr-5 rounded-lg bg-gray-100"
                       />
-                      {/* <span className="ml-[-42px] text-themeGreen">
-                        <FontAwesomeIcon icon={faMagnifyingGlass} />
-                      </span> */}
                     </div>
                   )}
                 </div>
@@ -875,34 +907,16 @@ const TeamLeader = () => {
                   />
                 </div>
 
-                {/* <div
-                  className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer ${
-                    "isDownloadClicked" ? "scale-95" : ""
-                  }`}
-                  // onClick={handleDownloadClick}
-                >
+                <div
+                  className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer ${"isDownloadClicked" ? "scale-95" : ""
+                    }`} onClick={handleDownloadClick}>
                   <FontAwesomeIcon
                     icon={faDownload}
-                    className={`text-base text-gray-500 ${
-                      "isDownloadClicked" ? "text-green-500" : ""
-                    }`}
+                    className={`text-base text-gray-500 ${"isDownloadClicked" ? "text-base text-gray-500" : ""
+                      }`}
                   />
-                </div> */}
-              </div>
-              {/* {teams.length > 0 && (
-                <div className="relative flex-grow ml-[140px]">
-                  <input
-                    type="text"
-                    placeholder="Search Team Leader"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="border border-themeGreen p-2 pl-10 mr-2 rounded-lg bg-gray-100"
-                  />
-                  <span className="ml-[-32px] text-themeGreen">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                  </span>
                 </div>
-              )} */}
+              </div>
             </div>
             {renderTable()}
           </div>

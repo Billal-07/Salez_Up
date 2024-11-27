@@ -9,6 +9,8 @@ import {
   faPlus,
   faDownload,
 } from "@fortawesome/free-solid-svg-icons";
+import ExcelJS from 'exceljs';
+import { saveAs } from 'file-saver';
 
 const Campaign_table = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -28,14 +30,15 @@ const Campaign_table = () => {
   const [newImageFile, setNewImageFile] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isAddModal, setIsAddModal] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
-      closeModal(); 
+      closeModal();
     }
   };
 
-  
+
   const handleSearchToggle = () => {
     setIsSearchOpen(!isSearchOpen);
   };
@@ -105,7 +108,7 @@ const Campaign_table = () => {
     const isJuniorHeadAlreadyRegistered = campaigns.some(
       (campaign) =>
         campaign?.junior_department_head?.first_name ===
-          selectedJuniorHeadName &&
+        selectedJuniorHeadName &&
         campaign.campaign_id == editedCampaign.campaignId
     );
 
@@ -266,11 +269,10 @@ const Campaign_table = () => {
           onClick={() => setSelectedTeam("All Teams")}
         >
           <p
-            className={`w-[100px] h-[44px] flex items-center justify-center rounded-[10px] ${
-              selectedTeam == "All Teams"
-                ? "bg-lGreen text-black font-[400]"
-                : "border-2 border-gray-300 text-gray-500 font-[400]"
-            }`}
+            className={`w-[100px] h-[44px] flex items-center justify-center rounded-[10px] ${selectedTeam == "All Teams"
+              ? "bg-lGreen text-black font-[400]"
+              : "border-2 border-gray-300 text-gray-500 font-[400]"
+              }`}
           >
             All Teams
           </p>
@@ -282,11 +284,10 @@ const Campaign_table = () => {
             onClick={() => setSelectedTeam(teamName)}
           >
             <p
-              className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
-                selectedTeam == teamName
-                  ? "bg-lGreen text-black font-[400] p-4"
-                  : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
-              }`}
+              className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${selectedTeam == teamName
+                ? "bg-lGreen text-black font-[400] p-4"
+                : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
+                }`}
             >
               {teamName}
             </p>
@@ -398,7 +399,7 @@ const Campaign_table = () => {
         name: Boolean(editedCampaign.campaignName),
         departmentHeads: Boolean(
           editedCampaign.juniorDepartmentHead != undefined ||
-            editedCampaign.departmentHead != undefined
+          editedCampaign.departmentHead != undefined
         ),
         team: editedCampaign.teamId != undefined,
         image: Boolean(newImageFile), // Add image update check
@@ -478,7 +479,7 @@ const Campaign_table = () => {
       } else {
         alert(
           error.response?.data?.message ||
-            "An error occurred while updating the campaign."
+          "An error occurred while updating the campaign."
         );
       }
     }
@@ -494,6 +495,60 @@ const Campaign_table = () => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const exportToExcel = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Campaigns');
+
+    // Add headers with styling
+    worksheet.columns = [
+      { header: 'Campaign', key: 'campaign', width: 30 },
+      { header: 'Team Name', key: 'teamName', width: 20 },
+      { header: 'Department Head', key: 'departmentHead', width: 25 },
+      { header: 'Junior Department Head', key: 'juniorHead', width: 25 }
+    ];
+
+    // Style the header row
+    const headerRow = worksheet.getRow(1);
+    headerRow.font = { bold: true, color: { argb: '2E7D32' } }; // Dark green color
+    headerRow.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'F5F5F5' } // Light gray background
+    };
+
+    // Add data
+    filteredCampaigns.forEach(campaign => {
+      worksheet.addRow({
+        campaign: campaign.campaign.campaign_name,
+        teamName: campaign.team?.team_name || 'Not Assigned',
+        departmentHead: campaign.department_head ? 
+          `${campaign.department_head.first_name || ''} ${campaign.department_head.last_name || ''}`.trim() : 
+          'Not Assigned',
+        juniorHead: campaign.junior_department_head ? 
+          `${campaign.junior_department_head.first_name || ''} ${campaign.junior_department_head.last_name || ''}`.trim() : 
+          'Not Assigned'
+      });
+    });
+
+    // Style all cells
+    worksheet.eachRow((row, rowNumber) => {
+      row.eachCell((cell) => {
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' }
+        };
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      });
+    });
+
+    // Generate and save file
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    saveAs(blob, 'Campaigns_Report.xlsx');
   };
 
   return (
@@ -542,34 +597,22 @@ const Campaign_table = () => {
               />
             </div>
 
-            {/* <div
-              className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer ${
-                isDownloadClicked ? "scale-95" : ""
+            <div
+              onClick={exportToExcel}
+              className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer hover:scale-95 transition-transform ${
+                isExporting ? 'opacity-50 cursor-not-allowed' : ''
               }`}
-              onClick={handleDownloadClick}
             >
-              <FontAwesomeIcon
-                icon={faDownload}
-                className={`text-mm text-gray-500 ${
-                  isDownloadClicked ? "text-green-500" : ""
-                }`}
-              />
-            </div> */}
-          </div>
-          {/* {campaigns.length > 0 && (
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search Campaign"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="border border-themeGreen p-2 rounded-lg pl-10 bg-gray-100"
-              />
-              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-themeGreen">
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
-              </span>
+              {isExporting ? (
+                <div className="w-5 h-5 border-2 border-gray-500 border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faDownload}
+                  className="text-base text-gray-500"
+                />
+              )}
             </div>
-          )} */}
+          </div>
         </div>
 
         <table>
@@ -616,13 +659,13 @@ const Campaign_table = () => {
                     )}
                   </td> */}
 
-<td className="px-4 sm:px-[10px]">
-  {campaign.department_head?.first_name || campaign.department_head?.last_name ? (
-    `${campaign.department_head.first_name || ''} ${campaign.department_head.last_name || ''}`.trim()
-  ) : (
-    <span style={{ fontSize: "12px" }}>Not Assigned</span>
-  )}
-</td>
+                  <td className="px-4 sm:px-[10px]">
+                    {campaign.department_head?.first_name || campaign.department_head?.last_name ? (
+                      `${campaign.department_head.first_name || ''} ${campaign.department_head.last_name || ''}`.trim()
+                    ) : (
+                      <span style={{ fontSize: "12px" }}>Not Assigned</span>
+                    )}
+                  </td>
 
 
 
@@ -634,13 +677,13 @@ const Campaign_table = () => {
                     )}
                   </td> */}
 
-<td className="px-4 sm:px-[10px]">
-  {campaign.junior_department_head?.first_name || campaign.junior_department_head?.last_name ? (
-    `${campaign.junior_department_head.first_name || ''} ${campaign.junior_department_head.last_name || ''}`.trim()
-  ) : (
-    <span style={{ fontSize: "12px" }}>Not Assigned</span>
-  )}
-</td>
+                  <td className="px-4 sm:px-[10px]">
+                    {campaign.junior_department_head?.first_name || campaign.junior_department_head?.last_name ? (
+                      `${campaign.junior_department_head.first_name || ''} ${campaign.junior_department_head.last_name || ''}`.trim()
+                    ) : (
+                      <span style={{ fontSize: "12px" }}>Not Assigned</span>
+                    )}
+                  </td>
 
 
                   <td className="px-4 sm:px-[10px] py-[10px]">
