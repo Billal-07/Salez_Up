@@ -3,18 +3,12 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "react-toastify";
 import fallbackImage from "/public/images/image_not_1.jfif";
-import {
-  faSearch as faMagnifyingGlass,
-  faPlus,
-  faDownload,
-} from "@fortawesome/free-solid-svg-icons";
 import Add_New_Campaign from "./Add_New_Campaign";
 import {
   faSearch as faMagnifyingGlass,
   faPlus,
   faDownload,
 } from "@fortawesome/free-solid-svg-icons";
-import Add_New_Campaign from "./Add_New_Campaign";
 
 const Campaign_table = () => {
   const [campaigns, setCampaigns] = useState([]);

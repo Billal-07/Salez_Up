@@ -11,7 +11,7 @@ import fallbackImage from "/public/images/image_not_1.jfif";
 
 import { saveAs } from "file-saver";
 import ExcelJS from "exceljs";
-import {faDownload} from "@fortawesome/free-solid-svg-icons";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -984,31 +984,28 @@ const Commission = () => {
           <div className="flex justify-center gap-4 mb-4">
             <button
               onClick={() => setCampaignView("single")}
-              className={`px-4 py-2 rounded-[10px] ${
-                campaignView == "single"
-                  ? "bg-themeGreen text-white"
-                  : "bg-lGreen text-black"
-              }`}
+              className={`px-4 py-2 rounded-[10px] ${campaignView == "single"
+                ? "bg-themeGreen text-white"
+                : "bg-lGreen text-black"
+                }`}
             >
               Single Campaign
             </button>
             <button
               onClick={() => setCampaignView("multiple")}
-              className={`px-4 py-2 rounded-[10px] ${
-                campaignView == "multiple"
-                  ? "bg-themeGreen text-white"
-                  : "bg-lGreen text-black"
-              }`}
+              className={`px-4 py-2 rounded-[10px] ${campaignView == "multiple"
+                ? "bg-themeGreen text-white"
+                : "bg-lGreen text-black"
+                }`}
             >
               Multiple Campaigns
             </button>
             <button
               onClick={() => setCampaignView("multiple")}
-              className={`px-4 py-2 rounded-[10px] ${
-                campaignView == "multiple"
-                  ? "bg-themeGreen text-white"
-                  : "bg-lGreen text-black"
-              }`}
+              className={`px-4 py-2 rounded-[10px] ${campaignView == "multiple"
+                ? "bg-themeGreen text-white"
+                : "bg-lGreen text-black"
+                }`}
             >
               Multiple Campaigns
             </button>
@@ -1038,17 +1035,16 @@ const Commission = () => {
           </button> */}
 
 
-<button
-  onClick={handleStoreCSV}
-  className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
->
-  <FontAwesomeIcon
-    icon={faDownload}
-    className={`text-base text-gray-500 ${
-      isDownloadClicked ? "text-green-500" : ""
-    }`}
-  />
-</button>
+          <button
+            onClick={handleStoreCSV}
+            className="flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer"
+          >
+            <FontAwesomeIcon
+              icon={faDownload}
+              className={`text-base text-gray-500 ${isDownloadClicked ? "text-green-500" : ""
+                }`}
+            />
+          </button>
 
         </div>
         <div className="flex flex-wrap items-center gap-[10px] justify-between lg:justify-start">
@@ -1057,50 +1053,47 @@ const Commission = () => {
             onClick={() => setSelectedTeamName("All Teams")}
           >
             <p
-              className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-                selectedTeamName == "All Teams"
-                  ? "bg-lGreen text-black font-[400]"
-                  : "border-2 border-gray-300 text-gray-500 font-[400]"
-              }`}
+              className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${selectedTeamName == "All Teams"
+                ? "bg-lGreen text-black font-[400]"
+                : "border-2 border-gray-300 text-gray-500 font-[400]"
+                }`}
             >
               All Teams
             </p>
           </div>
           {campaignView == "single"
             ? singleCampaignTeams.map((team, index) => (
-                <div
-                  key={index}
-                  className="cursor-pointer"
-                  onClick={() => setSelectedTeamName(team.team_name)}
+              <div
+                key={index}
+                className="cursor-pointer"
+                onClick={() => setSelectedTeamName(team.team_name)}
+              >
+                <p
+                  className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${selectedTeamName == team.team_name
+                    ? "bg-lGreen text-black font-[400] p-4"
+                    : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
+                    }`}
                 >
-<p
-      className={`min-w-[100px] max-w-[200px] h-[44px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] overflow-hidden text-ellipsis whitespace-nowrap ${
-        selectedTeamName == team.team_name
-          ? "bg-lGreen text-black font-[400] p-4"
-          : "border-2 border-gray-300 text-gray-500 font-[400] p-4"
-      }`}
-    >
-                    {team.team_name}
-                  </p>
-                </div>
-              ))
+                  {team.team_name}
+                </p>
+              </div>
+            ))
             : multipleCampaignTeams.map((team, index) => (
-                <div
-                  key={index}
-                  className="cursor-pointer"
-                  onClick={() => setSelectedTeamName(team.team_name)}
-                >
-                  <p
-                    className={`${
-                      selectedTeamName == team.team_name
-                        ? "bg-lGreen text-black font-[400]"
-                        : "border-2 border-gray-300 text-gray-500 font-[400]"
+              <div
+                key={index}
+                className="cursor-pointer"
+                onClick={() => setSelectedTeamName(team.team_name)}
+              >
+                <p
+                  className={`${selectedTeamName == team.team_name
+                    ? "bg-lGreen text-black font-[400]"
+                    : "border-2 border-gray-300 text-gray-500 font-[400]"
                     } w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}
-                  >
-                    {team.team_name}
-                  </p>
-                </div>
-              ))}
+                >
+                  {team.team_name}
+                </p>
+              </div>
+            ))}
         </div>
 
         <div className="overflow-x-auto">
@@ -1173,11 +1166,10 @@ const Commission = () => {
                           <p>{team.last_name}</p>
                         </td>
                         <td className="px-2 whitespace-nowrap">
-                          <p>{`${
-                            parsedKpiData.teamInfo
-                              ? parsedKpiData.teamInfo.currency
-                              : ""
-                          } ${team.commission}`}</p>
+                          <p>{`${parsedKpiData.teamInfo
+                            ? parsedKpiData.teamInfo.currency
+                            : ""
+                            } ${team.commission}`}</p>
                         </td>
                         <td className="px-2 whitespace-nowrap">
                           <p>{parsedKpiData ? parsedKpiData.TotalCount : 0}</p>
@@ -1269,7 +1261,7 @@ const Commission = () => {
                         </td>
                         <td className="px-[10px] w-[91px]">
                           <p>{team.last_name}</p>
-                        </td>                        
+                        </td>
                         <td className="px-[10px] w-[91px]">
                           <p>
                             {team.team && team.team.team_name ? (
@@ -1295,16 +1287,14 @@ const Commission = () => {
                           </p>
                         </td>
                         <td className="px-[10px] w-[91px]">
-                          <p>{`${
-                            parsedKpiData.teamInfo
-                              ? parsedKpiData.teamInfo.currency
-                              : ""
-                          } ${
-                            parsedKpiData.teamInfo &&
-                            parsedKpiData.teamInfo.opportunity
+                          <p>{`${parsedKpiData.teamInfo
+                            ? parsedKpiData.teamInfo.currency
+                            : ""
+                            } ${parsedKpiData.teamInfo &&
+                              parsedKpiData.teamInfo.opportunity
                               ? parsedKpiData.teamInfo.opportunity
                               : 0
-                          }`}</p>
+                            }`}</p>
                         </td>
                         <td className="w-[55px]">
                           <p>{parsedKpiData ? parsedKpiData.TotalCount : 0}</p>
@@ -1367,23 +1357,23 @@ const Commission = () => {
                               {selectedRow.kpi_data && (
                                 <>
                                   <h3 className="mt-4 font-bold">KPI Data</h3>
-                                  {selectedRow.kpi_data.kpiData.map(
+                                  {/* {selectedRow.kpi_data.kpiData.map(
                                     (customKpi, index) => (
                                       <div
                                         key={index}
                                         className="grid grid-cols-5 gap-4 mt-4"
                                       >
-                                        <div className="flex flex-col">
+                                        <div className="flex flex-col border-r-2 border-b-2 border-[#dbd9d9] border-dashed">
                                           <label className="ml-10 text-xs font-bold">
                                             KPI
                                           </label>
                                           <select
-                                            className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[119px] h-[30px] p-[3px] rounded-[6px] text-[10px] font-medium leading-[12px]`}
+                                            className={`bg-[#E9ECEB] mb-3 placeholder-[#8fa59c] text-center border-none w-[119px] h-[30px] p-[3px] rounded-[6px] text-[10px] font-medium leading-[12px]`}
                                             value={customKpi.kpi_Name_ID || ""}
                                             onChange={(e) => {
                                               const selectedOption =
                                                 e.target.options[
-                                                  e.target.selectedIndex
+                                                e.target.selectedIndex
                                                 ];
                                               const selectedKpiName =
                                                 selectedOption.text;
@@ -1421,7 +1411,7 @@ const Commission = () => {
                                             ))}
                                           </select>
                                         </div>
-                                        <div className="flex flex-col">
+                                        <div className="flex flex-col border-r-2 border-b-2 border-[#dbd9d9] border-dashed">
                                           <label className="ml-8 text-xs font-bold">
                                             Target
                                           </label>
@@ -1454,7 +1444,7 @@ const Commission = () => {
                                             />
                                           </div>
                                         </div>
-                                        <div className="flex flex-col">
+                                        <div className="flex flex-col border-r-2 border-b-2 border-[#dbd9d9] border-dashed">
                                           <label className="ml-6 text-xs font-bold">
                                             Weighting
                                           </label>
@@ -1522,7 +1512,7 @@ const Commission = () => {
                                             )}
                                           </div>
                                         </div>
-                                        <div className="flex flex-col">
+                                        <div className="flex flex-col border-r-2 border-b-2 border-[#dbd9d9] border-dashed">
                                           <label className="ml-3 text-xs font-bold">
                                             Opportunity
                                           </label>
@@ -1537,8 +1527,8 @@ const Commission = () => {
                                               readOnly
                                               value={parseFloat(
                                                 (customKpi.weighting / 100) *
-                                                  selectedRow.kpi_data.teamInfo
-                                                    .opportunity
+                                                selectedRow.kpi_data.teamInfo
+                                                  .opportunity
                                               ).toFixed(2)}
                                               onChange={(e) => {
                                                 const updatedCustomKpiData = [
@@ -1560,7 +1550,7 @@ const Commission = () => {
                                             />
                                           </div>
                                         </div>
-                                        <div className="flex flex-col">
+                                        <div className="flex flex-col border-r-2 border-b-2 border-[#dbd9d9] border-dashed">
                                           <label className="ml-4 text-xs font-bold">
                                             Gatekeeper
                                           </label>
@@ -1622,72 +1612,67 @@ const Commission = () => {
                                         </div>
                                       </div>
                                     )
-                                  )}
-                                  {selectedRow.kpi_data.customKpiData.map(
-                                    (customKpi, index) => (
-                                      <div
-                                        key={index}
-                                        className="grid grid-cols-5 gap-4 mt-4"
-                                      >
-                                        <div className="flex flex-col">
-                                          <label className="text-[10px] font-bold ml-2">
-                                            Custom KPI Name
-                                          </label>
+                                  )} */}
+                                  <div className="grid grid-cols-5 gap-4 mt-4">
+                                    {selectedRow.kpi_data.kpiData.map((customKpi, index) => (
+                                      <React.Fragment key={index}>
+                                        {/* KPI Column */}
+                                        <div
+                                          className={`flex flex-col border-r-2 ${index === selectedRow.kpi_data.kpiData.length - 1
+                                            ? ""
+                                            : "border-b-2"
+                                            } border-[#dbd9d9] border-dashed`}
+                                        >
+                                          <label className="ml-10 text-xs font-bold">KPI</label>
                                           <select
-                                            value={
-                                              customKpi.Custom_KPI_ID || ""
-                                            }
-                                            onChange={(e) =>
-                                              handleCustomKpiChange(
-                                                index,
-                                                "Custom_KPI_ID",
-                                                e.target.value
-                                              )
-                                            }
-                                            className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[119px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[10px]"
+                                            className="bg-[#E9ECEB] mb-3 placeholder-[#8fa59c] text-center border-none w-[119px] h-[30px] p-[3px] rounded-[6px] text-[10px] font-medium leading-[12px]"
+                                            value={customKpi.kpi_Name_ID || ""}
+                                            onChange={(e) => {
+                                              const selectedOption = e.target.options[e.target.selectedIndex];
+                                              const selectedKpiName = selectedOption.text;
+                                              const selectedKpiId = selectedOption.value;
+                                              const updatedKpiData = [...selectedRow.kpi_data.kpiData];
+                                              updatedKpiData[index].kpi_Name = selectedKpiName;
+                                              updatedKpiData[index].kpi_Name_ID = selectedKpiId;
+                                              setSelectedRow({
+                                                ...selectedRow,
+                                                kpi_data: {
+                                                  ...selectedRow.kpi_data,
+                                                  kpiData: updatedKpiData,
+                                                },
+                                              });
+                                            }}
                                           >
                                             <option value="">Select KPI</option>
-                                            {getFilteredKpiOptions(
-                                              team.id,
-                                              "customKpiData",
-                                              index
-                                            ).map((kpiOption) => (
-                                              <option
-                                                key={kpiOption.id}
-                                                value={kpiOption.id.toString()}
-                                              >
+                                            {getFilteredKpiOptions(team.id, "kpiData", index).map((kpiOption) => (
+                                              <option key={kpiOption.id} value={kpiOption.id.toString()}>
                                                 {kpiOption.kpi_name}
                                               </option>
                                             ))}
                                           </select>
                                         </div>
-                                        <div className="flex flex-col">
-                                          <label className="text-[10px] font-bold ml-3">
-                                            Custom Target
-                                          </label>
+
+                                        {/* Target Column */}
+                                        <div
+                                          className={`flex flex-col border-r-2 ${index === selectedRow.kpi_data.kpiData.length - 1 ? "" : "border-b-2"
+                                            } border-[#dbd9d9] border-dashed`}
+                                        >
+                                          <label className="ml-8 text-xs font-bold">Target</label>
                                           <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
                                             <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
-                                              {selectedRow.kpi_data.teamInfo
-                                                .currency || ""}
+                                              {selectedRow.kpi_data.teamInfo.currency || ""}
                                             </span>
                                             <input
                                               type="number"
-                                              value={customKpi.Custom_Target}
+                                              value={customKpi.target}
                                               onChange={(e) => {
-                                                const updatedCustomKpiData = [
-                                                  ...selectedRow.kpi_data
-                                                    .customKpiData,
-                                                ];
-                                                updatedCustomKpiData[
-                                                  index
-                                                ].Custom_Target =
-                                                  e.target.value;
+                                                const updatedCustomKpiData = [...selectedRow.kpi_data.kpiData];
+                                                updatedCustomKpiData[index].target = e.target.value;
                                                 setSelectedRow({
                                                   ...selectedRow,
                                                   kpi_data: {
                                                     ...selectedRow.kpi_data,
-                                                    customKpiData:
-                                                      updatedCustomKpiData,
+                                                    kpiData: updatedCustomKpiData,
                                                   },
                                                 });
                                               }}
@@ -1695,191 +1680,119 @@ const Commission = () => {
                                             />
                                           </div>
                                         </div>
-                                        <div className="flex flex-col">
-                                          <label className="text-[10px] font-bold ml-1">
-                                            Custom Weighting
-                                          </label>
+
+                                        {/* Weighting Column */}
+                                        <div
+                                          className={`flex flex-col border-r-2 ${index === selectedRow.kpi_data.kpiData.length - 1 ? "" : "border-b-2"
+                                            } border-[#dbd9d9] border-dashed`}
+                                        >
+                                          <label className="ml-6 text-xs font-bold">Weighting</label>
                                           <div className="relative">
                                             <input
                                               type="number"
-                                              value={customKpi.Custom_Weighting}
-                                              onChange={(e) => {
-                                                const value = e.target.value;
-
+                                              value={customKpi.weighting}
+                                              onKeyDown={(e) => {
                                                 if (
-                                                  value < 0 ||
-                                                  !Number.isInteger(
-                                                    Number(value)
-                                                  )
+                                                  e.key === "e" ||
+                                                  e.key === "+" ||
+                                                  e.key === "-" ||
+                                                  e.key === "." ||
+                                                  e.key === ","
                                                 ) {
-                                                  alert(
-                                                    "Please enter a positive integer!"
-                                                  );
-                                                  return;
+                                                  e.preventDefault();
                                                 }
-                                                if (value > 100) {
-                                                  alert(
-                                                    "Weightage should always be between 1 and 100 !!"
-                                                  );
+                                              }}
+                                              onChange={(e) => {
+                                                let newValue = e.target.value;
+                                                const numValue = Number(newValue);
+
+                                                if (!Number.isInteger(numValue) || numValue < 0) {
+                                                  alert("Please enter a positive integer!");
                                                   return;
                                                 }
 
-                                                const updatedCustomKpiData = [
-                                                  ...selectedRow.kpi_data
-                                                    .customKpiData,
-                                                ];
-                                                updatedCustomKpiData[
-                                                  index
-                                                ].Custom_Weighting =
-                                                  parseInt(value);
+                                                if (numValue > 100) {
+                                                  alert("Weightage should always be between 1 and 100!");
+                                                  return;
+                                                }
+
+                                                const updatedCustomKpiData = [...selectedRow.kpi_data.kpiData];
+                                                updatedCustomKpiData[index].weighting = newValue;
 
                                                 setSelectedRow({
                                                   ...selectedRow,
                                                   kpi_data: {
                                                     ...selectedRow.kpi_data,
-                                                    customKpiData:
-                                                      updatedCustomKpiData,
+                                                    kpiData: updatedCustomKpiData,
                                                   },
                                                 });
                                               }}
                                               className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
                                             />
-
-                                            {customKpi.Custom_Weighting && (
+                                            {customKpi.weighting && (
                                               <span className="absolute right-[105px] top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[10px] font-medium pointer-events-none">
                                                 %
                                               </span>
                                             )}
                                           </div>
                                         </div>
-                                        <div className="flex flex-col">
-                                          <label className="text-[10px] font-bold ml-5">
-                                            Opportunity
-                                          </label>
+
+                                        {/* Opportunity Column */}
+                                        <div
+                                          className={`flex flex-col border-r-2 ${index === selectedRow.kpi_data.kpiData.length - 1 ? "" : "border-b-2"
+                                            } border-[#dbd9d9] border-dashed`}
+                                        >
+                                          <label className="ml-3 text-xs font-bold">Opportunity</label>
                                           <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
                                             <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
-                                              {selectedRow.kpi_data.teamInfo
-                                                .currency || ""}
+                                              {selectedRow.kpi_data.teamInfo.currency || ""}
                                             </span>
                                             <input
                                               type="text"
                                               className="w-full h-full pl-10 pr-2 text-center bg-transparent border-none placeholder-[#8fa59c] text-[10px] font-medium leading-[15px]"
                                               readOnly
                                               value={parseFloat(
-                                                (customKpi.Custom_Weighting /
-                                                  100) *
-                                                  team.commission
+                                                (customKpi.weighting / 100) *
+                                                selectedRow.kpi_data.teamInfo.opportunity
                                               ).toFixed(2)}
-                                              onChange={(e) => {
-                                                const updatedCustomKpiData = [
-                                                  ...selectedRow.kpi_data
-                                                    .customKpiData,
-                                                ];
-                                                updatedCustomKpiData[
-                                                  index
-                                                ].Custom_Opportunity =
-                                                  e.target.value;
-                                                setSelectedRow({
-                                                  ...selectedRow,
-                                                  kpi_data: {
-                                                    ...selectedRow.kpi_data,
-                                                    customKpiData:
-                                                      updatedCustomKpiData,
-                                                  },
-                                                });
-                                              }}
                                             />
                                           </div>
                                         </div>
-                                        <div className="flex flex-col">
-                                          <label className="text-[10px] font-bold">
-                                            Custom Gatekeeper
-                                          </label>
+
+                                        {/* Gatekeeper Column */}
+                                        <div
+                                          className={`flex flex-col ${index === selectedRow.kpi_data.kpiData.length - 1 ? "" : "border-b-2"
+                                            } border-[#dbd9d9] border-dashed`}
+                                        >
+                                          <label className="ml-4 text-xs font-bold">Gatekeeper</label>
                                           <input
                                             type="text"
-                                            value={customKpi.Custom_Gatekeeper}
+                                            value={customKpi.gatekeeper}
                                             disabled={
-                                              gatekeeperSet[selectedRow.id] &&
-                                              !customKpi.Custom_Gatekeeper
+                                              gatekeeperSet[selectedRow.id] && !customKpi.gatekeeper
                                             }
-                                            onKeyDown={(e) => {
-                                              // Prevent +, -, e, and other special characters
-                                              if (
-                                                e.key == "e" ||
-                                                e.key == "+" ||
-                                                e.key == "-" ||
-                                                e.key == "." ||
-                                                e.key == "," ||
-                                                (!/^\d$/.test(e.key) &&
-                                                  e.key != "Backspace" &&
-                                                  e.key != "Delete" &&
-                                                  e.key != "ArrowLeft" &&
-                                                  e.key != "ArrowRight")
-                                              ) {
-                                                e.preventDefault();
-                                              }
-                                            }}
                                             onChange={(e) => {
-                                              let newValue = e.target.value;
-
-                                              // Only proceed if input is empty or a positive integer
-                                              if (
-                                                newValue != "" &&
-                                                (!Number.isInteger(
-                                                  Number(newValue)
-                                                ) ||
-                                                  Number(newValue) <= 0)
-                                              ) {
-                                                alert(
-                                                  "Please enter a positive integer!"
-                                                );
-                                                return;
-                                              }
-
-                                              if (Number(newValue) > 100) {
-                                                alert(
-                                                  "Value should always be between 1 and 100!"
-                                                );
-                                                return;
-                                              }
-
-                                              const updatedCustomKpiData = [
-                                                ...selectedRow.kpi_data
-                                                  .customKpiData,
-                                              ];
-                                              updatedCustomKpiData[
-                                                index
-                                              ].Custom_Gatekeeper = newValue;
+                                              const updatedCustomKpiData = [...selectedRow.kpi_data.kpiData];
+                                              const newValue = e.target.value;
+                                              updatedCustomKpiData[index].gatekeeper = newValue;
 
                                               setSelectedRow({
                                                 ...selectedRow,
                                                 kpi_data: {
                                                   ...selectedRow.kpi_data,
-                                                  customKpiData:
-                                                    updatedCustomKpiData,
+                                                  kpiData: updatedCustomKpiData,
                                                 },
                                               });
 
-                                              // Update gatekeeperSet
-                                              if (
-                                                newValue &&
-                                                !gatekeeperSet[selectedRow.id]
-                                              ) {
+                                              if (newValue && !gatekeeperSet[selectedRow.id]) {
                                                 setGatekeeperSet((prev) => ({
                                                   ...prev,
                                                   [selectedRow.id]: true,
                                                 }));
-                                              } else if (
-                                                !newValue &&
-                                                gatekeeperSet[selectedRow.id]
-                                              ) {
-                                                // Check if there are any other gatekeepers set
-                                                const otherGatekeepers =
-                                                  updatedCustomKpiData.some(
-                                                    (kpi, i) =>
-                                                      i != index &&
-                                                      kpi.Custom_Gatekeeper
-                                                  );
+                                              } else if (!newValue && gatekeeperSet[selectedRow.id]) {
+                                                const otherGatekeepers = updatedCustomKpiData.some(
+                                                  (kpi, i) => i !== index && kpi.gatekeeper
+                                                );
                                                 if (!otherGatekeepers) {
                                                   setGatekeeperSet((prev) => ({
                                                     ...prev,
@@ -1891,9 +1804,279 @@ const Commission = () => {
                                             className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
                                           />
                                         </div>
-                                      </div>
-                                    )
-                                  )}
+                                      </React.Fragment>
+                                    ))}
+                                  </div>
+                                  <div className="grid grid-cols-5 gap-4 mt-4">
+                                    {selectedRow.kpi_data.customKpiData.map(
+                                      (customKpi, index) => (
+                                        <React.Fragment key={index}>
+                                            <div className={`flex flex-col border-r-2 border-[#dbd9d9] border-dashed`}>
+                                              <label className="ml-2 text-xs font-bold">
+                                                Custom KPI Name
+                                              </label>
+                                              <select
+                                                value={
+                                                  customKpi.Custom_KPI_ID || ""
+                                                }
+                                                onChange={(e) =>
+                                                  handleCustomKpiChange(
+                                                    index,
+                                                    "Custom_KPI_ID",
+                                                    e.target.value
+                                                  )
+                                                }
+                                                className="bg-[#E9ECEB] mb-3 placeholder-[#8fa59c] text-center border-none w-[119px] h-[30px] p-[3px] rounded-[6px] text-[10px] font-medium leading-[12px]"
+                                              >
+                                                <option value="">Select KPI</option>
+                                                {getFilteredKpiOptions(
+                                                  team.id,
+                                                  "customKpiData",
+                                                  index
+                                                ).map((kpiOption) => (
+                                                  <option
+                                                    key={kpiOption.id}
+                                                    value={kpiOption.id.toString()}
+                                                  >
+                                                    {kpiOption.kpi_name}
+                                                  </option>
+                                                ))}
+                                              </select>
+                                            </div>
+                                            <div className="flex flex-col border-r-2 border-[#dbd9d9] border-dashed">
+                                              <label className="ml-2 text-xs font-bold">
+                                                Custom Target
+                                              </label>
+                                              <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
+                                                <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
+                                                  {selectedRow.kpi_data.teamInfo
+                                                    .currency || ""}
+                                                </span>
+                                                <input
+                                                  type="number"
+                                                  value={customKpi.Custom_Target}
+                                                  onChange={(e) => {
+                                                    const updatedCustomKpiData = [
+                                                      ...selectedRow.kpi_data
+                                                        .customKpiData,
+                                                    ];
+                                                    updatedCustomKpiData[
+                                                      index
+                                                    ].Custom_Target =
+                                                      e.target.value;
+                                                    setSelectedRow({
+                                                      ...selectedRow,
+                                                      kpi_data: {
+                                                        ...selectedRow.kpi_data,
+                                                        customKpiData:
+                                                          updatedCustomKpiData,
+                                                      },
+                                                    });
+                                                  }}
+                                                  className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
+                                                />
+                                              </div>
+                                            </div>
+                                            <div className="flex flex-col border-r-2 border-[#dbd9d9] border-dashed">
+                                              <label className="ml-2 text-xs font-bold">
+                                                Custom Weighting
+                                              </label>
+                                              <div className="relative">
+                                                <input
+                                                  type="number"
+                                                  value={customKpi.Custom_Weighting}
+                                                  onChange={(e) => {
+                                                    const value = e.target.value;
+
+                                                    if (
+                                                      value < 0 ||
+                                                      !Number.isInteger(
+                                                        Number(value)
+                                                      )
+                                                    ) {
+                                                      alert(
+                                                        "Please enter a positive integer!"
+                                                      );
+                                                      return;
+                                                    }
+                                                    if (value > 100) {
+                                                      alert(
+                                                        "Weightage should always be between 1 and 100 !!"
+                                                      );
+                                                      return;
+                                                    }
+
+                                                    const updatedCustomKpiData = [
+                                                      ...selectedRow.kpi_data
+                                                        .customKpiData,
+                                                    ];
+                                                    updatedCustomKpiData[
+                                                      index
+                                                    ].Custom_Weighting =
+                                                      parseInt(value);
+
+                                                    setSelectedRow({
+                                                      ...selectedRow,
+                                                      kpi_data: {
+                                                        ...selectedRow.kpi_data,
+                                                        customKpiData:
+                                                          updatedCustomKpiData,
+                                                      },
+                                                    });
+                                                  }}
+                                                  className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
+                                                />
+
+                                                {customKpi.Custom_Weighting && (
+                                                  <span className="absolute right-[105px] top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[10px] font-medium pointer-events-none">
+                                                    %
+                                                  </span>
+                                                )}
+                                              </div>
+                                            </div>
+                                            <div className="flex flex-col border-r-2 border-[#dbd9d9] border-dashed">
+                                              <label className="ml-2 text-xs font-bold">
+                                                Opportunity
+                                              </label>
+                                              <div className="relative w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
+                                                <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
+                                                  {selectedRow.kpi_data.teamInfo
+                                                    .currency || ""}
+                                                </span>
+                                                <input
+                                                  type="text"
+                                                  className="w-full h-full pl-10 pr-2 text-center bg-transparent border-none placeholder-[#8fa59c] text-[10px] font-medium leading-[15px]"
+                                                  readOnly
+                                                  value={parseFloat(
+                                                    (customKpi.Custom_Weighting /
+                                                      100) *
+                                                    team.commission
+                                                  ).toFixed(2)}
+                                                  onChange={(e) => {
+                                                    const updatedCustomKpiData = [
+                                                      ...selectedRow.kpi_data
+                                                        .customKpiData,
+                                                    ];
+                                                    updatedCustomKpiData[
+                                                      index
+                                                    ].Custom_Opportunity =
+                                                      e.target.value;
+                                                    setSelectedRow({
+                                                      ...selectedRow,
+                                                      kpi_data: {
+                                                        ...selectedRow.kpi_data,
+                                                        customKpiData:
+                                                          updatedCustomKpiData,
+                                                      },
+                                                    });
+                                                  }}
+                                                />
+                                              </div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                              <label className="text-[10px] font-bold">
+                                                Custom Gatekeeper
+                                              </label>
+                                              <input
+                                                type="text"
+                                                value={customKpi.Custom_Gatekeeper}
+                                                disabled={
+                                                  gatekeeperSet[selectedRow.id] &&
+                                                  !customKpi.Custom_Gatekeeper
+                                                }
+                                                onKeyDown={(e) => {
+                                                  // Prevent +, -, e, and other special characters
+                                                  if (
+                                                    e.key == "e" ||
+                                                    e.key == "+" ||
+                                                    e.key == "-" ||
+                                                    e.key == "." ||
+                                                    e.key == "," ||
+                                                    (!/^\d$/.test(e.key) &&
+                                                      e.key != "Backspace" &&
+                                                      e.key != "Delete" &&
+                                                      e.key != "ArrowLeft" &&
+                                                      e.key != "ArrowRight")
+                                                  ) {
+                                                    e.preventDefault();
+                                                  }
+                                                }}
+                                                onChange={(e) => {
+                                                  let newValue = e.target.value;
+
+                                                  // Only proceed if input is empty or a positive integer
+                                                  if (
+                                                    newValue != "" &&
+                                                    (!Number.isInteger(
+                                                      Number(newValue)
+                                                    ) ||
+                                                      Number(newValue) <= 0)
+                                                  ) {
+                                                    alert(
+                                                      "Please enter a positive integer!"
+                                                    );
+                                                    return;
+                                                  }
+
+                                                  if (Number(newValue) > 100) {
+                                                    alert(
+                                                      "Value should always be between 1 and 100!"
+                                                    );
+                                                    return;
+                                                  }
+
+                                                  const updatedCustomKpiData = [
+                                                    ...selectedRow.kpi_data
+                                                      .customKpiData,
+                                                  ];
+                                                  updatedCustomKpiData[
+                                                    index
+                                                  ].Custom_Gatekeeper = newValue;
+
+                                                  setSelectedRow({
+                                                    ...selectedRow,
+                                                    kpi_data: {
+                                                      ...selectedRow.kpi_data,
+                                                      customKpiData:
+                                                        updatedCustomKpiData,
+                                                    },
+                                                  });
+
+                                                  // Update gatekeeperSet
+                                                  if (
+                                                    newValue &&
+                                                    !gatekeeperSet[selectedRow.id]
+                                                  ) {
+                                                    setGatekeeperSet((prev) => ({
+                                                      ...prev,
+                                                      [selectedRow.id]: true,
+                                                    }));
+                                                  } else if (
+                                                    !newValue &&
+                                                    gatekeeperSet[selectedRow.id]
+                                                  ) {
+                                                    // Check if there are any other gatekeepers set
+                                                    const otherGatekeepers =
+                                                      updatedCustomKpiData.some(
+                                                        (kpi, i) =>
+                                                          i != index &&
+                                                          kpi.Custom_Gatekeeper
+                                                      );
+                                                    if (!otherGatekeepers) {
+                                                      setGatekeeperSet((prev) => ({
+                                                        ...prev,
+                                                        [selectedRow.id]: false,
+                                                      }));
+                                                    }
+                                                  }
+                                                }}
+                                                className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]"
+                                              />
+                                            </div>
+                                        </React.Fragment>
+                                      )
+                                    )}
+                                  </div>
                                 </>
                               )}
                               <div className="flex justify-end mt-4">
@@ -2015,11 +2198,10 @@ const Commission = () => {
               <button
                 key={i}
                 onClick={() => paginate(i + 1)}
-                className={`px-4 py-2 mx-1 text-sm font-medium ${
-                  currentPage == i + 1
-                    ? "bg-lGreen text-black"
-                    : "bg-lGreen text-black hover:text-black"
-                } rounded-md`}
+                className={`px-4 py-2 mx-1 text-sm font-medium ${currentPage == i + 1
+                  ? "bg-lGreen text-black"
+                  : "bg-lGreen text-black hover:text-black"
+                  } rounded-md`}
               >
                 {i + 1}
               </button>
@@ -2066,8 +2248,8 @@ const Commission = () => {
         <SideBar />
         <div className="w-full mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4">
           <p className="text-[18px] leading-[42px] -mb-6">
-              <span className="text-gray-400 font-medium">Dashboard/Modules/</span><span className="text-gray-600 font-semibold">Commission</span>
-            </p>
+            <span className="text-gray-400 font-medium">Dashboard/Modules/</span><span className="text-gray-600 font-semibold">Commission</span>
+          </p>
           <div
             className="flex flex-col w-full gap-6 p-8 pb-12 card"
             id="currentTeamLeaders"
@@ -2100,9 +2282,8 @@ const Commission = () => {
                       }
                       alt={campaign.campaign_name}
                       key={index}
-                      className={`${
-                        campaign == selectedCampaign ? "" : "opacity-40"
-                      } w-[40px] h-[40px] mx-3 cursor-pointer`}
+                      className={`${campaign == selectedCampaign ? "" : "opacity-40"
+                        } w-[40px] h-[40px] mx-3 cursor-pointer`}
                       onClick={() => handleCampaignClick(campaign)}
                     />
                   ))}
@@ -2277,10 +2458,10 @@ const Commission = () => {
                                         .filter(
                                           (kpiOption) =>
                                             !selectedKpis[team.id]?.[
-                                              kpiOption.id
+                                            kpiOption.id
                                             ] ||
                                             kpiOption.id.toString() ==
-                                              kpi.kpi_Name_ID
+                                            kpi.kpi_Name_ID
                                         )
                                         .map((kpiOption) => (
                                           <option
@@ -2295,29 +2476,29 @@ const Commission = () => {
                                     {kpisWithSelectionBox[
                                       `${team.id}-${index}`
                                     ] && (
-                                      <select
-                                        className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[120px] h-[30px] rounded-[6px] text-[10px] font-medium leading-[15px] "
-                                        value={
-                                          selectedDialOptions[
+                                        <select
+                                          className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[120px] h-[30px] rounded-[6px] text-[10px] font-medium leading-[15px] "
+                                          value={
+                                            selectedDialOptions[
                                             `${team.id}-${index}`
-                                          ] || ""
-                                        }
-                                        onChange={(e) =>
-                                          handleDialsValueChange(
-                                            team.id,
-                                            index,
-                                            e.target.value
-                                          )
-                                        }
-                                      >
-                                        <option value="" disabled>
-                                          Select value
-                                        </option>
-                                        <option value="Day">Day</option>
-                                        <option value="Week">Week</option>
-                                        <option value="Month">Month</option>
-                                      </select>
-                                    )}
+                                            ] || ""
+                                          }
+                                          onChange={(e) =>
+                                            handleDialsValueChange(
+                                              team.id,
+                                              index,
+                                              e.target.value
+                                            )
+                                          }
+                                        >
+                                          <option value="" disabled>
+                                            Select value
+                                          </option>
+                                          <option value="Day">Day</option>
+                                          <option value="Week">Week</option>
+                                          <option value="Month">Month</option>
+                                        </select>
+                                      )}
                                   </div>
                                 </td>
 
@@ -2344,7 +2525,7 @@ const Commission = () => {
                                       `${team.id}-${index}`
                                     ] &&
                                       selectedDialOptions[
-                                        `${team.id}-${index}`
+                                      `${team.id}-${index}`
                                       ] && (
                                         <span
                                           className="absolute right-[37px] top-1/2 transform -translate-y-1/2 text-[10px] font-medium text-black/60 pr-1"
@@ -2353,12 +2534,12 @@ const Commission = () => {
                                           /{" "}
                                           {
                                             selectedDialOptions[
-                                              `${team.id}-${index}`
+                                            `${team.id}-${index}`
                                             ]
                                           }
                                         </span>
                                       )}
-                                      
+
                                   </div>
                                 </td>
 
@@ -2399,14 +2580,13 @@ const Commission = () => {
                                       )
                                     }
                                     readOnly
-                                    value={`${
-                                      teamData[team.id]?.currency || "$"
-                                    } ${parseFloat(
-                                      (
-                                        (kpi.weighting / 100) *
-                                        (teamData[team.id]?.opportunity || 0)
-                                      ).toFixed(2)
-                                    )}`}
+                                    value={`${teamData[team.id]?.currency || "$"
+                                      } ${parseFloat(
+                                        (
+                                          (kpi.weighting / 100) *
+                                          (teamData[team.id]?.opportunity || 0)
+                                        ).toFixed(2)
+                                      )}`}
                                   />
                                 </td>
                                 <td className="pt-4">
@@ -2501,9 +2681,8 @@ const Commission = () => {
                                   <input
                                     type="text"
                                     className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
-                                    value={`${
-                                      teamData[team.id]?.currency || "$"
-                                    } ${customKpi.Custom_Opportunity}`}
+                                    value={`${teamData[team.id]?.currency || "$"
+                                      } ${customKpi.Custom_Opportunity}`}
                                     placeholder="Custom Opportunity"
                                     readOnly
                                   />
@@ -2557,8 +2736,8 @@ const Commission = () => {
               </div>
             )}
           </div>
-          {/* <TeamLeaderKpiTable />
-          <Teamleader_commission /> */}
+          <TeamLeaderKpiTable />
+           {/*<Teamleader_commission /> */}
         </div>
       </div>
       <ToastContainer />

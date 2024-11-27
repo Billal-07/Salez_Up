@@ -68,7 +68,7 @@ const TeamLeaderKpiTable = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/teams")
+      .get("https://crmapi.devcir.co/api/teams")
       .then((response) => {
         const allTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -99,7 +99,7 @@ const TeamLeaderKpiTable = () => {
   useEffect(() => {
     const fetchKpis = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/kpi_info");
+        const response = await axios.get("https://crmapi.devcir.co/api/kpi_info");
         setKpis(response.data);
       } catch (error) {
         console.error("Error fetching KPIs:", error);
@@ -113,8 +113,8 @@ const TeamLeaderKpiTable = () => {
     const fetchData = async () => {
       try {
         const [teamLeadersResponse, teamLeaderResponse] = await Promise.all([
-          fetch("http://127.0.0.1:8000/api/team_leaders"),
-          fetch("http://127.0.0.1:8000/api/team_and_team_leader"),
+          fetch("https://crmapi.devcir.co/api/team_leaders"),
+          fetch("https://crmapi.devcir.co/api/team_and_team_leader"),
         ]);
 
         const teamLeadersData = await teamLeadersResponse.json();
@@ -234,7 +234,7 @@ const TeamLeaderKpiTable = () => {
     console.log("Updated Data: ", dataToPost);
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/kpiUpdate/${row.id}`,
+        `https://crmapi.devcir.co/api/kpiUpdate/${row.id}`,
         {
           method: "PUT",
           headers: {
@@ -273,7 +273,7 @@ const TeamLeaderKpiTable = () => {
     console.log(`delete team = ${deletedTeam}`);
 
     // const responses = await fetch(
-    //   `http://127.0.0.1:8000/api/team_leader_update/${deletedTeam}`,
+    //   `https://crmapi.devcir.co/api/team_leader_update/${deletedTeam}`,
     //   {
     //     method: "PUT",
     //     headers: {
@@ -284,7 +284,7 @@ const TeamLeaderKpiTable = () => {
 
     // try {
     //   const response = await fetch(
-    //     `http://127.0.0.1:8000/api/team_leader_update/${deletedTeam}`,
+    //     `https://crmapi.devcir.co/api/team_leader_update/${deletedTeam}`,
     //     {
     //       method: "PUT",
     //       headers: {
@@ -873,7 +873,7 @@ const TeamLeaderKpiTable = () => {
                         <td colSpan="10">
                           <div className="p-6 bg-white rounded-lg shadow-lg">
                             <div className="flex justify-between">
-                              {/* <h2 className="mb-4 text-lg font-bold">
+                              {/* <h2 className="mb-4 text-lg font-bold">   
                                 Update Data for {row.id}
                               </h2> */}
                               <h2 className="mb-4 text-lg font-bold">
