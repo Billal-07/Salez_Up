@@ -3,8 +3,6 @@ import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
 import Select from "react-select";
 import axios from "axios";
-import Current_Agent from "./Current_Agent";
-import AddNewAgent from "./AddNewAgent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch as faMagnifyingGlass,
@@ -50,7 +48,7 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
 
         reader.onloadend = () => {
           setImageFile(reader.result); // Set the image URL for preview
-          setNewImageFile(file); // Store the actual file if you need it for upload
+          setNewImageFile(file); 
           console.log("Uploaded Image:", file.name);
         };
 
@@ -275,7 +273,7 @@ const HeadOfDepartment = () => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
-  };
+  };                                              
 
   const handleSearchToggle = () => {
     setIsSearchOpen(!isSearchOpen);
@@ -321,9 +319,9 @@ const HeadOfDepartment = () => {
     searchQuery
   ) => {
     return departmentHead.filter(
-      (agent) =>
-        (selectedTeam == "All Teams" || agent.team.team_name == selectedTeam) &&
-        agent.first_name.toLowerCase().includes(searchQuery.toLowerCase())
+      (depthead) =>
+        (selectedTeam == "All Teams" || depthead.team.team_name == selectedTeam) &&
+        depthead.first_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
 
@@ -394,11 +392,11 @@ const HeadOfDepartment = () => {
       searchQuery
     );
 
-    const indexOfLastAgent = currentPage * departmentHeadPerPage;
-    const indexOfFirstAgent = indexOfLastAgent - departmentHeadPerPage;
+    const indexOfLastdepthead = currentPage * departmentHeadPerPage;
+    const indexOfFirstdepthead = indexOfLastdepthead - departmentHeadPerPage;
     const currentdepartmentHead = filtereddepartmentHead.slice(
-      indexOfFirstAgent,
-      indexOfLastAgent
+      indexOfFirstdepthead,
+      indexOfLastdepthead
     );
     const noDataAvailable = filtereddepartmentHead.length == 0;
 
@@ -409,48 +407,48 @@ const HeadOfDepartment = () => {
             No Head of Department available
           </p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full text-[14px] bg-white">
-              <thead className="text-themeGreen h-[30px]">
-                <tr className="flex flex-row items-center justify-between w-full text-center custom flex-nowrap">
-                  <th className="px-[10px] font-[500] w-[55px]"></th>
-                  <th className="px-[10px] font-[500] w-[84px]">Name</th>
-                  <th className="px-[10px] font-[500] w-[84px]">Surname</th>
-                  <th className="px-[10px] font-[500] w-[84px]">StartDate</th>
-                  <th className="px-[10px] font-[500] w-[84px]">Manager</th>
-                  <th className="px-[10px] font-[500] w-[71px]"></th>
+          <div className="w-full overflow-x-auto">
+            <table className="w-full border-collapse text-[14px] mt-4">
+              <thead className="h-[30px] text-themeGreen">
+                <tr className="">
+                  <th className="font-semibold    px-4 py-2 text-left  whitespace-nowrap text-center"></th>
+                  <th className="font-semibold   px-4 py-2 text-left  whitespace-nowrap text-center">Name</th>
+                  <th className="font-semibold   px-4 py-2 text-left  whitespace-nowrap text-center">Surname</th>
+                  <th className="font-semibold   px-4 py-2 text-left  whitespace-nowrap text-center">StartDate</th>
+                  <th className="font-semibold   px-4 py-2 text-left  whitespace-nowrap text-center">Manager</th>
+                  <th className="font-semibold   px-4 py-2 text-left  whitespace-nowrap text-center"></th>
                 </tr>
               </thead>
-              <tbody className="font-[400] bg-white">
-                {currentdepartmentHead.map((agent, index) => (
+              <tbody className="font-[400]">
+                {currentdepartmentHead.map((depthead, index) => (
                   <tr
                     key={index}
-                    className="my-[8px] text-center custom w-full flex flex-row flex-nowrap justify-between items-center"
+                    className=""
                   >
-                    <td className="px-[10px]">
+                    <td className="items-center  px-4 py-2 text-center">
                       <img
                         src={
-                          agent.image_path ? agent.image_path : fallbackImage
+                          depthead.image_path ? depthead.image_path : fallbackImage
                         }
-                        className="w-[40px] h-[40px] rounded-full m-auto"
+                        className="w-12 h-12 rounded-full"
                       />
                     </td>
-                    <td className="px-[10px] w-[91px] text-base">
-                      <p>{agent.first_name}</p>
+                    <td className="px-2 py-2   whitespace-nowrap truncate max-w-xs text-center">
+                      <p>{depthead.first_name}</p>
                     </td>
-                    <td className="px-[10px] w-[91px] text-base">
-                      <p>{agent.last_name}</p>
+                    <td className="px-2 py-2   whitespace-nowrap truncate max-w-xs text-center">
+                      <p>{depthead.last_name}</p>
                     </td>
-                    <td className="w-[91px] text-base">
-                      <p>{agent.start_date}</p>
+                    <td className="px-2 py-2   whitespace-nowrap truncate max-w-xs text-center">
+                      <p>{depthead.start_date}</p>
                     </td>
-                    <td className="px-[10px] w-[91px] text-base">
+                    <td className="px-2 py-2   whitespace-nowrap truncate max-w-xs text-center">
                       <p>{managerFName}</p>{" "}
                     </td>
-                    <td className="px-4 sm:px-[10px] py-[10px]">
+                    <td className="px-2 py-2   whitespace-nowrap truncate max-w-xs text-center">
                       <span
                         onClick={() => {
-                          handleUpdate(agent);
+                          handleUpdate(depthead);
                         }}
                         className="mx-1 cursor-pointer"
                       >
@@ -461,7 +459,7 @@ const HeadOfDepartment = () => {
                         />
                       </span>
                       <span
-                        onClick={() => handlemyDelete(agent)}
+                        onClick={() => handlemyDelete(depthead)}
                         className="mx-1 cursor-pointer"
                       >
                         <img
@@ -525,7 +523,7 @@ const HeadOfDepartment = () => {
   // Function to render team options
   const renderTeamOptions = () => {
     const teamNames = [
-      ...new Set(departmentHead.map((agent) => agent.team.team_name)),
+      ...new Set(departmentHead.map((depthead) => depthead.team.team_name)),
     ];
     return (
       <div className="flex space-x-2">
@@ -536,10 +534,11 @@ const HeadOfDepartment = () => {
           onClick={() => setSelectedTeam("All Teams")}
         >
           <p
-            className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${selectedTeam == "All Teams"
+            className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
+              selectedTeam == "All Teams"
                 ? "bg-themeGreen text-white font-[600]"
                 : "bg-lGreen text-black font-[400]"
-              }`}
+            }`}
           >
             All Teams
           </p>
@@ -551,10 +550,11 @@ const HeadOfDepartment = () => {
             onClick={() => setSelectedTeam(teamName)}
           >
             <p
-              className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${selectedTeam == teamName
+              className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
+                selectedTeam == teamName
                   ? "bg-themeGreen text-white font-[600]"
                   : "bg-lGreen text-black font-[400]"
-                }`}
+              }`}
             >
               {teamName}
             </p>
@@ -579,34 +579,34 @@ const HeadOfDepartment = () => {
         selectedTeam,
         searchQuery
       );
-
+  
       if (filteredDepartmentHeads.length === 0) {
         toast.warning("No Department Heads found.");
         return;
       }
-
+  
       const headers = [
         "Name",
         "Surname",
         "Start Date",
         "Manager",
       ];
-
+  
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet("Department Heads");
       worksheet.addRow(headers);
       worksheet.getRow(1).font = { bold: true };
-
-      filteredDepartmentHeads.forEach((agent) => {
+  
+      filteredDepartmentHeads.forEach((depthead) => {
         const rowData = [
-          agent.first_name,
-          agent.last_name,
-          agent.start_date,
+          depthead.first_name,
+          depthead.last_name,
+          depthead.start_date,
           managerFName,
         ];
         worksheet.addRow(rowData);
       });
-
+  
       const buffer = await workbook.xlsx.writeBuffer();
       const blob = new Blob([buffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -616,7 +616,7 @@ const HeadOfDepartment = () => {
       console.error("Error generating CSV:", error);
     }
   };
-
+  
 
   return (
     <div className="mx-2">
@@ -624,12 +624,12 @@ const HeadOfDepartment = () => {
       <div className="flex gap-3">
         <SideBar />
         <div className="w-full mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4">
-          <h1 className="text-[28px] leading-[42px] text-[#555555] font-[500] -mb-6">
-            Department Heads
-          </h1>
+        <p className="text-[18px] leading-[42px] -mb-6">
+              <span className="text-gray-400 font-medium">Dashboard/Company/</span><span className="text-gray-600 font-semibold">Department Heads</span>
+            </p>
           <div
             className="flex flex-col w-full gap-6 p-8 pb-12 card"
-            id="currentAgent"
+            id="currentdepthead"
           >
             <div className="flex justify-between">
               <h1 className="font-[500] leading-[33px] text-[22px] text-[#269F8B]">
@@ -639,7 +639,7 @@ const HeadOfDepartment = () => {
                 <div className="flex items-center">
                   <div className="relative flex justify-end items-center mb-4">
                     <div className="flex items-center">
-
+                      
                       <div className="flex items-center space-x-3">
                         <div className="relative flex items-center flex-row-reverse space-x-reverse space-x-2">
                           <div
@@ -678,14 +678,16 @@ const HeadOfDepartment = () => {
                         </div>
 
                         <div
-                          className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer ${"isDownloadClicked" ? "scale-95" : ""
-                            }`} onClick={handleDownloadClick}>
-                          <FontAwesomeIcon
-                            icon={faDownload}
-                            className={`text-base text-gray-500 ${"isDownloadClicked" ? "text-base text-gray-500" : ""
-                              }`}
-                          />
-                        </div>
+                  className={`flex justify-center items-center w-10 h-10 rounded-full bg-lGreen border-2 border-gray-300 cursor-pointer ${
+                    "isDownloadClicked" ? "scale-95" : ""
+                  }`} onClick={handleDownloadClick}>
+                  <FontAwesomeIcon
+                    icon={faDownload}
+                    className={`text-base text-gray-500 ${
+                      "isDownloadClicked" ? "text-base text-gray-500" : ""
+                    }`}
+                  />
+                </div>
                       </div>
                     </div>
                   </div>
