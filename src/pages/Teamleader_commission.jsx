@@ -68,11 +68,10 @@ const Teamleader_commission = () => {
             <li key={number} className="mx-1">
               <button
                 onClick={() => paginate(number)}
-                className={`px-3 py-1 rounded ${
-                  currentPage == number
+                className={`px-3 py-1 rounded ${currentPage == number
                     ? "bg-themeGreen text-white"
                     : "bg-gray-200"
-                }`}
+                  }`}
               >
                 {number}
               </button>
@@ -300,7 +299,7 @@ const Teamleader_commission = () => {
       ? matchingRecord.team_leader_id
       : null;
     console.log("Matching team leader ID:", matchingTeamLeaderId);
-  
+
     const regularKpiWeightings = (teamKpiData[teamId] || []).map(
       (kpi) => parseFloat(kpi.weighting) || 0
     );
@@ -311,17 +310,17 @@ const Teamleader_commission = () => {
       ...regularKpiWeightings,
       ...customKpiWeightings,
     ].reduce((sum, weight) => sum + weight, 0);
-  
+
     if (sumOfWeights > 100) {
       alert(
         "The sum of weightings is greater than 100. Please adjust your weightings."
       );
       return;
     }
-  
+
     const regularKpiCount = teamKpiData[teamId]?.length || 0;
     const customKpiCount = customKpiData[teamId]?.length || 0;
-  
+
     let savedTeamData = {
       id: teamId,
       regularKpiCount: regularKpiCount,
@@ -337,7 +336,7 @@ const Teamleader_commission = () => {
       },
       sumOfWeights: sumOfWeights,
     };
-  
+
     // Validate all required fields
     const requiredFields = [
       savedTeamData.teamInfo.month,
@@ -345,7 +344,7 @@ const Teamleader_commission = () => {
       savedTeamData.teamInfo.currency,
       savedTeamData.teamInfo.opportunity,
     ];
-  
+
     if (requiredFields.some((field) => field === "")) {
       toast.warn("Please fill all required fields!", {
         position: "bottom-right",
@@ -359,7 +358,7 @@ const Teamleader_commission = () => {
       });
       return;
     }
-  
+
     for (let i = 0; i < savedTeamData.customKpiData.length; i++) {
       const kpi = savedTeamData.customKpiData[i];
       const newKpiId = await postKpiInfo(kpi.Custom_KPI_Name);
@@ -367,16 +366,16 @@ const Teamleader_commission = () => {
         savedTeamData.customKpiData[i].Custom_KPI_ID = newKpiId;
       }
     }
-  
+
     console.log(`Count of regular KPIs added: ${regularKpiCount}`);
     console.log(`Count of custom KPIs added: ${customKpiCount}`);
     console.log(JSON.stringify(savedTeamData, null, 2));
     alert("Sum of weightings: " + sumOfWeights);
-  
+
     const dataToPost = {
       kpi_data: JSON.stringify(savedTeamData),
     };
-  
+
     try {
       const response = await fetch(
         `https://crmapi.devcir.co/api/kpiUpdate/${teamId}`,
@@ -388,14 +387,14 @@ const Teamleader_commission = () => {
           body: JSON.stringify(dataToPost),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-  
+
       const responseData = await response.json();
       console.log("Response from API:", responseData);
-  
+
       toast.success("Team Leader data updated successfully!", {
         position: "bottom-right",
         autoClose: 5000,
@@ -406,14 +405,14 @@ const Teamleader_commission = () => {
         progress: undefined,
         theme: "light",
       });
-  
+
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       alert("There was an error posting the data.");
     }
   };
 
-  
+
   const handleKpiSelectChange = (teamId, field, value) => {
     console.log(`Updating ${field} for team ${teamId} to ${value}`);
     setTeamData((prevData) => {
@@ -1141,11 +1140,10 @@ const Teamleader_commission = () => {
           <div className="flex justify-center gap-4 mb-4">
             <button
               onClick={() => setCampaignView("single")}
-              className={`px-4 py-2 rounded-[10px] ${
-                campaignView == "single"
+              className={`px-4 py-2 rounded-[10px] ${campaignView == "single"
                   ? "bg-themeGreen text-white"
                   : "bg-lGreen text-black"
-              }`}
+                }`}
             >
               Single Campaign
             </button>
@@ -1157,11 +1155,10 @@ const Teamleader_commission = () => {
                     </button> */}
             <button
               onClick={() => setCampaignView("multiple")}
-              className={`px-4 py-2 rounded-[10px] ${
-                campaignView == "multiple"
+              className={`px-4 py-2 rounded-[10px] ${campaignView == "multiple"
                   ? "bg-themeGreen text-white"
                   : "bg-lGreen text-black"
-              }`}
+                }`}
             >
               Multiple Campaigns
             </button>
@@ -1195,50 +1192,47 @@ const Teamleader_commission = () => {
             onClick={() => setSelectedTeamName("All Teams")}
           >
             <p
-              className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${
-                selectedTeamName == "All Teams"
+              className={`w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px] ${selectedTeamName == "All Teams"
                   ? "bg-themeGreen text-white font-[600]"
                   : "bg-lGreen text-black font-[400]"
-              }`}
+                }`}
             >
               All Teams
             </p>
           </div>
           {campaignView == "single"
             ? singleCampaignTeams.map((team, index) => (
-                <div
-                  key={index}
-                  className="cursor-pointer"
-                  onClick={() => setSelectedTeamName(team.team_name)}
-                >
-                  <p
-                    className={`${
-                      selectedTeamName == team.team_name
-                        ? "bg-themeGreen text-white font-[600]"
-                        : "bg-lGreen text-black font-[400]"
+              <div
+                key={index}
+                className="cursor-pointer"
+                onClick={() => setSelectedTeamName(team.team_name)}
+              >
+                <p
+                  className={`${selectedTeamName == team.team_name
+                      ? "bg-themeGreen text-white font-[600]"
+                      : "bg-lGreen text-black font-[400]"
                     } w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}
-                  >
-                    {team.team_name}
-                  </p>
-                </div>
-              ))
+                >
+                  {team.team_name}
+                </p>
+              </div>
+            ))
             : multipleCampaignTeams.map((team, index) => (
-                <div
-                  key={index}
-                  className="cursor-pointer"
-                  onClick={() => setSelectedTeamName(team.team_name)}
-                >
-                  <p
-                    className={`${
-                      selectedTeamName == team.team_name
-                        ? "bg-themeGreen text-white font-[600]"
-                        : "bg-lGreen text-black font-[400]"
+              <div
+                key={index}
+                className="cursor-pointer"
+                onClick={() => setSelectedTeamName(team.team_name)}
+              >
+                <p
+                  className={`${selectedTeamName == team.team_name
+                      ? "bg-themeGreen text-white font-[600]"
+                      : "bg-lGreen text-black font-[400]"
                     } w-[100px] h-[34px] flex items-center justify-center text-[14px] leading-[21px] rounded-[10px]`}
-                  >
-                    {team.team_name}
-                  </p>
-                </div>
-              ))}
+                >
+                  {team.team_name}
+                </p>
+              </div>
+            ))}
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full text-[14px] bg-white">
@@ -1308,11 +1302,10 @@ const Teamleader_commission = () => {
                           <p>{team.surname}</p>
                         </td>
                         <td className="px-[10px] w-[91px]">
-                          <p>{`${
-                            parsedKpiData.teamInfo
+                          <p>{`${parsedKpiData.teamInfo
                               ? parsedKpiData.teamInfo.currency
                               : ""
-                          } ${team.commission}`}</p>
+                            } ${team.commission}`}</p>
                         </td>
                         <td className="w-[55px]">
                           <p>{parsedKpiData ? parsedKpiData.TotalCount : 0}</p>
@@ -1409,11 +1402,10 @@ const Teamleader_commission = () => {
                           <p>{team.campaign_details[0].team_leader_name}</p>
                         </td>
                         <td className="px-[10px] w-[91px]">
-                          <p>{`${
-                            parsedKpiData.teamInfo
+                          <p>{`${parsedKpiData.teamInfo
                               ? parsedKpiData.teamInfo.currency
                               : ""
-                          } ${team.commission}`}</p>
+                            } ${team.commission}`}</p>
                         </td>
                         <td className="w-[55px]">
                           <p>{parsedKpiData ? parsedKpiData.TotalCount : 0}</p>
@@ -1488,7 +1480,7 @@ const Teamleader_commission = () => {
                                             onChange={(e) => {
                                               const selectedOption =
                                                 e.target.options[
-                                                  e.target.selectedIndex
+                                                e.target.selectedIndex
                                                 ];
                                               const selectedKpiName =
                                                 selectedOption.text;
@@ -1819,7 +1811,7 @@ const Teamleader_commission = () => {
                                               value={parseFloat(
                                                 (customKpi.Custom_Weighting /
                                                   100) *
-                                                  team.commission
+                                                team.commission
                                               ).toFixed(2)}
                                               onChange={(e) => {
                                                 const updatedCustomKpiData = [
@@ -1986,7 +1978,7 @@ const Teamleader_commission = () => {
           )}
         </div>
         <div className="flex justify-end mt-4">
-        <button
+          <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage == 1}
             className="px-3 py-1 mr-2 text-sm font-medium text-[#072D20] rounded-md bg-[#F8FDFC]"
@@ -1999,11 +1991,10 @@ const Teamleader_commission = () => {
               <button
                 key={i}
                 onClick={() => paginate(i + 1)}
-                className={`px-4 py-2 mx-1 text-sm font-medium ${
-                  currentPage == i + 1
+                className={`px-4 py-2 mx-1 text-sm font-medium ${currentPage == i + 1
                     ? "bg-[#1E8675] text-white "
                     : "bg-[#F8FDFC] text-[#072D20]"
-                } rounded-md`}
+                  } rounded-md`}
               >
                 {i + 1}
               </button>
@@ -2064,9 +2055,8 @@ const Teamleader_commission = () => {
                 src={campaign.image_path ? campaign.image_path : fallbackImage}
                 alt={campaign.campaign_name}
                 key={index}
-                className={`${
-                  campaign == selectedCampaign ? "" : "opacity-40"
-                } w-[40px] h-[40px] mx-3 cursor-pointer`}
+                className={`${campaign == selectedCampaign ? "" : "opacity-40"
+                  } w-[40px] h-[40px] mx-3 cursor-pointer`}
                 onClick={() => handleCampaignClick(campaign)}
               />
             ))}
@@ -2250,7 +2240,7 @@ const Teamleader_commission = () => {
                                   className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[120px] h-[30px] rounded-[6px] text-[10px] font-medium leading-[15px] "
                                   value={
                                     selectedDialOptions[
-                                      `${team.id}-${index}`
+                                    `${team.id}-${index}`
                                     ] || ""
                                   }
                                   onChange={(e) =>
@@ -2275,7 +2265,7 @@ const Teamleader_commission = () => {
                           <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed text-center">
                             <div className="relative w-[123px] h-[30px] flex items-center justify-center mx-auto">
                               <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[12px] font-medium">
-                                {teamData[team.id]?.currency || "$"}
+                                {kpi.kpi_Name == "Conversion" ? "%" : (teamData[team.id]?.currency || "$")}
                               </div>
                               <input
                                 type="text"
@@ -2303,7 +2293,6 @@ const Teamleader_commission = () => {
                                 )}
                             </div>
                           </td>
-
                           <td className="border-r-2 pt-4 border-[#dbd9d9] border-dashed">
                             <div className="relative">
                               <input
@@ -2341,14 +2330,13 @@ const Teamleader_commission = () => {
                                 )
                               }
                               readOnly
-                              value={`${
-                                teamData[team.id]?.currency || "$"
-                              } ${parseFloat(
-                                (
-                                  (kpi.weighting / 100) *
-                                  (teamData[team.id]?.opportunity || 0)
-                                ).toFixed(2)
-                              )}`}
+                              value={`${teamData[team.id]?.currency || "$"
+                                } ${parseFloat(
+                                  (
+                                    (kpi.weighting / 100) *
+                                    (teamData[team.id]?.opportunity || 0)
+                                  ).toFixed(2)
+                                )}`}
                             />
                           </td>
                           <td className="pt-4">
@@ -2396,25 +2384,25 @@ const Teamleader_commission = () => {
                             />
                           </td>
                           <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed text-center">
-                                  <div className="relative w-[123px] h-[30px] flex items-center justify-center mx-auto">
-                                    <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[12px] font-medium">
-                                      {teamData[team.id]?.currency || "$"}
-                                    </div>
-                            <input
-                              type="text"
-                              className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
-                              value={customKpi.Custom_Target}
-                              placeholder="Custom Target"
-                              onChange={(e) =>
-                                handleCustomKpiInputChange(
-                                  team.id,
-                                  index,
-                                  "Custom_Target",
-                                  e.target.value
-                                )
-                              }
-                              />
+                            <div className="relative w-[123px] h-[30px] flex items-center justify-center mx-auto">
+                              <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[12px] font-medium">
+                                {teamData[team.id]?.currency || "$"}
                               </div>
+                              <input
+                                type="text"
+                                className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
+                                value={customKpi.Custom_Target}
+                                placeholder="Custom Target"
+                                onChange={(e) =>
+                                  handleCustomKpiInputChange(
+                                    team.id,
+                                    index,
+                                    "Custom_Target",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </div>
                           </td>
                           <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed">
                             <div className="relative">
@@ -2443,9 +2431,8 @@ const Teamleader_commission = () => {
                             <input
                               type="text"
                               className={`bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[109px] h-[30px] p-[10px] rounded-[6px] text-[10px] font-medium leading-[15px]`}
-                              value={`${teamData[team.id]?.currency || "$"} ${
-                                customKpi.Custom_Opportunity
-                              }`}
+                              value={`${teamData[team.id]?.currency || "$"} ${customKpi.Custom_Opportunity
+                                }`}
                               placeholder="Custom Opportunity"
                               readOnly
                             />

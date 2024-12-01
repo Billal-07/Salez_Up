@@ -1,182 +1,125 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Tree, TreeNode } from "react-organizational-chart";
+// import './OrgChartAgent.css';
 import fallbackImage from "/public/images/image_not_1.jfif";
 
-const Current_Team_Leader = () => {
-  const [categories, setCategories] = useState([]);
-  const [managerName, setManagerName] = useState("");
-  const [managerRole, setManagerRole] = useState("Manager");
-  const [managerImagePath, setManagerImagePath] = useState('');
-  
+export default function Current_Team_Leader() {
+  const [data, setData] = useState([]);
+  const [teamLeaders, setTeamLeaders] = useState([]);
+  const [salesAgents, setSalesAgents] = useState([]);
+  const managerRole = localStorage.getItem("managerRole");
+  const userFName = localStorage.getItem("userFName");
+  const managerImagePath = localStorage.getItem("managerImage");
+  const isManagerMatched = true;
+  const managerId = localStorage.getItem("id");
+
   useEffect(() => {
-    const managerId = localStorage.getItem("id");
-    console.log("Manager ID:", managerId);
-
-    fetch("https://crmapi.devcir.co/api/manager_details")
-      .then((response) => response.json())
-      .then((data) => {
-        const matchingManager = data.find(
-          (manager) => manager.id == parseInt(managerId)
-        );
-        if (matchingManager) {
-          console.log("Manager details match!");
-          setManagerImagePath(matchingManager.manager_image_path);
-        } else {
-          console.log("Manager details do not match.");
-          setManagerImagePath(fallbackImage);
-        }
-
-        const userFName = localStorage.getItem("userFName") || "Manager";
-        setManagerName(userFName);
-
-        const role = localStorage.getItem("managerRole") || "Manager";
-        setManagerRole(role);
-
-        fetch(
-          `https://crmapi.devcir.co/api/team_and_team_leader?manager_id=${managerId}`
-        )
-          .then((response) => response.json())
-          .then(async (data) => {
-            const filteredData = data.filter(
-              (item) => item.team.manager_id == parseInt(managerId)
-            );
-
-            const categoriesWithCampaigns = await Promise.all(
-              filteredData.map(async (item) => {
-                // Fetch campaign data for each team
-                try {
-                  const campaignResponse = await fetch(
-                    `https://crmapi.devcir.co/api/campaigns_and_teams?team_id=${item.team.id}`
-                  );
-                  const campaignData = await campaignResponse.json();
-
-                  const matchingCampaign = campaignData.find(
-                    (campaign) => campaign.team_id == item.team.id
-                  );
-
-                  return {
-                    name: item.team.team_name,
-                    teamName: item.team.team_name,
-                    LeaderName: `${item.team_leader.first_name} ${item.team_leader.last_name}`,
-                    LeaderImg: item.team_leader.image_path || fallbackImage,
-                    teamId: item.team.id,
-                    campaignImage: matchingCampaign
-                      ? matchingCampaign.campaign.image_path
-                      : null,
-                    campaignName: matchingCampaign
-                      ? matchingCampaign.campaign.name
-                      : null,
-                  };
-                } catch (error) {
-                  console.error("Error fetching campaign data:", error);
-                  return {
-                    name: item.team.team_name,
-                    teamName: item.team.team_name,
-                    LeaderName: `${item.team_leader.first_name} ${item.team_leader.last_name}`,
-                    LeaderImg: item.team_leader.image_path || fallbackImage,
-                    teamId: item.team.id,
-                    campaignImage: null,
-                    campaignName: null,
-                  };
-                }
-              })
-            );
-
-            setCategories(categoriesWithCampaigns);
-          })
-          .catch((error) =>
-            console.error("Error fetching team and team leader data:", error)
-          );
+    // Fetch campaigns and teams
+    fetch("https://crmapi.devcir.co/api/campaigns_and_teams")
+      .then(response => response.json())
+      .then(data => {
+        const filteredData = data.filter(item => item.team.manager_id === managerId);
+        setData(filteredData);
       })
-      .catch((error) =>
-        console.error("Error fetching manager details:", error)
-      );
-  }, []);
+      .catch(error => console.error("Error fetching campaigns and teams:", error));
+
+    // Fetch team and team leaders
+    fetch("https://crmapi.devcir.co/api/team_and_team_leader")
+      .then(response => response.json())
+      .then(data => setTeamLeaders(data))
+      .catch(error => console.error("Error fetching team leaders:", error));
+
+    // Fetch sales agents
+    fetch("https://crmapi.devcir.co/api/sales_agents")
+      .then(response => response.json())
+      .then(data => setSalesAgents(data))
+      .catch(error => console.error("Error fetching sales agents:", error));
+  }, [managerId]);
 
   return (
-    <div className="flex flex-col w-full gap-6 p-8 pb-12 card">
-      <h1 className="font-[500] leading-[33px] text-[22px] text-[#269F8B]">
-        Current ORG Chart
-      </h1>
-      <div className="overflow-x-auto max-w-[930px]">
-        <div className="min-w-full tree-container">
-          <div className="tree">
-            <ul>
-              <li>
-                <div className="family">
-                  <div className="parent">
-                    <div className="flex flex-col items-center person manager">
-                      <div className="relative">
-                        <div className="name text-center absolute rounded-full -left-[8px] top-[0px] bg-blue-300 h-[44px] w-[44px]"></div>
-                        <div className="name text-center absolute rounded-full left-[45px] top-[43px] z-[2] bg-[#FFAAAB] h-[20px] w-[20px]"></div>
-                        <div className="name text-center absolute rounded-full left-[58px] top-[26px] z-[2] bg-[#FFEE3C] h-[12px] w-[12px]"></div>
-                        <div className="name text-center absolute rounded-full left-[34px] top-[60px] z-[2] bg-[#45D6FF] h-[8px] w-[8px]"></div>
-                        <img
-                          className="avatar w-[64px] h-[64px] rounded-full relative"
-                          src={managerImagePath || fallbackImage}
-                          alt="Manager"
-                        />
-                      </div>
-                      <h1 className="name text-center font-[400] text-[16px] text-themeGreen mt-2">
-                        {managerRole}
-                      </h1>
-                      <h1 className="name text-center font-[500] text-[12px]">
-                        {managerName}
-                      </h1>
-                    </div>
-                    <ul>
-                      {categories.map((category, catIndex) => (
-                        <li key={catIndex}>
-                          <div className="family">
-                            <div className="flex flex-col items-center category">
-                              {category.campaignImage && (
-                                <img
-                                  className="avatar w-[64px] h-[64px] rounded-full"
-                                  src={category.campaignImage || fallbackImage}
-                                  alt={category.campaignName || "Campaign"}
-                                />
-                              )}
-                              <div className="category-name bg-themeGreen text-white font-[400] min-w-[103px] min-h-[34px] rounded-[200px] flex items-center justify-center mt-1">
-                                {category.teamName != "Undefined"
-                                  ? category.teamName
-                                  : "No Team"}
-                              </div>
-                              <div className="vertical-line my-1"></div>
-                              <img
-                                className="avatar w-[64px] h-[64px] rounded-full z-[1] bg-green-500"
-                                // src={category.LeaderImg != 'Undefined' ? category.LeaderImg : fallbackImage}
-                                src={
-                                  category.LeaderImg
-                                    ? category.LeaderImg
-                                    : fallbackImage
-                                }
-                                alt="Leader"
-                              />
-                              <div className="mt-1 text-sm text-center name">
-                                {category.LeaderName != "Undefined"
-                                  ? "Team Leader"
-                                  : "No Team Leader"}
-                              </div>
-                              <div className="mt-1 font-semibold text-center name">
-                                <p>
-                                  {category.LeaderName != "Undefined"
-                                    ? category.LeaderName
-                                    : "No Team Leader"}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
+    <div className="w-full p-8 flex flex-col gap-4 card pb-12">
+      <Tree
+        lineWidth="2px"
+        lineColor="green"
+        lineBorderRadius="10px"
+        label={
+          <div className="flex flex-col items-center gap-2">
+          {isManagerMatched && managerImagePath && (
+            <div className="relative w-16 h-16 rounded-full  flex items-center justify-center">      
+              {/* Colored circles around the image */}
+              <div className="absolute top-0 left-7 w-3 h-3 rounded-full bg-[#FFEE3C] transform translate-x-6 translate-y-6"></div>
+              <div className="absolute top-3 left-2 w-4 h-4 rounded-full bg-[#FFAAAB] transform translate-x-8 translate-y-8"></div>
+              <div className="absolute top-3 mr-[74px] w-2 h-2 rounded-full bg-[#45D6FF] transform translate-x-10 translate-y-10"></div>
+        
+              {/* Manager Image */}
+              <img
+                src={managerImagePath || fallbackImage}
+                alt="Manager"
+                className="w-12 h-12 rounded-full"
+                onError={(e) => (e.target.src = fallbackImage)}
+              />
+            </div>
+          )}
+          <h2 className="text-lg">{managerRole || "No Role Defined"}</h2>
+          <h2 className="text-lg">{isManagerMatched ? userFName : "Root"}</h2>
         </div>
-      </div>
+        }
+      >
+        {data.length > 0 ? (
+          data.map((item) => {
+            // Find the corresponding team leader
+            const teamLeader = teamLeaders.find(leader => leader.team.id == item.team.id);
+
+            // Find sales agents for the team
+            const agents = salesAgents.filter(agent => agent.team_id == item.team.id); 
+            console.log("Agents", agents);
+            return (
+              <TreeNode
+                key={item.id}
+                label={
+                  <div className="flex flex-col items-center relative">
+                    {/* Blue div */}
+                    <div className="px-4 py-2 flex flex-col items-center text-center">
+  <img
+    src={item.campaign?.image_path || fallbackImage}
+    alt="Campaign"
+    className="w-14 h-14 rounded-full mt-2"
+    onError={(e) => (e.target.src = fallbackImage)}
+  />
+  <div className="text-lg mt-4 text-black-500 px-4 bg-themeGreen border border-themeGreen text-white whitespace-nowrap rounded-full">
+    {item.team.team_name || "Unknown Team"}
+  </div>
+</div>
+
+
+                    <div className="w-0.5 h-8 bg-gray-400 mt-2"></div>
+
+                    {/* Team Leader Info */}
+                    {teamLeader && (
+                      <div className="mt-4 px-4 py-2 flex flex-col items-center text-center">
+                        <img
+                          src={teamLeader.team_leader ? teamLeader.team_leader.image_path : fallbackImage}
+                          alt="Team Leader"
+                          className="w-14 h-14 rounded-full mt-2"
+                          onError={(e) => (e.target.src = fallbackImage)}
+                        />
+                        <h3 className="text-md mt-2">TeamLeader</h3>
+                        <h3 className={`mt-2 ${!teamLeader.team_leader ? "text-xs" : "text-md"}`}>
+  {teamLeader.team_leader && teamLeader.team_leader
+    ? `${teamLeader.team_leader.first_name}`
+    : "Not Assigned"}
+</h3>
+                      </div>
+                    )}
+                  </div>
+                }
+              />
+            );
+          })
+        ) : (
+          <p>No teams or campaigns available</p>
+        )}
+      </Tree>
     </div>
   );
-};
-
-export default Current_Team_Leader;
+}

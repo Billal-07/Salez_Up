@@ -799,8 +799,8 @@ const TeamLeaderKpiTable = () => {
                                           </label>
                                         )}
                                         <div className="relative w-[109px] mx-auto h-[30px] bg-[#E9ECEB] rounded-[6px] text-center mt-2">
-                                          <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
-                                            {row.teamInfo.currency || ""}
+                                          <span className="absolute left-1 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
+                                            {customKpi.kpi_Name == "Conversion" ? "%" : row.teamInfo.currency || ""}
                                           </span>
                                           <input
                                             type="text"
@@ -1041,8 +1041,8 @@ const TeamLeaderKpiTable = () => {
                                           </label>
                                         )}
                                         <div className="relative w-[109px] mx-auto h-[30px] bg-[#E9ECEB] rounded-[6px] text-center mt-2">
-                                          <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
-                                            {row.teamInfo.currency || ""}
+                                          <span className="absolute left-1 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
+                                            {customKpi.kpi_Name == "Conversion" ? "%" : row.teamInfo.currency || ""}
                                           </span>
                                           <input
                                             type="number"

@@ -1427,8 +1427,8 @@ const Commission = () => {
                                             </label>
                                           )}
                                           <div className="relative mt-2 mx-auto w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
-                                            <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
-                                              {selectedRow.kpi_data.teamInfo.currency || ""}
+                                            <span className="absolute left-1 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
+                                              {customKpi.kpi_Name == "Conversion" ? "%" : (selectedRow.kpi_data.teamInfo.currency || "")  }
                                             </span>
                                             <input
                                               type="number"
@@ -1625,9 +1625,8 @@ const Commission = () => {
                                               Custom Target
                                             </label>
                                             <div className="relative mt-2 w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
-                                              <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
-                                                {selectedRow.kpi_data.teamInfo
-                                                  .currency || ""}
+                                              <span className="absolute left-1 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
+                                                {customKpi.kpi_Name === "Conversion" ? "%" : (selectedRow.kpi_data.teamInfo.currency || "")}
                                               </span>
                                               <input
                                                 type="number"
@@ -1716,9 +1715,8 @@ const Commission = () => {
                                               Opportunity
                                             </label>
                                             <div className="relative mt-2 w-[109px] h-[30px] bg-[#E9ECEB] rounded-[6px] text-center">
-                                              <span className="absolute left-7 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
-                                                {selectedRow.kpi_data.teamInfo
-                                                  .currency || ""}
+                                              <span className="absolute left-1 top-1/2 transform -translate-y-1/2 text-[10px] font-medium leading-[15px] text-[#8fa59c]">
+                                                {selectedRow.kpi_data.teamInfo.currency || ""}
                                               </span>
                                               <input
                                                 type="text"
@@ -2238,10 +2236,10 @@ const Commission = () => {
                                         .filter(
                                           (kpiOption) =>
                                             !selectedKpis[team.id]?.[
-                                            kpiOption.id
+                                              kpiOption.id
                                             ] ||
                                             kpiOption.id.toString() ==
-                                            kpi.kpi_Name_ID
+                                              kpi.kpi_Name_ID
                                         )
                                         .map((kpiOption) => (
                                           <option
@@ -2256,36 +2254,38 @@ const Commission = () => {
                                     {kpisWithSelectionBox[
                                       `${team.id}-${index}`
                                     ] && (
-                                        <select
-                                          className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[120px] h-[30px] rounded-[6px] text-[10px] font-medium leading-[15px] "
-                                          value={
-                                            selectedDialOptions[
+                                      <select
+                                        className="bg-[#E9ECEB] placeholder-[#8fa59c] text-center border-none w-[120px] h-[30px] rounded-[6px] text-[10px] font-medium leading-[15px] "
+                                        value={
+                                          selectedDialOptions[
                                             `${team.id}-${index}`
-                                            ] || ""
-                                          }
-                                          onChange={(e) =>
-                                            handleDialsValueChange(
-                                              team.id,
-                                              index,
-                                              e.target.value
-                                            )
-                                          }
-                                        >
-                                          <option value="" disabled>
-                                            Select value
-                                          </option>
-                                          <option value="Day">Day</option>
-                                          <option value="Week">Week</option>
-                                          <option value="Month">Month</option>
-                                        </select>
-                                      )}
+                                          ] || ""
+                                        }
+                                        onChange={(e) =>
+                                          handleDialsValueChange(
+                                            team.id,
+                                            index,
+                                            e.target.value
+                                          )
+                                        }
+                                      >
+                                        <option value="" disabled>
+                                          Select value
+                                        </option>
+                                        <option value="Day">Day</option>
+                                        <option value="Week">Week</option>
+                                        <option value="Month">Month</option>
+                                      </select>
+                                    )}
                                   </div>
                                 </td>
 
                                 <td className="pt-4 border-r-2 border-[#dbd9d9] border-dashed text-center">
                                   <div className="relative w-[123px] h-[30px] flex items-center justify-center mx-auto">
                                     <div className="absolute left-2 top-1/2 transform -translate-y-1/2 text-[#8fa59c] text-[12px] font-medium">
-                                      {teamData[team.id]?.currency || "$"}
+                                      {kpi.kpi_Name === "Conversion"
+                                        ? "%"
+                                        : teamData[team.id]?.currency || "$"}
                                     </div>
                                     <input
                                       type="text"
@@ -2305,7 +2305,7 @@ const Commission = () => {
                                       `${team.id}-${index}`
                                     ] &&
                                       selectedDialOptions[
-                                      `${team.id}-${index}`
+                                        `${team.id}-${index}`
                                       ] && (
                                         <span
                                           className="absolute right-[37px] top-1/2 transform -translate-y-1/2 text-[10px] font-medium text-black/60 pr-1"
@@ -2314,12 +2314,11 @@ const Commission = () => {
                                           /{" "}
                                           {
                                             selectedDialOptions[
-                                            `${team.id}-${index}`
+                                              `${team.id}-${index}`
                                             ]
                                           }
                                         </span>
                                       )}
-
                                   </div>
                                 </td>
 
