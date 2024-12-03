@@ -44,25 +44,25 @@ export default function Current_Team_Leader() {
         lineBorderRadius="10px"
         label={
           <div className="flex flex-col items-center gap-2">
-          {isManagerMatched && managerImagePath && (
-            <div className="relative w-16 h-16 rounded-full  flex items-center justify-center">      
-              {/* Colored circles around the image */}
-              <div className="absolute top-0 left-7 w-3 h-3 rounded-full bg-[#FFEE3C] transform translate-x-6 translate-y-6"></div>
-              <div className="absolute top-3 left-2 w-4 h-4 rounded-full bg-[#FFAAAB] transform translate-x-8 translate-y-8"></div>
-              <div className="absolute top-3 mr-[74px] w-2 h-2 rounded-full bg-[#45D6FF] transform translate-x-10 translate-y-10"></div>
-        
-              {/* Manager Image */}
-              <img
-                src={managerImagePath || fallbackImage}
-                alt="Manager"
-                className="w-12 h-12 rounded-full"
-                onError={(e) => (e.target.src = fallbackImage)}
-              />
-            </div>
-          )}
-          <h2 className="text-lg">{managerRole || "No Role Defined"}</h2>
-          <h2 className="text-lg">{isManagerMatched ? userFName : "Root"}</h2>
-        </div>
+            {isManagerMatched && managerImagePath && (
+              <div className="relative w-16 h-16 rounded-full  flex items-center justify-center">
+                {/* Colored circles around the image */}
+                <div className="absolute top-0 left-7 w-3 h-3 rounded-full bg-[#FFEE3C] transform translate-x-6 translate-y-6"></div>
+                <div className="absolute top-3 left-2 w-4 h-4 rounded-full bg-[#FFAAAB] transform translate-x-8 translate-y-8"></div>
+                <div className="absolute top-3 mr-[74px] w-2 h-2 rounded-full bg-[#45D6FF] transform translate-x-10 translate-y-10"></div>
+
+                {/* Manager Image */}
+                <img
+                  src={managerImagePath || fallbackImage}
+                  alt="Manager"
+                  className="w-12 h-12 rounded-full"
+                  onError={(e) => (e.target.src = fallbackImage)}
+                />
+              </div>
+            )}
+            <h2 className="text-lg">{managerRole || "No Role Defined"}</h2>
+            <h2 className="text-lg">{isManagerMatched ? userFName : "Root"}</h2>
+          </div>
         }
       >
         {data.length > 0 ? (
@@ -71,7 +71,7 @@ export default function Current_Team_Leader() {
             const teamLeader = teamLeaders.find(leader => leader.team.id == item.team.id);
 
             // Find sales agents for the team
-            const agents = salesAgents.filter(agent => agent.team_id == item.team.id); 
+            const agents = salesAgents.filter(agent => agent.team_id == item.team.id);
             console.log("Agents", agents);
             return (
               <TreeNode
@@ -80,16 +80,16 @@ export default function Current_Team_Leader() {
                   <div className="flex flex-col items-center relative">
                     {/* Blue div */}
                     <div className="px-4 py-2 flex flex-col items-center text-center">
-  <img
-    src={item.campaign?.image_path || fallbackImage}
-    alt="Campaign"
-    className="w-14 h-14 rounded-full mt-2"
-    onError={(e) => (e.target.src = fallbackImage)}
-  />
-  <div className="text-lg mt-4 text-black-500 px-4 bg-themeGreen border border-themeGreen text-white whitespace-nowrap rounded-full">
-    {item.team.team_name || "Unknown Team"}
-  </div>
-</div>
+                      <img
+                        src={item.campaign?.image_path || fallbackImage}
+                        alt="Campaign"
+                        className="w-14 h-14 rounded-full mt-2"
+                        onError={(e) => (e.target.src = fallbackImage)}
+                      />
+                      <div className="text-lg mt-4 text-black-500 px-4 bg-themeGreen border border-themeGreen text-white whitespace-nowrap rounded-full">
+                        {item.team.team_name || "Unknown Team"}
+                      </div>
+                    </div>
 
 
                     <div className="w-0.5 h-8 bg-gray-400 mt-2"></div>
@@ -105,10 +105,10 @@ export default function Current_Team_Leader() {
                         />
                         <h3 className="text-md mt-2">TeamLeader</h3>
                         <h3 className={`mt-2 ${!teamLeader.team_leader ? "text-xs" : "text-md"}`}>
-  {teamLeader.team_leader && teamLeader.team_leader
-    ? `${teamLeader.team_leader.first_name}`
-    : "Not Assigned"}
-</h3>
+                          {teamLeader.team_leader && teamLeader.team_leader
+                            ? `${teamLeader.team_leader.first_name} ${teamLeader.team_leader.last_name}`
+                            : "Not Assigned"}
+                        </h3>
                       </div>
                     )}
                   </div>
