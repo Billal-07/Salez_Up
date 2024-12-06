@@ -106,7 +106,7 @@ export default function Current_Team_Leader() {
                         <h3 className="text-md mt-2">TeamLeader</h3>
                         <h3 className={`mt-2 ${!teamLeader.team_leader ? "text-xs" : "text-md"}`}>
                           {teamLeader.team_leader && teamLeader.team_leader
-                            ? `${teamLeader.team_leader.first_name} ${teamLeader.team_leader.last_name}`
+                            ? `${teamLeader.team_leader.first_name}`
                             : "Not Assigned"}
                         </h3>
                       </div>
