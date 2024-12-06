@@ -247,6 +247,7 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
       toast.success("Team Leader successfully updated");
 
       onUpdateSuccess(updatedTeamLeader);
+      window.location.reload();
       onClose();
     } catch (error) {
       toast.error("Error Updating Data");
