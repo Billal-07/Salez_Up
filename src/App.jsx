@@ -12,6 +12,8 @@ import Current_Team_Leader from "./pages/Current_Team_Leader";
 import AddNewTeamLeader from "./pages/AddNewTeamLeader";
 import AddNewAgent from "./pages/AddNewAgent";
 import Current_Agent from "./pages/Current_Agent";
+import ActualPage from "./pages/Actual_page";
+
 import Commission3 from "./pages/Commission_backup_backup";
 import { ResponseContextProvider } from "./contexts/responseContext";
 import Set_Contest_Team_VS_Team from "./pages/Set_Contest_Team_VS_Team";
@@ -73,6 +75,7 @@ function App() {
             <Route path="/current_agent" element={<Current_Agent />} />
             <Route path="/salesagent" element={<SaleAgents />} />
             <Route path="/SalesAgentDashboard" element={<SalesAgent_Dashboard />} />
+            <Route path="/ActualPage" element={<ActualPage />} />
 
             <Route path="/Current_Teams" element={<Current_Teams />} />
             <Route path="/Add_New_Teams" element={<Add_New_Teams />} />
