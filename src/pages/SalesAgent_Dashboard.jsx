@@ -4,13 +4,10 @@ import SideBar from '../components/SideBar';
 import 'react-circular-progressbar/dist/styles.css';
 import dataJson from '../Data.json';
 import fallbackImage from "/public/images/image_not_1.jfif";
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
-
-
+import { Currency } from 'lucide-react';
 // -------------------------- Dynamic Logic --------------------------------//
-
 
 
 const SalesAgent_Dashboard = () => {
@@ -25,51 +22,39 @@ const SalesAgent_Dashboard = () => {
     const [localStorageData, setLocalStorageData] = useState([]);
     const [currentDataIndex, setCurrentDataIndex] = useState(0);
 
-        // const fetchLocal = () => {
-        //     const extractedTableData = localStorage.getItem('tableData');
-        //     if (extractedTableData) {
-        //         const parsedData = JSON.parse(extractedTableData);
-        //         setLocalStorageData(parsedData);
-        //         // console.log("Data1:",localStorageData)
-        //         console.log("Data2:", parsedData)
-        //     }
-        // }
 
-        // useEffect(() => {
-        //     fetchLocal()
-        // }, []);
+    // Function to fetch data from localStorage
+    const fetchLocal = () => {
+        const extractedTableData = localStorage.getItem('tableData');
+        if (extractedTableData) {
+            const parsedData = JSON.parse(extractedTableData);
+            setLocalStorageData(parsedData);
+            console.log("Data fetched from localStorage:", parsedData);
+        }
+    };
 
-        // Function to fetch data from localStorage
-        const fetchLocal = () => {
-            const extractedTableData = localStorage.getItem('tableData');
-            if (extractedTableData) {
-                const parsedData = JSON.parse(extractedTableData);
-                setLocalStorageData(parsedData);
-                console.log("Data fetched from localStorage:", parsedData);
+
+    // Use useEffect to set up the listener on mount
+    useEffect(() => {
+        fetchLocal(); 
+        // Event listener for changes in localStorage
+        const handleStorageChange = (event) => {
+            if (event.key === 'tableData') {
+                fetchLocal(); // Fetch updated data when localStorage changes
             }
         };
-    
-        // Use useEffect to set up the listener on mount
-        useEffect(() => {
-            fetchLocal(); // Initial fetch
-    
-            // Event listener for changes in localStorage
-            const handleStorageChange = (event) => {
-                if (event.key === 'tableData') {
-                    fetchLocal(); // Fetch updated data when localStorage changes
-                }
-            };
-    
-            window.addEventListener('storage', handleStorageChange);
-    
-            // Clean up the event listener on unmount
-            return () => {
-                window.removeEventListener('storage', handleStorageChange);
-            };
-        }, []);
+        window.addEventListener('storage', handleStorageChange);
+        // Clean up the event listener on unmount
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
+
+
 
     const [campaignPerformanceMap, setCampaignPerformanceMap] = useState({});
-    // Fetch campaigns and teams on component mount
+
+
     useEffect(() => {
         const fetchCampaignsAndAgents = async () => {
             try {
@@ -82,7 +67,6 @@ const SalesAgent_Dashboard = () => {
                 const fetchedTeams = data.filter(
                     (team) => team.team.manager_id == localStorage.getItem("id")
                 );
-
                 // Group teams by campaign
                 const groupedCampaigns = fetchedTeams.reduce((acc, team) => {
                     const existingCampaign = acc.find(c => c.campaign.id === team.campaign.id);
@@ -96,15 +80,12 @@ const SalesAgent_Dashboard = () => {
                     }
                     return acc;
                 }, []);
-
                 setCampaigns(groupedCampaigns);
-
                 if (groupedCampaigns.length > 0) {
                     const firstCampaign = groupedCampaigns[0];
                     setSelectedCampaignId(firstCampaign.campaign.id);
                     // Set initial teams for the first campaign
                     setSelectedTeams(firstCampaign.teams.map((team) => team.team.team_name));
-
                     // Fetch initial campaign's KPI data
                     await handleCampaignClick(firstCampaign);
                 }
@@ -114,9 +95,10 @@ const SalesAgent_Dashboard = () => {
                 setIsLoading(false);
             }
         };
-
         fetchCampaignsAndAgents();
     }, []);
+
+
 
     // Extract data from JSON on component mount
     useEffect(() => {
@@ -128,20 +110,18 @@ const SalesAgent_Dashboard = () => {
     }, []);
 
 
+
     const handleCampaignClick = async (campaign) => {
         try {
             // Set the selected campaign
             setSelectedCampaignId(campaign.campaign.id);
-
             // Set the teams for the selected campaign
             setSelectedTeams(campaign.teams.map(team => team.team.team_name));
-
             // Check if we already have performance data for this campaign
             if (campaignPerformanceMap[campaign.campaign.id]) {
                 setPerformanceData(campaignPerformanceMap[campaign.campaign.id]);
                 return;
             }
-
             // Fetch KPI data for teams
             const teamKpiPromises = campaign.teams.map(async (team) => {
                 const agentsResponse = await fetch(`https://crmapi.devcir.co/api/sales_agents/team/${team.team.team_id}`);
@@ -149,39 +129,31 @@ const SalesAgent_Dashboard = () => {
                     throw new Error(`Failed to fetch sales agents for team ${team.team.team_id}`);
                 }
                 const agentsData = await agentsResponse.json();
-
                 // Parse the KPI data from the first agent (assuming similar KPIs for the team)
                 const firstAgent = agentsData[0];
                 if (firstAgent && firstAgent.kpi_data) {
                     const kpiDataParsed = JSON.parse(firstAgent.kpi_data);
 
-                    // Transform KPI data to match the existing table structure
-                    const transformedKpiData = kpiDataParsed.kpiData.map((kpi) => ({
+                    const transformedKpiData = kpiDataParsed.kpiData.map(kpi => ({
                         kpi: kpi.kpi_Name,
                         target: kpi.target,
-                        actual: '-', // You might want to fetch actual values from another API
-                        percentToTarget: '-', // Calculate based on actual vs target
+                        actual: '-',
+                        percentToTarget: '-',
+                        currency: kpiDataParsed.teamInfo.currency,
                         commission: kpi.opportunity.toFixed(2),
-                        gatekeeper: kpi.gatekeeper || 'N/A',
-                        gatekeeperTarget: '-'
-                    }));
-
-
-
-
-
-
+                        gatekeeper: kpi.gatekeeperTarget !== '-' && kpi.gatekeeperTarget !== 'N/A' ? 'YES' : 'N/A',
+                        gatekeeperTarget: kpi.gatekeeper || '-',
+                      }));
+                      console.log("kpi datatata: ", transformedKpiData);
                     // Update the campaign performance map
                     setCampaignPerformanceMap(prev => ({
                         ...prev,
                         [campaign.campaign.id]: transformedKpiData
                     }));
-
                     // Set the performance data for the current campaign
                     setPerformanceData(transformedKpiData);
                 }
             });
-
             await Promise.all(teamKpiPromises);
         } catch (err) {
             console.error("Error fetching agents:", err);
@@ -195,7 +167,6 @@ const SalesAgent_Dashboard = () => {
 
 
     // Handle team click to fetch KPI data
-
     const handleTeamClick = async (teamName) => {
         try {
             fetchLocal()
@@ -203,49 +174,38 @@ const SalesAgent_Dashboard = () => {
             const selectedCampaign = campaigns.find(campaign =>
                 campaign.teams.some(team => team.team.team_name === teamName)
             );
-
             if (selectedCampaign) {
                 const selectedTeam = selectedCampaign.teams.find(
                     team => team.team.team_name === teamName
                 );
-
                 // Fetch agents and KPI data for the specific team
                 const agentsResponse = await fetch(`https://crmapi.devcir.co/api/sales_agents/team/${selectedTeam.team_id}`);
-
-
                 if (!agentsResponse.ok) {
                     throw new Error(`Failed to fetch sales agents for team ${selectedTeam.team_id}`);
                 }
                 const agentsData = await agentsResponse.json();
-
                 console.log("Selected Agent Data: ", agentsData)
-
                 // Parse the KPI data from the first agent
                 const firstAgent = agentsData[0];
-
                 console.log("First Agent: ", firstAgent)
-
-
                 if (firstAgent) {
                     const kpiDataParsed = JSON.parse(firstAgent.kpi_data);
-
-                    console.log("Marium is here: ", kpiDataParsed)
+                    console.log("Data is here: ", kpiDataParsed)
 
                     const transformedKpiData = kpiDataParsed.kpiData.map(kpi => ({
                         kpi: kpi.kpi_Name,
                         target: kpi.target,
                         actual: '-',
                         percentToTarget: '-',
+                        currency: kpiDataParsed.teamInfo.currency,
                         commission: kpi.opportunity.toFixed(2),
-                        gatekeeper: kpi.gatekeeper || 'N/A',
-                        gatekeeperTarget: '-'
-                    }));
-
+                        gatekeeper: kpi.gatekeeperTarget !== '-' && kpi.gatekeeperTarget !== 'N/A' ? 'YES' : 'N/A',
+                        gatekeeperTarget: kpi.gatekeeper || '-',
+                      }));
                     console.log("----Transformed Data---", transformedKpiData)
+                    console.log("kpi datatata: ", kpiDataParsed);
                     setPerformanceData(transformedKpiData);
-
                     // Settng Index to Initial VALUE 0
-
                     setCurrentDataIndex(0);
                 }
                 else {
@@ -264,26 +224,25 @@ const SalesAgent_Dashboard = () => {
             setCurrentDataIndex(prev => prev + 1);
         }
     };
-
     const handlePreviousData = () => {
         if (currentDataIndex > 0) {
             setCurrentDataIndex(prev => prev - 1);
         }
     };
 
-    const getPercentColor = (percent) => {
-        const numPercent = parseInt(percent);
-        if (isNaN(numPercent)) return 'bg-gray-100 text-gray-800';
-
-        if (numPercent < 40) return 'bg-green-200 text-green-800';
-        if (numPercent >= 40 && numPercent < 60) return 'bg-red-200 text-red-800';
-        return 'bg-blue-200 text-blue-800';
-    };
-
     const handleReload = () => {
         console.log("Reloaded Local")
         fetchLocal()
     }
+
+    const getPercentColor = (percent) => {
+        const numPercent = parseInt(percent);
+        if (isNaN(numPercent)) return 'bg-[#fff1f0] text-[#EC706F]';
+        if (numPercent >= 100) return 'bg-[#effff4] text-[#269F8B]';
+        if (numPercent >= 80) return 'bg-[#fffdd4] text-[#A9A548]';
+        return 'bg-red-200 text-red-800';
+    };
+
 
     return (
         <div className='mx-2'>
@@ -304,7 +263,6 @@ const SalesAgent_Dashboard = () => {
                                     <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white'>Productivity</button>
                                 </div>
                             </div>
-
                             {/* Campaigns Display */}
                             <div className='flex justify-end'>
                                 {isLoading ? (
@@ -324,11 +282,8 @@ const SalesAgent_Dashboard = () => {
                                     ))
                                 )}
                             </div>
-
                             {/* Teams Display */}
-
                             <div className='flex justify-between'>
-
                                 <div className='flex flex-wrap items-center justify-between gap-3 lg:justify-start'>
                                     {selectedTeams.map((teamName, index) => (
                                         <div key={index}>
@@ -341,57 +296,14 @@ const SalesAgent_Dashboard = () => {
                                         </div>
                                     ))}
                                 </div>
-
-
                                 <div>
                                     <FontAwesomeIcon icon={faArrowRotateRight} onClick={handleReload} className='text-2xl mt-[-6px] text-themeGreen pt-4 hover:cursor-pointer hover:transition-all hover:scale-110 hover:duration-300' />
                                 </div>
-
                             </div>
-
-
                         </div>
-
                         {/* Performance Table */}
                         <div className='bg-white rounded-lg shadow-sm overflow-hidden border-2 border-gray-100'>
                             <div className='p-6'>
-
-
-
-
-                                {localStorageData.length > 0 && performanceData.length > 0 && (
-                                    <div className='flex justify-between items-center mb-12'>
-                                        <div className='text-lg font-semibold text-[#269F8B]'>
-                                            Day: {localStorageData[currentDataIndex]?.dayName || 'N/A'}
-                                        </div>
-                                        <div className='flex items-center gap-4'>
-                                            <button
-                                                onClick={handlePreviousData}
-                                                disabled={currentDataIndex === 0}
-                                                className={`px-4 py-2 rounded ${currentDataIndex === 0
-                                                    ? 'bg-gray-200 text-gray-400'
-                                                    : 'bg-[#269F8B] text-white hover:bg-opacity-90'}`}
-                                            >
-                                                Previous
-                                            </button>
-                                            <span className='text-sm text-gray-600'>
-                                                {currentDataIndex + 1} / {localStorageData.length}
-                                            </span>
-                                            <button
-                                                onClick={handleNextData}
-                                                disabled={currentDataIndex === localStorageData.length - 1}
-                                                className={`px-4 py-2 rounded ${currentDataIndex === localStorageData.length - 1
-                                                    ? 'bg-gray-200 text-gray-400'
-                                                    : 'bg-[#269F8B] text-white hover:bg-opacity-90'}`}
-                                            >
-                                                Next
-                                            </button>
-                                        </div>
-                                    </div>
-                                )}
-
-
-
                                 <table className='w-full'>
                                     <thead>
                                         <tr className='text-left text-sm font-medium text-gray-500'>
@@ -410,44 +322,54 @@ const SalesAgent_Dashboard = () => {
                                                 <tr key={index} className='text-sm'>
                                                     <td className='py-2 text-[#269F8B] font-medium'>{row.kpi}</td>
                                                     <td className='py-2 text-center'>{row.target}</td>
-                                                    <td className='py-2 text-center'>  {localStorageData.length > 0
-                                                        ? localStorageData[currentDataIndex].values[index]
-                                                        : '-'}</td>
-                                                    {/* <td className='py-2 text-center'>
-                                                        <span className={px-6 py-1 ${getPercentColor(row.percentToTarget)}}>
-                                                            {row.percentToTarget}
-                                                        </span>
-                                                         </td> */}
+                                                    <td className="py-2 text-center">
+                                                        {localStorageData.length > 0
+                                                            ? localStorageData.slice(currentDataIndex).reduce(
+                                                                (total, data) => total + parseFloat(data.values[index] || 0),
+                                                                0
+                                                            ).toFixed(1)
+                                                            : '-'}
+                                                    </td>
                                                     <td className='py-2 text-center'>
-                                                        <span className={`px - 6 py-1 ${getPercentColor(row.percentToTarget)}`}>
-
-
+                                                        <span className={`px-6 py-1 ${getPercentColor(
+                                                            localStorageData.length > 0
+                                                                ? ((localStorageData[currentDataIndex].values[index] / row.target) * 100).toFixed(2)
+                                                                : '-'
+                                                        )}`}>
                                                             {
                                                                 localStorageData.length > 0
                                                                     ? ((localStorageData[currentDataIndex].values[index] / row.target) * 100).toFixed(2)
                                                                     : '-'
                                                             }&nbsp;&nbsp;%
+                                                        </span>
+                                                    </td>
+                                                    <td className='py-2 text-center'>{row.currency}{row.commission}</td>
+<td
+  className={`px-6 py-1 text-center ${
+    row.gatekeeperTarget !== '-' && row.gatekeeperTarget !== 'N/A'
+      ? 'text-black'
+      : 'bg-gray-100'
+  }`}
+>
+  {row.gatekeeperTarget !== '-' && row.gatekeeperTarget !== 'N/A'
+    ? 'YES'
+    : 'N/A'}
+</td>
 
-                                                        </span>
-                                                    </td>
-                                                    <td className='py-2 text-center'>${row.commission}</td>
-                                                    <td className={`px-6 py-1 text-center ${row.gatekeeper == 'N/A' ? 'bg-gray-100' : ''}`}>
-                                                        {row.gatekeeper}
-                                                    </td >
-                                                    <td className={`px-6 py-1 text-center`}>
-                                                        <span className={`inline - block ${row.gatekeeperTarget == '-' ? 'bg-gray-100 w-12' : ''}`}>
-                                                            {row.gatekeeperTarget}
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            ))
+<td className={`px-6 py-1 text-center`}>
+  <span className={`inline-block ${row.gatekeeperTarget == '-' ? 'bg-gray-100 w-12' : ''}`}>
+    {row.gatekeeperTarget}
+  </span>
+</td>
+       
+</tr>
+                                          ))
                                         ) : (
                                             <tr>
                                                 <td colSpan="7" className="text-center py-4 text-gray-500">
                                                     Select a team to view KPI data
                                                 </td>
                                             </tr>
-
                                         )}
                                     </tbody>
                                 </table>
@@ -459,5 +381,6 @@ const SalesAgent_Dashboard = () => {
         </div >
     );
 };
+
 
 export default SalesAgent_Dashboard;
