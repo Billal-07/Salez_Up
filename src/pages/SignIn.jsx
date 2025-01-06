@@ -151,7 +151,7 @@ const SignIn = () => {
 
   // const fetchData = async () => {
   //   try {
-  //     const response = await fetch('https://crmapi.devcir.co/api/admin_registrations');
+  //     const response = await fetch('http://127.0.0.1:8000/api/admin_registrations');
   //     if (!response.ok) {
   //       throw new Error('Network response was not ok');
   //     }
@@ -230,11 +230,11 @@ const SignIn = () => {
   //   let apiUrl;
   //   // Check the role and set the appropriate API endpoint
   //   if (role == 'Manager') {
-  //     apiUrl = 'https://crmapi.devcir.co/api/admin_registrations';
+  //     apiUrl = 'http://127.0.0.1:8000/api/admin_registrations';
   //   } else if (role == 'Sales Agent') {
-  //     apiUrl = 'https://crmapi.devcir.co/api/sales_agents';
+  //     apiUrl = 'http://127.0.0.1:8000/api/sales_agents';
   //   } else if (role == 'Team Leader') {
-  //     apiUrl = 'https://crmapi.devcir.co/api/team_leaders';
+  //     apiUrl = 'http://127.0.0.1:8000/api/team_leaders';
   //   } else {
   //     throw new Error('Invalid role');
   //   }
@@ -304,7 +304,7 @@ const SignIn = () => {
 
   //         // New POST API request before navigation
   //         try {
-  //           const response = await fetch('https://crmapi.devcir.co/api/sendloginMessage', {
+  //           const response = await fetch('http://127.0.0.1:8000/api/sendloginMessage', {
   //             method: 'POST',
   //             headers: {
   //               'Content-Type': 'application/json'
@@ -412,7 +412,7 @@ const SignIn = () => {
 
           // New POST API request before navigation
           try {
-            const response = await fetch('https://crmapi.devcir.co/api/sendloginMessage', {
+            const response = await fetch('http://127.0.0.1:8000/api/sendloginMessage', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -440,13 +440,26 @@ const SignIn = () => {
             navigate('/TeamleaderDashboard', { state: { foundUser } });
           }
           else if (type == "Sales Agent") {
-            navigate('/SalesAgentDashboard', { state: { foundUser } });
+            navigate('/SalesAgent_main_dashboard', { state: { foundUser } });
+          }
+
+          if (type == "Manager") {
+            localStorage.setItem('userEmail', foundUser.email);
+            localStorage.setItem('userFName', foundUser.manager_name);
+            localStorage.setItem('id', foundUser.id);
+          }
+          else if (type == "Team Leader") {
+            localStorage.setItem('userEmail', foundUser.email);
+            localStorage.setItem('userFName', foundUser.first_name);
+            localStorage.setItem('id', foundUser.id);
+          }
+          else if (type == "Sales Agent") {
+            localStorage.setItem('userEmail', foundUser.email);
+            localStorage.setItem('userFName', foundUser.first_name);
+            localStorage.setItem('id', foundUser.id);
           }
 
           // Store user info in local storage
-          localStorage.setItem('userEmail', foundUser.email);
-          localStorage.setItem('userFName', foundUser.manager_name);
-          localStorage.setItem('id', foundUser.id);
 
           console.log("This is my email: ", foundUser.email);
           setIsAdminLoggedIn(true);
@@ -480,11 +493,11 @@ const SignIn = () => {
     let apiUrl;
     // Check the role and set the appropriate API endpoint
     if (role == 'Manager') {
-      apiUrl = 'https://crmapi.devcir.co/api/managers';
+      apiUrl = 'http://127.0.0.1:8000/api/managers';
     } else if (role == 'Sales Agent') {
-      apiUrl = 'https://crmapi.devcir.co/api/sales_agents';
+      apiUrl = 'http://127.0.0.1:8000/api/sales_agents';
     } else if (role == 'Team Leader') {
-      apiUrl = 'https://crmapi.devcir.co/api/team_leaders';
+      apiUrl = 'http://127.0.0.1:8000/api/team_leaders';
     } else {
       throw new Error('Invalid role');
     }

@@ -116,7 +116,7 @@ export default function Contest_Team() {
   const [rightTeamName, setRightTeamName] = useState('');
 
   useEffect(() => {
-    fetch('https://crmapi.devcir.co/api/sales_agents')
+    fetch('http://127.0.0.1:8000/api/sales_agents')
       .then(response => response.json())
       .then(data => {
         setAgents(data);

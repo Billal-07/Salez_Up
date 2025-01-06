@@ -34,7 +34,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
       setManagerName(userFName);
     }
     axios
-      .get("https://crmapi.devcir.co/api/department-heads")
+      .get("http://127.0.0.1:8000/api/department-heads")
       .then((response) => {
         const filteredTeams = response.data.filter(
           (team) => team.manager_id == parseInt(managerId)
@@ -154,7 +154,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
     }
     formData.append("manager_id", parseInt(localStorage.getItem("id")));
 
-    const responses = await fetch("https://crmapi.devcir.co/api/junior-department-heads");
+    const responses = await fetch("http://127.0.0.1:8000/api/junior-department-heads");
     if (!responses.ok) {
       throw new Error("Failed to fetch user data");
     }
@@ -168,7 +168,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
 
     try {
       const response = await fetch(
-        "https://crmapi.devcir.co/api/junior-department-heads",
+        "http://127.0.0.1:8000/api/junior-department-heads",
         {
           method: "POST",
           body: formData,
@@ -192,7 +192,7 @@ const AddNewJuniorHeadOfDepartment = ({ set, setter }) => {
       };
 
       try {
-        const response = await fetch("https://crmapi.devcir.co/api/send-link", {
+        const response = await fetch("http://127.0.0.1:8000/api/send-link", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

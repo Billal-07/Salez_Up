@@ -69,7 +69,7 @@ export default function SeniorOpsManagerPage() {
     console.log("Main data", id);
 
     try {
-      const response = await fetch("https://crmapi.devcir.co/api/manager_details");
+      const response = await fetch("http://127.0.0.1:8000/api/manager_details");
       const data = await response.json();
       const headOfSalesOptions = data
         .filter(
@@ -90,7 +90,7 @@ export default function SeniorOpsManagerPage() {
     console.log("Main data", id);
 
     try {
-      const response = await fetch("https://crmapi.devcir.co/api/manager_details");
+      const response = await fetch("http://127.0.0.1:8000/api/manager_details");
       const data = await response.json();
       const filteredData = data.filter(
         (manager) =>
@@ -109,7 +109,7 @@ export default function SeniorOpsManagerPage() {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `https://crmapi.devcir.co/api/manager_details/${selectedOpsManager.id}`,
+        `http://127.0.0.1:8000/api/manager_details/${selectedOpsManager.id}`,
         {
           method: "DELETE",
         }
@@ -161,7 +161,7 @@ export default function SeniorOpsManagerPage() {
         manager_password: encryptPassword(formData.manager_password),
       };
       const response = await fetch(
-        `https://crmapi.devcir.co/api/manager_details/${selectedOpsManager.id}`,
+        `http://127.0.0.1:8000/api/manager_details/${selectedOpsManager.id}`,
         {
           method: "PUT",
           headers: {

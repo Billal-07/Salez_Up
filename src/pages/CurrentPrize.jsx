@@ -54,7 +54,7 @@ const Voucher = () => {
         };
 
         try {
-            const response = await fetch('https://crmapi.devcir.co/api/vouchers', {
+            const response = await fetch('http://127.0.0.1:8000/api/vouchers', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ const Voucher = () => {
     useEffect(() => {
         const fetchVouchers = async () => {
             try {
-                const response = await fetch('https://crmapi.devcir.co/api/vouchers');
+                const response = await fetch('http://127.0.0.1:8000/api/vouchers');
                 const data = await response.json();
                 setVouchers(data);
             } catch (error) {
@@ -257,7 +257,7 @@ const Food = () => {
         };
 
         try {
-            const response = await fetch('https://crmapi.devcir.co/api/foods', {
+            const response = await fetch('http://127.0.0.1:8000/api/foods', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -292,7 +292,7 @@ const Food = () => {
     useEffect(() => {
         const fetchFood = async () => {
             try {
-                const response = await fetch('https://crmapi.devcir.co/api/foods');
+                const response = await fetch('http://127.0.0.1:8000/api/foods');
                 const data = await response.json();
                 setFood(data);
             } catch (error) {
@@ -462,7 +462,7 @@ const Experience = () => {
         };
 
         try {
-            const response = await fetch('https://crmapi.devcir.co/api/experiences', {
+            const response = await fetch('http://127.0.0.1:8000/api/experiences', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -497,7 +497,7 @@ const Experience = () => {
     useEffect(() => {
         const fetchExp = async () => {
             try {
-                const response = await fetch('https://crmapi.devcir.co/api/experiences');
+                const response = await fetch('http://127.0.0.1:8000/api/experiences');
                 const data = await response.json();
                 setExp(data);
             } catch (error) {

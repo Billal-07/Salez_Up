@@ -90,7 +90,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
     let fetchedTeamAndLeaders = [];
 
     axios
-      .get("https://crmapi.devcir.co/api/teams")
+      .get("http://127.0.0.1:8000/api/teams")
       .then((response) => {
         fetchedTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -154,7 +154,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
 
   useEffect(() => {
     axios
-      .get("https://crmapi.devcir.co/api/campaigns")
+      .get("http://127.0.0.1:8000/api/campaigns")
       .then((response) => {
         setCampaigns(response.data);
         response.data.forEach((campaign) =>
@@ -193,7 +193,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
 
     axios
       .post(
-        `https://crmapi.devcir.co/api/sales_agents/${id}?_method=PUT`,
+        `http://127.0.0.1:8000/api/sales_agents/${id}?_method=PUT`,
         formData,
         {
           headers: {
@@ -411,7 +411,7 @@ const SalesAgents = () => {
     }
 
     axios
-      .get("https://crmapi.devcir.co/api/sales_agents")
+      .get("http://127.0.0.1:8000/api/sales_agents")
       .then((response) => {
         const fetchedTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -507,7 +507,7 @@ const SalesAgents = () => {
     );
     if (!confirmed) return;
 
-    fetch(`https://crmapi.devcir.co/api/sales_agents/${team.id}`, {
+    fetch(`http://127.0.0.1:8000/api/sales_agents/${team.id}`, {
       method: "DELETE",
     })
       .then((response) => {

@@ -11,7 +11,7 @@ const Campaigns = () => {
   const [isCreated, setIsCreated] = useState(false);
 
   useEffect(() => {
-    fetch("https://crmapi.devcir.co/api/campaigns_and_teams")
+    fetch("http://127.0.0.1:8000/api/campaigns_and_teams")
       .then((response) => response.json())
       .then((data) => {
         const filtered = data.filter(

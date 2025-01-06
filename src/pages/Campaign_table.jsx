@@ -56,10 +56,10 @@ const Campaign_table = () => {
           juniorHeadsResponse,
           departmentHeadsResponse,
         ] = await Promise.all([
-          axios.get("https://crmapi.devcir.co/api/campaigns_and_teams"),
-          axios.get("https://crmapi.devcir.co/api/teams"),
-          axios.get("https://crmapi.devcir.co/api/junior-department-heads"),
-          axios.get("https://crmapi.devcir.co/api/department-heads"),
+          axios.get("http://127.0.0.1:8000/api/campaigns_and_teams"),
+          axios.get("http://127.0.0.1:8000/api/teams"),
+          axios.get("http://127.0.0.1:8000/api/junior-department-heads"),
+          axios.get("http://127.0.0.1:8000/api/department-heads"),
         ]);
         const filtered = campaignsResponse.data.filter(
           (team) => team.campaign.manager_id == localStorage.getItem("id")
@@ -174,7 +174,7 @@ const Campaign_table = () => {
   const fetchCampaignImage = async (campaignId) => {
     try {
       const response = await axios.get(
-        "https://crmapi.devcir.co/api/campaigns"
+        "http://127.0.0.1:8000/api/campaigns"
       );
       const campaign = response.data.find((camp) => camp.id == campaignId);
       if (campaign && campaign.image_path) {
@@ -218,7 +218,7 @@ const Campaign_table = () => {
     if (confirmDelete) {
       try {
         // Make DELETE request to the API
-        await axios.delete(`https://crmapi.devcir.co/api/campaigns/${id}`);
+        await axios.delete(`http://127.0.0.1:8000/api/campaigns/${id}`);
 
         // Update the campaigns state to remove the deleted campaign
         setCampaigns((prevCampaigns) =>
@@ -314,7 +314,7 @@ const Campaign_table = () => {
           formData.append("image_path", newImageFile);
 
           await axios.post(
-            `https://crmapi.devcir.co/api/campaigns/${editedCampaign.campaignId}?_method=PUT`,
+            `http://127.0.0.1:8000/api/campaigns/${editedCampaign.campaignId}?_method=PUT`,
             formData,
             {
               headers: {
@@ -330,7 +330,7 @@ const Campaign_table = () => {
       const updateCampaignName = async () => {
         if (editedCampaign.campaignName) {
           await axios.put(
-            `https://crmapi.devcir.co/api/campaigns/update_name/${editedCampaign.campaignId}`,
+            `http://127.0.0.1:8000/api/campaigns/update_name/${editedCampaign.campaignId}`,
             {
               campaign_name: editedCampaign.campaignName,
             }
@@ -371,7 +371,7 @@ const Campaign_table = () => {
           }
 
           await axios.put(
-            `https://crmapi.devcir.co/api/campaigns_and_teams_update/${selectedCampaignId}`,
+            `http://127.0.0.1:8000/api/campaigns_and_teams_update/${selectedCampaignId}`,
             {
               junior_department_head_id: juniorDepartmentHeadId || null,
               department_head_id: departmentHeadId || null,
@@ -385,7 +385,7 @@ const Campaign_table = () => {
       const updateTeam = async () => {
         if (editedCampaign.teamId != undefined) {
           await axios.put(
-            `https://crmapi.devcir.co/api/campaigns_and_teams_update/${editedCampaign.id}`,
+            `http://127.0.0.1:8000/api/campaigns_and_teams_update/${editedCampaign.id}`,
             {
               team_id: editedCampaign.teamId || null,
             }

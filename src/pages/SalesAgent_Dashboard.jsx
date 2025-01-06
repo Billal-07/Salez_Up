@@ -25,7 +25,7 @@ const SalesAgent_Dashboard = () => {
 
     // Function to fetch data from localStorage
     const fetchLocal = () => {
-        const extractedTableData = localStorage.getItem('tableData');
+        const extractedTableData = localStorage.getItem('tableData1');
         if (extractedTableData) {
             const parsedData = JSON.parse(extractedTableData);
             setLocalStorageData(parsedData);
@@ -36,10 +36,10 @@ const SalesAgent_Dashboard = () => {
 
     // Use useEffect to set up the listener on mount
     useEffect(() => {
-        fetchLocal(); 
+        fetchLocal();
         // Event listener for changes in localStorage
         const handleStorageChange = (event) => {
-            if (event.key === 'tableData') {
+            if (event.key === 'tableData1') {
                 fetchLocal(); // Fetch updated data when localStorage changes
             }
         };
@@ -59,7 +59,7 @@ const SalesAgent_Dashboard = () => {
         const fetchCampaignsAndAgents = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch('https://crmapi.devcir.co/api/campaigns_and_teams');
+                const response = await fetch('http://127.0.0.1:8000/api/campaigns_and_teams');
                 if (!response.ok) {
                     throw new Error('Failed to fetch campaigns');
                 }
@@ -124,7 +124,7 @@ const SalesAgent_Dashboard = () => {
             }
             // Fetch KPI data for teams
             const teamKpiPromises = campaign.teams.map(async (team) => {
-                const agentsResponse = await fetch(`https://crmapi.devcir.co/api/sales_agents/team/${team.team.team_id}`);
+                const agentsResponse = await fetch(`http://127.0.0.1:8000/api/sales_agents/team/${team.team.team_id}`);
                 if (!agentsResponse.ok) {
                     throw new Error(`Failed to fetch sales agents for team ${team.team.team_id}`);
                 }
@@ -143,8 +143,8 @@ const SalesAgent_Dashboard = () => {
                         commission: kpi.opportunity.toFixed(2),
                         gatekeeper: kpi.gatekeeperTarget !== '-' && kpi.gatekeeperTarget !== 'N/A' ? 'YES' : 'N/A',
                         gatekeeperTarget: kpi.gatekeeper || '-',
-                      }));
-                      console.log("kpi datatata: ", transformedKpiData);
+                    }));
+                    console.log("kpi datatata: ", transformedKpiData);
                     // Update the campaign performance map
                     setCampaignPerformanceMap(prev => ({
                         ...prev,
@@ -162,10 +162,6 @@ const SalesAgent_Dashboard = () => {
     };
 
 
-
-    const [percent_Target, setPercent_Target] = useState('')
-
-
     // Handle team click to fetch KPI data
     const handleTeamClick = async (teamName) => {
         try {
@@ -179,7 +175,7 @@ const SalesAgent_Dashboard = () => {
                     team => team.team.team_name === teamName
                 );
                 // Fetch agents and KPI data for the specific team
-                const agentsResponse = await fetch(`https://crmapi.devcir.co/api/sales_agents/team/${selectedTeam.team_id}`);
+                const agentsResponse = await fetch(`http://127.0.0.1:8000/api/sales_agents/team/${selectedTeam.team_id}`);
                 if (!agentsResponse.ok) {
                     throw new Error(`Failed to fetch sales agents for team ${selectedTeam.team_id}`);
                 }
@@ -201,7 +197,7 @@ const SalesAgent_Dashboard = () => {
                         commission: kpi.opportunity.toFixed(2),
                         gatekeeper: kpi.gatekeeperTarget !== '-' && kpi.gatekeeperTarget !== 'N/A' ? 'YES' : 'N/A',
                         gatekeeperTarget: kpi.gatekeeper || '-',
-                      }));
+                    }));
                     console.log("----Transformed Data---", transformedKpiData)
                     console.log("kpi datatata: ", kpiDataParsed);
                     setPerformanceData(transformedKpiData);
@@ -218,18 +214,6 @@ const SalesAgent_Dashboard = () => {
         }
     };
 
-
-    const handleNextData = () => {
-        if (currentDataIndex < localStorageData.length - 1) {
-            setCurrentDataIndex(prev => prev + 1);
-        }
-    };
-    const handlePreviousData = () => {
-        if (currentDataIndex > 0) {
-            setCurrentDataIndex(prev => prev - 1);
-        }
-    };
-
     const handleReload = () => {
         console.log("Reloaded Local")
         fetchLocal()
@@ -241,7 +225,7 @@ const SalesAgent_Dashboard = () => {
         if (numPercent >= 100) return 'bg-[#effff4] text-[#269F8B]';
         if (numPercent >= 80) return 'bg-[#fffdd4] text-[#A9A548]';
         return 'bg-red-200 text-red-800';
-    };
+    };
 
 
     return (
@@ -318,52 +302,71 @@ const SalesAgent_Dashboard = () => {
                                     </thead>
                                     <tbody>
                                         {performanceData.length > 0 ? (
-                                            performanceData.map((row, index) => (
-                                                <tr key={index} className='text-sm'>
-                                                    <td className='py-2 text-[#269F8B] font-medium'>{row.kpi}</td>
-                                                    <td className='py-2 text-center'>{row.target}</td>
-                                                    <td className="py-2 text-center">
-                                                        {localStorageData.length > 0
-                                                            ? localStorageData.slice(currentDataIndex).reduce(
-                                                                (total, data) => total + parseFloat(data.values[index] || 0),
+                                            performanceData.map((row, index) => {
+                                                // Calculate actual value based on KPI type
+                                                let actualValue = '-';
+                                                if (localStorageData.length > 0) {
+                                                    if (row.kpi === 'Conversion') {
+                                                        // Find Sales Volume and Call Volume values
+                                                        const salesVolumeIndex = performanceData.findIndex(item => item.kpi === 'Sales Volume');
+                                                        const callVolumeIndex = performanceData.findIndex(item => item.kpi === 'Call volume');
+                                                        
+                                                        if (salesVolumeIndex !== -1 && callVolumeIndex !== -1) {
+                                                            const salesVolume = localStorageData.slice(currentDataIndex).reduce(
+                                                                (total, data) => total + parseFloat(data.values[salesVolumeIndex] || 0),
                                                                 0
-                                                            ).toFixed(1)
-                                                            : '-'}
-                                                    </td>
-                                                    <td className='py-2 text-center'>
-                                                        <span className={`px-6 py-1 ${getPercentColor(
-                                                            localStorageData.length > 0
-                                                                ? ((localStorageData[currentDataIndex].values[index] / row.target) * 100).toFixed(2)
-                                                                : '-'
-                                                        )}`}>
-                                                            {
-                                                                localStorageData.length > 0
-                                                                    ? ((localStorageData[currentDataIndex].values[index] / row.target) * 100).toFixed(2)
-                                                                    : '-'
-                                                            }&nbsp;&nbsp;%
-                                                        </span>
-                                                    </td>
-                                                    <td className='py-2 text-center'>{row.currency}{row.commission}</td>
-<td
-  className={`px-6 py-1 text-center ${
-    row.gatekeeperTarget !== '-' && row.gatekeeperTarget !== 'N/A'
-      ? 'text-black'
-      : 'bg-gray-100'
-  }`}
->
-  {row.gatekeeperTarget !== '-' && row.gatekeeperTarget !== 'N/A'
-    ? 'YES'
-    : 'N/A'}
-</td>
+                                                            );
+                                                            const callVolume = localStorageData.slice(currentDataIndex).reduce(
+                                                                (total, data) => total + parseFloat(data.values[callVolumeIndex] || 0),
+                                                                0
+                                                            );
+                                                            
+                                                            actualValue = callVolume > 0 ? 
+                                                                (salesVolume / callVolume * 100).toFixed(1) : '0.0';
+                                                        }
+                                                    } else {
+                                                        actualValue = localStorageData.slice(currentDataIndex).reduce(
+                                                            (total, data) => total + parseFloat(data.values[index] || 0),
+                                                            0
+                                                        ).toFixed(1);
+                                                    }
+                                                }
 
-<td className={`px-6 py-1 text-center`}>
-  <span className={`inline-block ${row.gatekeeperTarget == '-' ? 'bg-gray-100 w-12' : ''}`}>
-    {row.gatekeeperTarget}
-  </span>
-</td>
-       
-</tr>
-                                          ))
+                                                // Calculate percentage to target
+                                                let percentToTarget = '-';
+                                                if (actualValue !== '-' && row.target !== '-') {
+                                                    percentToTarget = ((parseFloat(actualValue) / parseFloat(row.target)) * 100).toFixed(2);
+                                                }
+
+                                                return (
+                                                    <tr key={index} className='text-sm'>
+                                                        <td className='py-2 text-[#269F8B] font-medium'>{row.kpi}</td>
+                                                        <td className='py-2 text-center'>{row.target}</td>
+                                                        <td className="py-2 text-center">{actualValue}</td>
+                                                        <td className='py-2 text-center'>
+                                                            <span className={`px-6 py-1 ${getPercentColor(percentToTarget)}`}>
+                                                                {percentToTarget}&nbsp;&nbsp;%
+                                                            </span>
+                                                        </td>
+                                                        <td className='py-2 text-center'>{row.currency}{row.commission}</td>
+                                                        <td
+                                                            className={`px-6 py-1 text-center ${row.gatekeeperTarget !== '-' && row.gatekeeperTarget !== 'N/A'
+                                                                ? 'text-black'
+                                                                : 'bg-gray-100'
+                                                            }`}
+                                                        >
+                                                            {row.gatekeeperTarget !== '-' && row.gatekeeperTarget !== 'N/A'
+                                                                ? 'YES'
+                                                                : 'N/A'}
+                                                        </td>
+                                                        <td className={`px-6 py-1 text-center`}>
+                                                            <span className={`inline-block ${row.gatekeeperTarget == '-' ? 'bg-gray-100 w-12' : ''}`}>
+                                                                {row.gatekeeperTarget}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })
                                         ) : (
                                             <tr>
                                                 <td colSpan="7" className="text-center py-4 text-gray-500">

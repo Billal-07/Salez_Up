@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import 'react-circular-progressbar/dist/styles.css';
 import dataJson from '../Data.json';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 const Actual_page = () => {
     const [tableData, setTableData] = useState([]);
     const [editingCell, setEditingCell] = useState(null);
     const [editValue, setEditValue] = useState('');
-
-
 
     const processValue = (value) => {
         // Remove currency signs
@@ -24,12 +20,8 @@ const Actual_page = () => {
         return isNaN(parseFloat(cleanedValue)) ? cleanedValue : parseFloat(cleanedValue);
     };
 
-
     useEffect(() => {
-        // Initialize AOS animation
-        AOS.init({ duration: 1000 });
-    
-        const storedData = localStorage.getItem('tableData');
+        const storedData = localStorage.getItem('tableData1');
         
         if (storedData) {
             setTableData(JSON.parse(storedData));
@@ -46,7 +38,7 @@ const Actual_page = () => {
                 return { dayName, values: processedValues };
             });
     
-            localStorage.setItem('tableData', JSON.stringify(extractedData));
+            localStorage.setItem('tableData1', JSON.stringify(extractedData));
             setTableData(extractedData);
         }
     }, []);
@@ -66,7 +58,7 @@ const Actual_page = () => {
             newTableData[editingCell.row].values[editingCell.cell] = editValue;
             
             // Update localStorage with entire updated data
-            localStorage.setItem('tableData', JSON.stringify(newTableData));
+            localStorage.setItem('tableData1', JSON.stringify(newTableData));
             
             setTableData(newTableData);
             setEditingCell(null);
@@ -105,7 +97,6 @@ const Actual_page = () => {
                                         <tr 
                                             key={rowIndex} 
                                             className='text-sm'
-                                            data-aos="fade-up"  // AOS fade-up animation on scroll
                                         >
                                             <td className='py-2 text-[#269F8B] font-medium'>{row.dayName}</td>
                                             {row.values.map((value, cellIndex) => (
@@ -151,3 +142,4 @@ const Actual_page = () => {
 };
 
 export default Actual_page;
+

@@ -23,7 +23,7 @@ const Edit_Admin = () => {
 
   const fetchUserData = async (email) => {
     try {
-      const response = await fetch(`https://crmapi.devcir.co/api/admin_portal_login/email/${email}`);
+      const response = await fetch(`http://127.0.0.1:8000/api/admin_portal_login/email/${email}`);
       const data = await response.json();
       setUserData(data);
       setEditableData({
@@ -55,7 +55,7 @@ const Edit_Admin = () => {
     try {
       const encryptedPassword = CryptoJS.AES.encrypt(decryptedPassword, 'DBBDRSSR54321').toString();
       
-      const response = await fetch(`https://crmapi.devcir.co/api/admin_portal_login/${userData.id}`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/admin_portal_login/${userData.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

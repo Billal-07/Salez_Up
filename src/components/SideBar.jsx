@@ -502,9 +502,9 @@ const SideBar = ({ name = "none" }) => {
     );
 
   return (
-    <main className="duration-100 pl-[10px]">
-      <div className="antialiased text-gray-600">
-        <div className="flex flex-col w-[264px] h-full">
+    <main className="duration-100 pl-[10px] w-ful">
+      <div className="antialiased text-gray-600 ">
+        <div className="flex flex-col w-full h-full">
           <div className="overflow-x-hidden overflow-y-auto">
             <ul className="flex flex-col py-4 space-y-1">
               {/* Dashboard Link */}

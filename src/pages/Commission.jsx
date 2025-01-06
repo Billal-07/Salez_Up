@@ -130,7 +130,7 @@ const Commission = () => {
     const fetchKpis = async () => {
       try {
         const response = await axios.get(
-          "https://crmapi.devcir.co/api/kpi_info"
+          "http://127.0.0.1:8000/api/kpi_info"
         );
         setKpis(response.data);
       } catch (error) {
@@ -144,7 +144,7 @@ const Commission = () => {
   const postKpiInfo = async (kpiName) => {
     try {
       const response = await axios.post(
-        "https://crmapi.devcir.co/api/kpi_info",
+        "http://127.0.0.1:8000/api/kpi_info",
         {
           kpi_name: kpiName,
           created_at: new Date().toISOString(),
@@ -231,7 +231,7 @@ const Commission = () => {
 
     try {
       const response = await fetch(
-        `https://crmapi.devcir.co/api/sales_agents_teams`,
+        `http://127.0.0.1:8000/api/sales_agents_teams`,
         {
           method: "PUT",
           headers: {
@@ -495,16 +495,16 @@ const Commission = () => {
     const fetchData = async () => {
       try {
         const campaignResponse = await axios.get(
-          "https://crmapi.devcir.co/api/campaigns"
+          "http://127.0.0.1:8000/api/campaigns"
         );
         const teamResponse = await axios.get(
-          "https://crmapi.devcir.co/api/teams"
+          "http://127.0.0.1:8000/api/teams"
         );
         const campaignsAndTeamsResponse = await axios.get(
-          "https://crmapi.devcir.co/api/campaigns_and_teams"
+          "http://127.0.0.1:8000/api/campaigns_and_teams"
         );
         const salesAgentsResponse = await axios.get(
-          "https://crmapi.devcir.co/api/sales_agents"
+          "http://127.0.0.1:8000/api/sales_agents"
         );
 
         setCampaignsAndTeamsData(campaignsAndTeamsResponse.data);
@@ -578,7 +578,7 @@ const Commission = () => {
 
   useEffect(() => {
     axios
-      .get("https://crmapi.devcir.co/api/kpi_info")
+      .get("http://127.0.0.1:8000/api/kpi_info")
       .then((response) => {
         const kpis = response.data;
         setKpis(kpis);
@@ -733,7 +733,7 @@ const Commission = () => {
     console.log("Updated Data: ", dataToPost);
     try {
       const response = await fetch(
-        `https://crmapi.devcir.co/api/sales_agents/${updatedTeam.id}`,
+        `http://127.0.0.1:8000/api/sales_agents/${updatedTeam.id}`,
         {
           method: "PUT",
           headers: {
@@ -819,7 +819,7 @@ const Commission = () => {
     console.log(`delete team = ${deletedTeam}`);
     try {
       const response = await axios.put(
-        `https://crmapi.devcir.co/api/sales_agents/${deletedTeam}`,
+        `http://127.0.0.1:8000/api/sales_agents/${deletedTeam}`,
         { kpi_data: null },
         {
           headers: {
@@ -856,9 +856,9 @@ const Commission = () => {
           teamLeaderResponse,
           campaignsAndTeamsResponse,
         ] = await Promise.all([
-          fetch("https://crmapi.devcir.co/api/sales_agents"),
-          fetch("https://crmapi.devcir.co/api/team_and_team_leader"),
-          fetch("https://crmapi.devcir.co/api/campaigns_and_teams"),
+          fetch("http://127.0.0.1:8000/api/sales_agents"),
+          fetch("http://127.0.0.1:8000/api/team_and_team_leader"),
+          fetch("http://127.0.0.1:8000/api/campaigns_and_teams"),
         ]);
 
         const salesAgentsData = await salesAgentsResponse.json();
@@ -907,7 +907,7 @@ const Commission = () => {
 
   useEffect(() => {
     axios
-      .get("https://crmapi.devcir.co/api/teams")
+      .get("http://127.0.0.1:8000/api/teams")
       .then((response) => {
         const allTeams = response.data;
 

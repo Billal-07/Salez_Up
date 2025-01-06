@@ -78,7 +78,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
     let fetchedTeamAndLeaders = [];
 
     axios
-      .get("https://crmapi.devcir.co/api/department-heads")
+      .get("http://127.0.0.1:8000/api/department-heads")
       .then((response) => {
         fetchedTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -139,7 +139,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
 
   useEffect(() => {
     axios
-      .get("https://crmapi.devcir.co/api/campaigns")
+      .get("http://127.0.0.1:8000/api/campaigns")
       .then((response) => {
         setCampaigns(response.data);
         response.data.forEach((campaign) =>
@@ -178,7 +178,7 @@ const UpdateModal = ({ isOpen, onClose, data }) => {
 
     axios
       .post(
-        `https://crmapi.devcir.co/api/junior-department-heads/${id}?_method=PUT`,
+        `http://127.0.0.1:8000/api/junior-department-heads/${id}?_method=PUT`,
         formData,
         {
           headers: {
@@ -459,7 +459,7 @@ const JuniorHeadOfDepartment = () => {
 
     // Fetch juniordepthead from API
     axios
-      .get("https://crmapi.devcir.co/api/junior-department-heads")
+      .get("http://127.0.0.1:8000/api/junior-department-heads")
       .then((response) => {
         const fetchedTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -534,7 +534,7 @@ const JuniorHeadOfDepartment = () => {
     if (!confirmed) return;
 
     axios
-    .put(`https://crmapi.devcir.co/api/remove-Junior-dept-head/${team.id}`)
+    .put(`http://127.0.0.1:8000/api/remove-Junior-dept-head/${team.id}`)
     .then((response) => {
       toast.success("Junior Departments Updated.", {
         position: "bottom-right",
@@ -554,7 +554,7 @@ const JuniorHeadOfDepartment = () => {
       console.error("Error updating Dept_Head_id:", error);
     });
 
-    fetch(`https://crmapi.devcir.co/api/junior-department-heads/${team.id}`, {
+    fetch(`http://127.0.0.1:8000/api/junior-department-heads/${team.id}`, {
       method: "DELETE",
     })
       .then((response) => {

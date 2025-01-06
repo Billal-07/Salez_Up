@@ -78,7 +78,7 @@ const Head_of_sales_SignUp = () => {
     }
 
     try {
-      const response = await fetch('https://crmapi.devcir.co/api/head_of_sales');
+      const response = await fetch('http://127.0.0.1:8000/api/head_of_sales');
       if (!response.ok) {
         throw new Error('Failed to fetch user data');
       }
@@ -92,7 +92,7 @@ const Head_of_sales_SignUp = () => {
 
       console.log('Sending OTP to email:', email);
 
-      const otpResponse = await fetch('https://crmapi.devcir.co/api/send-otp', {
+      const otpResponse = await fetch('http://127.0.0.1:8000/api/send-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -157,7 +157,7 @@ const Head_of_sales_SignUp = () => {
     const link = generateUniqueCode();
 
     try {
-      const otpResponse = await fetch('https://crmapi.devcir.co/api/verify-otp', {
+      const otpResponse = await fetch('http://127.0.0.1:8000/api/verify-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -183,16 +183,16 @@ const Head_of_sales_SignUp = () => {
           const payloadMail = {
             role: "Head of Sales",
             email: email,
-            link: `https://crmapi.devcir.co/HeadofSales/${link}`,
+            link: `http://127.0.0.1:8000/HeadofSales/${link}`,
             password: password,
             managerId: head_of_sales_secret_id
           }
 
-          const response = await axios.post("https://crmapi.devcir.co/api/head_of_sales", formData);
+          const response = await axios.post("http://127.0.0.1:8000/api/head_of_sales", formData);
           console.log("Registration successful:", response.data);
 
           try {
-            const response = await fetch('https://crmapi.devcir.co/api/send-link3', {
+            const response = await fetch('http://127.0.0.1:8000/api/send-link3', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

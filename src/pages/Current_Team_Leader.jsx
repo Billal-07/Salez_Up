@@ -14,7 +14,7 @@ export default function Current_Team_Leader() {
 
   useEffect(() => {
     // Fetch campaigns and teams
-    fetch("https://crmapi.devcir.co/api/campaigns_and_teams")
+    fetch("http://127.0.0.1:8000/api/campaigns_and_teams")
       .then(response => response.json())
       .then(data => {
         const filteredData = data.filter(item => item.team.manager_id === managerId);
@@ -23,13 +23,13 @@ export default function Current_Team_Leader() {
       .catch(error => console.error("Error fetching campaigns and teams:", error));
 
     // Fetch team and team leaders
-    fetch("https://crmapi.devcir.co/api/team_and_team_leader")
+    fetch("http://127.0.0.1:8000/api/team_and_team_leader")
       .then(response => response.json())
       .then(data => setTeamLeaders(data))
       .catch(error => console.error("Error fetching team leaders:", error));
 
     // Fetch sales agents
-    fetch("https://crmapi.devcir.co/api/sales_agents")
+    fetch("http://127.0.0.1:8000/api/sales_agents")
       .then(response => response.json())
       .then(data => setSalesAgents(data))
       .catch(error => console.error("Error fetching sales agents:", error));
