@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import SideBar from '../components/SideBar';
 import PerformanceTable from './PerformanceTable';
 import Intro from './Intro'
-import My_Commission from './ContestSummary'
+import My_Commission from './My_Commission'
 import ContestSummary from './ContestSummary';
 
 const SalesAgent_Main_dashboard = () => {
@@ -18,8 +18,8 @@ const SalesAgent_Main_dashboard = () => {
                 <div className="w-[78%] flex flex-col overflow-hidden">
                     <Intro />
                     <My_Commission />
-                    <ContestSummary />
                     <PerformanceTable />
+                    <ContestSummary />
 
                 </div>
 

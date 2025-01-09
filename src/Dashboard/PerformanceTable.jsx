@@ -4,6 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import RevenueTable from './RevenueTable';
 import { toast } from 'react-toastify';
+import UnitsTable from './UnitsTable';
+import ConversionTable from './ConversionTable';
+import DialsTable from './DialsTable';
+import ProductivityTable from './ProductivityTable';
 
 const PerformanceTable = () => {
     const [performanceData, setPerformanceData] = useState([]);
@@ -113,10 +117,10 @@ const PerformanceTable = () => {
                                 <div className='flex'>
                                     <button className='px-6 py-1 text-sm font-medium text-[#269F8B] border border-gray-300 bg-white rounded-l shadow-xl' onClick={() => handleViewChange('all')}>All</button>
                                     <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white' onClick={() => handleViewChange('revenue')}>Revenue</button>
-                                    <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white'>Units</button>
-                                    <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white'>Conversion</button>
-                                    <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white'>Dials</button>
-                                    <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white'>Productivity</button>
+                                    <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white' onClick={() => handleViewChange('units')}>Units</button>
+                                    <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white' onClick={() => handleViewChange('conversion')}>Conversion</button>
+                                    <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white' onClick={() => handleViewChange('dials')}>Dials</button>
+                                    <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white' onClick={() => handleViewChange('productivity')}>Productivity</button>
                                 </div>
                             </div>
                             {/* Loader */}
@@ -224,6 +228,10 @@ const PerformanceTable = () => {
                             </div>
                         )}
                         {view === 'revenue' && <RevenueTable />}
+                        {view === 'units' && <UnitsTable />}
+                        {view === 'conversion' && <ConversionTable />}
+                        {view === 'dials' && <DialsTable />}
+                        {view === 'productivity' && <ProductivityTable />}
                     </div >
                 </div >
             </div >

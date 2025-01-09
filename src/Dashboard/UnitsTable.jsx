@@ -10,7 +10,7 @@ const HalfDonutChart = ({ data, colors }) => {
   const options = {
     rotation: -90, // Start at the top
     circumference: 180, // Half circle (180 degrees)
-    cutout: "92%", // Adjust the thickness of the donut
+    cutout: "90%", // Adjust the thickness of the donut
     plugins: {
       legend: {
         display: false, // Hides the legend
@@ -41,7 +41,7 @@ const HalfDonutChart = ({ data, colors }) => {
 };
 
 
-const RevenueTable = () => {
+const UnitsTable = () => {
   const agents = [
     {
       name: "Nava Yaghnsı",
@@ -64,7 +64,6 @@ const RevenueTable = () => {
   ];
 
   return (
-    <div className="w-full flex flex-row justify-between space-x-2">
     <div className="w-full flex flex-row justify-between space-x-2">
       <div className="w-1/2 rounded-lg shadow p-6 max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-10">
@@ -106,11 +105,11 @@ const RevenueTable = () => {
         <div className="flex justify-between items-center mb-3">
           <div>
             <p className="text-lg font-medium text-green-600">Forecast Commission</p>
-            <h2 className="text-xl font-bold text-green-600">$560</h2>
+            <h2 className="text-xl font-bold text-green-600">$208</h2>
           </div>
           <div className="flex items-center text-green-600 font-medium">
             <FaArrowUp className="mr-1" />
-            <span>2.5%</span>
+            <span>1.5%</span>
           </div>
         </div>
 
@@ -119,19 +118,19 @@ const RevenueTable = () => {
           {/* Actual vs Target */}
           <div className="flex-1 flex flex-col justify-center items-center text-center">
             <h3 className="font-medium text-gray-800">Actual vs Target</h3>
-            <p className="text-xs text-green-600 mb-4">50% to target</p>
+            <p className="text-xs text-green-600 mb-4">85% to target</p>
 
             {/* Half-Donut Chart */}
             <div className="relative flex justify-center items-center -mt-9">
               <HalfDonutChart
-                data={[50, 50]} // Progress and remaining
-                colors={["#ff5f66", "#f3f4f6"]} // Progress and remaining colors
+                data={[50, 15]} // Progress and remaining
+                colors={["#ceec4f", "#f3f4f6"]} // Progress and remaining colors
               />
               <div className="absolute inset-0 flex mt-16 flex-col justify-evenly items-center">
-                <p className="text-red-500 text-2xl font-normal">$5K</p>
+                <p className="text-green-500 text-2xl font-light">35</p>
                 <div className="flex justify-evenly space-x-20 text-sm text-gray-500 w-full">
-                  <span>$0K</span>
-                  <span>$10K</span>
+                  <span>0</span>
+                  <span>50</span>
                 </div>
               </div>
             </div>
@@ -144,19 +143,19 @@ const RevenueTable = () => {
           {/* Forecast Finish */}
           <div className="flex-1 flex flex-col justify-center items-center text-center">
             <h3 className="font-medium text-gray-800">Forecast Finish</h3>
-            <p className="text-xs text-green-600 mb-4">^ 112% to target</p>
+            <p className="text-xs text-green-600 mb-4">^ 108% to target</p>
 
             {/* Half-Donut Chart */}
             <div className="relative flex justify-center items-center -mt-9">
               <HalfDonutChart
-                data={[80, 20]} // Progress and remaining
+                data={[80, 11]} // Progress and remaining
                 colors={["#10b981", "#f3f4f6"]} // Progress and remaining colors
               />
               <div className="absolute inset-0 flex mt-16 flex-col justify-evenly items-center">
-                <p className="text-green-500 text-2xl font-normal">$12K</p>
+                <p className="text-green-500 text-2xl font-light">45</p>
                 <div className="flex justify-evenly space-x-20 text-sm text-gray-500 w-full">
-                  <span>$0K</span>
-                  <span>$15K</span>
+                  <span>0</span>
+                  <span>65</span>
                 </div>
               </div>
             </div>
@@ -164,8 +163,7 @@ const RevenueTable = () => {
         </div>
       </div>
     </div>
-    </div>
   );
 };
 
-export default RevenueTable;
+export default UnitsTable;
