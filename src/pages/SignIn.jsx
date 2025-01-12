@@ -452,11 +452,14 @@ const SignIn = () => {
             localStorage.setItem('userEmail', foundUser.email);
             localStorage.setItem('userFName', foundUser.first_name);
             localStorage.setItem('id', foundUser.id);
+            localStorage.setItem('managerRole', "Team Leader");
           }
           else if (type == "Sales Agent") {
             localStorage.setItem('userEmail', foundUser.email);
             localStorage.setItem('userFName', foundUser.first_name);
             localStorage.setItem('id', foundUser.id);
+            localStorage.setItem('Team_id', foundUser.team_id);
+            localStorage.setItem('managerRole', "Sales Agent");
           }
 
           // Store user info in local storage
@@ -514,7 +517,7 @@ const SignIn = () => {
       if (role == "Manager") {
         return data.map(({ id, email, password, manager_name, manager_secret_id }) => ({ id, email, password, manager_name, manager_secret_id }));
       } else {
-        return data.map(({ id, email, password, first_name }) => ({ id, email, password, first_name }));
+        return data.map(({ id, email, password, first_name, team_id }) => ({ id, email, password, first_name, team_id }));
       }
     } catch (error) {
       console.error('Error fetching data:', error);

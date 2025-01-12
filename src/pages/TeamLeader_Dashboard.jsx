@@ -69,7 +69,7 @@ const TeamLeader_Dashboard = () => {
             <SideBar/>
           </div>
 
-          <div className='flex flex-col w-full gap-6 p-8 pb-12 card white w-[82%]'>
+          <div className='flex flex-col gap-6 p-8 pb-12 card white w-[82%]'>
           <div className='flex justify-between items-center mt-10'>
                                 <h1 className='font-[500] leading-[33px] text-[22px] text-[#269F8B]'>Campaign Performance</h1>
                                 <div className='flex'>

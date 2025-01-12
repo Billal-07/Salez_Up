@@ -1,16 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'react-circular-progressbar/dist/styles.css';
 
 
 const ContestSummary = () => {
 
-    const prizes = [
-        { name: 'Cash', amount: 50, iconSrc: '/images/cash.png' },
-        { name: 'Vouchers', amount: 50, iconSrc: '/images/voucher.png' },
-        { name: 'Food', amount: 50, iconSrc: '/images/food.png' },
-        { name: 'Experiences', amount: 0, iconSrc: '/images/experience.png' }
-    ];
+    const [summary, setSummary] = useState({
+        contests: 2,
+        points: 200,
+        totalPrizes: 150,
+        prizes: [
+            { name: 'Cash', amount: 50, iconSrc: '/images/cash.png' },
+            { name: 'Vouchers', amount: 50, iconSrc: '/images/voucher.png' },
+            { name: 'Food', amount: 50, iconSrc: '/images/food.png' },
+            { name: 'Experiences', amount: 0, iconSrc: '/images/experience.png' }
+        ]
+    });
 
+    const handleButtonClick = (period) => {
+        if (period === 'Week') {
+            setSummary({
+                contests: 1,
+                points: 100,
+                totalPrizes: 75,
+                prizes: [
+                    { name: 'Cash', amount: 30, iconSrc: '/images/cash.png' },
+                    { name: 'Vouchers', amount: 20, iconSrc: '/images/voucher.png' },
+                    { name: 'Food', amount: 25, iconSrc: '/images/food.png' },
+                    { name: 'Experiences', amount: 70, iconSrc: '/images/experience.png' }
+                ]
+            });
+        } else if (period === 'Month') {
+            setSummary({
+                contests: 2,
+                points: 200,
+                totalPrizes: 150,
+                prizes: [
+                    { name: 'Cash', amount: 50, iconSrc: '/images/cash.png' },
+                    { name: 'Vouchers', amount: 50, iconSrc: '/images/voucher.png' },
+                    { name: 'Food', amount: 50, iconSrc: '/images/food.png' },
+                    { name: 'Experiences', amount: 40, iconSrc: '/images/experience.png' }
+                ]
+            });
+        } else if (period === 'Year') {
+            setSummary({
+                contests: 5,
+                points: 500,
+                totalPrizes: 300,
+                prizes: [
+                    { name: 'Cash', amount: 100, iconSrc: '/images/cash.png' },
+                    { name: 'Vouchers', amount: 100, iconSrc: '/images/voucher.png' },
+                    { name: 'Food', amount: 100, iconSrc: '/images/food.png' },
+                    { name: 'Experiences', amount: 0, iconSrc: '/images/experience.png' }
+                ]
+            });
+        }
+    };
 
     const Badge = ({ rank }) => {
         const images = {
@@ -131,91 +175,106 @@ const ContestSummary = () => {
     return (
 
         <>
-                <div className='w-auto mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4'>                   
-                    <div className='flex flex-col w-auto gap-6 p-8 pb-12 card'>
-                        <div className='flex justify-between items-center mb-4'>
-                            <h1 className='font-[500] leading-[33px] text-[22px] text-[#269F8B]'>Contest Summary</h1>
-                            <div className='flex'>
-                                <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-l border-gray-300 bg-white'>Week</button>
-                                <button className='px-6 py-1 text-sm font-medium text-[#269F8B] border border-gray-300 bg-white rounded-l shadow-xl'>Month</button>
-                                <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white'>Year</button>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col">
-                            <div className="flex h-24 px-4 space-x-10 rounded-lg border-b-4 border-[#009245]/5">
-                                <div className="flex flex-row items-center pl-1 space-x-14 pr-1 border-r-4 border-[#009245]/5">
-                                    <img src='/images/medals.png' alt='Medal' className="w-[23px] h-[50.18px]" />
-                                    <p className="text-black text-[15px] font-normal">CONTESTS</p>
-                                    <h2 className="text-white bg-themeGreen px-4 py-[10px] rounded-xl text-xl font-semibold ">2</h2>
-                                </div>
-                                <div className="flex flex-row items-center pl-1 space-x-14 pr-1 border-r-4 border-[#009245]/5">
-                                    <img src='/images/stars.png' alt='Medal' className="w-[33px] h-[30.7px]" />
-                                    <p className="text-black text-[15px] font-normal">POINTS</p>
-                                    <h2 className="text-white bg-themeGreen px-4 py-[10px] rounded-xl text-xl font-semibold">200</h2>
-                                </div>
-                                <div className="flex flex-row items-center pl-1 space-x-14 pr-1 ">
-                                    <img src='/images/cashBag.png' alt='Medal' className="w-[33px] h-[41px]" />
-                                    <p className="text-black text-[15px] font-normal">TOTAL PRIZES</p>
-                                    <h2 className="text-white bg-themeGreen px-4 py-[10px] rounded-xl text-xl font-semibold">$150</h2>
-                                </div>
-                            </div>
-
-                            <div className="flex p-1">
-                                {prizes.map((prize, index) => (
-                                    <div
-                                        key={index}
-                                        className="w-full p-4 flex items-center space-x-4 bg-white shadow-md"
-                                    >
-                                        <img src={prize.iconSrc} alt={prize.name} className="w-[39.2px] h-[30.36px]" />
-                                        <p className="text-[#000000] text-[11.76px] font-normal">{prize.name}</p>
-                                        <h2 className="bg-white shadow-lg p-2 text-[#269F8B] text-lg font-semibold shadow-[#00A46C26]">${prize.amount}</h2>
-                                    </div>
-                                ))}
-                            </div>
-
-                        </div>
-
-                        <div className="container mx-auto">
-
-                            <div className='flex justify-center  bg-white rounded-lg shadow-sm order-2 border-2 border-gray-100 py-8'>
-                                {contestants.map((contestant, index) => (
-                                    <div key={index} className='flex flex-col items-center mx-4 '>
-                                        <div className='relative'>
-                                            <img src={contestant.avatar} alt={contestant.name} className='w-[173px] h-[173px] rounded-full' />
-                                            <div className='absolute top-32  left-24 w-[81px] h-[81px] rounded-full'>
-                                                <img src={contestant.badgeColor} alt='Badge' className='w-full h-full object-cover rounded-full' />
-                                            </div>
-                                        </div>
-                                        <p className='mt-10 text-lg font-medium text-[#009245]'>{contestant.name}</p>
-                                        <p className={`mt-1 text-base font-bold bg-clip-text text-transparent ${index == 0 ? 'bg-gradient-to-r from-[#1DD6FF] to-[#D21EFF]' : index == 1 ? 'bg-[#4F4F4F]' : 'bg-[#FFC700]'}`}>{contestant.level}</p>
-                                        <div className='flex items-center mt-1'>
-                                            <img src='images/star.png' alt='Star' className='w-6 h-6 mt-1' />
-                                            <span className='ml-1 text-base text-[#6A6A6A] font-medium'>{contestant.points} points</span>
-                                        </div>
-                                        <div className='flex items-center mt-1'>
-                                            <img src='images/bag.png' alt='Star' className='w-6 h-6 mt-1' />
-                                            <span className='ml-2 text-base text-[#6A6A6A] font-medium'>${contestant.money}</span>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-
-
-
-                            <div>
-                                <Leaderboard leaderboardData={leaderboardData} />
-                            </div>
-
-
+            <div className='w-auto mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4'>
+                <div className='flex flex-col w-auto gap-6 p-8 pb-12 card'>
+                    <div className='flex justify-between items-center mb-4'>
+                        <h1 className='font-[500] leading-[33px] text-[22px] text-[#269F8B]'>Contest Summary</h1>
+                        <div className='flex'>
+                            <button 
+                                onClick={() => handleButtonClick('Week')} 
+                                className={`px-3 py-1 text-sm font-medium border border-gray-300 bg-white ${summary.contests === 1 ? 'text-[#269F8B] rounded-l shadow-xl' : 'text-[#ABABAB]'}`}
+                            >
+                                Week
+                            </button>
+                            <button 
+                                onClick={() => handleButtonClick('Month')} 
+                                className={`px-6 py-1 text-sm font-medium border border-gray-300 bg-white ${summary.contests === 2 ? 'text-[#269F8B] rounded-l shadow-xl' : 'text-[#ABABAB]'}`}
+                            >
+                                Month
+                            </button>
+                            <button 
+                                onClick={() => handleButtonClick('Year')} 
+                                className={`px-3 py-1 text-sm font-medium border border-gray-300 bg-white ${summary.contests === 5 ? 'text-[#269F8B] rounded-l shadow-xl' : 'text-[#ABABAB]'}`}
+                            >
+                                Year
+                            </button>
                         </div>
                     </div>
 
+                    <div className="flex flex-col">
+                        <div className="flex h-24 px-4 space-x-10 rounded-lg border-b-4 border-[#009245]/5">
+                            <div className="flex flex-row items-center pl-1 space-x-14 pr-1 border-r-4 border-[#009245]/5">
+                                <img src='/images/medals.png' alt='Medal' className="w-[23px] h-[50.18px]" />
+                                <p className="text-black text-[15px] font-normal">CONTESTS</p>
+                                <h2 className="text-white bg-themeGreen px-4 py-[10px] rounded-xl text-xl font-semibold ">{summary.contests}</h2>
+                            </div>
+                            <div className="flex flex-row items-center pl-1 space-x-14 pr-1 border-r-4 border-[#009245]/5">
+                                <img src='/images/stars.png' alt='Medal' className="w-[33px] h-[30.7px]" />
+                                <p className="text-black text-[15px] font-normal">POINTS</p>
+                                <h2 className="text-white bg-themeGreen px-4 py-[10px] rounded-xl text-xl font-semibold">{summary.points}</h2>
+                            </div>
+                            <div className="flex flex-row items-center pl-1 space-x-14 pr-1 ">
+                                <img src='/images/cashBag.png' alt='Medal' className="w-[33px] h-[41px]" />
+                                <p className="text-black text-[15px] font-normal">TOTAL PRIZES</p>
+                                <h2 className="text-white bg-themeGreen px-4 py-[10px] rounded-xl text-xl font-semibold">${summary.totalPrizes}</h2>
+                            </div>
+                        </div>
+
+                        <div className="flex p-1">
+                            {summary.prizes.map((prize, index) => (
+                                <div
+                                    key={index}
+                                    className="w-full p-4 flex items-center space-x-4 bg-white shadow-md"
+                                >
+                                    <img src={prize.iconSrc} alt={prize.name} className="w-[39.2px] h-[30.36px]" />
+                                    <p className="text-[#000000] text-[11.76px] font-normal">{prize.name}</p>
+                                    <h2 className="bg-white shadow-lg p-2 text-[#269F8B] text-lg font-semibold shadow-[#00A46C26]">${prize.amount}</h2>
+                                </div>
+                            ))}
+                        </div>
+
+                    </div>
+
+                    <div className="container mx-auto">
+
+                        <div className='flex justify-center  bg-white rounded-lg shadow-sm order-2 border-2 border-gray-100 py-8'>
+                            {contestants.map((contestant, index) => (
+                                <div key={index} className='flex flex-col items-center mx-4 '>
+                                    <div className='relative'>
+                                        <img src={contestant.avatar} alt={contestant.name} className='w-[173px] h-[173px] rounded-full' />
+                                        <div className='absolute top-32  left-24 w-[81px] h-[81px] rounded-full'>
+                                            <img src={contestant.badgeColor} alt='Badge' className='w-full h-full object-cover rounded-full' />
+                                        </div>
+                                    </div>
+                                    <p className='mt-10 text-lg font-medium text-[#009245]'>{contestant.name}</p>
+                                    <p className={`mt-1 text-base font-bold bg-clip-text text-transparent ${index == 0 ? 'bg-gradient-to-r from-[#1DD6FF] to-[#D21EFF]' : index == 1 ? 'bg-[#4F4F4F]' : 'bg-[#FFC700]'}`}>{contestant.level}</p>
+                                    <div className='flex items-center mt-1'>
+                                        <img src='images/star.png' alt='Star' className='w-6 h-6 mt-1' />
+                                        <span className='ml-1 text-base text-[#6A6A6A] font-medium'>{contestant.points} points</span>
+                                    </div>
+                                    <div className='flex items-center mt-1'>
+                                        <img src='images/bag.png' alt='Star' className='w-6 h-6 mt-1' />
+                                        <span className='ml-2 text-base text-[#6A6A6A] font-medium'>${contestant.money}</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
 
 
-                    {/* ______________________________________________________________________________________________________ */}
 
+                        <div>
+                            <Leaderboard leaderboardData={leaderboardData} />
+                        </div>
+
+
+                    </div>
                 </div>
+
+
+
+                {/* ______________________________________________________________________________________________________ */}
+
+            </div>
         </>
 
     )

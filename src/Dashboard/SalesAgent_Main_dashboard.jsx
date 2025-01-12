@@ -20,7 +20,6 @@ const SalesAgent_Main_dashboard = () => {
                     <My_Commission />
                     <PerformanceTable />
                     <ContestSummary />
-
                 </div>
 
             </div >

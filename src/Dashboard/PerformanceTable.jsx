@@ -30,7 +30,6 @@ const PerformanceTable = () => {
     // Use useEffect to set up the listener on mount
     useEffect(() => {
         fetchLocal();
-        // Event listener for changes in localStorage
         const handleStorageChange = (event) => {
             if (event.key === 'tableData1') {
                 fetchLocal(); // Fetch updated data when localStorage changes
@@ -114,14 +113,51 @@ const PerformanceTable = () => {
                         <div className='flex flex-col'>
                             <div className='flex justify-between items-center mb-4'>
                                 <h1 className='font-[500] leading-[33px] text-[22px] text-[#269F8B]'>Campaign Performance</h1>
-                                <div className='flex'>
-                                    <button className='px-6 py-1 text-sm font-medium text-[#269F8B] border border-gray-300 bg-white rounded-l shadow-xl' onClick={() => handleViewChange('all')}>All</button>
-                                    <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white' onClick={() => handleViewChange('revenue')}>Revenue</button>
-                                    <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white' onClick={() => handleViewChange('units')}>Units</button>
-                                    <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white' onClick={() => handleViewChange('conversion')}>Conversion</button>
-                                    <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white' onClick={() => handleViewChange('dials')}>Dials</button>
-                                    <button className='px-3 py-1 text-sm font-medium text-[#ABABAB] border-t border-b border-r border-gray-300 bg-white' onClick={() => handleViewChange('productivity')}>Productivity</button>
+                                <div className="flex">
+                                    <button
+                                        className={`px-6 py-1 text-sm font-medium ${view === 'all' ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB]'
+                                            } border border-gray-300 bg-white rounded-l`}
+                                        onClick={() => handleViewChange('all')}
+                                    >
+                                        All
+                                    </button>
+                                    <button
+                                        className={`px-3 py-1 text-sm font-medium ${view === 'revenue' ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB]'
+                                            } border-t border-b border-r border-gray-300 bg-white`}
+                                        onClick={() => handleViewChange('revenue')}
+                                    >
+                                        Revenue
+                                    </button>
+                                    <button
+                                        className={`px-3 py-1 text-sm font-medium ${view === 'units' ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB]'
+                                            } border-t border-b border-r border-gray-300 bg-white`}
+                                        onClick={() => handleViewChange('units')}
+                                    >
+                                        Units
+                                    </button>
+                                    <button
+                                        className={`px-3 py-1 text-sm font-medium ${view === 'conversion' ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB]'
+                                            } border-t border-b border-r border-gray-300 bg-white`}
+                                        onClick={() => handleViewChange('conversion')}
+                                    >
+                                        Conversion
+                                    </button>
+                                    <button
+                                        className={`px-3 py-1 text-sm font-medium ${view === 'dials' ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB]'
+                                            } border-t border-b border-r border-gray-300 bg-white`}
+                                        onClick={() => handleViewChange('dials')}
+                                    >
+                                        Dials
+                                    </button>
+                                    <button
+                                        className={`px-3 py-1 text-sm font-medium ${view === 'productivity' ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB]'
+                                            } border-t border-b border-r border-gray-300 bg-white`}
+                                        onClick={() => handleViewChange('productivity')}
+                                    >
+                                        Productivity
+                                    </button>
                                 </div>
+
                             </div>
                             {/* Loader */}
                             {view === 'all' && (
