@@ -1,38 +1,76 @@
-import React, { useEffect, useState } from 'react';
+
+import React, { useState, useEffect } from "react";
 import {
   ComposedChart,
   Bar,
   Line,
+  CartesianGrid,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   LabelList,
-} from 'recharts';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+} from "recharts";
 
-const Agent_barchart = ({ data }) => {
-  const formatYAxis = (value) => {
-    if (value === 0) return '$0';
-    if (value >= 1000) {
-      return `$${value / 1000}k`;
-    }
-    return `$${value}`;
-  };
-
-  const currentYear = new Date().getFullYear();
+const Actual_Vs_Target_logic = () => {
+  const [chartData, setChartData] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [years, setYears] = useState([]);
-  const [selectedYear, setSelectedYear] = useState(currentYear);
+
+  const initialData = [
+    { month: "Jan", target: 10000, actual: 12000 },
+    { month: "Feb", target: 9000, actual: 9000 },
+    { month: "Mar", target: 11000, actual: 16000 },
+    { month: "Apr", target: 8000, actual: 8000 },
+    { month: "May", target: 14000, actual: 9000 },
+    { month: "June", target: 9000, actual: 9000 },
+    { month: "July", target: 15000, actual: 15000 },
+    { month: "Aug", target: 10000, actual: 10000 },
+    { month: "Sep", target: 13000, actual: 13000 },
+    { month: "Oct", target: 5000, actual: 5000 },
+    { month: "Nov", target: 11000, actual: 11000 },
+    { month: "Dec", target: 8000, actual: 8000 },
+  ];
 
   useEffect(() => {
+    // Initialize localStorage with data if it doesn't exist
+    const existingData = localStorage.getItem('charts');
+    if (!existingData) {
+      localStorage.setItem('charts', JSON.stringify(initialData));
+      setChartData(initialData);
+    } else {
+      setChartData(JSON.parse(existingData));
+    }
+
+    // Generate years for dropdown
+    const currentYear = new Date().getFullYear();
     const generatedYears = Array.from(
       { length: 10 },
       (_, i) => currentYear + i
     );
     setYears(generatedYears);
-  }, [currentYear]);
+
+    // Add event listener for storage changes
+    const handleStorageChange = (e) => {
+      if (e.key === 'charts') {
+        setChartData(JSON.parse(e.newValue));
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  const formatYAxis = (value) => {
+    if (value === 0) return "$0";
+    if (value >= 1000) {
+      return `$${value / 1000}k`;
+    }
+    return `$${value}`;
+  };
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -41,20 +79,6 @@ const Agent_barchart = ({ data }) => {
   const handleYearSelect = (year) => {
     setSelectedYear(year);
     setIsDropdownOpen(false);
-  };
-
-  const renderCustomLabel = ({ x, y, value }) => {
-    return (
-      <text
-        x={x}
-        y={y - 10}
-        fill="#059669"
-        fontSize={12}
-        textAnchor="middle"
-      >
-        ${value / 1000}k
-      </text>
-    );
   };
 
   const CustomizedDot = (props) => {
@@ -79,10 +103,10 @@ const Agent_barchart = ({ data }) => {
   };
 
   return (
-    <div className="w-full p-4 bg-white rounded-lg shadow-lg">
+    <div className="w-full p-4  rounded-lg shadow-lg bg-white">
       <div className="flex justify-between items-center mb-2 relative">
         <h3 className="text-xl text-[#009245]">Actual vs Target</h3>
-        <div className="flex items-center space-x-4 ">
+        <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <div className="w-3 h-3 rounded-full bg-[#009245]"></div>
             <span className="text-sm text-[#072D20]">Target</span>
@@ -97,11 +121,23 @@ const Agent_barchart = ({ data }) => {
               onClick={toggleDropdown}
             >
               {selectedYear}
-              <FontAwesomeIcon icon={faAngleDown} className="ml-2 text-[#072D20]" />
+              <svg
+                className="w-4 h-4 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
             </button>
 
             {isDropdownOpen && (
-              <div className="absolute top-full w-[180%] right-0 mt-2 bg-white border border-gray-300 shadow-lg rounded-md max-h-40 overflow-y-auto z-50" style={{ zIndex: 50 }}>
+              <div className="absolute top-full w-[180%] right-0 mt-2 bg-white border border-gray-300 shadow-lg rounded-md max-h-40 overflow-y-auto z-50">
                 {years.map((year) => (
                   <div
                     key={year}
@@ -118,9 +154,9 @@ const Agent_barchart = ({ data }) => {
       </div>
 
       <ComposedChart
-        width={1000}
+        width={950}
         height={300}
-        data={data}
+        data={chartData}
         margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
       >
         <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -128,28 +164,28 @@ const Agent_barchart = ({ data }) => {
           dataKey="month"
           axisLine={false}
           tickLine={false}
-          tick={{ fill: '#666' }}
+          tick={{ fill: "#666" }}
         />
         <YAxis
           axisLine={false}
           tickLine={false}
-          tick={{ fill: '#666' }}
+          tick={{ fill: "#666" }}
           tickFormatter={formatYAxis}
         />
         <Tooltip
           formatter={(value) => `$${value.toLocaleString()}`}
           contentStyle={{
-            backgroundColor: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            backgroundColor: "white",
+            border: "none",
+            borderRadius: "8px",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
           }}
         />
         <Bar
           dataKey="target"
           fill="#059669"
           radius={[4, 4, 0, 0]}
-          barSize={25}
+          barSize={24}
         >
           <LabelList
             dataKey="actual"
@@ -175,14 +211,12 @@ const Agent_barchart = ({ data }) => {
                   fontSize={12}
                   fontWeight="600"
                 >
-                  ${value / 1000}K
+                  ${value / 2000}K
                 </text>
               </g>
             )}
           />
-
         </Bar>
-
         <Line
           type="linear"
           dataKey="actual"
@@ -196,4 +230,4 @@ const Agent_barchart = ({ data }) => {
   );
 };
 
-export default Agent_barchart;
+export default Actual_Vs_Target_logic;

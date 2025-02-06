@@ -70,9 +70,9 @@ const Actual_page = () => {
     };
 
     return (
-        <div className='mx-2'>
-            <div className='flex gap-3'>
-                <div className='w-full mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4'>
+        <div className=' w-full'>
+            <div className=''>
+                <div className='w-full flex flex-col gap-[32px] mb-4'>
                     <div className='bg-white rounded-lg shadow-sm overflow-hidden border-2 border-gray-100'>
                         <div className='p-6'>
                             <table className='w-full'>

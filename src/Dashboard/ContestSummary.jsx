@@ -1,58 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-circular-progressbar/dist/styles.css';
 
 
 const ContestSummary = () => {
 
-    const [summary, setSummary] = useState({
-        contests: 2,
-        points: 200,
-        totalPrizes: 150,
+    // Fetch summary data from localStorage
+    const initialSummary = JSON.parse(localStorage.getItem('contestSummary')) || {
+        contests: 0,
+        points: 0,
+        totalPrizes: 0,
         prizes: [
-            { name: 'Cash', amount: 50, iconSrc: '/images/cash.png' },
-            { name: 'Vouchers', amount: 50, iconSrc: '/images/voucher.png' },
-            { name: 'Food', amount: 50, iconSrc: '/images/food.png' },
+            { name: 'Cash', amount: 0, iconSrc: '/images/cash.png' },
+            { name: 'Vouchers', amount: 0, iconSrc: '/images/voucher.png' },
+            { name: 'Food', amount: 0, iconSrc: '/images/food.png' },
             { name: 'Experiences', amount: 0, iconSrc: '/images/experience.png' }
         ]
-    });
+    };
+
+    const [summary, setSummary] = useState(initialSummary);
+    const [selectedPeriod, setSelectedPeriod] = useState(localStorage.getItem('frequency_salesagent'));
+
+    useEffect (() => {
+        const newSummary = JSON.parse(localStorage.getItem('contestSummary')) || initialSummary;
+        setSummary(newSummary); 
+    },[])
 
     const handleButtonClick = (period) => {
-        if (period === 'Week') {
-            setSummary({
-                contests: 1,
-                points: 100,
-                totalPrizes: 75,
-                prizes: [
-                    { name: 'Cash', amount: 30, iconSrc: '/images/cash.png' },
-                    { name: 'Vouchers', amount: 20, iconSrc: '/images/voucher.png' },
-                    { name: 'Food', amount: 25, iconSrc: '/images/food.png' },
-                    { name: 'Experiences', amount: 70, iconSrc: '/images/experience.png' }
-                ]
-            });
-        } else if (period === 'Month') {
-            setSummary({
-                contests: 2,
-                points: 200,
-                totalPrizes: 150,
-                prizes: [
-                    { name: 'Cash', amount: 50, iconSrc: '/images/cash.png' },
-                    { name: 'Vouchers', amount: 50, iconSrc: '/images/voucher.png' },
-                    { name: 'Food', amount: 50, iconSrc: '/images/food.png' },
-                    { name: 'Experiences', amount: 40, iconSrc: '/images/experience.png' }
-                ]
-            });
-        } else if (period === 'Year') {
-            setSummary({
-                contests: 5,
-                points: 500,
-                totalPrizes: 300,
-                prizes: [
-                    { name: 'Cash', amount: 100, iconSrc: '/images/cash.png' },
-                    { name: 'Vouchers', amount: 100, iconSrc: '/images/voucher.png' },
-                    { name: 'Food', amount: 100, iconSrc: '/images/food.png' },
-                    { name: 'Experiences', amount: 0, iconSrc: '/images/experience.png' }
-                ]
-            });
+        setSelectedPeriod(period);
+        // Check frequency_salesagent in localStorage
+        const frequency = JSON.parse(localStorage.getItem('frequency_salesagent'));
+        const selectedPeriod = frequency === 'Monthly' ? 'Monthly' : period;
+
+        // Update the summary based on the selected period
+        const newSummary = JSON.parse(localStorage.getItem('summaryData')) || initialSummary;
+        if (selectedPeriod === 'Week') {
+            setSummary(newSummary); // Use the fetched data
+        } else if (selectedPeriod === 'Monthly') {
+            setSummary(newSummary); // Use the fetched data
+        } else if (selectedPeriod === 'Year') {
+            setSummary(newSummary); // Use the fetched data
         }
     };
 
@@ -155,46 +141,45 @@ const ContestSummary = () => {
     );
 
     const contestants = [
-        { name: 'Sarah Smith', level: 'Unicorn', points: 200, money: 150, avatar: '/images/dashboard_img1.png', badgeColor: '/images/unicorn.png' },
-        { name: 'Anujaa Kumar', level: 'Platinum', points: 150, money: 100, avatar: '/images/dashboard_img2.png', badgeColor: '/images/platinium.png' },
-        { name: 'Fernanda Celde', level: 'Gold', points: 75, money: 50, avatar: '/images/dashboard_img3.png', badgeColor: '/images/gold.png' },
+        { name: 'Sarah Smith', level: 'Bronze', points: 200, money: 150, avatar: '/images/dashboard_img1.png', badgeColor: '/images/Badges/badge_bronze.png' },
+        { name: 'Anujaa Kumar', level: 'Platinum', points: 150, money: 100, avatar: '/images/dashboard_img2.png', badgeColor: '/images/Badges/badge_platinium.png' },
+        { name: 'Fernanda Celde', level: 'Unicorn', points: 75, money: 50, avatar: '/images/dashboard_img3.png', badgeColor: '/images/Badges/badge_unicorn.png' },
     ];
 
     const leaderboardData = [
-        { name: 'Sarah Smith', score: 200, image: '/images/dashboard_img1.png', badge: '/images/unicorn.png' },
-        { name: 'Anujaa Kumar', score: 150, image: '/images/dashboard_img2.png', badge: '/images/platinium.png' },
-        { name: 'Fernando Celde', score: 75, image: '/images/dashboard_img3.png', badge: '/images/gold.png' },
-        { name: 'Pinaji Koarima', score: 74, image: '/images/dashboard_img1.png', badge: '/images/silver.png' },
-        { name: 'Nava Yaghnel', score: 60, image: '/images/dashboard_img2.png', badge: '/images/silver.png' },
-        { name: 'Monaki Nahans', score: 50, image: '/images/dashboard_img3.png', badge: '/images/bronze.png' },
-        { name: 'Tians jdife', score: 35, image: '/images/dashboard_img2.png', badge: '/images/bronze.png' },
-        { name: 'Nualiri sjahej', score: 20, image: '/images/dashboard_img1.png', badge: '/images/bronze.png' },
+        { name: 'Sarah Smith', score: 200, image: '/images/dashboard_img1.png', badge: '/images/Badges/badge_unicorn.png' },
+        { name: 'Anujaa Kumar', score: 150, image: '/images/dashboard_img2.png', badge: '/images/Badges/badge_platinium.png' },
+        { name: 'Fernando Celde', score: 75, image: '/images/dashboard_img3.png', badge: '/images/Badges/badge_gold.png' },
+        { name: 'Pinaji Koarima', score: 74, image: '/images/dashboard_img1.png', badge: '/images/Badges/badge_silver.png' },
+        { name: 'Nava Yaghnel', score: 60, image: '/images/dashboard_img2.png', badge: '/images/Badges/badge_silver.png' },
+        { name: 'Monaki Nahans', score: 50, image: '/images/dashboard_img3.png', badge: '/images/Badges/badge_bronze.png' },
+        { name: 'Tians jdife', score: 35, image: '/images/dashboard_img2.png', badge: '/images/Badges/badge_bronze.png' },
+        { name: 'Nualiri sjahej', score: 20, image: '/images/dashboard_img1.png', badge: '/images/Badges/badge_bronze.png' },
     ];
 
 
     return (
-
         <>
-            <div className='w-auto mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4'>
+            <div className='w-auto mt-8 p-4 flex flex-col gap-[32px] mb-4'>
                 <div className='flex flex-col w-auto gap-6 p-8 pb-12 card'>
                     <div className='flex justify-between items-center mb-4'>
-                        <h1 className='font-[500] leading-[33px] text-[22px] text-[#269F8B]'>Contest Summary</h1>
+                        <h1 className='font-[440] leading-[33px] text-[28px] text-[#269F8B]'>Contest Summary</h1>
                         <div className='flex'>
                             <button 
                                 onClick={() => handleButtonClick('Week')} 
-                                className={`px-3 py-1 text-sm font-medium border border-gray-300 bg-white ${summary.contests === 1 ? 'text-[#269F8B] rounded-l shadow-xl' : 'text-[#ABABAB]'}`}
+                                className={`px-3 py-1 text-sm font-medium border border-gray-300 bg-white ${selectedPeriod === 'Week' ? 'text-[#269F8B] rounded-l shadow-xl' : 'text-[#ABABAB]'}`}
                             >
                                 Week
                             </button>
                             <button 
                                 onClick={() => handleButtonClick('Month')} 
-                                className={`px-6 py-1 text-sm font-medium border border-gray-300 bg-white ${summary.contests === 2 ? 'text-[#269F8B] rounded-l shadow-xl' : 'text-[#ABABAB]'}`}
+                                className={`px-6 py-1 text-sm font-medium border border-gray-300 bg-white ${selectedPeriod === 'Monthly' ? 'text-[#269F8B] rounded-l shadow-xl' : 'text-[#ABABAB]'}`}
                             >
                                 Month
                             </button>
                             <button 
                                 onClick={() => handleButtonClick('Year')} 
-                                className={`px-3 py-1 text-sm font-medium border border-gray-300 bg-white ${summary.contests === 5 ? 'text-[#269F8B] rounded-l shadow-xl' : 'text-[#ABABAB]'}`}
+                                className={`px-3 py-1 text-sm font-medium border border-gray-300 bg-white ${selectedPeriod === 'Year' ? 'text-[#269F8B] rounded-l shadow-xl' : 'text-[#ABABAB]'}`}
                             >
                                 Year
                             </button>
@@ -269,11 +254,6 @@ const ContestSummary = () => {
 
                     </div>
                 </div>
-
-
-
-                {/* ______________________________________________________________________________________________________ */}
-
             </div>
         </>
 

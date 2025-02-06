@@ -3,7 +3,8 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { FaArrowUp } from "react-icons/fa";
 import Agent_Ranking_chart from "./Agent_Ranking_chart";
-import Agent_barchart from "./Agent_barchart";
+import Actual_Vs_Target_logic_teamleader from './testing/Actual_Vs_Target_logic_teamleader';
+
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -36,7 +37,7 @@ const HalfDonutChart = ({ data, colors }) => {
   };
 
   return (
-    <div style={{ width: "250px", height: "160px", marginLeft: "18%" }}> {/* Adjusted size */}
+    <div style={{ width: "150px", height: "150px", marginLeft: "18%" }}> {/* Adjusted size */}
       <Doughnut data={chartData} options={options} />
     </div>
   );
@@ -77,24 +78,24 @@ const ConversionTable = () => {
   ]);
 
   const [barChartData, setBarChartData] = useState([
-    { month: 'Jan', value: 9700 },
-    { month: 'Feb', value: 6200 },
-    { month: 'Mar', value: 8900 },
-    { month: 'Apr', value: 3000 },
-    { month: 'May', value: 4500 },
-    { month: 'Jun', value: 7600 },
-    { month: 'Jul', value: 8900 },
-    { month: 'Aug', value: 6700 },
-    { month: 'Sep', value: 9200 },
-    { month: 'Oct', value: 2900 },
-    { month: 'Nov', value: 11600 },
-    { month: 'Dec', value: 5400 },
+    { month: 'Jan', target: 10000, actual: 12000 },
+    { month: 'Feb', target: 9000, actual: 9000 },
+    { month: 'Mar', target: 11000, actual: 16000 },
+    { month: 'Apr', target: 8000, actual: 8000 },
+    { month: 'May', target: 14000, actual: 9000 },
+    { month: 'Jun', target: 9000, actual: 9000 },
+    { month: 'Jul', target: 15000, actual: 15000 },
+    { month: 'Aug', target: 10000, actual: 10000 },
+    { month: 'Sep', target: 13000, actual: 13000 },
+    { month: 'Oct', target: 5000, actual: 5000 },
+    { month: 'Nov', target: 11000, actual: 11000 },
+    { month: 'Dec', target: 8000, actual: 8000 },
   ]);
 
   return (
     <div className="w-full flex flex-col space-y-4">
       <div className="w-full flex flex-row justify-between space-x-2">
-        <div className="w-1/2 rounded-lg shadow p-6 max-w-4xl mx-auto">
+        <div className="w-[50%] rounded-3xl shadow p-6 max-w-4xl mx-auto border-[1px] border-gray-200">
           <div className="flex justify-between items-center mb-10">
             <div className="text-2xl flex items-center">
               <img
@@ -137,7 +138,8 @@ const ConversionTable = () => {
             ))}
           </div>
         </div>
-        <div className="bg-white rounded-lg shadow p-6 w-3/5 max-w-4xl mx-auto">
+
+        <div className="bg-white rounded-3xl shadow p-6 w-[50%] max-w-4xl mx-auto border-[1px] border-gray-200">
           {/* Header Section */}
           <div className="flex justify-between items-center mb-3">
             <div>
@@ -163,9 +165,9 @@ const ConversionTable = () => {
                   data={[100, 0]} // Progress and remaining
                   colors={["#289780", "#f3f4f6"]} // Progress and remaining colors
                 />
-                <div className="absolute inset-0 flex mt-16 flex-col justify-evenly items-center">
+                <div className="absolute inset-3 w-full flex mt-16 flex-col justify-evenly items-center">
                   <p className="text-green-500 text-2xl font-light">21%</p>
-                  <div className="flex justify-evenly space-x-20 text-sm text-gray-500 w-full">
+                  <div className="flex justify-between text-sm text-gray-500 w-full">
                     <span>0%</span>
                     <span>20%</span>
                   </div>
@@ -175,7 +177,7 @@ const ConversionTable = () => {
             </div>
 
             {/* Divider */}
-            <div className="w-px bg-gray-300 h-40 mx-4"></div>
+            <div className="w-px bg-gray-300 h-40 mx-7"></div>
 
             {/* Forecast Finish */}
             <div className="flex-1 flex flex-col justify-center items-center text-center">
@@ -188,9 +190,9 @@ const ConversionTable = () => {
                   data={[80, 20]} // Progress and remaining
                   colors={["#289780", "#f3f4f6"]} // Progress and remaining colors
                 />
-                <div className="absolute inset-0 flex mt-16 flex-col justify-evenly items-center">
-                  <p className="text-green-500 text-2xl font-light">21%</p>
-                  <div className="flex justify-evenly space-x-20 text-sm text-gray-500 w-full">
+                <div className="absolute inset-3 w-full flex mt-16 flex-col justify-evenly items-center">
+                  <p className="text-green-500 text-2xl font-normal">21%</p>
+                  <div className="flex justify-between text-sm text-gray-500 w-full">
                     <span>0%</span>
                     <span>21%</span>
                   </div>
@@ -202,7 +204,7 @@ const ConversionTable = () => {
       </div>
 
       <Agent_Ranking_chart leaderboardData={leaderboardData} />
-      <Agent_barchart data={barChartData} />
+      <Actual_Vs_Target_logic_teamleader/>
     </div>
   );
 };

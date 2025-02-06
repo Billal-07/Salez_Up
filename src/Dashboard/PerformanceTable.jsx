@@ -8,21 +8,23 @@ import UnitsTable from './UnitsTable';
 import ConversionTable from './ConversionTable';
 import DialsTable from './DialsTable';
 import ProductivityTable from './ProductivityTable';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const PerformanceTable = () => {
     const [performanceData, setPerformanceData] = useState([]);
-    const [localStorageData, setLocalStorageData] = useState([]);
+    const [localStorageData, setLocalStorageData] = useState(JSON.parse(localStorage.getItem('tableData1')));
     const [currentDataIndex, setCurrentDataIndex] = useState(0);
     const [view, setView] = useState('all');
+    const [currentPage, setCurrentPage] = useState(0);
 
 
     // Function to fetch data from localStorage
+    
     const fetchLocal = () => {
         const extractedTableData = localStorage.getItem('tableData1');
         if (extractedTableData) {
             const parsedData = JSON.parse(extractedTableData);
             setLocalStorageData(parsedData);
-            console.log("Data fetched from localStorage:", parsedData);
         }
     };
 
@@ -45,20 +47,17 @@ const PerformanceTable = () => {
     useEffect(() => {
         const fetchSalesAgent = async () => {
             const id = localStorage.getItem('id');
-            fetchLocal()
+            // fetchLocal()
             try {
                 const agentsResponse = await fetch(`http://127.0.0.1:8000/api/sales_agents/${id}`);
                 if (!agentsResponse.ok) {
                     throw new Error(`Failed to fetch sales agent`);
                 }
                 const agentsData = await agentsResponse.json();
-                console.log("Selected Agent Data: ", agentsData)
                 // Parse the KPI data from the first agent
                 const firstAgent = agentsData;
-                console.log("First Agent: ", firstAgent)
                 if (firstAgent) {
                     const kpiDataParsed = JSON.parse(firstAgent.kpi_data);
-                    console.log("Data is here: ", kpiDataParsed)
 
                     const transformedKpiData = kpiDataParsed.kpiData.map(kpi => ({
                         kpi: kpi.kpi_Name,
@@ -70,12 +69,35 @@ const PerformanceTable = () => {
                         gatekeeper: kpi.gatekeeperTarget !== '-' && kpi.gatekeeperTarget !== 'N/A' ? 'YES' : 'N/A',
                         gatekeeperTarget: kpi.gatekeeper || '-',
                     }));
-                    console.log("----Transformed Data---", transformedKpiData)
-                    console.log("kpi datatata: ", kpiDataParsed);
-                    setPerformanceData(transformedKpiData);
+                    const performance = transformedKpiData.map((kpi, index) => {
+                        const actualValue = (localStorageData.length > 0 ) ? localStorageData.slice(currentDataIndex).reduce(
+                            (total, data) => total + parseFloat(data.values[index] || 0),
+                            0
+                        ).toFixed(1) : '0';
+
+                        const percentToTarget = (actualValue !== '-' && kpi.target !== '-') 
+                            ? ((parseFloat(actualValue) / parseFloat(kpi.target)) * 100).toFixed(2) 
+                            : '-';
+
+                        const commissionValue = kpi.commission ? `${kpi.currency}${kpi.commission}` : '-';
+                        const gatekeeperTargetValue = kpi.gatekeeperTarget !== '-' ? kpi.gatekeeperTarget : '-';
+
+                        return {
+                            ...kpi,
+                            actual: actualValue,
+                            percentToTarget: percentToTarget,
+                            commission: commissionValue,
+                            gatekeeperTarget: gatekeeperTargetValue,
+                        };
+                    })
+
+                    // console.log("DATAAAAAAAAAAAAAAAAA", localStorageData)
+                    localStorage.setItem("Performace Table", JSON.stringify(performance))
+                    setPerformanceData(performance);
                     // Settng Index to Initial VALUE 0
                     setCurrentDataIndex(0);
                 }
+
                 else {
                     console.log("Error nhi hai data hi nhi hai")
                 }
@@ -83,9 +105,9 @@ const PerformanceTable = () => {
                 toast.error("Error Fetching Sales Agent Data")
             }
         }
-
+        
         fetchSalesAgent()
-    }, []);
+    }, [localStorageData]);
 
 
     const handleReload = () => {
@@ -101,177 +123,268 @@ const PerformanceTable = () => {
         return 'bg-red-200 text-red-800';
     };
 
-    const handleViewChange = (newView) => {
-        setView(newView);
+    const kpis = [
+        { id: 'revenue1', label: 'Average Monthly Revenue', tableType: 'revenue' },
+        { id: 'revenue2', label: 'Total Revenue', tableType: 'revenue' },
+        { id: 'call-volume', label: 'Call Volume', tableType: 'units' },
+        { id: 'sales-volume', label: 'Sales Volume', tableType: 'units' },
+        { id: 'conversion', label: 'Conversion', tableType: 'conversion' },
+        { id: 'handling-time', label: 'Average Handling Time', tableType: 'dials' },
+        { id: 'product1', label: 'Attachment Rate Product 1', tableType: 'productivity' },
+        { id: 'product2', label: 'Attachment Rate Product 2', tableType: 'productivity' },
+        { id: 'product3', label: 'Attachment Rate Product 3', tableType: 'productivity' },
+        { id: 'product4', label: 'Attachment Rate Product 4', tableType: 'productivity' },
+        { id: 'qa', label: 'QA', tableType: 'productivity' }
+    ];
+
+    const itemsPerPage = 3;
+    const totalPages = Math.ceil(kpis.length / itemsPerPage);
+
+    const handleViewChange = (kpiId) => {
+        if (kpiId === 'all') {
+            setView('all');
+            return;
+        }
+
+        const selectedKpi = kpis.find(kpi => kpi.id === kpiId);
+        if (selectedKpi) {
+            setView(selectedKpi.tableType);
+        }
     };
 
+    const handleNext = () => {
+        setCurrentPage((prev) => (prev + 1) % totalPages);
+    };
+
+    const handlePrev = () => {
+        setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages);
+    };
+
+    const getCurrentKpis = () => {
+        const startIndex = currentPage * itemsPerPage;
+        return kpis.slice(startIndex, startIndex + itemsPerPage);
+    };
+
+
+    const getFormattedValue = (kpi, value) => {
+        switch (kpi) {
+            case 'Average Monthy Revenue':
+                return `$${value}`;
+            case 'Total Revenue':
+                return `$${value}`;
+            case 'Conversion':
+            case 'Attachment rate product 1':
+                return `${value}%`;
+            case 'Attachment rate product 2':
+                return `${value}%`;
+            case 'Attachment rate product 3':
+                return `${value}%`;
+            case 'Attachment rate product 4':
+                return `${value}%`;
+            case 'Average handling time':
+                return `${value} min`;
+            case 'Call volume':
+                return `${value}`;
+            case 'Sales Volume':
+                return value;
+            case 'QA':
+                return `${value}%`
+            default:
+                return `${value}%`;
+        }
+    };
+
+
+    
+
+
+
     return (
-        <div className='mx-2 w-full'>
-            <div className='flex gap-3'>
-                <div className='w-full mt-8 md:ml-12 mr-5 flex flex-col gap-[32px] mb-4'>
-                    <div className='flex flex-col w-full gap-6 p-8 pb-12 card white'>
-                        <div className='flex flex-col'>
-                            <div className='flex justify-between items-center mb-4'>
-                                <h1 className='font-[500] leading-[33px] text-[22px] text-[#269F8B]'>Campaign Performance</h1>
-                                <div className="flex">
-                                    <button
-                                        className={`px-6 py-1 text-sm font-medium ${view === 'all' ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB]'
-                                            } border border-gray-300 bg-white rounded-l`}
-                                        onClick={() => handleViewChange('all')}
-                                    >
-                                        All
-                                    </button>
-                                    <button
-                                        className={`px-3 py-1 text-sm font-medium ${view === 'revenue' ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB]'
-                                            } border-t border-b border-r border-gray-300 bg-white`}
-                                        onClick={() => handleViewChange('revenue')}
-                                    >
-                                        Revenue
-                                    </button>
-                                    <button
-                                        className={`px-3 py-1 text-sm font-medium ${view === 'units' ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB]'
-                                            } border-t border-b border-r border-gray-300 bg-white`}
-                                        onClick={() => handleViewChange('units')}
-                                    >
-                                        Units
-                                    </button>
-                                    <button
-                                        className={`px-3 py-1 text-sm font-medium ${view === 'conversion' ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB]'
-                                            } border-t border-b border-r border-gray-300 bg-white`}
-                                        onClick={() => handleViewChange('conversion')}
-                                    >
-                                        Conversion
-                                    </button>
-                                    <button
-                                        className={`px-3 py-1 text-sm font-medium ${view === 'dials' ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB]'
-                                            } border-t border-b border-r border-gray-300 bg-white`}
-                                        onClick={() => handleViewChange('dials')}
-                                    >
-                                        Dials
-                                    </button>
-                                    <button
-                                        className={`px-3 py-1 text-sm font-medium ${view === 'productivity' ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB]'
-                                            } border-t border-b border-r border-gray-300 bg-white`}
-                                        onClick={() => handleViewChange('productivity')}
-                                    >
-                                        Productivity
-                                    </button>
+        <>
+            <div className='w-full'>
+                <div className='flex'>
+                    <div className='w-full mt-8 px-4 flex flex-col gap-[32px] mb-4'>
+                        <div className='flex flex-col w-full gap-6 p-8 pb-12 card white'>
+                            <div className='flex flex-col'>
+
+
+                                <div className="flex justify-between items-center mb-4 p-4">
+                                    <h1 className="font-medium text-2xl text-[#269F8B]">My Performance</h1>
+
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={handlePrev}
+                                            className={`p-2 text-[#269F8B] hover:bg-gray-100 hover:text-[#269F8B] hover:shadow-lg rounded ${currentPage === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                                                }`}
+                                            disabled={currentPage === 0}
+                                        >
+                                            <ChevronLeft size={20} />
+                                        </button>
+                                        <div className="flex">
+                                            <button
+                                                className={`px-6 py-1 text-sm font-medium ${view === 'all' ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB] hover:text-[#269F8B] hover:shadow-lg'
+                                                    } border border-gray-300 bg-white rounded-l transition-all duration-200`}
+                                                onClick={() => handleViewChange('all')}
+                                            >
+                                                All
+                                            </button>
+
+                                            {getCurrentKpis().map((kpi) => (
+                                                <button
+                                                    key={kpi.id}
+                                                    className={`px-3 py-1 text-sm font-medium ${view === kpi.id ? 'text-[#269F8B] shadow-lg' : 'text-[#ABABAB] hover:text-[#269F8B] hover:shadow-lg'
+                                                        } border border-gray-300 bg-white whitespace-nowrap transition-all duration-200`}
+                                                    onClick={() => handleViewChange(kpi.id)}
+                                                >
+                                                    {kpi.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                        <button
+                                            onClick={handleNext}
+                                            className={`p-2 text-[#269F8B] hover:bg-gray-100 hover:text-[#269F8B] hover:shadow-lg rounded ${currentPage === totalPages - 1 ? 'opacity-50 cursor-not-allowed' : ''
+                                                }`}
+                                            disabled={currentPage === totalPages - 1}
+                                        >
+                                            <ChevronRight size={20} />
+                                        </button>
+                                    </div>
                                 </div>
 
+
+                                {/* Loader */}
+                                {view === 'all' && (
+                                    <div className='flex justify-end'>
+                                        <div>
+                                            <FontAwesomeIcon icon={faArrowRotateRight} onClick={handleReload} className='text-2xl mt-[-6px] text-themeGreen pt-4 hover:cursor-pointer hover:transition-all hover:scale-110 hover:duration-300' />
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                            {/* Loader */}
+                            {/* Performance Table */}
                             {view === 'all' && (
-                                <div className='flex justify-end'>
-                                    <div>
-                                        <FontAwesomeIcon icon={faArrowRotateRight} onClick={handleReload} className='text-2xl mt-[-6px] text-themeGreen pt-4 hover:cursor-pointer hover:transition-all hover:scale-110 hover:duration-300' />
+                                <div className='bg-white rounded-lg shadow-sm overflow-hidden border-2 border-gray-100'>
+                                    <div className='p-6'>
+
+                                        <table className='w-full'>
+                                            <thead>
+                                                <tr className='text-left text-sm text-gray-500'>
+                                                    <th className='pb-2 text-[#269F8B]'></th>
+                                                    <th className='pb-2 text-[#269F8B] text-center'>Target</th>
+                                                    <th className='pb-2 text-[#269F8B] text-center'>Actual</th>
+                                                    <th className='pb-2 text-[#269F8B] text-center'>% to Target</th>
+                                                    <th className='pb-2 text-[#269F8B] text-center'>Commission</th>
+                                                    <th className='pb-2 text-[#269F8B] text-center'>Gatekeeper</th>
+                                                    <th className='pb-2 text-[#269F8B] text-center'>Gatekeeper Target</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {performanceData.length > 0 ? (
+                                                    performanceData.map((row, index) => {
+                                                        // Calculate actual value based on KPI type
+                                                        let actualValue = '-';
+                                                        if (localStorageData.length > 0) {
+                                                            if (row.kpi === 'Conversion') {
+                                                                // Find Sales Volume and Call Volume values
+                                                                const salesVolumeIndex = performanceData.findIndex(item => item.kpi === 'Sales Volume');
+                                                                const callVolumeIndex = performanceData.findIndex(item => item.kpi === 'Call volume');
+
+                                                                if (salesVolumeIndex !== -1 && callVolumeIndex !== -1) {
+                                                                    const salesVolume = localStorageData.slice(currentDataIndex).reduce(
+                                                                        (total, data) => total + parseFloat(data.values[salesVolumeIndex] || 0),
+                                                                        0
+                                                                    );
+                                                                    const callVolume = localStorageData.slice(currentDataIndex).reduce(
+                                                                        (total, data) => total + parseFloat(data.values[callVolumeIndex] || 0),
+                                                                        0
+                                                                    );
+
+                                                                    actualValue = callVolume > 0 ?
+                                                                        (salesVolume / callVolume * 100).toFixed(1) : '0.0';
+                                                                }
+                                                            } else {
+                                                                actualValue = localStorageData.slice(currentDataIndex).reduce(
+                                                                    (total, data) => total + parseFloat(data.values[index] || 0),
+                                                                    0
+                                                                ).toFixed(1);
+                                                            }
+                                                        }
+
+                                                        // Calculate percentage to target
+                                                        let percentToTarget = '-';
+                                                        if (actualValue !== '-' && row.target !== '-') {
+                                                            percentToTarget = ((parseFloat(actualValue) / parseFloat(row.target)) * 100).toFixed(2);
+                                                        }
+
+                                                        // Add actual value to performanceData
+                                                        const updatedRow = {
+                                                            ...row,
+                                                            actual: actualValue
+                                                        };
+                                                        
+
+                                                        return (
+                                                            <tr key={index} className='text-sm'>
+                                                                <td className='py-2 text-[#269F8B] font-medium'>{row.kpi}</td>
+                                                                {/* <td className='py-2 text-center'>{row.target}</td> */}
+                                                                <td className="py-2 text-center">
+                                                                {getFormattedValue(row.kpi, row.target)}</td>
+                                                                <td className="py-2 text-center">
+                                                                    {getFormattedValue(row.kpi, actualValue)}
+                                                                </td>
+
+                                                                <td className="py-2 px text-center">
+                                                                    <span
+                                                                        className={`inline-block px-2 py-1 w-24 text-center ${getPercentColor(
+                                                                            percentToTarget
+                                                                        )}`}
+                                                                        style={{ minWidth: '2rem' }} // Ensures consistent width
+                                                                    >
+                                                                        {percentToTarget}&nbsp;&nbsp;%
+                                                                    </span>
+                                                                </td>
+
+                                                                <td className='py-2 text-center'>{row.commission}</td>
+                                                                <td
+                                                                    className={`px-6 py-1 text-center ${row.gatekeeperTarget !== '-' && row.gatekeeperTarget !== 'N/A'
+                                                                        ? 'text-black'
+                                                                        : 'bg-gray-100'
+                                                                        }`}
+                                                                >
+                                                                    {row.gatekeeperTarget !== '-' && row.gatekeeperTarget !== 'N/A'
+                                                                        ? 'YES'
+                                                                        : 'N/A'}
+                                                                </td>
+
+                                                                <td className={`py-2 text-center ${row.gatekeeperTarget === '-' ? 'bg-gray-100' : ''}`}>
+                                                                    <span className={`inline-block px-2 py-1 ${row.gatekeeperTarget === '-' ? 'bg-gray-100' : ''}`} style={{ minWidth: row.gatekeeperTarget === '-' ? '3rem' : 'auto', }}>
+                                                                        {row.gatekeeperTarget}
+                                                                    </span></td>
+                                                            </tr>
+                                                        );
+                                                    })
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="7" className="text-center py-4 text-gray-500">
+                                                            Select a team to view KPI data
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             )}
-                        </div>
-                        {/* Performance Table */}
-                        {view === 'all' && (
-                            <div className='bg-white rounded-lg shadow-sm overflow-hidden border-2 border-gray-100'>
-                                <div className='p-6'>
-                                    <table className='w-full'>
-                                        <thead>
-                                            <tr className='text-left text-sm font-medium text-gray-500'>
-                                                <th className='pb-2 text-[#269F8B]'>KPIs</th>
-                                                <th className='pb-2 text-[#269F8B] text-center'>Target</th>
-                                                <th className='pb-2 text-[#269F8B] text-center'>Actual</th>
-                                                <th className='pb-2 text-[#269F8B] text-center'>% to Target</th>
-                                                <th className='pb-2 text-[#269F8B] text-center'>Commission</th>
-                                                <th className='pb-2 text-[#269F8B] text-center'>Gatekeeper</th>
-                                                <th className='pb-2 text-[#269F8B] text-center'>Gatekeeper Target</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {performanceData.length > 0 ? (
-                                                performanceData.map((row, index) => {
-                                                    // Calculate actual value based on KPI type
-                                                    let actualValue = '-';
-                                                    if (localStorageData.length > 0) {
-                                                        if (row.kpi === 'Conversion') {
-                                                            // Find Sales Volume and Call Volume values
-                                                            const salesVolumeIndex = performanceData.findIndex(item => item.kpi === 'Sales Volume');
-                                                            const callVolumeIndex = performanceData.findIndex(item => item.kpi === 'Call volume');
-
-                                                            if (salesVolumeIndex !== -1 && callVolumeIndex !== -1) {
-                                                                const salesVolume = localStorageData.slice(currentDataIndex).reduce(
-                                                                    (total, data) => total + parseFloat(data.values[salesVolumeIndex] || 0),
-                                                                    0
-                                                                );
-                                                                const callVolume = localStorageData.slice(currentDataIndex).reduce(
-                                                                    (total, data) => total + parseFloat(data.values[callVolumeIndex] || 0),
-                                                                    0
-                                                                );
-
-                                                                actualValue = callVolume > 0 ?
-                                                                    (salesVolume / callVolume * 100).toFixed(1) : '0.0';
-                                                            }
-                                                        } else {
-                                                            actualValue = localStorageData.slice(currentDataIndex).reduce(
-                                                                (total, data) => total + parseFloat(data.values[index] || 0),
-                                                                0
-                                                            ).toFixed(1);
-                                                        }
-                                                    }
-
-                                                    // Calculate percentage to target
-                                                    let percentToTarget = '-';
-                                                    if (actualValue !== '-' && row.target !== '-') {
-                                                        percentToTarget = ((parseFloat(actualValue) / parseFloat(row.target)) * 100).toFixed(2);
-                                                    }
-
-                                                    return (
-                                                        <tr key={index} className='text-sm'>
-                                                            <td className='py-2 text-[#269F8B] font-medium'>{row.kpi}</td>
-                                                            <td className='py-2 text-center'>{row.target}</td>
-                                                            <td className="py-2 text-center">{actualValue}</td>
-                                                            <td className='py-2 text-center'>
-                                                                <span className={`px-6 py-1 ${getPercentColor(percentToTarget)}`}>
-                                                                    {percentToTarget}&nbsp;&nbsp;%
-                                                                </span>
-                                                            </td>
-                                                            <td className='py-2 text-center'>{row.currency}{row.commission}</td>
-                                                            <td
-                                                                className={`px-6 py-1 text-center ${row.gatekeeperTarget !== '-' && row.gatekeeperTarget !== 'N/A'
-                                                                    ? 'text-black'
-                                                                    : 'bg-gray-100'
-                                                                    }`}
-                                                            >
-                                                                {row.gatekeeperTarget !== '-' && row.gatekeeperTarget !== 'N/A'
-                                                                    ? 'YES'
-                                                                    : 'N/A'}
-                                                            </td>
-                                                            <td className={`px-6 py-1 text-center`}>
-                                                                <span className={`inline-block ${row.gatekeeperTarget == '-' ? 'bg-gray-100 w-12' : ''}`}>
-                                                                    {row.gatekeeperTarget}
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan="7" className="text-center py-4 text-gray-500">
-                                                        Select a team to view KPI data
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        )}
-                        {view === 'revenue' && <RevenueTable />}
-                        {view === 'units' && <UnitsTable />}
-                        {view === 'conversion' && <ConversionTable />}
-                        {view === 'dials' && <DialsTable />}
-                        {view === 'productivity' && <ProductivityTable />}
+                            {view === 'revenue' && <RevenueTable />}
+                            {view === 'units' && <UnitsTable />}
+                            {view === 'conversion' && <ConversionTable />}
+                            {view === 'dials' && <DialsTable />}
+                            {view === 'productivity' && <ProductivityTable />}
+                        </div >
                     </div >
                 </div >
             </div >
-        </div >
+        </>
     );
 };
 

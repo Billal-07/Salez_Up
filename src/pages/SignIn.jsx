@@ -81,7 +81,6 @@ const SignIn = () => {
     );
   }
 
-
   const loginSuccessful = () => toast.success('Successfully loggedIn', {
     position: "bottom-right",
     autoClose: 5000,
@@ -148,226 +147,6 @@ const SignIn = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await fetch('http://127.0.0.1:8000/api/admin_registrations');
-  //     if (!response.ok) {
-  //       throw new Error('Network response was not ok');
-  //     }
-  //     const data = await response.json();
-  //     console.log(data);
-  //     const filteredData = data.map(({ id, email, password, first_name }) => ({ id, email, password, first_name }));
-  //     setFilteredData(filteredData);
-  //     console.log("filtered", filteredData);
-  //     return filteredData; 
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //     throw error; 
-  //   }
-  // };
-
-
-  // const handleSignin = async (e) => {
-  //   e.preventDefault();
-  //   console.log("manager")
-  //   if (!email || !password) {
-  //     fillAllCredentials();
-  //     return;
-  //   }
-  //   loggingIn();
-  //   try {
-  //     const filteredData = await fetchData(); 
-
-  //     const foundUser = filteredData.find(user => user.email == email);
-
-  //     if (foundUser) {
-
-  //       const decryptedPassword = CryptoJS.AES.decrypt(foundUser.password, 'DBBDRSSR54321').toString(CryptoJS.enc.Utf8);
-
-
-  //       if (password == decryptedPassword) {
-  //         console.log("Decrypted Password: ", decryptedPassword);
-  //         console.log("----  Right User ----");
-  //         console.log("my user: ", foundUser);
-  //         loginSuccessful();
-
-
-  //         navigate('/dashboard', { state: { foundUser } });
-
-  //         localStorage.setItem('userEmail', foundUser.email);
-  //         localStorage.setItem('userFName', foundUser.first_name);
-  //         localStorage.setItem('id', foundUser.id);
-
-  //         console.log("This is my email: ", foundUser.email);
-  //         setIsAdminLoggedIn(true);
-  //       } else {
-  //         console.log("----  Wrong Password  ----");
-  //         invalidCredentials();
-  //       }
-  //     } else {
-  //       const foundPassword = filteredData.some(user => {
-  //         const decryptedPassword = CryptoJS.AES.decrypt(user.password, 'DBBDRSSR54321').toString(CryptoJS.enc.Utf8);
-  //         return password == decryptedPassword;
-  //       });
-
-  //       if (foundPassword) {
-  //         console.log("----  Wrong Email  ----");
-  //         invalidCredentials();
-  //       } else {
-  //         console.log("----  Wrong Email and Password Combination  ----");
-  //         wrongCombination();
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during login process:', error);
-  //   }
-  // };
-
-
-  // // Updated fetchData function to accept a role and request different APIs
-  // const fetchData = async (role) => {
-  //   let apiUrl;
-  //   // Check the role and set the appropriate API endpoint
-  //   if (role == 'Manager') {
-  //     apiUrl = 'http://127.0.0.1:8000/api/admin_registrations';
-  //   } else if (role == 'Sales Agent') {
-  //     apiUrl = 'http://127.0.0.1:8000/api/sales_agents';
-  //   } else if (role == 'Team Leader') {
-  //     apiUrl = 'http://127.0.0.1:8000/api/team_leaders';
-  //   } else {
-  //     throw new Error('Invalid role');
-  //   }
-
-  //   try {
-  //     const response = await fetch(apiUrl);
-  //     if (!response.ok) {
-  //       throw new Error('Network response was not ok');
-  //     }
-  //     const data = await response.json();
-  //     console.log(data);
-
-  //     if (type == "Manager") {
-  //       const filteredData = data.map(({ id, email, password, first_name, managerId }) => ({ id, email, password, first_name, managerId }));
-  //       setFilteredData(filteredData);
-  //     } else {
-  //       const filteredData = data.map(({ id, email, password, first_name }) => ({ id, email, password, first_name }));
-  //       setFilteredData(filteredData);
-  //     }
-
-  //     console.log("filtered", filteredData);
-  //     return filteredData;
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //     throw error;
-  //   }
-  // };
-
-
-
-  // const handleSignin = async (e) => {
-  //   e.preventDefault();
-  //   console.log(type); // Logs the role
-  //   if (type == "Manager") {
-  //     if (!email || !password || !managerId) {
-  //       fillAllCredentials();
-  //       return;
-  //     }
-  //   } else {
-  //     if (!email || !password) {
-  //       fillAllCredentials();
-  //       return;
-  //     }
-  //   }
-  //   loggingIn();
-  //   try {
-  //     const filteredData = await fetchData(type);
-
-  //     let foundUser = false;
-
-  //     if (type == "Manager") {
-  //       foundUser = filteredData.find(user => user.email == email && user.managerId == managerId);
-  //     } else {
-  //       foundUser = filteredData.find(user => user.email == email);
-  //     }
-
-  //     if (foundUser) {
-  //       const decryptedPassword = type == 'Manager'
-  //         ? CryptoJS.AES.decrypt(foundUser.password, 'DBBDRSSR54321').toString(CryptoJS.enc.Utf8)
-  //         : foundUser.password; // Use plain password for other roles
-
-  //       if (password == decryptedPassword) {
-  //         console.log("Decrypted Password: ", decryptedPassword);
-  //         console.log("----  Right User ----");
-  //         console.log("my user: ", foundUser);
-  //         loginSuccessful();
-
-  //         // New POST API request before navigation
-  //         try {
-  //           const response = await fetch('http://127.0.0.1:8000/api/sendloginMessage', {
-  //             method: 'POST',
-  //             headers: {
-  //               'Content-Type': 'application/json'
-  //             },
-  //             body: JSON.stringify({
-  //               email: email,
-  //               role: type
-  //             })
-  //           });
-
-  //           if (response.ok) {
-  //             console.log('API POST request successful');
-  //           } else {
-  //             console.error('Failed to make POST request');
-  //           }
-  //         } catch (error) {
-  //           console.error('Error making POST request:', error);
-  //         }
-
-
-  //         // Navigate based on role
-  //         if (type == "Manager") {
-  //           navigate('/dashboard', { state: { foundUser } });
-  //         }
-  //         else if (type == "Team Leader") {
-  //           navigate('/TeamleaderDashboard', { state: { foundUser } });
-  //         }
-  //         else if (type == "Sales Agent") {
-  //           navigate('/SalesAgentDashboard', { state: { foundUser } });
-  //         }
-
-  //         // Store user info in local storage
-  //         localStorage.setItem('userEmail', foundUser.email);
-  //         localStorage.setItem('userFName', foundUser.first_name);
-  //         localStorage.setItem('id', foundUser.id);
-
-  //         console.log("This is my email: ", foundUser.email);
-  //         setIsAdminLoggedIn(true);
-
-  //       } else {
-  //         console.log("----  Wrong Password  ----");
-  //         invalidCredentials();
-  //       }
-  //     } else {
-  //       wrongCombination();
-  //       const foundPassword = filteredData.some(user => {
-  //         const decryptedPassword = CryptoJS.AES.decrypt(user.password, 'DBBDRSSR54321').toString(CryptoJS.enc.Utf8);
-  //         return password == decryptedPassword;
-  //       });
-
-  //       if (foundPassword) {
-  //         console.log("----  Wrong Email  ----");
-  //         invalidCredentials();
-  //       } else {
-  //         console.log("----  Wrong Email and Password Combination  ----");
-  //         wrongCombination();
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during login process:', error);
-  //   }
-  // };
-
   const handleSignin = async (e) => {
     e.preventDefault();
     console.log(type); // Logs the role
@@ -384,7 +163,7 @@ const SignIn = () => {
       }
     }
 
-    loggingIn();
+    // loggingIn();
 
     try {
       // Fetch and set the filtered data before proceeding
@@ -437,7 +216,7 @@ const SignIn = () => {
             navigate('/dashboard', { state: { foundUser } });
           }
           else if (type == "Team Leader") {
-            navigate('/TeamleaderDashboard', { state: { foundUser } });
+            navigate('/TeamLeader_main_dashboard', { state: { foundUser } });
           }
           else if (type == "Sales Agent") {
             navigate('/SalesAgent_main_dashboard', { state: { foundUser } });
@@ -450,17 +229,26 @@ const SignIn = () => {
           }
           else if (type == "Team Leader") {
             localStorage.setItem('userEmail', foundUser.email);
-            localStorage.setItem('userFName', foundUser.first_name);
+            localStorage.setItem('userFName', `${foundUser.first_name} ${foundUser.last_name}`);
             localStorage.setItem('id', foundUser.id);
             localStorage.setItem('managerRole', "Team Leader");
+            localStorage.setItem('Teamleader_Image', JSON.stringify(foundUser.image_path));
           }
           else if (type == "Sales Agent") {
+            const kpi = JSON.parse(foundUser.kpi_data)
             localStorage.setItem('userEmail', foundUser.email);
-            localStorage.setItem('userFName', foundUser.first_name);
+            localStorage.setItem('userFName', `${foundUser.first_name} ${foundUser.last_name}`);
             localStorage.setItem('id', foundUser.id);
             localStorage.setItem('Team_id', foundUser.team_id);
             localStorage.setItem('managerRole', "Sales Agent");
+            localStorage.setItem("commission_salesagent", `${kpi.teamInfo.opportunity}`);
+            localStorage.setItem("frequency_salesagent", `${kpi.teamInfo.frequency}`);  
+            localStorage.setItem("currency", `${kpi.teamInfo.currency}`);  
+            localStorage.setItem('Agents_KPI_Data',JSON.stringify(kpi.teamInfo));
+            localStorage.setItem('SalesAgent_Image', JSON.stringify(foundUser.image_path));
           }
+          
+          
 
           // Store user info in local storage
 
@@ -517,7 +305,7 @@ const SignIn = () => {
       if (role == "Manager") {
         return data.map(({ id, email, password, manager_name, manager_secret_id }) => ({ id, email, password, manager_name, manager_secret_id }));
       } else {
-        return data.map(({ id, email, password, first_name, team_id }) => ({ id, email, password, first_name, team_id }));
+        return data.map(({ id, email, password, first_name, last_name, kpi_data, team_id, image_path }) => ({ id, email, password, first_name, last_name, kpi_data, team_id, image_path }));
       }
     } catch (error) {
       console.error('Error fetching data:', error);

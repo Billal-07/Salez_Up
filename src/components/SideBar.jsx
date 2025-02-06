@@ -308,20 +308,6 @@ const SideBar = ({ name = "none" }) => {
     },
   ];
 
-  function toCamelCase(str) {
-    return str
-      .toLowerCase() // Convert the string to lowercase
-      .split(" ") // Split the string by spaces
-      .map((word, index) => {
-        // Capitalize the first letter of each word except the first word
-        if (index == 0) {
-          return word;
-        }
-        return word.charAt(0).toUpperCase() + word.slice(1);
-      })
-      .join(""); // Join the words back together
-  }
-
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 480) {
@@ -364,20 +350,6 @@ const SideBar = ({ name = "none" }) => {
     tvscreen: false,
     help: false,
   });
-
-  const setActiveLink = (linkName, itsRef = "") => {
-    const newLinkState = Object.keys(linkState).reduce((acc, key) => {
-      acc[key] = false;
-      return acc;
-    }, {});
-    newLinkState[linkName.toLowerCase().replace(/\s+/g, "")] = true;
-    setLinkState(newLinkState);
-
-    console.log("scrolling to: ", itsRef);
-    if (itsRef) {
-      itsRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  };
 
   useEffect(() => {
     // Extract the fragment identifier (the part after the # in the URL)
@@ -481,16 +453,6 @@ const SideBar = ({ name = "none" }) => {
     setIsLinkExpanded(newLinkExpanded);
   }, [location]);
 
-  // if (!isSidebarOpen)
-  //   return (
-  //     <div
-  //       className="fixed z-50 flex items-center p-3 my-3 text-2xl text-white cursor-pointer bg-themeGreen w-fit rounded-tr-md rounded-br-md"
-  //       onClick={() => setIsSidebarOpen((prev) => !prev)}
-  //     >
-  //       <FaArrowRight className="inline my-auto" />
-  //     </div>
-  //   );
-
   if (!isSidebarOpen)
     return (
       <div
@@ -502,12 +464,11 @@ const SideBar = ({ name = "none" }) => {
     );
 
   return (
-    <main className="duration-100 pl-[10px] w-ful">
+    <aside className="duration-100 pl-[10px] w-[28%]">
       <div className="antialiased text-gray-600 ">
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-auto h-full">
           <div className="overflow-x-hidden overflow-y-auto">
             <ul className="flex flex-col py-4 space-y-1">
-              {/* Dashboard Link */}
               {links.map((link, index) => (
                 <li
                   key={index}
@@ -517,7 +478,7 @@ const SideBar = ({ name = "none" }) => {
                     to={link.link}
                     className="flex flex-row items-center h-[56px] px-2 gap-[14px] text-gray-600 hover:text-[#269F8B]"
                   >
-                    <div className="w-[20px] h-[20px]">{link.icon}</div>
+                    <div className="w-auto h-[20px]">{link.icon}</div>
                     <span className="text-[14px] font-[500] tracking-wide">
                       {link.name}
                     </span>
@@ -642,7 +603,7 @@ const SideBar = ({ name = "none" }) => {
           </div>
         </div>
       </div>
-    </main>
+    </aside>
   );
 };
 

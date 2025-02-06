@@ -7,17 +7,6 @@ const TeamLeader_Dashboard = () => {
     const [kpiData, setKpiData] = useState(null);
     const [aggregatedSums, setAggregatedSums] = useState([]);
 
-    // useEffect(() => {
-    //     fetch('http://127.0.0.1:8000/api/team_leader/by_team/37')
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             setTeamLeader(data.team_and_team_leader);
-    //             setKpiData(JSON.parse(data.team_and_team_leader.kpi_data));
-    //         })
-    //         .catch(err => console.error(err));
-    // }, []);
-
-
     useEffect(() => {
         // Fetch team leader data
         fetch('http://127.0.0.1:8000/api/team_leader/by_team/37')
@@ -83,55 +72,9 @@ const TeamLeader_Dashboard = () => {
                             </div>
             <div className='bg-white rounded-lg shadow-sm overflow-hidden border-2 border-gray-100'>
             
-              {/* <div className='p-6'>
-                <table className='w-full'>
-                  <thead>
-                    <tr className='text-left text-sm font-medium text-gray-500'>
-                      <th className='pb-2 text-[#269F8B]'>KPIs</th>
-                      <th className='pb-2 text-[#269F8B] text-center'>Target</th>
-                      <th className='pb-2 text-[#269F8B] text-center'>Actual</th>
-                      <th className='pb-2 text-[#269F8B] text-center'>% to Target</th>
-                      <th className='pb-2 text-[#269F8B] text-center'>Commission</th>
-                      <th className='pb-2 text-[#269F8B] text-center'>Gatekeeper</th>
-                      <th className='pb-2 text-[#269F8B] text-center'>Gatekeeper Target</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {teamLeader && kpiData ? (
-                      kpiData.kpiData.map((kpi, index) => (
-                        <tr key={index} className='text-sm'>
-                          <td className='py-2 text-[#269F8B] font-medium'>{kpi.kpi_Name}</td>
-                          <td className='py-2 text-center'>{kpi.target}</td>
-                    
-                          <td className='py-2 text-center'>{aggregatedSums[index]?.toFixed(2)}</td>
-                          <td className='py-2 text-center'>
-                            <span className={`px-6 py-1 rounded ${getPercentColor(100)}`}>
-                              100%
-                            </span>
-                          </td>
-                          <td className='py-2 text-center'>{kpiData.teamInfo.currency}{kpi.opportunity.toFixed(1)}</td>
-                          <td className={`py-2 text-center ${kpi.gatekeeper ? 'text-black' : 'bg-gray-100'}`}>
-                            {kpi.gatekeeper ? 'Yes' : 'N/A'}
-                          </td>
-                          <td className='py-2 text-center'>
-                            <span className={`inline-block ${!kpi.gatekeeper ? 'bg-gray-100 w-12' : ''}`}>
-                              {kpi.gatekeeper || '-'}
-                            </span>
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td colSpan="7" className="text-center py-4 text-gray-500">
-                          Loading KPI data...
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div> */}
+              
 
-<div className='p-6'>
+<div className='p-6 bg-pink-200'>
   <table className='w-full'>
     <thead>
       <tr className='text-left text-sm font-medium text-gray-500'>

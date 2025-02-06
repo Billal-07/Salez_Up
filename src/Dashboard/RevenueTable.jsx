@@ -3,10 +3,11 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { FaArrowUp } from "react-icons/fa";
 import Agent_Ranking_chart from "./Agent_Ranking_chart";
-import Agent_barchart from "./Agent_barchart";
+import noImage from '/images/image.jpg'
+import Actual_Vs_Target_logic from "./testing/Actual_Vs_Target_logic";
+import Forecast_Commission_logic from "./testing/Forecast_Commission_logic";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-
 
 const HalfDonutChart = ({ data, colors }) => {
   const options = {
@@ -36,60 +37,57 @@ const HalfDonutChart = ({ data, colors }) => {
   };
 
   return (
-    <div style={{ width: "250px", height: "160px", marginLeft: "18%" }}> {/* Adjusted size */}
+    <div style={{ width: "150px", height: "150px", marginLeft: "18%" }}>
       <Doughnut data={chartData} options={options} />
     </div>
   );
 };
 
-
 const RevenueTable = () => {
   const [agents, setAgents] = useState([]);
-  const [aggregatedData, setAggregatedData] = useState(JSON.parse(localStorage.getItem('aggregated data')));
-  const [leaderboardData, setLeaderboardData] = useState([
-    { name: 'Sarah Smith', score: 200, image: '/images/dashboard_img1.png', badge: '/images/unicorn.png' },
-    { name: 'Anujaa Kumar', score: 150, image: '/images/dashboard_img2.png', badge: '/images/platinium.png' },
-    { name: 'Fernando Celde', score: 75, image: '/images/dashboard_img3.png', badge: '/images/gold.png' },
-    { name: 'Pinaji Koarima', score: 74, image: '/images/dashboard_img1.png', badge: '/images/silver.png' },
-    { name: 'Nava Yaghnel', score: 60, image: '/images/dashboard_img2.png', badge: '/images/silver.png' },
-    { name: 'Monaki Nahans', score: 50, image: '/images/dashboard_img3.png', badge: '/images/bronze.png' },
-    { name: 'Tians jdife', score: 35, image: '/images/dashboard_img2.png', badge: '/images/bronze.png' },
-    { name: 'Nualiri sjahej', score: 20, image: '/images/dashboard_img1.png', badge: '/images/bronze.png' },
-  ]);
+  const [mainAgent, setMainAgent] = useState({})
 
-  const [barChartData, setBarChartData] = useState([
-    { month: 'Jan', value: 10000 },
-    { month: 'Feb', value: 9000 },
-    { month: 'Mar', value: 7000 },
-    { month: 'Apr', value: 2000 },
-    { month: 'May', value: 6700 },
-    { month: 'Jun', value: 4000 },
-    { month: 'Jul', value: 9001 },
-    { month: 'Aug', value: 5000 },
-    { month: 'Sep', value: 8000 },
-    { month: 'Oct', value: 1000 },
-    { month: 'Nov', value: 11000 },
-    { month: 'Dec', value: 3400 },
-  ]);
+  const [currency, setCurrency] = useState('$')
+  const [aggregatedData, setAggregatedData] = useState(JSON.parse(localStorage.getItem('aggregated data')));
+  const [agentPerformance, setAgentPerformance] = useState(JSON.parse(localStorage.getItem('tableData1')))
+  const [forecastSummary, setForecastSummary] = useState();
+
+  const [forcastPercent,setForcastPercent]=useState();
+
+  const [leaderboardData, setLeaderboardData] = useState([]);
+
 
   useEffect(() => {
     const fetchAgents = async () => {
       const response = await fetch(`http://127.0.0.1:8000/api/sales_agents/team/${localStorage.getItem('Team_id')}`);
       const data = await response.json();
+      const agentActualValue = agentPerformance.slice(0).reduce(
+        (total, data) => total + parseFloat(data.values[1] || 0),
+        0
+      ).toFixed(1)
+
       const formattedAgents = data.map((agent, index) => {
         const kpiData = JSON.parse(agent.kpi_data);
         const target = kpiData.kpiData[1].target;
-        const aggregatedValue = aggregatedData[index]?.aggregatedValues[1] || 1;
-        console.log("aggregatedValue: ", aggregatedValue)
-        const targetPercentage = (target / aggregatedValue) * 100;
+        const actualValue = `${agent.first_name} ${agent.last_name}` == "Taylor Swift"
+          ? parseFloat(agentActualValue)
+          : aggregatedData[index]?.aggregatedValues[1] || 1;
+        const targetPercentage = (actualValue / target) * 100;
 
         return {
+          id: agent.id,
           name: `${agent.first_name} ${agent.last_name}`,
           targetPercentage,
           rank: 0,
-          image: agent.image_path || "/images/default_agent.png",
+          score: target,
+          target: target,
+          actual: actualValue,
+          image: agent.image_path,
         };
       });
+
+      setLeaderboardData(formattedAgents)
+      console.log("AGents   : ", formattedAgents)
 
       const topAgents = formattedAgents
         .sort((a, b) => b.targetPercentage - a.targetPercentage)
@@ -101,15 +99,66 @@ const RevenueTable = () => {
         }));
 
       setAgents(topAgents);
-    };
 
+      const agentId = localStorage.getItem('id');
+      const foundAgent = formattedAgents.find(agent => agent.id == agentId);
+      if (foundAgent) {
+        setMainAgent([foundAgent]);
+      }
+    };
+    const summaryData = JSON.parse(localStorage.getItem('forecast_commission'))
+    setForecastSummary(summaryData)
     fetchAgents();
   }, [aggregatedData]);
 
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key == 'tableData1' || 'aggregated data') {
+        setAgentPerformance(JSON.parse(localStorage.getItem('tableData1')))
+        setAggregatedData(JSON.parse(localStorage.getItem('aggregated data')))
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+
+  const [forcast,setForcast] = useState('');
+  const [forcast_Percentage,setForcast_Percentage] =useState('')
+
+  useEffect(()=>{
+
+    const forcastData=localStorage.getItem('commission_salesagent')
+    setForcast(forcastData);   
+    console.log('Forcast Data 2: ',forcastData);
+
+   const forcast_percentage2 = localStorage.getItem('forcast_percentage');
+   console.log("value of forcast percentage: ",forcast_percentage2);
+
+   setForcast_Percentage(forcast_percentage2)
+
+   localStorage.setItem('Percent_to_forcast',forcast_Percentage)
+
+  },[])
+
+  useEffect(()=>{
+    const forcast_percentage2 = localStorage.getItem('forcast_percentage');
+  
+    console.log("value of forcast percentage: ",forcast_percentage2);
+
+   setForcast_Percentage(forcast_percentage2)
+
+
+  },[forcast_Percentage])
+
   return (
     <div className="w-full flex flex-col space-y-4">
-      <div className="w-full flex flex-row justify-between space-x-2">
-        <div className="w-1/2 rounded-lg shadow p-6 max-w-4xl mx-auto">
+      <div className="w-full flex flex-row justify-between space-x-7">
+        <div className="w-[50%] rounded-3xl shadow p-6 max-w-4xl mx-auto border-[1px] border-gray-200">
           <div className="flex justify-between items-center mb-10">
             <div className="text-2xl flex items-center">
               <img
@@ -123,16 +172,16 @@ const RevenueTable = () => {
               Agent Leaderboard
             </div>
           </div>
-          <div className="flex justify-around">
+          <div className="flex justify-around space-x-4">
             {agents.map((agent, index) => (
               <div key={index} className="text-center">
                 <div className="relative">
                   <img
-                    src={agent.image}
+                    className="w-20 h-20 rounded-full mx-auto"
+                    src={agent.image || noImage}
                     alt={agent.name}
-                    className="w-20 h-20 rounded-full border-4 border-gray-200 mx-auto"
                   />
-                  <div className="absolute -bottom-2 right-0 w-10 h-10 rounded-full flex items-center justify-center font-bold">
+                  <div className="absolute -bottom-2 right-1 w-7 h-7 rounded-full">
                     <img
                       src={
                         agent.rank === 1
@@ -153,62 +202,52 @@ const RevenueTable = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6 w-3/5 max-w-4xl mx-auto">
+        <div className="bg-white rounded-3xl shadow p-6 w-[50%] max-w-4xl mx-auto border-[1px] border-gray-200">
           <div className="flex justify-between items-center mb-3">
             <div>
               <p className="text-lg text-[#009245]">Forecast Commission</p>
-              <h2 className="text-xl font-bold text-green-600">$560</h2>
+              <h2 className="text-xl font-bold text-green-600">${((forcast_Percentage/100)*forcast).toFixed(1)}</h2>
+              {/* <p>159% x commission opportunity = Forecast commission</p> */}
             </div>
             <div className="flex items-center text-[#009245] font-medium">
               <FaArrowUp className="mr-1" />
-              <span>2.5%</span>
+              <span>0%</span>
             </div>
           </div>
 
           <div className="flex items-center justify-between">
             <div className="flex-1 flex flex-col justify-center items-center text-center">
               <h3 className="font-medium text-gray-800">Actual vs Target</h3>
-              <p className="text-xs text-green-600 mb-4">50% to target</p>
-              <div className="relative flex justify-center items-center -mt-9">
+              <p className="text-xs text-green-600 mb-4">^ {(mainAgent[0]?.actual / mainAgent[0]?.target * 100).toFixed(1)}% to target</p>
+              <div className="relative flex justify-center mr-6 items-center -mt-9">
                 <HalfDonutChart
-                  data={[50, 50]}
+                  data={[(mainAgent[0]?.actual / mainAgent[0]?.target * 100), ((mainAgent[0]?.target / mainAgent[0]?.actual * 100) - 100)]}
                   colors={["#ff5f66", "#f3f4f6"]}
                 />
-                <div className="absolute inset-0 flex mt-16 flex-col justify-evenly items-center">
-                  <p className="text-red-500 text-2xl font-normal">$5K</p>
-                  <div className="flex justify-evenly space-x-20 text-sm text-gray-500 w-full">
-                    <span>$0K</span>
-                    <span>$10K</span>
+                <div className="absolute inset-3 w-full flex mt-16 flex-col justify-evenly items-center">
+                  <p className="text-red-500 text-2xl font-normal">{currency}{(isNaN(parseFloat(mainAgent[0]?.actual / 1000)) ? 0 : parseFloat(mainAgent[0]?.actual / 1000).toFixed(1))}K</p>
+                  <div className="flex justify-between text-sm text-gray-500 w-full">
+                    <span>{currency}0K</span>
+                    <span>{currency}{parseInt(mainAgent[0]?.target / 1000)}K</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="w-px bg-gray-300 h-40 mx-4"></div>
+            <div className="w-px bg-gray-300 h-40 mx-7"></div>
 
-            <div className="flex-1 flex flex-col justify-center items-center text-center">
-              <h3 className="font-medium text-gray-800">Forecast Finish</h3>
-              <p className="text-xs text-green-600 mb-4">^ 112% to target</p>
-              <div className="relative flex justify-center items-center -mt-9">
-                <HalfDonutChart
-                  data={[80, 20]}
-                  colors={["#10b981", "#f3f4f6"]}
-                />
-                <div className="absolute inset-0 flex mt-16 flex-col justify-evenly items-center">
-                  <p className="text-green-500 text-2xl font-normal">$12K</p>
-                  <div className="flex justify-evenly space-x-20 text-sm text-gray-500 w-full">
-                    <span>$0K</span>
-                    <span>$15K</span>
-                  </div>
-                </div>
-              </div>
+            <div className="flex-1 flex flex-col justify-center items-center text-center ">
+         
+              <Forecast_Commission_logic/>
             </div>
+
+
           </div>
         </div>
       </div>
 
       <Agent_Ranking_chart leaderboardData={leaderboardData} />
-      <Agent_barchart data={barChartData} />
+      <Actual_Vs_Target_logic/>
     </div>
   );
 };
