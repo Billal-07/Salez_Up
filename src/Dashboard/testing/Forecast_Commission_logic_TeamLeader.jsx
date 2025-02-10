@@ -148,7 +148,7 @@ const Forecast_Commission_logic_TeamLeader = ( barIndex ) => {
         <p className="text-xs text-green-600 mb-4">
           ^
           {(
-            (((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / workingDays) * totalDays) / agentsTarget[1]) * 100
+            (((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / workingDays) * totalDays) / agentsTarget[barIndex.barIndex]) * 100
           ).toFixed(1)}% to target
         </p>
         <div className="relative flex justify-center mr-6 items-center -mt-9">

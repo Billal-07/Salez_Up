@@ -57,11 +57,11 @@ const Actual_Vs_Target_logic_teamleader = ( barIndex ) => {
         if (data.month === monthAbbreviations[agentMonth.month]) {
           return { ...data, target: agentsTarget[barIndex.barIndex], actual: allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] };
         }
-        // if (index > initialData.findIndex(d => d.month === monthAbbreviations[agentMonth.month])) {
-        //   return { ...data, target: 0, actual: 0 };
-        // }
+        if (index > initialData.findIndex(d => d.month === monthAbbreviations[agentMonth.month])) {
+          return null;
+        }
         return data;
-      });
+      }).filter(item => item !== null);
       localStorage.setItem('charts', JSON.stringify(updatedInitialData));
       setChartData(updatedInitialData);
     // }
