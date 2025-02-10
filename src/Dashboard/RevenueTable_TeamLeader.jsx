@@ -6,6 +6,7 @@ import Agent_Ranking_chart from "./Agent_Ranking_chart";
 import noImage from '/images/image.jpg'
 import Actual_Vs_Target_logic_teamleader from "./testing/Actual_Vs_Target_logic_teamleader";
 import Forecast_Commission_logic_TeamLeader from "./testing/Forecast_Commission_logic_TeamLeader";
+import Coke from "/public/images/coke.png";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -174,8 +175,8 @@ const RevenueTable_TeamLeader = ( barIndex ) => {
                     <div className="flex justify-between items-center mb-10">
                         <div className="text-2xl flex items-center">
                             <img
-                                src="/images/3campaign.png"
-                                alt="3 Campaign"
+                                src={Coke}
+                                alt="Campaign"
                                 className="w-8 h-8 mr-2"
                             />
                             <p className="text-[#009245]">BDR</p>
