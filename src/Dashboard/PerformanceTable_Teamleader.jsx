@@ -49,9 +49,9 @@ const PerformanceTable_Teamleader = () => {
                         })
                         .catch(err => console.error(err));
                 }
-            }, 1000); // Check every second
+            }, 1000);
 
-            return () => clearInterval(interval); // Cleanup on unmount
+            return () => clearInterval(interval);
         };
 
         waitForTeamId();
@@ -91,7 +91,7 @@ const PerformanceTable_Teamleader = () => {
                     clearInterval(interval);
                     calculateAggregatedSums();
                 }
-            }, 1000); 
+            }, 1000);
 
             return () => clearInterval(interval); // Cleanup on unmount
         };
@@ -159,6 +159,29 @@ const PerformanceTable_Teamleader = () => {
             window.removeEventListener('storage', handleStorageChange);
         };
     }, []);
+
+    useEffect(() => {
+        const handleStorageChange = (event) => {
+            if (event.key === 'TotalTargetAgents' || 'TeamLeader Actual') {
+                setAllTargets(localStorage.getItem('TotalTargetAgents')?.split(',') || []);
+                const aggregatedData = JSON.parse(localStorage.getItem('TeamLeader Actual')) || [];
+                const sums = [];
+                aggregatedData.forEach(agent => {
+                    const values = agent.aggregatedValues || [];
+                    values.forEach((value, index) => {
+                        const numValue = Number(value) || 0;
+                        sums[index] = (sums[index] || 0) + numValue;
+                    });
+                });
+                setAggregatedSums(sums);
+            }
+        };
+        window.addEventListener('storage', handleStorageChange);
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
+
 
     const getFormattedValue = (kpi, value) => {
         switch (kpi) {
@@ -300,10 +323,10 @@ const PerformanceTable_Teamleader = () => {
                             </tbody>
                         </table>
                     )}
-                    {view === 'revenue' && <RevenueTable_TeamLeader barIndex = {0}/>}
-                    {view === 'totalrevenue' && <RevenueTable_TeamLeader barIndex = {1}/>}
-                    {view === 'units' && <RevenueTable_TeamLeader barIndex = {2}/>}
-                    {view === 'unitsSales' && <RevenueTable_TeamLeader barIndex = {3}/>}
+                    {view === 'revenue' && <RevenueTable_TeamLeader barIndex={0} />}
+                    {view === 'totalrevenue' && <RevenueTable_TeamLeader barIndex={1} />}
+                    {view === 'units' && <RevenueTable_TeamLeader barIndex={2} />}
+                    {view === 'unitsSales' && <RevenueTable_TeamLeader barIndex={3} />}
                     {/* {view === 'units' && <UnitsTable />}
                     {view === 'conversion' && <ConversionTable />}
                     {view === 'dials' && <DialsTable />}
