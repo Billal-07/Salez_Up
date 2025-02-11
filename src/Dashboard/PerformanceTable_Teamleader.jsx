@@ -19,11 +19,11 @@ const PerformanceTable_Teamleader = () => {
         { id: 'call-volume', label: 'Call Volume', tableType: 'units' },
         { id: 'sales-volume', label: 'Sales Volume', tableType: 'unitsSales' },
         { id: 'conversion', label: 'Conversion', tableType: 'conversion' },
-        { id: 'handling-time', label: 'Average Handling Time', tableType: 'dials' },
-        { id: 'product1', label: 'Attachment Rate Product 1', tableType: 'productivity' },
-        { id: 'product2', label: 'Attachment Rate Product 2', tableType: 'productivity' },
-        { id: 'product3', label: 'Attachment Rate Product 3', tableType: 'productivity' },
-        { id: 'product4', label: 'Attachment Rate Product 4', tableType: 'productivity' },
+        { id: 'handlingTime', label: 'Average Handling Time', tableType: 'handlingTime' },
+        { id: 'product1', label: 'Attachment Rate Product 1', tableType: 'productivityRate1' },
+        { id: 'product2', label: 'Attachment Rate Product 2', tableType: 'productivityRate2' },
+        { id: 'product3', label: 'Attachment Rate Product 3', tableType: 'productivityRate3' },
+        { id: 'product4', label: 'Attachment Rate Product 4', tableType: 'productivityRate4' },
         { id: 'qa', label: 'QA', tableType: 'productivity' }
     ];
 
@@ -327,6 +327,9 @@ const PerformanceTable_Teamleader = () => {
                     {view === 'totalrevenue' && <RevenueTable_TeamLeader barIndex={1} />}
                     {view === 'units' && <RevenueTable_TeamLeader barIndex={2} />}
                     {view === 'unitsSales' && <RevenueTable_TeamLeader barIndex={3} />}
+                    {view === 'conversion' && <RevenueTable_TeamLeader barIndex={4} />}
+                    {view === 'handlingTime' && <RevenueTable_TeamLeader barIndex={5} />}
+                    {view === 'productivityRate1' && <RevenueTable_TeamLeader barIndex={6} />}
                     {/* {view === 'units' && <UnitsTable />}
                     {view === 'conversion' && <ConversionTable />}
                     {view === 'dials' && <DialsTable />}

@@ -72,7 +72,7 @@ const Agent_Ranking_chart = ({ leaderboardData }) => {
                         className="absolute font-bold bg-white text-[#009245] w-16 text-xs rounded px-4 py-1"
                         style={{
                             top: '-6px',
-                            left: `calc(${Math.min(actual / score  * 100)}% - ${actual / score * 100 >= 100 ? 90 : 30}px)`,
+                            left: `calc(${Math.min(actual / score  * 100)}% - ${actual / score * 100 == 100 ? 100 : (actual / score * 100 > 110 ? 110 : 60)}px)`,
                             zIndex: 10,
                         }}
                     >
