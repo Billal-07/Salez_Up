@@ -252,7 +252,7 @@ const Actual_Vs_Target_logic_teamleader = ( barIndex ) => {
                   fontSize={12}
                   fontWeight="600"
                 >
-                  ${value}K
+                  ${value/1000}K
                 </text>
               </g>
             )}
