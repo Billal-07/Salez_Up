@@ -24,7 +24,7 @@ const PerformanceTable_Teamleader = () => {
         { id: 'product2', label: 'Attachment Rate Product 2', tableType: 'productivityRate2' },
         { id: 'product3', label: 'Attachment Rate Product 3', tableType: 'productivityRate3' },
         { id: 'product4', label: 'Attachment Rate Product 4', tableType: 'productivityRate4' },
-        { id: 'qa', label: 'QA', tableType: 'productivity' }
+        { id: 'qa', label: 'QA', tableType: 'qa' }
     ];
 
     const itemsPerPage = 3;
@@ -330,6 +330,10 @@ const PerformanceTable_Teamleader = () => {
                     {view === 'conversion' && <RevenueTable_TeamLeader barIndex={4} />}
                     {view === 'handlingTime' && <RevenueTable_TeamLeader barIndex={5} />}
                     {view === 'productivityRate1' && <RevenueTable_TeamLeader barIndex={6} />}
+                    {view === 'productivityRate2' && <RevenueTable_TeamLeader barIndex={7} />}
+                    {view === 'productivityRate3' && <RevenueTable_TeamLeader barIndex={8} />}
+                    {view === 'productivityRate4' && <RevenueTable_TeamLeader barIndex={9} />}
+                    {view === 'qa' && <RevenueTable_TeamLeader barIndex={10} />}
                     {/* {view === 'units' && <UnitsTable />}
                     {view === 'conversion' && <ConversionTable />}
                     {view === 'dials' && <DialsTable />}
