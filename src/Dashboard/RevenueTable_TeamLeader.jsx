@@ -44,7 +44,7 @@ const HalfDonutChart = ({ data, colors }) => {
     );
 };
 
-const RevenueTable_TeamLeader = ( barIndex ) => {
+const RevenueTable_TeamLeader = (barIndex) => {
     const [agents, setAgents] = useState([]);
     const [mainAgent, setMainAgent] = useState({})
 
@@ -58,7 +58,6 @@ const RevenueTable_TeamLeader = ( barIndex ) => {
     const [leaderboardData, setLeaderboardData] = useState([]);
 
     useEffect(() => {
-        console.log("INDEX FOR BAR: ", barIndex.barIndex)
         const fetchAgents = async () => {
             const id = localStorage.getItem("TeamId");
             const response = await fetch(`http://127.0.0.1:8000/api/sales_agents/team/${id}`);
@@ -135,13 +134,13 @@ const RevenueTable_TeamLeader = ( barIndex ) => {
     }, [])
 
     useEffect(() => {
-        
+
         const forcastData = (JSON.parse(localStorage.getItem('Agents_KPI_Data')))
 
         console.log("FORCAST DATA", forcastData.opportunity)
-        
+
         setForcast(parseFloat(forcastData.opportunity));
-        
+
         // console.log('Forcast Data 2:',forcastData);
 
         const forcast_percentage2 = localStorage.getItem('forcast_percentage');
@@ -230,21 +229,43 @@ const RevenueTable_TeamLeader = ( barIndex ) => {
                     <div className="flex items-center justify-between">
                         <div className="flex-1 flex flex-col justify-center items-center text-center">
                             <h3 className="font-medium text-gray-800">Actual vs Target</h3>
-                            <p className="text-xs text-green-600 mb-4">^ {(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / agentsTarget[barIndex.barIndex] * 100).toFixed(1)}% to target</p>
+                            <p className="text-xs text-green-600 mb-4">
+                                {barIndex.barIndex === 4
+                                    ? `^ ${(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex]).toFixed(1)}% to target`
+                                    : `^ ${(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / agentsTarget[barIndex.barIndex] * 100).toFixed(1)}% to target`
+                                }
+                            </p>
                             <div className="relative flex justify-center mr-6 items-center -mt-9">
                                 <HalfDonutChart
                                     data={[
-                                        (allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / agentsTarget[barIndex.barIndex] * 100),
-                                         ((agentsTarget[barIndex.barIndex] / allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] * 100) - 100)
+                                        barIndex.barIndex === 4 
+                                            ? allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] 
+                                            : (allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / agentsTarget[barIndex.barIndex] * 100),
+                                        barIndex.barIndex === 4 
+                                            ? (100 - allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] )
+                                            : ((agentsTarget[barIndex.barIndex] / allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] * 100) - 100)
                                     ]}
                                     colors={["#ff5f66", "#f3f4f6"]}
                                 />
-                                
                                 <div className="absolute inset-3 w-full flex mt-16 flex-col justify-evenly items-center">
-                                    <p className="text-red-500 text-2xl font-normal">{currency}{(isNaN(parseFloat(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / 1000)) ? 0 : parseFloat(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / 1000).toFixed(1))}K</p>
+                                    <p className="text-red-500 text-2xl font-normal">
+                                        {
+                                            barIndex.barIndex === 4 
+                                                ? `${(parseFloat(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex]).toFixed(1))}`
+                                                : `${currency}${(isNaN(parseFloat(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / 1000)) ? 0 : parseFloat(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / 1000).toFixed(1))}K`
+                                        }
+                                    </p>
                                     <div className="flex justify-between text-sm text-gray-500 w-full">
-                                        <span>{currency}0K</span>
-                                        <span>{currency}{parseInt(agentsTarget[barIndex.barIndex] / 1000)}K</span>
+                                        <span>{
+                                            barIndex.barIndex === 4 
+                                                ? `0`
+                                                : `${currency}0K`
+                                        }</span>
+                                        <span>{
+                                            barIndex.barIndex === 4 
+                                                ? (parseFloat(agentsTarget[barIndex.barIndex]).toFixed())
+                                                : `${currency}${parseInt(agentsTarget[barIndex.barIndex] / 1000)}K`
+                                        }</span>
                                     </div>
                                 </div>
                             </div>
@@ -263,7 +284,7 @@ const RevenueTable_TeamLeader = ( barIndex ) => {
             </div>
 
             <Agent_Ranking_chart leaderboardData={leaderboardData} />
-            <Actual_Vs_Target_logic_teamleader  barIndex={barIndex.barIndex} />
+            <Actual_Vs_Target_logic_teamleader barIndex={barIndex.barIndex} />
         </div>
     );
 };
