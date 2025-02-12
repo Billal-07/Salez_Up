@@ -34,7 +34,7 @@ const HalfDonutChart = ({ data, colors }) => {
   );
 };
 
-const Forecast_Commission_logic_TeamLeader = ( barIndex ) => {
+const Forecast_Commission_logic_TeamLeader = (barIndex) => {
   const [forecastSummary, setForecastSummary] = useState(
     JSON.parse(localStorage.getItem("forecast_commission"))
   );
@@ -148,9 +148,9 @@ const Forecast_Commission_logic_TeamLeader = ( barIndex ) => {
         <p className="text-xs text-green-600 mb-4">
           ^
           {(
-            barIndex.barIndex === 4 
-                ? (((( allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / 100 ) / workingDays) * totalDays ) / ( agentsTarget[barIndex.barIndex] / 100 ) ) * 100
-                : (((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / workingDays) * totalDays) / agentsTarget[barIndex.barIndex]) * 100
+            barIndex.barIndex === 4 || 6 || 7 || 8 || 9|| 10
+              ? ((((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / 100) / workingDays) * totalDays) / (agentsTarget[barIndex.barIndex] / 100)) * 100
+              : (((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / workingDays) * totalDays) / agentsTarget[barIndex.barIndex]) * 100
           ).toFixed(1)}% to target
         </p>
         <div className="relative flex justify-center mr-6 items-center -mt-9">
@@ -164,14 +164,26 @@ const Forecast_Commission_logic_TeamLeader = ( barIndex ) => {
           />
           <div className="absolute inset-3 w-full flex mt-16 flex-col justify-evenly items-center">
             <p className="text-green-500 text-2xl font-normal">
-              ${(((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / workingDays) * totalDays) / 1000).toFixed(1)}K
+              {barIndex.barIndex === 4 || 6 || 7 || 8 || 9|| 10
+                ? (((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / workingDays) * totalDays).toFixed(1))
+                : `$${(((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / workingDays) * totalDays) / 1000).toFixed(1)}K`
+              }
             </p>
             <div className="flex justify-between text-sm text-gray-500 w-full">
-              <span className="-ml-6 mt-2">
-                {/* ${((actualRevenue / workingDays)/1000).toFixed(1)}k */}
-                $ 0
+              <span className="mt-2">
+                {
+                  barIndex.barIndex === 4 || 6 || 7 || 8 || 9|| 10
+                    ? `0`
+                    : `${currency}0K`
+                }
               </span>
-              <span className="ml-20 mt-2">{currency}{parseInt(agentsTarget[barIndex.barIndex] / 1000)}K</span>
+              <span className="mt-2">
+                {
+                  barIndex.barIndex === 4 || 6 || 7 || 8 || 9|| 10
+                    ? (parseFloat(agentsTarget[barIndex.barIndex]).toFixed())
+                    : `${currency}${parseInt(agentsTarget[barIndex.barIndex] / 1000)}K`
+                }
+              </span>
             </div>
           </div>
         </div>
