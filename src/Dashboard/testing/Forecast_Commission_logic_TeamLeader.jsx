@@ -158,7 +158,7 @@ const Forecast_Commission_logic_TeamLeader = (barIndex) => {
             data={[
               (allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / agentsTarget[barIndex.barIndex]) * 100,
               // 100 - (actualRevenue / targetRevenue) * 100,
-              100 - (allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / agentsTarget[barIndex.barIndex]) * 100,
+              Math.max(0, 100 - (allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / agentsTarget[barIndex.barIndex]) * 100),
             ]}
             colors={["#10b981", "#f3f4f6"]}
           />

@@ -230,7 +230,7 @@ const RevenueTable_TeamLeader = (barIndex) => {
                         <div className="flex-1 flex flex-col justify-center items-center text-center">
                             <h3 className="font-medium text-gray-800">Actual vs Target</h3>
                             <p className="text-xs text-green-600 mb-4">
-                                {barIndex.barIndex === 4
+                                {barIndex.barIndex === 4 || barIndex.barIndex === 6 || barIndex.barIndex === 7 || barIndex.barIndex === 8 || barIndex.barIndex === 9 || barIndex.barIndex === 10  
                                     ? `^ ${( ((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / 100) / (agentsTarget[barIndex.barIndex] / 100)) * 100 ).toFixed(1)}% to target`
                                     : `^ ${(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / agentsTarget[barIndex.barIndex] * 100).toFixed(1)}% to target`
                                 }
@@ -238,31 +238,31 @@ const RevenueTable_TeamLeader = (barIndex) => {
                             <div className="relative flex justify-center mr-6 items-center -mt-9">
                                 <HalfDonutChart
                                     data={[
-                                        barIndex.barIndex === 4 || 6 || 7 || 8 || 9|| 10
+                                        barIndex.barIndex === 4 || barIndex.barIndex === 6 || barIndex.barIndex === 7 || barIndex.barIndex === 8 || barIndex.barIndex === 9 || barIndex.barIndex === 10   
                                             ? allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] 
                                             : (allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / agentsTarget[barIndex.barIndex] * 100),
-                                        barIndex.barIndex === 4 || 6 || 7 || 8 || 9|| 10
-                                            ? (100 - allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] )
-                                            : ((agentsTarget[barIndex.barIndex] / allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] * 100) - 100)
+                                        barIndex.barIndex === 4 || barIndex.barIndex === 6 || barIndex.barIndex === 7 || barIndex.barIndex === 8 || barIndex.barIndex === 9 || barIndex.barIndex === 10   
+                                            ? Math.max(0, 100 - allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex])
+                                            : Math.max(0, 100 - ((allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / agentsTarget[barIndex.barIndex] * 100)))
                                     ]}
                                     colors={["#ff5f66", "#f3f4f6"]}
                                 />
                                 <div className="absolute inset-3 w-full flex mt-16 flex-col justify-evenly items-center">
                                     <p className="text-red-500 text-2xl font-normal">
                                         {
-                                            barIndex.barIndex === 4 || 6 || 7 || 8 || 9|| 10
+                                            barIndex.barIndex === 4 || barIndex.barIndex === 6 || barIndex.barIndex === 7 || barIndex.barIndex === 8 || barIndex.barIndex === 9 || barIndex.barIndex === 10   
                                                 ? `${(parseFloat(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex]).toFixed(1))}`
                                                 : `${currency}${(isNaN(parseFloat(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / 1000)) ? 0 : parseFloat(allAgentsPerformance[0]?.aggregatedValues[barIndex.barIndex] / 1000).toFixed(1))}K`
                                         }
                                     </p>
                                     <div className="flex justify-between text-sm text-gray-500 w-full">
                                         <span>{
-                                            barIndex.barIndex === 4 || 6 || 7 || 8 || 9|| 10
+                                            barIndex.barIndex === 4 || barIndex.barIndex === 6 || barIndex.barIndex === 7 || barIndex.barIndex === 8 || barIndex.barIndex === 9 || barIndex.barIndex === 10   
                                                 ? `0`
                                                 : `${currency}0K`
                                         }</span>
                                         <span>{
-                                            barIndex.barIndex === 4 || 6 || 7 || 8 || 9|| 10
+                                            barIndex.barIndex === 4 || barIndex.barIndex === 6 || barIndex.barIndex === 7 || barIndex.barIndex === 8 || barIndex.barIndex === 9 || barIndex.barIndex === 10   
                                                 ? (parseFloat(agentsTarget[barIndex.barIndex]).toFixed())
                                                 : `${currency}${parseInt(agentsTarget[barIndex.barIndex] / 1000)}K`
                                         }</span>
