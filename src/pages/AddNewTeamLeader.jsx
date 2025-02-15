@@ -38,7 +38,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
     let fetchedTeamAndLeaders = [];
 
     axios
-      .get("http://127.0.0.1:8000/api/teams")
+      .get("https://crmapi.devcir.co/api/teams")
       .then((response) => {
         fetchedTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -50,7 +50,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
       });
 
     axios
-      .get("http://127.0.0.1:8000/api/team_and_team_leader")
+      .get("https://crmapi.devcir.co/api/team_and_team_leader")
       .then((response) => {
         fetchedTeamAndLeaders = response.data;
         setTeam_And_TeamLeader(fetchedTeamAndLeaders);
@@ -62,7 +62,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
       });
 
     axios
-      .get("http://127.0.0.1:8000/api/team_leaders")
+      .get("https://crmapi.devcir.co/api/team_leaders")
       .then((response) => {
         setTeamLeaders(
           response.data.filter(
@@ -199,7 +199,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
 
     try {
       // Check for existing email
-      const responses = await fetch("http://127.0.0.1:8000/api/team_leaders");
+      const responses = await fetch("https://crmapi.devcir.co/api/team_leaders");
       if (!responses.ok) throw new Error("Failed to fetch user data");
       const userData = await responses.json();
       const emailExists = userData.some((user) => user.email == email);
@@ -209,7 +209,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
       }
 
       // Create team leader
-      const response = await fetch("http://127.0.0.1:8000/api/team_leaders", {
+      const response = await fetch("https://crmapi.devcir.co/api/team_leaders", {
         method: "POST",
         body: formData,
       });
@@ -226,7 +226,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
         password: password,
       };
 
-      const emailResponse = await fetch("http://127.0.0.1:8000/api/send-link", {
+      const emailResponse = await fetch("https://crmapi.devcir.co/api/send-link", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -247,7 +247,7 @@ const AddNewTeamLeader = ({ set, setter, onTeamLeaderAdded }) => {
       };
 
       const updateResponse = await fetch(
-        `http://127.0.0.1:8000/api/update_team_leader`,
+        `https://crmapi.devcir.co/api/update_team_leader`,
         {
           method: "POST",
           headers: {

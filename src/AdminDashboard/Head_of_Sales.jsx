@@ -71,7 +71,7 @@ export default function HeadOfSalesPage() {
     console.log("Main data",id);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/manager_details");
+      const response = await fetch("https://crmapi.devcir.co/api/manager_details");
       const data = await response.json();
       const filteredData = data.filter(manager => manager.manager_role == "Head Of Sales" && manager.Admin_Id == id);
       setSalesHeads(Array.isArray(filteredData) ? filteredData : [filteredData]);
@@ -84,7 +84,7 @@ export default function HeadOfSalesPage() {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/manager_details/${selectedSalesHead.id}`,
+        `https://crmapi.devcir.co/api/manager_details/${selectedSalesHead.id}`,
         {
           method: "DELETE",
         }
@@ -137,7 +137,7 @@ export default function HeadOfSalesPage() {
         manager_password: encryptPassword(formData.manager_password),
       };
       const response = await fetch(
-        `http://127.0.0.1:8000/api/manager_details/${selectedSalesHead.id}`,
+        `https://crmapi.devcir.co/api/manager_details/${selectedSalesHead.id}`,
         {
           method: "PUT",
           headers: {

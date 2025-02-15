@@ -56,7 +56,7 @@ const handleSubmit = async (e) => {
   };
 
   try {
-      const response = await fetch('http://127.0.0.1:8000/api/tv_screens', {
+      const response = await fetch('https://crmapi.devcir.co/api/tv_screens', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ const handleSubmit = async (e) => {
 useEffect(() => {
   const fetchScreens = async () => {
       try {
-          const response = await fetch('http://127.0.0.1:8000/api/tv_screens');
+          const response = await fetch('https://crmapi.devcir.co/api/tv_screens');
           const data = await response.json();
           setScreens(data);
       } catch (error) {

@@ -40,7 +40,7 @@ const PerformanceTable_Teamleader = () => {
                 if (checkLocalStorage()) {
                     clearInterval(interval);
                     const id = localStorage.getItem("TeamId");
-                    fetch(`http://127.0.0.1:8000/api/team_leader/by_team/${id}`)
+                    fetch(`https://crmapi.devcir.co/api/team_leader/by_team/${id}`)
                         .then(res => res.json())
                         .then(data => {
                             setTeamLeader(data.team_and_team_leader);

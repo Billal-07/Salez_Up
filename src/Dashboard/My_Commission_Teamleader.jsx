@@ -34,7 +34,7 @@ const My_Commission_Teamleader = () => {
             setForecast(parseFloat(forecastData.opportunity));
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/team_leader/by_team/37');
+                const response = await fetch('https://crmapi.devcir.co/api/team_leader/by_team/37');
                 const data = await response.json();
                 const imagePath = data.team.campaigns_and_teams.campaign.image_path;
                 setCampaignImage(imagePath || Coke);

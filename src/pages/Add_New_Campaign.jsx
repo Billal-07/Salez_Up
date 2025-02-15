@@ -69,7 +69,7 @@ const My_Campaigns = ({ set, setter }) => {
       try {
         // Fetch all junior department heads
         const juniorDeptHeadsResponse = await axios.get(
-          "http://127.0.0.1:8000/api/junior-department-heads"
+          "https://crmapi.devcir.co/api/junior-department-heads"
         );
         const filtered = juniorDeptHeadsResponse.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -78,7 +78,7 @@ const My_Campaigns = ({ set, setter }) => {
 
         // Fetch all department heads
         const departmentHeadsResponse = await axios.get(
-          "http://127.0.0.1:8000/api/department-heads"
+          "https://crmapi.devcir.co/api/department-heads"
         );
         const filteredheads = departmentHeadsResponse.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -87,7 +87,7 @@ const My_Campaigns = ({ set, setter }) => {
 
         // Fetch existing campaign assignments
         const campaignAssignmentsResponse = await axios.get(
-          "http://127.0.0.1:8000/api/campaigns_and_teams"
+          "https://crmapi.devcir.co/api/campaigns_and_teams"
         );
         const existingAssignments = campaignAssignmentsResponse.data;
 
@@ -146,7 +146,7 @@ const My_Campaigns = ({ set, setter }) => {
       try {
         // Fetch all teams
         const teamsResponse = await axios.get(
-          "http://127.0.0.1:8000/api/teams"
+          "https://crmapi.devcir.co/api/teams"
         );
         const managerTeams = teamsResponse.data.filter(
           (team) => team.manager_id == parseInt(userId)
@@ -155,7 +155,7 @@ const My_Campaigns = ({ set, setter }) => {
 
         // Fetch all campaign and team assignments
         const assignmentsResponse = await axios.get(
-          "http://127.0.0.1:8000/api/campaigns_and_teams"
+          "https://crmapi.devcir.co/api/campaigns_and_teams"
         );
         const assignedTeamIds = assignmentsResponse.data.map(
           (assignment) => parseInt(assignment.team_id)
@@ -300,7 +300,7 @@ const My_Campaigns = ({ set, setter }) => {
 
     try {
       const createResponse = await axios.post(
-        "http://127.0.0.1:8000/api/campaigns",
+        "https://crmapi.devcir.co/api/campaigns",
         formData
       );
 
@@ -310,7 +310,7 @@ const My_Campaigns = ({ set, setter }) => {
 
       // Second API call - Get all campaigns to find the latest one
       const getAllCampaigns = await axios.get(
-        "http://127.0.0.1:8000/api/campaigns"
+        "https://crmapi.devcir.co/api/campaigns"
       );
       const latestCampaign =
         getAllCampaigns.data[getAllCampaigns.data.length - 1];
@@ -326,7 +326,7 @@ const My_Campaigns = ({ set, setter }) => {
         };
 
         return axios.post(
-          "http://127.0.0.1:8000/api/campaigns_and_teams",
+          "https://crmapi.devcir.co/api/campaigns_and_teams",
           campaignTeamData
         );
       });

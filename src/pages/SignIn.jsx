@@ -30,10 +30,8 @@ const SignIn = () => {
     for (let i = 0; i < roleId.length; i++) {
       const char = roleId[i];
       if (i % 2 == 0) {
-        // Even index: must be a letter
         if (!/[a-zA-Z]/.test(char)) return false;
       } else {
-        // Odd index: must be a number
         if (!/[0-9]/.test(char)) return false;
       }
     }
@@ -191,7 +189,7 @@ const SignIn = () => {
 
           // New POST API request before navigation
           try {
-            const response = await fetch('http://127.0.0.1:8000/api/sendloginMessage', {
+            const response = await fetch('https://crmapi.devcir.co/api/sendloginMessage', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -284,11 +282,11 @@ const SignIn = () => {
     let apiUrl;
     // Check the role and set the appropriate API endpoint
     if (role == 'Manager') {
-      apiUrl = 'http://127.0.0.1:8000/api/managers';
+      apiUrl = 'https://crmapi.devcir.co/api/managers';
     } else if (role == 'Sales Agent') {
-      apiUrl = 'http://127.0.0.1:8000/api/sales_agents';
+      apiUrl = 'https://crmapi.devcir.co/api/sales_agents';
     } else if (role == 'Team Leader') {
-      apiUrl = 'http://127.0.0.1:8000/api/team_leaders';
+      apiUrl = 'https://crmapi.devcir.co/api/team_leaders';
     } else {
       throw new Error('Invalid role');
     }

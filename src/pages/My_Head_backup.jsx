@@ -80,7 +80,7 @@ const SetContest1 = () => {
   const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/sales_agents')
+    fetch('https://crmapi.devcir.co/api/sales_agents')
       .then(response => response.json())
       .then(data => {
         setAgents(data);

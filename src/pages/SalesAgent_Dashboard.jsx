@@ -59,7 +59,7 @@ const SalesAgent_Dashboard = () => {
         const fetchCampaignsAndAgents = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch('http://127.0.0.1:8000/api/campaigns_and_teams');
+                const response = await fetch('https://crmapi.devcir.co/api/campaigns_and_teams');
                 if (!response.ok) {
                     throw new Error('Failed to fetch campaigns');
                 }
@@ -124,7 +124,7 @@ const SalesAgent_Dashboard = () => {
             }
             // Fetch KPI data for teams
             const teamKpiPromises = campaign.teams.map(async (team) => {
-                const agentsResponse = await fetch(`http://127.0.0.1:8000/api/sales_agents/team/${team.team.team_id}`);
+                const agentsResponse = await fetch(`https://crmapi.devcir.co/api/sales_agents/team/${team.team.team_id}`);
                 if (!agentsResponse.ok) {
                     throw new Error(`Failed to fetch sales agents for team ${team.team.team_id}`);
                 }
@@ -175,7 +175,7 @@ const SalesAgent_Dashboard = () => {
                     team => team.team.team_name === teamName
                 );
                 // Fetch agents and KPI data for the specific team
-                const agentsResponse = await fetch(`http://127.0.0.1:8000/api/sales_agents/team/${selectedTeam.team_id}`);
+                const agentsResponse = await fetch(`https://crmapi.devcir.co/api/sales_agents/team/${selectedTeam.team_id}`);
                 if (!agentsResponse.ok) {
                     throw new Error(`Failed to fetch sales agents for team ${selectedTeam.team_id}`);
                 }

@@ -180,7 +180,7 @@ const Dashboard_manager = () => {
   useEffect(() => {
     const fetchMyCampaigns = async () => {
       try {
-        const contributionData = await fetch('http://127.0.0.1:8000/api/team_leaders');
+        const contributionData = await fetch('https://crmapi.devcir.co/api/team_leaders');
         const campaignsData = await contributionData.json();
         setWajid(campaignsData);
 
@@ -195,7 +195,7 @@ const Dashboard_manager = () => {
           commissionMap[campaignId] = 0;
         });
 
-        const salesAgentsData = await fetch('http://127.0.0.1:8000/api/sales_agents');
+        const salesAgentsData = await fetch('https://crmapi.devcir.co/api/sales_agents');
         const salesAgentsList = await salesAgentsData.json();
         setSalesAgents(salesAgentsList);
         let totalCommission = 0;
@@ -284,7 +284,7 @@ const Dashboard_manager = () => {
     const fetchCampaigns = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('http://127.0.0.1:8000/api/campaigns');
+        const response = await fetch('https://crmapi.devcir.co/api/campaigns');
         if (!response.ok) {
           throw new Error('Failed to fetch campaigns');
         }

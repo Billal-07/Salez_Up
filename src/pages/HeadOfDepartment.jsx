@@ -84,7 +84,7 @@ const UpdateModal = ({ isOpen, onClose, data, onUpdateSuccess }) => {
 
     axios
       .post(
-        `http://127.0.0.1:8000/api/department-heads/${id}?_method=PUT`,
+        `https://crmapi.devcir.co/api/department-heads/${id}?_method=PUT`,
         formData,
         {
           headers: {
@@ -301,7 +301,7 @@ const HeadOfDepartment = () => {
       setManagerFName(storedManagerFName);
     }
     axios
-      .get("http://127.0.0.1:8000/api/department-heads")
+      .get("https://crmapi.devcir.co/api/department-heads")
       .then((response) => {
         const fetchedTeams = response.data.filter(
           (team) => team.manager_id == localStorage.getItem("id")
@@ -339,7 +339,7 @@ const HeadOfDepartment = () => {
     if (!confirmed) return;
 
     axios
-      .put(`http://127.0.0.1:8000/api/remove-dept-head/${team.id}`)
+      .put(`https://crmapi.devcir.co/api/remove-dept-head/${team.id}`)
       .then((response) => {
         toast.success("Departments Heads Updated.", {
           position: "bottom-right",
@@ -357,7 +357,7 @@ const HeadOfDepartment = () => {
         console.error("Error updating Dept_Head_id:", error);
       });
 
-    fetch(`http://127.0.0.1:8000/api/department-heads/${team.id}`, {
+    fetch(`https://crmapi.devcir.co/api/department-heads/${team.id}`, {
       method: "DELETE",
     })
       .then((response) => {
