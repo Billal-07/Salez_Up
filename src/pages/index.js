@@ -5,7 +5,7 @@ import TeamLeader from "./TeamLeader"
 import Teams from "./Teams"
 import Commission from "./Commission"
 import Dashboard from "./Dashboard"
-import Help from "./Help"
+// import Help from "./Help"
 import Prizes from "./Prizes"
 import SaleAgents from "./SaleAgents"
 import SetContest from "./SetContest"
@@ -20,7 +20,7 @@ export {
     Teams,
     Commission,
     Dashboard,
-    Help,
+    // Help,
     Prizes,
     SaleAgents,
     SetContest,

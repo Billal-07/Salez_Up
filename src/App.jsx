@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
-  Campaigns, SignIn, SignUp, Commission, Dashboard, Help, Prizes, SaleAgents, SetContest, TVScreen,
+  Campaigns, SignIn, SignUp, Commission, Dashboard, Prizes, SaleAgents, SetContest, TVScreen,
   TeamLeader,
   Teams
 } from './pages';
@@ -117,7 +117,7 @@ function App() {
 
             <Route path="/prizes" element={<Prizes />} />
             <Route path="/tv-screen" element={<TVScreen />} />
-            <Route path="/help" element={<Help />} />
+            {/* <Route path="/help" element={<Help />} /> */}
 
             <Route path="/tr1" element={<CommissionCard/>} />
             <Route path="/forecast_logic" element={<Forecast_Commission_logic/>} />
