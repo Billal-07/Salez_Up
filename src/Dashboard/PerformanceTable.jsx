@@ -49,7 +49,7 @@ const PerformanceTable = () => {
             const id = localStorage.getItem('id');
             // fetchLocal()
             try {
-                const agentsResponse = await fetch(`http://127.0.0.1:8000/api/sales_agents/${id}`);
+                const agentsResponse = await fetch(`https://crmapi.devcir.co/api/sales_agents/${id}`);
                 if (!agentsResponse.ok) {
                     throw new Error(`Failed to fetch sales agent`);
                 }

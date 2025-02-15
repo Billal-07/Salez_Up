@@ -64,7 +64,7 @@ const My_Commission = () => {
         }
 
         const fetchAgents = async () => {
-            const response = await fetch(`http://127.0.0.1:8000/api/sales_agents/team/${localStorage.getItem('Team_id')}`);
+            const response = await fetch(`https://crmapi.devcir.co/api/sales_agents/team/${localStorage.getItem('Team_id')}`);
             const data = await response.json();
             const formattedAgents = data.map((agent, index) => {
                 const kpiData = JSON.parse(agent.kpi_data);

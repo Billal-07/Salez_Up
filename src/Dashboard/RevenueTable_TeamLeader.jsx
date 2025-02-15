@@ -60,7 +60,7 @@ const RevenueTable_TeamLeader = (barIndex) => {
     useEffect(() => {
         const fetchAgents = async () => {
             const id = localStorage.getItem("TeamId");
-            const response = await fetch(`http://127.0.0.1:8000/api/sales_agents/team/${id}`);
+            const response = await fetch(`https://crmapi.devcir.co/api/sales_agents/team/${id}`);
             const data = await response.json();
             const agentActualValue = agentPerformance.slice(0).reduce(
                 (total, data) => total + parseFloat(data.values[barIndex.barIndex] || 0),

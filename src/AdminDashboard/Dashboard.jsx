@@ -23,7 +23,7 @@ export default function DashboardPage() {
 
       try {
         const [opsResponse, seniorResponse, salesResponse] = await Promise.all([
-          fetch("http://127.0.0.1:8000/api/manager_details"),
+          fetch("https://crmapi.devcir.co/api/manager_details"),
           fetch("http://127.0.0.1:8000/api/manager_details"),
           fetch("https://crmapi.devcir.co/api/manager_details"),
         ]);

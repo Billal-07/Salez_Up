@@ -9,7 +9,7 @@ const TeamLeader_Dashboard = () => {
 
     useEffect(() => {
         // Fetch team leader data
-        fetch('http://127.0.0.1:8000/api/team_leader/by_team/37')
+        fetch('https://crmapi.devcir.co/api/team_leader/by_team/37')
             .then(res => res.json())
             .then(data => {
                 setTeamLeader(data.team_and_team_leader);

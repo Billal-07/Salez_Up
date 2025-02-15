@@ -59,7 +59,7 @@ const RevenueTable = () => {
 
   useEffect(() => {
     const fetchAgents = async () => {
-      const response = await fetch(`http://127.0.0.1:8000/api/sales_agents/team/${localStorage.getItem('Team_id')}`);
+      const response = await fetch(`https://crmapi.devcir.co/api/sales_agents/team/${localStorage.getItem('Team_id')}`);
       const data = await response.json();
       const agentActualValue = agentPerformance.slice(0).reduce(
         (total, data) => total + parseFloat(data.values[1] || 0),

@@ -106,7 +106,7 @@ const TeamLeaderAgents = () => {
         const fetchCampaignsAndTeams = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch('http://127.0.0.1:8000/api/campaigns_and_teams');
+                const response = await fetch('https://crmapi.devcir.co/api/campaigns_and_teams');
                 if (!response.ok) {
                     throw new Error('Failed to fetch campaigns');
                 }
@@ -166,7 +166,7 @@ const TeamLeaderAgents = () => {
                 );
                 const teamId = selectedTeam.team.id;
 
-                const leaderResponse = await fetch(`http://127.0.0.1:8000/api/team_leader/by_team/${teamId}`);
+                const leaderResponse = await fetch(`https://crmapi.devcir.co/api/team_leader/by_team/${teamId}`);
                 if (!leaderResponse.ok) {
                     throw new Error('Failed to fetch team leader');
                 }
@@ -176,7 +176,7 @@ const TeamLeaderAgents = () => {
                 const kpiDataObj = JSON.parse(teamLeaderData.team_and_team_leader.kpi_data);
                 setKpiData(kpiDataObj);
 
-                const agentsResponse = await fetch(`http://127.0.0.1:8000/api/sales_agents/team/${teamId}`);
+                const agentsResponse = await fetch(`https://crmapi.devcir.co/api/sales_agents/team/${teamId}`);
                 if (!agentsResponse.ok) {
                     throw new Error('Failed to fetch sales agents');
                 }

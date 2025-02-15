@@ -28,7 +28,7 @@
 //       const team_id = localStorage.getItem("id")
 //       setTeamId(team_id)
 //       try {
-//         const response = await axios.get(`http://127.0.0.1:8000/api/team_leaders/${team_id}`);
+//         const response = await axios.get(`https://crmapi.devcir.co/api/team_leaders/${team_id}`);
 //         setTeamLeaderData(response.data);
 //       } catch (error) {
 //         console.error("Error fetching team leader data:", error);
@@ -37,7 +37,7 @@
 
 //     const fetchTeamData = async () => {
 //       try {
-//         const response = await axios.get(`http://127.0.0.1:8000/api/sales_agents/team/37`);
+//         const response = await axios.get(`https://crmapi.devcir.co/api/sales_agents/team/37`);
 //         const fetchedData = response.data.map(member => {
 //           const kpiData = JSON.parse(member.kpi_data);
 //           return {
@@ -187,7 +187,7 @@ const Intro_Teamleader = () => {
       const id = localStorage.getItem("id");
       try {
         // Fetch team leader data
-        const response = await axios.get(`http://127.0.0.1:8000/api/team_leaders/${id}`);
+        const response = await axios.get(`https://crmapi.devcir.co/api/team_leaders/${id}`);
         setTeamLeaderData(response.data);
         const teamId = await JSON.parse(response.data.team_and_team_leaders[0].team_id);
         setTeamId(teamId);
@@ -198,14 +198,14 @@ const Intro_Teamleader = () => {
 
         // Fetch campaign data only if teamId is available
         if (teamId) {
-          const campaignResponse = await axios.get(`http://127.0.0.1:8000/api/team_leader/by_team/${teamId}`);
+          const campaignResponse = await axios.get(`https://crmapi.devcir.co/api/team_leader/by_team/${teamId}`);
           const campaignImagePath = campaignResponse.data?.team?.campaigns_and_teams?.campaign?.image_path;
           setCampaignImage(campaignImagePath || Coke);
         }
 
         // Fetch team data only if teamId is available
         if (teamId) {
-          const teamResponse = await axios.get(`http://127.0.0.1:8000/api/sales_agents/team/${teamId}`);
+          const teamResponse = await axios.get(`https://crmapi.devcir.co/api/sales_agents/team/${teamId}`);
           const fetchedData = teamResponse.data.map(member => {
             const kpiData = JSON.parse(member.kpi_data);
             return {
